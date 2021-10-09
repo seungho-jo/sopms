@@ -1,0 +1,155 @@
+@charset "UTF-8";
+
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+.contentarea {
+  border: 1px solid lightgray;
+  position: relative;
+}
+.contentarea .topbar {
+	width: 100%;
+  height: 80px;
+  background-color: #6B51DF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.contentarea .topbar .chatname {
+  color: white;
+  font-size: 20px;
+}
+
+.contentarea .chats {
+	overflow-y: auto;
+	height: auto;
+}
+
+.contentarea .messagearea {
+  position: relative;
+  padding: 0 20px;
+}
+.contentarea .messagearea .messageitem {
+  padding: 20px 0;
+  display: flex;
+  position: relative;
+}
+.contentarea .messagearea .messageitem .photoarea {
+  width: 70px;
+  height: 70px;
+}
+.contentarea .messagearea .messageitem .photoarea .photo {
+  margin: auto;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: black;
+  background-position: center;
+  background-size: 70px;
+}
+.contentarea .messagearea .messageitem .content .name {
+  padding: 5px 0;
+}
+.contentarea .messagearea .messageitem .content .message {
+  display: flex;
+  position: relative;
+}
+.contentarea .messagearea .messageitem .content .message .chatbubble {
+  display: flex;
+  max-width: 300px;
+  border-radius: 10px;
+}
+.contentarea .messagearea .messageitem .content .message .chatbubble .bubblecontent {
+  display: inline-block;
+  padding: 15px 20px;
+  border-radius: 10px;
+  color: #FFF;
+}
+.contentarea .messagearea .messageitem .content .message .chatinfo {
+  font-size: 12px;
+  color: gray;
+  align-self: flex-end;
+  padding: 0 10px;
+}
+.contentarea .messageitem.mymessage {
+  flex-direction: row-reverse;
+  position: relative;
+  right: 0;
+}
+.contentarea .messageitem.mymessage .name {
+  display: none;
+}
+.contentarea .messageitem.mymessage .chatbubble {
+  order: 1;
+  background-color: #5973FE;
+}
+.contentarea .messageitem.yourmessage {
+  position: relative;
+  left: 0;
+}
+.contentarea .messageitem.yourmessage .chatbubble {
+  background-color: #343957;
+}
+.contentarea .inputarea {
+  border-top: 1px solid lightgray;
+  width: 100%;
+  
+  position: absolute;
+  bottom: 0;
+}
+.contentarea .inputarea .inputmessage {
+  padding: 20px;
+  position: relative;
+  height: 120px;
+}
+.contentarea .inputarea .inputmessage .form-group {
+  height: 120px;
+}
+.contentarea .inputarea .inputmessage .form-group .textarea {
+  width: 100%;
+}
+.contentarea .inputarea .inputmessage .form-group .textarea textarea {
+  width: 100%;
+  resize: none;
+  padding: 0px;
+}
+.contentarea .inputarea .optionstab {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  margin-top: 5px;
+  position: relative;
+}
+.contentarea .inputarea .optionstab ul {
+  list-style: none;
+}
+.contentarea .inputarea .optionstab ul a {
+  cursor: pointer;
+}
+.contentarea .inputarea .optionstab ul a li {
+  width: 30px;
+  height: 30px;
+  background-color: #fff;
+  display: inline-block;
+  color: gray;
+}
+.contentarea .inputarea .optionstab ul:first-child {
+  padding-left: 20px;
+}
+.contentarea .inputarea .optionstab .btn.btn-light {
+  position: absolute;
+  right: 20px;
+}

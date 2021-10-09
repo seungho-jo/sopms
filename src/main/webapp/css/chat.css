@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+.card {
+	padding: 0px 50px;
+	min-height: 500px;
+}
+
+#showcontent {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  border-radius: 30px;
+}
+
+#chatbox {
+	overflow-y:auto;
+	width: 40%;
+  height: 50vw;
+  border: 1px solid lightgray;
+}
+
+.contentarea { 
+	
+	width: 50%;
+  height: 50vw;
+}

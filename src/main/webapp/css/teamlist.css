@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+.profileArea .profileItem .itemBox {
+  display: flex;
+}
+.profileArea .profileItem .itemBox .profilePic {
+  padding: 16px 20px;
+}
+.profileArea .profileItem .itemBox .profilePic .photo {
+  width: 75px;
+  height: 75px;
+  background-color: #000;
+  border-radius: 50%;
+}
+.profileArea .profileItem .itemBox .profileContent {
+  padding: 16px 20px;
+}
+.profileArea .profileItem .itemBox .groupchat {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  right: 16px;
+  top: 45%;
+}
+
+#chatbox .header .list-group .list-group-item {
+  padding: 0px;
+}
+#chatbox .header .list-group .list-group-item .input-group.mb-3 {
+  padding: 16px 20px 0 20px;
+}
+#chatbox .profileArea .accordion-body {
+  padding: 0;
+}

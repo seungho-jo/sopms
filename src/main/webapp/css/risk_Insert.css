@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+#title{
+	position : relative;
+	left:62%;
+	font-weight: bold;
+}
+
+#status{
+	width : 30%;
+}
+
+#button_left{
+	position:relative;
+	left:90%;
+}
+#button_right{
+	position:relative;
+	left:10%;
+}

@@ -1,0 +1,49 @@
+@charset "UTF-8";
+#risk_title{
+	margin: 2% 0 2%20%;
+}
+#title{
+	position : relative;
+	left:62%;
+	font-weight: bold;
+}
+
+#title_1{
+	position:relative;
+	left:85%;
+	font-weight:bold;
+}
+
+#title_2{
+	position:relative;
+	left:15%;
+	font-weight:bold;
+
+}
+
+#title_1_ipt{
+	position:relative;
+	left:10%;
+}
+
+#title_2_ipt{
+	position:relative;
+	right:70%;
+}
+
+#button_left{
+	position:relative;
+	left:90%;
+}
+#button_right{
+	position:relative;
+	left:10%;
+}
+#action_btn{
+	position:relative;
+	left:93%;
+}
+#modal_status{
+	position:relative;
+	left:20%;
+}

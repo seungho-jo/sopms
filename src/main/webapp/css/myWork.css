@@ -1,0 +1,47 @@
+@charset "UTF-8";
+#card-title{
+	margin: 2% 0px 0px 4%;
+}
+#search{
+	margin : 1% 0;
+}
+#status{
+	width : 12%;
+	height : 85%;
+}
+#status{
+	width : 12%;
+	height : 85%;
+}
+#proOrsub{
+	width : 12%;
+	height : 85%;
+	margin-left : 2%;
+}
+#gp1{
+	width : 35%;
+	margin-left : 2%;
+	margin-bottom : 0;
+	position : relative;
+}
+#gp1 input{
+	height : 100%;
+}
+#searhBtn{
+	position : relative;
+	margin-left : 80%;
+}
+#apprReq{
+	margin-left : 30%;
+}
+#workList tr th{
+	color : dark;
+	font-weight : bold;
+	font-size : 20px;
+}
+#card-body{
+	padding: 4%;
+}
+.card-body ul{
+	text-align : center;
+}

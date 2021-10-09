@@ -1,0 +1,22 @@
+@charset "UTF-8";
+#card-title{
+	margin: 2% 0px 0px 4%;
+}
+#colBtn{
+	margin-left : 4%;
+	margin-top : 2%;
+}
+#reqConfirm{
+	margin-right : 2%;
+}
+#workList tr th{
+	color : dark;
+	font-weight : bold;
+	font-size : 20px;
+}
+#card-body{
+	padding: 2% 4% 4% 4%;
+}
+.card-body ul{
+	text-align : center;
+}
