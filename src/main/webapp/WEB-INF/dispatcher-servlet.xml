@@ -45,6 +45,11 @@
 	<!-- 각자 dao 추가 -->
 	<bean 
 		class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="sopms.User.dao"/> 
+	</bean>
+	
+	<bean 
+		class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="sopms.myWork.dao"/> 
 	</bean>
 	<bean id="pageJsonReport" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">

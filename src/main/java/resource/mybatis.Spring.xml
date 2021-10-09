@@ -4,9 +4,11 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="work" type="sopms.vo.Work"/>
+		<typeAlias alias="user" type="sopms.vo.User"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="resource/myWorkMapper.xml"/>
+		<mapper resource="resource/userMapper.xml"/>
 	</mappers>
-
+	
 </configuration>
