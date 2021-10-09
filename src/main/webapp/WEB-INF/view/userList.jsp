@@ -117,7 +117,7 @@ text-align:center;
                                         <tbody>
                                             <tr>
                                                 <td>1</td>
-                                                <td>기획팀</td>
+                                                <td>${name}</td>
                                                 <td>조성빈</td>
                                                 <td>happy11</td>
                                                 <td>
