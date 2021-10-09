@@ -50,7 +50,7 @@
 	<bean id="pageJsonReport" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
 		<property name="contentType" value="text/html;charset=utf-8"/>
 	</bean>	
-	<bean id="downloadViewer" class="board.util.DownloadViewer"/>
+	<bean id="downloadViewer" class="sopms.myWork.util.DownloadViewer"/>
 	<!-- id값의 view를 등록하고 우선순위를 최우선으로 설정하는 부분 -->
 	<bean id="btnViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<property name="order" value="0"/>
