@@ -6,11 +6,13 @@
 		<typeAlias alias="work" type="sopms.vo.Work"/>
 		<typeAlias alias="user" type="sopms.vo.User"/>
 		<typeAlias alias="risk" type="sopms.vo.Risk"/>
+		<typeAlias alias="project" type="sopms.vo.Project"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="resource/myWorkMapper.xml"/>
 		<mapper resource="resource/userMapper.xml"/>
 		<mapper resource="resource/riskMapper.xml"/>
+		<mapper resource="resource/projectMapper.xml"/>
 	</mappers>
 	
 </configuration>
