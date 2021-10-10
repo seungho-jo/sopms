@@ -11,9 +11,8 @@ import sopms.vo.User;
 @Controller
 //http://localhost:7080/sopms/userList.do
 public class userController {
-	@Autowired(required = false)
+	@Autowired
 	private userService service;
-	
 	@RequestMapping("userList.do")
 	public String userList(Model d,String name) { //직원리스트
 		d.addAttribute("list",service.getUserList(name));
