@@ -1,7 +1,6 @@
 package sopms.vo;
 
 public class User {
-	//나세영
 	private String id; 
 	private String pass;
 	private String name;
@@ -10,6 +9,24 @@ public class User {
 	private String insertDay; //사원을 등록한 날짜 
 	private String insertpjDay; // 투입날짜 
 	//리소스 부분 합쳐도 되고 따로작성해도됨 
+	
+	//리스트부분
+	private int cnt;
+	private int no; // 리스트 목록 번호 
+	
+	
+	public int getCnt() {
+		return cnt;
+	}
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
+	public int getNo() {
+		return no;
+	}
+	public void setNo(int no) {
+		this.no = no;
+	}
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub

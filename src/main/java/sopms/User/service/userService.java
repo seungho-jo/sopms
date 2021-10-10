@@ -16,7 +16,10 @@ public class userService {
 	public ArrayList<User> getUserList(String name){
 		if(name.equals(null)) name = ""; //이름검색시 없을때 
 		
+	//	User user;
+	//	name=user.setCnt(dao.listCnt(name));
+	
+		
 		return dao.userList(name);
-				
 	}
 }
