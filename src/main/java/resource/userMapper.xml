@@ -5,8 +5,9 @@
 <mapper namespace="sopms.User.dao.userDao">
 	<select id="userList" resultType="user" parameterType="String">
 		<!-- sql 작성 -->
-		select * from member 
-		where name = #{name}
+		select dept, name, id
+		from member
+		where name LIKE '%'||#{name}||'%'
 	</select>
 	<!-- insert delete는 resultType이 없음!  -->
 	
