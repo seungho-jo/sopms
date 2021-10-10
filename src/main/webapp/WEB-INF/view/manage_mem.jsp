@@ -21,9 +21,9 @@
 <link href="./vendor/jqvmap/css/jqvmap.min.css" rel="stylesheet">
 <link href="./css/manage_mem.css" rel="stylesheet">
 <!-- fullcalendar -->
-<link href="./vendor/fullcalendar/css/fullcalendar.min.css"
+<link href="./vendor/fullcalendar/lib/main.css"
 	rel="stylesheet">
-<script src="./vendor/fullCalendar-use/js/main.js"
+<script src="./vendor/fullcalendar/lib/main.js"
 	type="text/javascript"></script>
 <title>Insert title here</title>
 <script src="https://unpkg.com/vue/dist/vue.js" type="text/javascript"></script>
@@ -291,18 +291,6 @@
 <script src="./vendor/jqvmap/js/jquery.vmap.min.js"></script>
 <script src="./vendor/jqvmap/js/jquery.vmap.usa.js"></script>
 <script src="./vendor/jquery.counterup/jquery.counterup.min.js"></script>
-
-<!-- fullCalendar-use -->
-<script src="./vendor/fullCalendar-use/vendor/js/jquery.min.js"></script>
-<script src="./vendor/fullCalendar-use/vendor/js/bootstrap.min.js"></script>
-<script src="./vendor/fullCalendar-use/vendor/js/moment.min.js"></script>
-<script src="./vendor/fullCalendar-use/vendor/js/fullcalendar.min.js"></script>
-<script src="./vendor/fullCalendar-use/vendor/js/ko.js"></script>
-<script src="./vendor/fullCalendar-use/vendor/js/select2.min.js"></script>
-<script
-	src="./vendor/fullCalendar-use/vendor/js/bootstrap-datetimepicker.min.js"></script>
-<script src="./vendor/fullCalendar-use/js/main2.js"></script>
-<script src="./vendor/fullCalendar-use/js/etcSetting.js"></script>
 
 <script src="./js/dashboard/dashboard-1.js"></script>
 <script type="text/javascript">
