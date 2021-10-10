@@ -10,8 +10,9 @@ import sopms.User.service.userService;
 @Controller
 //http://localhost:7080/sopms/userList.do
 public class registerController {
-	@Autowired
+	@Autowired(required = false)
 	private userService service;
+	
 	@RequestMapping("userList.do")
 	public String userList(Model d,String name) {
 		d.addAttribute("list",service.getUserList(name));

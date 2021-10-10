@@ -11,10 +11,10 @@ import sopms.vo.User;
 @Service
 public class userService {
 	
-	@Autowired
+	@Autowired(required = false)
 	private userDao dao;
 	public ArrayList<User> getUserList(String name){
-		if(name==null) name = ""; //이름검색시 없을때 
+		if(name.equals(null)) name = ""; //이름검색시 없을때 
 		
 		return dao.userList(name);
 				
