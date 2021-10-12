@@ -3,7 +3,20 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="sopms.myWork.dao.myWorkDao">
-	<select id="myWorkList" resultType="work">
-		
+	<select id="myWorkCount" parameterType="String" resultType="int">
+		select count(*) from wbs
+		where manager = #{manager}
+	</select>
+	<select id="myWorkList" parameterType="worksch" resultType="work">
+		select * from 
+		(select rownum as no, a.* from wbs a
+		where  manager = #{manager} 
+		<if test="status != null and status != ''">
+    	and status = #{status} 
+		</if>
+		<if test="title != null and title != ''">
+    	and title = #{title} 
+		</if>)
+		where no between #{start} and #{end}
 	</select>
 </mapper>

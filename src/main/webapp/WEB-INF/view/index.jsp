@@ -30,7 +30,7 @@
                             <div class="col-xl-12">
                                 <div class="auth-form">
                                     <h4 class="text-center mb-4">SOPMS LOGIN</h4>
-                                    <form method="post" action="main.jsp">
+                                    <form method="post" action="login.do">
                                         <div class="form-group">
                                             <label><strong>ID</strong></label>
                                             <input type="text" name="id" class="form-control" >
