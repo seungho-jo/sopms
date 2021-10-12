@@ -3,11 +3,12 @@ package sopms.User.dao;
 import java.util.ArrayList;
 
 import sopms.vo.User;
+import sopms.vo.userSch;
 
 public interface userDao {
-	public ArrayList<User> userList(String name);
-	//public ArrayList<User> userList(User user);
-	public int listCnt(String name);
+	public ArrayList<User> userList(String name); //String name
+	public int totCnt(userSch sch);
+	public ArrayList<User> userListPaging(userSch sch);
 	
 	
 }
