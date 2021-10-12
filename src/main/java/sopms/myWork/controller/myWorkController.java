@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sopms.myWork.service.myWorkService;
 import sopms.vo.User;
+import sopms.vo.Work;
 import sopms.vo.WorkSch;
 
 @Controller
@@ -28,7 +29,13 @@ public class myWorkController {
 	}
 	// http://localhost:7080/sopms/detailWork.do
 	@RequestMapping("detailWork.do")
-	public String detailWork() {
+	public String detailWork(Model d,int workcode) {
+		d.addAttribute("detail", service.detailWork(workcode));
 		return "WEB-INF\\view\\detailWork.jsp";
+	}
+	@RequestMapping("approval.do")
+	public String approval(Work work) {
+		service.approval(work);
+		return "redirect:/myWork.do";
 	}
 }

@@ -95,37 +95,33 @@
 		<div class="content-body">
 			<h1 id="project">SL솔루션 homepage</h1>
 			<div id="content">
-				<h3>주간 보고서</h3>
+				<h3>${detail.title}</h3>
 				<table>
 					<col width="10%">
 					<col width="40%">
 					<col width="10%">
 					<col width="40%">
+					<fmt:parseDate var="start_date1" value="${detail.start_date}" pattern="yyyy-MM-dd"/>
+					<fmt:formatDate  var="start_date2" value="${start_date1}" type="DATE" pattern="yyyy-MM-dd"/>
+					<fmt:parseDate var="end_date1" value="${detail.end_date}" pattern="yyyy-MM-dd"/>
+					<fmt:formatDate  var="end_date2" value="${end_date1}" type="DATE" pattern="yyyy-MM-dd"/>
 					<tr>
 						<th>시작일</th>
-						<td>21/09/23</td>
+						<td>${start_date2}</td>
 						<th>완료일</th>
-						<td>21/09/25</td>
+						<td>${end_date2}</td>
 					</tr>
 					<tr>
 						<th>승인 담당자</th>
-						<td>PM01</td>
+						<td>${detail.pm}</td>
 						<th>상태</th>
-						<td>진행중</td>
+						<td>${detail.status}</td>
 					</tr>
 					<tr>
 						<th>작업 내용</th>
-						<td>지난 주 작업한 내용 정리 및 주간 회의 발표 자료 10부 준비</td>
+						<td>${detail.content}</td>
 						<th>반려 이유</th>
-						<td>보고서 내 맞춤법 틀림</td>
-					</tr>
-					<tr>
-						<th>첨부파일</th>
-						<td><div class="custom-file">
-								<input type="file" name="report" class="custom-file-input"
-									id="file01"> <label class="custom-file-label"
-									for="file01"> 파일을 선택하세요! </label>
-							</div></td>
+						<td>${detail.compmsg}</td>
 					</tr>
 				</table>
 				<div id="btnCol">
@@ -135,6 +131,8 @@
 				<div class="modal fade" id="exampleModalCenter">
 					<div class="modal-dialog modal-dialog-centered" role="document">
 						<div class="modal-content">
+							<form method="post" enctype="multipart/form-data" action="approval.do">
+							<input type="hidden" name="workcode" value="${param.workcode}">
 							<div class="modal-header">
 								<h5 class="modal-title">승인 요청</h5>
 								<button type="button" class="close" data-dismiss="modal">
@@ -142,13 +140,19 @@
 								</button>
 							</div>
 							<div class="modal-body">
-								<textarea class="form-control" rows="7" style="resize : none;"></textarea>
+								<textarea class="form-control" rows="7" style="resize : none;" name="apprmsg"></textarea>
+								<div class="custom-file">
+								<input type="file" name="report" class="custom-file-input"
+									id="file01"> <label class="custom-file-label"
+									for="file01"> 파일을 선택하세요! </label>
+								</div>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn" id="close"
 									data-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-primary" >승인요청</button>
+								<button type="submit" class="btn btn-primary" >승인요청</button>
 							</div>
+							</form>
 						</div>
 					</div>
 				</div>
