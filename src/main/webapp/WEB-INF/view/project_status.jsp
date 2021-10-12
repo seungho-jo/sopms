@@ -53,7 +53,7 @@
 							<div class="tab-pane fade show active" id="summary"
 								role="tabpanel">
 								<div class="pt-4">
-									<jsp:include page="project_status_sum.jsp"></jsp:include>
+									<jsp:include page="project_status_sum.jsp"/>
 								</div>
 							</div>
 							<div class="tab-pane fade" id="wbs">
