@@ -10,7 +10,7 @@
 		<typeAlias alias="project" type="sopms.vo.Project"/>
 		<typeAlias alias="userSch" type="sopms.vo.userSch"/>
 		<typeAlias alias="cal" type="sopms.vo.Calendar"/>
-
+		<typeAlias alias="riskSch" type="sopms.vo.riskSch"/>
 		
 	</typeAliases>
 	<mappers>
