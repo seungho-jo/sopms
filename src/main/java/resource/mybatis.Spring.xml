@@ -21,6 +21,8 @@
 		<mapper resource="resource/projectMapper.xml"/>
 		<mapper resource="resource/loginMapper.xml"/>
 		<mapper resource="resource/calendarMapper.xml"/>
+		<mapper resource="resource/dashBoardMapper.xml"/>
+		<mapper resource="resource/pjStatusSumMapper.xml"/>
 	</mappers>
 	
 </configuration>
