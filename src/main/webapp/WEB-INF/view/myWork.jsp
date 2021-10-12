@@ -37,14 +37,15 @@
 		<div class="content-body">
 			<div class="card">
 				<div class="card-body">
-					<form style="display: flex;">
-						<select id="status" class="form-select">
-							<option>상태 선택</option>
+					<form style="display: flex;" method="post">
+					<input type="hidden" name="curPage" value="1"/>
+						<select id="status" name="status" class="form-select">
+							<option value="">상태 선택</option>
 							<option>진행중</option>
 							<option>반려됨</option>
 						</select> 
-						<select id="proOrsub" class="form-select">
-							<option>검색어 선택</option>
+						<select id="proOrsub" name="title" class="form-select">
+							<option value="">검색어 선택</option>
 							<option>프로젝트명</option>
 							<option>작업명</option>
 						</select>
@@ -65,117 +66,41 @@
 						<table class="table table-hover table-responsive-sm" id="workList">
 							<thead>
 								<tr>
-									<th class="text-dark">#</th>
-									<th class="text-dark">작업</th>
-									<th class="text-dark">프로젝트</th>
-									<th class="text-dark">담당자</th>
-									<th class="text-dark">상태</th>
-									<th class="text-dark">시작일</th>
-									<th class="text-dark">완료일</th>
+									<th class="text-dark text-center">#</th>
+									<th class="text-dark text-center">작업</th>
+									<th class="text-dark text-center">프로젝트</th>
+									<th class="text-dark text-center">담당자</th>
+									<th class="text-dark text-center">상태</th>
+									<th class="text-dark text-center">시작일</th>
+									<th class="text-dark text-center">완료일</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark"><a href="detailWork.jsp" class="text-dark">주간 보고서</a></td>
-									<td class="text-dark">SL솔루션 homepage</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-info">진행중</span></td>
-									<td class="text-dark">21/09/27</td>
-									<td class="text-dark">21/10/01</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">index page</td>
-									<td class="text-dark">SL솔루션 homepage</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-info">진행중</span></td>
-									<td class="text-dark">21/09/27</td>
-									<td class="text-dark">21/10/06</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">요구사항 정의서</td>
-									<td class="text-dark">SL솔루션 homepage</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-danger">반려됨</span></td>
-									<td class="text-dark">21/09/23</td>
-									<td class="text-dark">21/09/26</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">최종 보고서</td>
-									<td class="text-dark">현대 모비스 서버 증축</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-info">진행중</span></td>
-									<td class="text-dark">21/09/25</td>
-									<td class="text-dark">21/09/30</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">서버 통신 불량</td>
-									<td class="text-dark">현대 모비스 서버 증축</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-success">완료됨</span></td>
-									<td class="text-dark">21/09/04</td>
-									<td class="text-dark">21/09/08</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">주간 보고서</td>
-									<td class="text-dark">현대 모비스 서버 증축</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-success">완료됨</span></td>
-									<td class="text-dark">21/09/04</td>
-									<td class="text-dark">21/09/08</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">주간 보고서</td>
-									<td class="text-dark">현대 모비스 서버 증축</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-success">완료됨</span></td>
-									<td class="text-dark">21/08/27</td>
-									<td class="text-dark">21/09/01</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">주간 보고서</td>
-									<td class="text-dark">GS_SHOP 홈페이지</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-success">완료됨</span></td>
-									<td class="text-dark">21/08/27</td>
-									<td class="text-dark">21/09/01</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">Modal 창 에러 제거</td>
-									<td class="text-dark">GS_SHOP 홈페이지</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-success">완료됨</span></td>
-									<td class="text-dark">21/08/27</td>
-									<td class="text-dark">21/09/01</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">결제 오류 확인</td>
-									<td class="text-dark">GS_SHOP 홈페이지</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-success">완료됨</span></td>
-									<td class="text-dark">21/08/20</td>
-									<td class="text-dark">21/09/26</td>
-								</tr>
+								<c:forEach var="wlist" items="${list}">
+								<fmt:parseDate var="start_date1" value="${wlist.start_date}" pattern="yyyy-MM-dd"/>
+								<fmt:formatDate  var="start_date2" value="${start_date1}" type="DATE" pattern="yyyy-MM-dd"/>
+								<fmt:parseDate var="end_date1" value="${wlist.end_date}" pattern="yyyy-MM-dd"/>
+								<fmt:formatDate  var="end_date2" value="${end_date1}" type="DATE" pattern="yyyy-MM-dd"/>
+									<tr>
+										<th><input type="checkbox" class="text-dark"></th>
+										<td class="text-dark text-center"><a href="${path}/detailWork.do" class="text-dark">${wlist.title}</a></td>
+										<td class="text-dark text-center">SL솔루션 homepage</td>
+										<td class="text-dark text-center">${wlist.pm}</td>
+										<td class="text-dark text-center boxes"><span>${wlist.status}</span></td>
+										<td class="text-dark text-center">${start_date2}</td> 
+										<td class="text-dark text-center">${end_date2}</td>
+									</tr>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
 				</div>
 				<ul class="pagination justify-content-center" id="paging">
-					<li class="page-item" id="pre"><a class="page-link">Pre</a></li>
-					<li class="page-item active" id="sel"><a class="page-link">1</a></li>
-					<li class="page-item"><a class="page-link">2</a></li>
-					<li class="page-item"><a class="page-link">3</a></li>
-					<li class="page-item"><a class="page-link">4</a></li>
-					<li class="page-item" id="next"><a class="page-link">
+					<li class="page-item" id="pre"><a class="page-link" href="javascript:goBlock(${workSch.startBlock-1})">Pre</a></li>
+					<c:forEach var="cnt" begin="${workSch.startBlock}" end="${workSch.endBlock}">
+					<li class="page-item"><a class="page-link" href="javascript:goBlock(${cnt})">${cnt}</a></li>
+					</c:forEach>
+					<li class="page-item" id="next"><a class="page-link" href="javascript:goBlock(${workSch.endBlock-1})">
 							Next
 					</a></li>
 				</ul>
@@ -215,28 +140,25 @@
 
 <script src="${path}/js/dashboard/dashboard-1.js"></script>
 <script type="text/javascript">
+	$(".metismenu").children().eq(6).attr('class', 'mm-active');
 	$("#paging").children("li").click(function() {
-		var id = $(this).attr('id');
-		if(id=='next'){
-			if($('.active').next().attr('id')==id){
-				alert("마지막 페이지 입니다");
-				return;
-			}else{
-				$('.active').next().attr('class', 'page-item active');
-				$('.active').first().attr('class', 'page-item');
-			}
-		}else if(id=='pre'){
-			if($('.active').prev().attr('id')==id){
-				alert("첫 페이지 입니다");
-				return;
-			}else{
-				$('.active').prev().attr('class', 'page-item active');
-				$('.active').last().attr('class', 'page-item');
-			}
-		}else{
-			$("#paging").children("li").attr('class', 'page-item');
-			$(this).attr('class', 'page-item active');
-		}
+		$("#paging").children("li").attr('class', 'page-item');
+		$(this).attr('class', 'page-item active');
 	});
+	var arr = [];
+	for(var i=1;i<$("tr").length;i++){
+		var status = $("tr").eq(i).children("td:eq(3)").text();
+		if(status=="종료됨"){
+			$("tr").eq(i).children("td:eq(3)").children("span").attr("class","badge badge-danger");
+		}else if(status=="진행중"){
+			$("tr").eq(i).children("td:eq(3)").children("span").attr("class","badge badge-info");
+		}else if(status=="종료됨"){
+			$("tr").eq(i).children("td:eq(3)").children("span").attr("class","badge badge-success");
+		}
+	}
+	function goBlock(no){
+		$("[name=curPage]").val(no);
+		$("form").submit();
+	}
 </script>
 </html>
