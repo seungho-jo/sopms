@@ -3,7 +3,19 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="sopms.risk.dao.riskDao">
-	<select id="riskList" resultType="risk">
-		
+	<select id="riskListPaging" resultType="risk" parameterType="riskSch">
+		select * 
+		from(
+			select risk_no, risk_name, id, risk_status, risk_reg
+			from risk
+			where risk_name like '%'||#{risk_name}||'%'
+		)
+		where risk_no between #{start} and #{end}
+	</select>
+	
+	<select id="totCnt" resultType="int" parameterType="riskSch">
+		select count(*)
+		from risk
+		where risk_name like '%' ||#{risk_name} ||'%'
 	</select>
 </mapper>
