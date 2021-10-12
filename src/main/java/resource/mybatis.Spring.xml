@@ -8,6 +8,9 @@
 		<typeAlias alias="user" type="sopms.vo.User"/>
 		<typeAlias alias="risk" type="sopms.vo.Risk"/>
 		<typeAlias alias="project" type="sopms.vo.Project"/>
+		<typeAlias alias="userSch" type="sopms.vo.userSch"/>
+
+		
 	</typeAliases>
 	<mappers>
 		<mapper resource="resource/myWorkMapper.xml"/>
