@@ -5,7 +5,7 @@ INCREMENT BY 1
 MAXVALUE 9999999;
 
 CREATE TABLE project_dept(
-	pcode NUMBER PRIMARY key,
+	pcode NUMBER,
 	dept varchar2(50)
 );
 INSERT INTO PROJECT_DEPT VALUES(1,'개발1팀');
@@ -19,6 +19,8 @@ CREATE TABLE project(
 	explanation varchar2(1000)
 );
 INSERT INTO project values(proejct_seq.nextval,'프로젝트1','홍길동','2021-09-01','2021-10-31',5,'테스트');
-
+	
+insert into project_dept values(project_seq.currval,#{dept});
 SELECT * FROM project;
+SELECT * FROM MEMBER;
 SELECT * FROM PROJECT_DEPT;
