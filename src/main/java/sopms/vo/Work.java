@@ -1,5 +1,7 @@
 package sopms.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Work {
 	private int workcode;
 	private String title;
@@ -12,6 +14,10 @@ public class Work {
 	private int spcode;
 	private int parent;
 	private String status;
+	private String apprmsg;
+	private String compmsg;
+	private String apprdate;
+	private MultipartFile report;
 	public int getWorkcode() {
 		return workcode;
 	}
@@ -77,6 +83,30 @@ public class Work {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getApprmsg() {
+		return apprmsg;
+	}
+	public void setApprmsg(String apprmsg) {
+		this.apprmsg = apprmsg;
+	}
+	public String getCompmsg() {
+		return compmsg;
+	}
+	public void setCompmsg(String compmsg) {
+		this.compmsg = compmsg;
+	}
+	public String getApprdate() {
+		return apprdate;
+	}
+	public void setApprdate(String apprdate) {
+		this.apprdate = apprdate;
+	}
+	public MultipartFile getReport() {
+		return report;
+	}
+	public void setReport(MultipartFile report) {
+		this.report = report;
 	}
 	
 }
