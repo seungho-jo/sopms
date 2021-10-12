@@ -41,8 +41,8 @@
 					<input type="hidden" name="curPage" value="1"/>
 						<select id="status" name="status" class="form-select">
 							<option value="">상태 선택</option>
-							<option>진행중</option>
-							<option>반려됨</option>
+							<option value="진행중">진행중</option>
+							<option value="반려됨">반려됨</option>
 						</select> 
 						<select id="proOrsub" name="title" class="form-select">
 							<option value="">검색어 선택</option>
@@ -81,9 +81,9 @@
 								<fmt:formatDate  var="start_date2" value="${start_date1}" type="DATE" pattern="yyyy-MM-dd"/>
 								<fmt:parseDate var="end_date1" value="${wlist.end_date}" pattern="yyyy-MM-dd"/>
 								<fmt:formatDate  var="end_date2" value="${end_date1}" type="DATE" pattern="yyyy-MM-dd"/>
-									<tr>
+									<tr onclick="javascript:go(${wlist.workcode})">
 										<th><input type="checkbox" class="text-dark"></th>
-										<td class="text-dark text-center"><a href="${path}/detailWork.do" class="text-dark">${wlist.title}</a></td>
+										<td class="text-dark text-center">${wlist.title}</td>
 										<td class="text-dark text-center">SL솔루션 homepage</td>
 										<td class="text-dark text-center">${wlist.pm}</td>
 										<td class="text-dark text-center boxes"><span>${wlist.status}</span></td>
@@ -159,6 +159,15 @@
 	function goBlock(no){
 		$("[name=curPage]").val(no);
 		$("form").submit();
+	}
+	function go(no){
+		$(location).attr("href",
+				"${path}/detailWork.do?workcode="+no);
+	}
+	var status = "${param.status}";
+	console.log(status);
+	if(status!=null&&status!=""){
+		$("#status option[value="+status+"]").attr('selected','selected');
 	}
 </script>
 </html>
