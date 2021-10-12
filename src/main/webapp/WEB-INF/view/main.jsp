@@ -266,6 +266,10 @@
 	</div>
 </body>
 <script type="text/javascript">
+var msg = "${msg}";
+if(msg!=null && msg!="") {
+	alert(msg);
+}
 //Pie Chart Example
 var ctx = document.getElementById("myPieChart");
 var myPieChart = new Chart(ctx, {

@@ -3,13 +3,23 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="sopms.User.dao.userDao">
-	<select id="userList" resultType="user" parameterType="String">
+	<select id="userListPaging" resultType="user" parameterType="userSch">
 		<!-- sql 작성 -->
-		select dept, name, id
+		select * 
+		from(
+		select rownum as no, dept, name, id
 		from member
 		where name LIKE '%'||#{name}||'%'
+		)
+		where no between #{start} and #{end}
+		
 	</select>
 	<!-- insert delete는 resultType이 없음!  -->
+	<select id="totCnt" resultType="int" parameterType="userSch">
+	select count(*)
+	from member
+	where name like '%'||#{name}||'%'
+	</select>
 	
 	
 </mapper>
