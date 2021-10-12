@@ -21,9 +21,16 @@ public class projectController {
 	
 	// http://localhost:7080/sopms/project.do?method=insertform
 	@RequestMapping(params="method=insertform")
-	public String projectInsertform() {
-
-		return "WEB-INF\\view\\project_Insert.jsp";
+	public String projectInsertform(HttpServletRequest request,Model d) {
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		System.out.println("ddddddddddddddddddd"+user.getRank());
+		if(!user.getRank().equals("부장")) {
+			d.addAttribute("msg","접근권한이 없습니다.");
+			return "WEB-INF\\view\\main.jsp";
+		} else {
+			return "WEB-INF\\view\\project_Insert.jsp";
+		}
 	}	
 	
 	@RequestMapping(params="method=insert")
@@ -31,8 +38,6 @@ public class projectController {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		project.setName(user.getName());
-		System.out.println("dddddddddddddddddddddd"+project.getDept());
-		System.out.println("dddddddddddddddddddddd"+project.getPname());
 		service.insertProject(project);
 		return "WEB-INF\\view\\project_Insert.jsp";
 	}
