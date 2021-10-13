@@ -19,4 +19,16 @@
 		</if>)
 		where no between #{start} and #{end}
 	</select>
+	<select id="detailWork" parameterType="int" resultType="work">
+		select a.*,b.compmsg from wbs a,works b
+		where a.workcode = #{workcode}
+		and a.workcode = b.workcode(+)
+	</select>
+	<insert id="approval" parameterType="work">
+		INSERT INTO works values(#{workcode},#{apprmsg},#{compmsg},sysdate)
+	</insert>
+	<insert id="uploadfile" parameterType="workfile">
+		insert into workfile values(
+			#{workcode}, #{fname},sysdate,sysdate)
+	</insert>
 </mapper>

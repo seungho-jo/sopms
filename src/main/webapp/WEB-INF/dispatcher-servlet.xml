@@ -65,9 +65,17 @@
 	<bean 
 		class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="sopms.project.dao"/> 
-	</bean>	
+	</bean>
 	<bean 
 		class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="sopms.projectStatus.dao"/> 
+	</bean>		
+	<bean 
+		class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="sopms.dashboard.dao"/> 
+	</bean>		
+	<bean
+		class="org.mybatis.spring.mapper.MapperScannerConfigurer">	
 		<property name="basePackage" value="sopms.calendar.dao"/> 
 	</bean>	
 	<bean id="pageJsonReport" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">

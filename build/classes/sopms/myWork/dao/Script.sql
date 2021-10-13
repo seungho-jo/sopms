@@ -24,3 +24,15 @@ WHERE manager = '조승호')
 WHERE NO BETWEEN 11 AND 20;
 select count(*) from wbs
 		where manager = '조승호';
+SELECT a.*,b.COMPMSG FROM wbs a,works b
+WHERE a.workcode = 4
+AND a.WORKCODE = b.WORKCODE(+);
+INSERT INTO works values('4','보고서 작성 완료 확인 부탁드립니다','',sysdate);
+SELECT * FROM works;
+DELETE FROM works;
+CREATE TABLE workfile(
+	workcode NUMBER,
+	fname varchar2(200),
+	regdate DATE,
+	uptdate date
+);
