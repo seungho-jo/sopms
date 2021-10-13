@@ -1,5 +1,7 @@
 package sopms.project.dao;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Repository;
 
 import sopms.vo.Project;
@@ -9,5 +11,6 @@ public interface projectDao {
 	public void insertProject_dept(Project ins);
 	public void updateProject(Project upt);
 	public void deleteProject(int pcode);
-	public Project getproject(int pcode);
+	public Project getProject(int pcode);
+	ArrayList<Project> projectDeptList(int pcode);
 }

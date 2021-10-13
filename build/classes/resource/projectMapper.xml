@@ -10,5 +10,30 @@
 	<insert id="insertProject_dept" parameterType="project">
 		insert into project_dept values(project_seq.currval,#{dept})
 	</insert> 
-	
+  	<delete id="deleteProject" parameterType="int">
+		DELETE FROM project
+		 WHERE pcode = #{pcode}
+ 	</delete> 	
+ 	<select id="getProject" resultType="project" 
+ 	 	parameterType="int">
+ 	 	SELECT pcode, pname, id, teamnum, TO_CHAR(startdate,'YYYY-MM-DD') as startdate, TO_CHAR(enddate,'YYYY-MM-DD') as enddate, 
+ 	 	status, explanation
+		FROM project p
+		where pcode = #{pcode}
+ 	 </select>
+ 	<select id="projectDeptList" resultType="string" parameterType="int">
+		SELECT dept FROM project_dept
+		WHERE pcode = #{pcode}
+		ORDER BY dept
+	</select>	 
+	<update id="updateProject" parameterType="project">
+		UPDATE project
+		   SET pname = ${pname}
+		   		startdate = ${startdate}
+		   		enddate = ${enddate}
+		   		teamnum = ${teamnum}
+		   		status = ${status}
+		   		explanation = ${explanation}
+		 WHERE pcode = #{pcode}
+ 	</update>
 </mapper>

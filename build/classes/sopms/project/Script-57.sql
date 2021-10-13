@@ -19,7 +19,7 @@ CREATE TABLE project(
 	status varchar2(70) DEFAULT '진행중',
 	explanation varchar2(2000)
 );
-INSERT INTO project values(project_seq.nextval,'프로젝트1','happy01','2021-09-01','2021-10-31',5,'진행중','테스트');
+INSERT INTO project values(1,'프로젝트1','happy01','2021-09-01','2021-10-31',5,'진행중','테스트');
 	
 insert into project_dept values(project_seq.currval,#{dept});
 SELECT * FROM project;
@@ -31,6 +31,8 @@ SELECT * FROM PROJECT;
 name = id 
 SET id
 
-drop SEQUENCE project_seq;
-DROP TABLE project;
-DROP TABLE project_dept;
+		 
+SELECT p.pcode, p.pname, d.dept, p.id, p.teamnum, TO_CHAR(startdate,'YYYY-MM-DD') AS startdate, TO_CHAR(enddate,'YYYY-MM-DD') AS enddate, 
+status, explanation
+FROM project p, project_dept d
+where pcode = 2;
