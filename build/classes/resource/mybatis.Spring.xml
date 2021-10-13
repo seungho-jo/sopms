@@ -14,6 +14,7 @@
 		<typeAlias alias="workfile" type="sopms.vo.WorkFile"/>
 		<typeAlias alias="project_List" type="sopms.vo.Project_List"/>
 		<typeAlias alias="project_Lp" type="sopms.vo.Project_List_paging"/>
+		<typeAlias alias="workpmsch" type="sopms.vo.WorkPmSch"/>
 		
 	</typeAliases>
 	<mappers>
