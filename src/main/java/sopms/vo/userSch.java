@@ -11,6 +11,10 @@ public class userSch {
 	private int cnt;
 	private int no;
 	private String name;
+	// 3. 블럭 처리 속성.
+	private int blockSize; // 한번에 보여줄 block의 크기
+	private int startBlock; // block의 시작번호
+	private int endBlock; // block의 마지막번호
 	
 	public String getName() {
 		return name;
@@ -30,10 +34,7 @@ public class userSch {
 	public void setNo(int no) {
 		this.no = no;
 	}
-		// 3. 블럭 처리 속성.
-		private int blockSize; // 한번에 보여줄 block의 크기
-		private int startBlock; // block의 시작번호
-		private int endBlock; // block의 마지막번호
+
 		
 		public int getCount() {
 			return count;
