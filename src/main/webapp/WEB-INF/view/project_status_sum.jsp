@@ -26,40 +26,8 @@
 	integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
 	crossorigin="anonymous">
 <style>
-	#sp_list{
-		height:80px;
-		padding:5px;
-		border:1px dashed gray;
-		border-radius:5px;
-	}
-	#add_sp_btn{
-		display:inline-block;
-		border:2px solid gray;
-		border-radius:5px;
-		width:60px;
-		height:100%;
-		background-color:white;
-	}
-	#case_left{
-		display:inline-block;
-		float:left;
-		width:20px;
-		height:100%;
-		border:2px solid black;
-		border-radius:4px;
-		margin-right:10px;
-		background-color:white;
-	}
-	#case_right{
-		display:inline-block;
-		float:right;
-		width:20px;
-		height:100%;
-		border:2px solid black;
-		border-radius:4px;
-		margin-left:10px;
-		background-color:white;
-	}
+
+
 </style>
 
 <title>Insert title here</title>
@@ -68,34 +36,21 @@
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
 	theme-layout="wide-layout">
 	
-	<div class="row h4 font-weight-bold ml-4 my-2 text-primary">프로젝트 등록
-		정보</div>
-	<hr class="mx-3">
-	<div id="sp_list" class="mx-3">
-		<button id="case_left">
-			<i class="bi bi-caret-left-fill text-dark align-middle"></i>
-		</button>
-		<button id="add_sp_btn">
-			<i class="bi bi-plus-circle fa-2x align-middle"></i>
-		</button>
-		<button id="case_right">
-			<i class="bi bi-caret-right-fill text-dark align-middle"></i>
-		</button>
-	</div>
-	<br>
+	<div class="row h4 font-weight-bold ml-4 my-2 text-primary">프로젝트 등록 정보</div>
+	<hr class="mx-3"><br>
 	<div class="row mx-2 mb-5">
 		<div class="col-2 font-weight-bold text-right text-dark">프로젝트 제목</div>
 		<div id="pj_name" class="col text-dark"></div>
 	</div>
 	<div class="row mx-2 my-5">
-		<div class="col-2 font-weight-bold text-right text-dark">프로젝트 분류</div>
-		<div id="pj_type" class="col-4 text-dark"></div>
 		<div class="col-2 font-weight-bold text-right text-dark">프로젝트 상태</div>
 		<div id="pj_status" class="col-4 text-dark"></div>
+		<div class="col-2 font-weight-bold text-right text-dark">팀원수</div>
+		<div id="pj_max_headCnt" class="col-4 text-dark"></div>
 	</div>
 	<div class="row mx-2 my-5">
 		<div class="col-2 font-weight-bold text-right text-dark">부서</div>
-		<div class="col-4 text-dark"></div>
+		<div id="pj_dept" class="col-4 text-dark"></div>
 		<div class="col-2 font-weight-bold text-right text-dark">PM</div>
 		<div id="pj_pm" class="col-4 text-dark"></div>
 	</div>
@@ -104,10 +59,6 @@
 		<div id="pj_start_date" class="col-4 text-dark"></div>
 		<div class="col-2 font-weight-bold text-right text-dark">종료일</div>
 		<div id="pj_end_date" class="col-4 text-dark"></div>
-	</div>
-	<div class="row mx-2 my-5">
-		<div class="col-2 font-weight-bold text-right text-dark">팀원수</div>
-		<div id="pj_max_headCnt" class="col-4 text-dark"></div>
 	</div>
 	<div class="row mx-2 my-5">
 		<div class="col-2 font-weight-bold text-right text-dark">프로젝트 설명</div>
@@ -127,10 +78,12 @@
 		<div class="modal-dialog">
 	        <div class="modal-content">
 	            <div class="modal-header">
-	            	head
+	            	소단위 프로젝트 등록
 	            </div>
 	            <div class="modal-body">
-	            	body
+	            	<div id="insert_smpj">
+
+		            </div>
 	            </div>
 	    	</div>
 		</div>
@@ -174,7 +127,7 @@
 		$.ajax({
 			type:'POST',
 			url:'${path}/projectSum.do',
-			data:'pcode=16',
+			data:'pcode=${param.pcode}',
 			dataType:'json',
 			success:function(data){
 				printData(data);
@@ -185,14 +138,24 @@
 		});
 	}
 	function printData(data){
-		let pjInfo = data;
-		console.log('data:'+JSON.stringify(data));
+		let pjInfo = data.info;
+		console.log('INFO:'+JSON.stringify(pjInfo));
 		$('#pj_name').text(pjInfo.pname);
-		$('#pj_pm').text(pjInfo.name);
-		$('#pj_start_date').text(pjInfo.startdate);
-		$('#pj_end_date').text(pjInfo.enddate);
-		$('#pj_max_headCnt').text(pjInfo.teamnum);
+		$('#pj_pm').text(pjInfo.pmName);
+		$('#pj_start_date').text(pjInfo.startDate);
+		$('#pj_end_date').text(pjInfo.endDate);
+		$('#pj_max_headCnt').text(pjInfo.teamNum);
+		$('#pj_status').text(pjInfo.status);
 		$('#pj_explanation').text(pjInfo.explanation);
+		
+		let pjDeptArr = data.dept;
+		console.log('DEPT:'+JSON.stringify(pjDeptArr));
+		let deptHTML = '';
+		pjDeptArr.forEach(function(element,index,array){
+			if(index!=0) deptHTML+='<br>';
+			deptHTML+=element;
+		});
+		$('#pj_dept').html(deptHTML);
 	}
 	
 	$('#add_sp_btn').click(function(){
