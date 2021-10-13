@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sopms.Management.dao.managementDao">
+	
+	<select id="projectList" parameterType="project_Lp" resultType="project_List">
+		select * from 
+		(select rownum as no, a.* from project a)
+		where no between #{start} and #{end}
+		
+	</select>
+	
+	<select id="projectCount" resultType="int">
+		select count(*) from project
+	</select>
+	
+	
+</mapper>
