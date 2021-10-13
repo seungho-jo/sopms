@@ -15,8 +15,12 @@ public class ProjectStatusSumService {
 	
 	public String projectInfoJson(int pcode) {
 		gson = new Gson();
-		String resultJson = gson.toJson(sumDao.projectInfo(pcode));
-		System.out.println("JSON String: "+resultJson);
-		return resultJson;
+		String infoJson = gson.toJson(sumDao.projectInfo(pcode));
+		String deptJson = gson.toJson(sumDao.projectDeptList(pcode));
+		String mergedJson = "{\"info\":"+infoJson+",\"dept\":"+deptJson+"}";
+		System.out.println("infoJson: "+infoJson);
+		System.out.println("deptJson: "+deptJson);
+		System.out.println("merge: "+mergedJson);
+		return mergedJson;
 	}
 }

@@ -10,15 +10,4 @@ public class DashboardController {
 	public String dashboard() {
 		return "WEB-INF/view/main.jsp";
 	}
-	
-	// http://localhost:7080/sopms/projectStatus.do
-	@RequestMapping("projectStatus.do")
-	public String projectStatus() {
-		return "WEB-INF/view/project_status.jsp";
-	}
-	// http://localhost:7080/sopms/projectStatusSum.do
-	@RequestMapping("projectStatusSum.do")
-	public String projectStatusSum() {
-		return "WEB-INF/view/project_status_sum.jsp";
-	}
 }
