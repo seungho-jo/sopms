@@ -35,8 +35,28 @@
 		WHEN NOT MATCHED THEN
 			INSERT values(#{workcode},#{apprmsg},#{compmsg},sysdate)
 	</update>
-	<insert id="uploadfile" parameterType="workfile">
-		insert into workfile values(
-			#{workcode}, #{fname},sysdate,sysdate)
-	</insert>
+	<update id="uploadfile" parameterType="workfile">
+		merge into workfile a
+		using dual
+		on (a.workcode = #{workcode})
+		when matched then
+		update set a.fname = #{fname}
+				   a.regdate = sysdate,
+				   a.uptdate = sysdate
+		when not matched then
+		insert  values(#{workcode}, #{fname},sysdate,sysdate)
+	</update>
+	<select id="myWorkPmCount" parameterType="String" resultType="int">
+		SELECT count(*) FROM wbs a, works b
+		WHERE a.workcode = b.WORKCODE
+		AND a.pm = #{name}
+	</select>
+	<select id="myWorkListPm" parameterType="workpmsch" resultType="work">
+		SELECT * from
+		(SELECT rownum AS NO,a.*,b.APPRDATE FROM wbs a, works b
+		WHERE a.workcode = b.WORKCODE
+		AND a.pm = #{name}
+		ORDER BY b.APPRDATE desc)
+		WHERE NO BETWEEN #{start} AND #{end}
+	</select>
 </mapper>

@@ -126,7 +126,7 @@
 									</a> <a href="./email-inbox.html" class="dropdown-item"> <i
 										class="icon-envelope-open"></i> <span class="ml-2">Inbox
 									</span>
-									</a> <a href="index.jsp" class="dropdown-item"> <i
+									</a> <a href="${path}/logout.do" class="dropdown-item"> <i
 										class="icon-key"></i> <span class="ml-2">Logout </span>
 									</a>
 								</div></li>

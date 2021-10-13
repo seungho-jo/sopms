@@ -42,7 +42,7 @@
                             </div>
                             <div class="card-body">
                             	
-                            	<form style="display: flex;" method="post">
+                            	<form style="display: flex; padding-left:1%;" method="post">
 								<input type="hidden" name="curPage" value="1"/>
 								
 								<div class="row">
@@ -146,7 +146,7 @@
 	});
 	
 	$("#regBtn").click(function(){
-		location.href = "project_Insert.jsp";
+		location.href = "${path}/project.do?method=insertform";
 	})
 	function goBlock(no){
 		

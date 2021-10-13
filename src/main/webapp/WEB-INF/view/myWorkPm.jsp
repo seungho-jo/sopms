@@ -46,117 +46,37 @@
 						<table class="table table-hover table-responsive-sm" id="workList">
 							<thead>
 								<tr>
-									<th class="text-dark">#</th>
-									<th class="text-dark">작업</th>
-									<th class="text-dark">프로젝트</th>
-									<th class="text-dark">담당자</th>
-									<th class="text-dark">상태</th>
-									<th class="text-dark">시작일</th>
-									<th class="text-dark">완료일</th>
+									<th class="text-dark text-center">#</th>
+									<th class="text-dark text-center">작업</th>
+									<th class="text-dark text-center">프로젝트</th>
+									<th class="text-dark text-center">담당자</th>
+									<th class="text-dark text-center">상태</th>
+									<th class="text-dark text-center">승인요청날자</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark"><a href="detailWorkPm.jsp" class="text-dark">주간 보고서</a></td>
-									<td class="text-dark">SL솔루션 homepage</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-success">진행중</span></td>
-									<td class="text-dark">21/09/23</td>
-									<td class="text-dark">21/09/25</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">주간 요구사항 정의서</td>
-									<td class="text-dark">SL솔루션 homepage</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-success">진행중</span></td>
-									<td class="text-dark">21/09/23</td>
-									<td class="text-dark">21/09/25</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">index page</td>
-									<td class="text-dark">SL솔루션 homepage</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-danger">반려됨</span></td>
-									<td class="text-dark">21/09/23</td>
-									<td class="text-dark">21/09/25</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">주간 보고서</td>
-									<td class="text-dark">SL솔루션 homepage</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-success">진행중</span></td>
-									<td class="text-dark">21/09/23</td>
-									<td class="text-dark">21/09/25</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">주간 보고서</td>
-									<td class="text-dark">SL솔루션 homepage</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-success">진행중</span></td>
-									<td class="text-dark">21/09/23</td>
-									<td class="text-dark">21/09/25</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">주간 보고서</td>
-									<td class="text-dark">SL솔루션 homepage</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-success">진행중</span></td>
-									<td class="text-dark">21/09/23</td>
-									<td class="text-dark">21/09/25</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">주간 보고서</td>
-									<td class="text-dark">SL솔루션 homepage</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-success">진행중</span></td>
-									<td class="text-dark">21/09/23</td>
-									<td class="text-dark">21/09/25</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">주간 보고서</td>
-									<td class="text-dark">SL솔루션 homepage</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-success">진행중</span></td>
-									<td class="text-dark">21/09/23</td>
-									<td class="text-dark">21/09/25</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">주간 보고서</td>
-									<td class="text-dark">SL솔루션 homepage</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-success">진행중</span></td>
-									<td class="text-dark">21/09/23</td>
-									<td class="text-dark">21/09/25</td>
-								</tr>
-								<tr>
-									<th><input type="checkbox" class="text-dark"></th>
-									<td class="text-dark">주간 보고서</td>
-									<td class="text-dark">SL솔루션 homepage</td>
-									<td class="text-dark">PM01</td>
-									<td class="text-dark"><span class="badge badge-success">진행중</span></td>
-									<td class="text-dark">21/09/23</td>
-									<td class="text-dark">21/09/25</td>
-								</tr>
+								<c:forEach var="wlist" items="${list}">
+								<fmt:parseDate var="apprdate1" value="${wlist.apprdate}" pattern="yyyy-MM-dd"/>
+								<fmt:formatDate  var="apprdate2" value="${apprdate1}" type="DATE" pattern="yyyy-MM-dd"/>
+									<tr onclick="javascript:go(${wlist.workcode})">
+										<th><input type="checkbox" class="text-dark"></th>
+										<td class="text-dark text-center">${wlist.title}</td>
+										<td class="text-dark text-center">SL솔루션 homepage</td>
+										<td class="text-dark text-center">${wlist.pm}</td>
+										<td class="text-dark text-center boxes"><span>${wlist.status}</span></td>
+										<td class="text-dark text-center">${apprdate2}</td> 
+									</tr>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
 				</div>
 				<ul class="pagination justify-content-center" id="paging">
-					<li class="page-item" id="pre"><a class="page-link">Pre</a></li>
-					<li class="page-item active" id="sel"><a class="page-link">1</a></li>
-					<li class="page-item"><a class="page-link">2</a></li>
-					<li class="page-item"><a class="page-link">3</a></li>
-					<li class="page-item"><a class="page-link">4</a></li>
-					<li class="page-item" id="next"><a class="page-link">
+					<li class="page-item" id="pre"><a class="page-link" href="javascript:goBlock(${worPmkSch.startBlock-1})">Pre</a></li>
+					<c:forEach var="cnt" begin="${worPmkSch.startBlock}" end="${worPmkSch.endBlock}">
+					<li class="page-item"><a class="page-link" href="javascript:goBlock(${cnt})">${cnt}</a></li>
+					</c:forEach>
+					<li class="page-item" id="next"><a class="page-link" href="javascript:goBlock(${worPmkSch.endBlock-1})">
 							Next
 					</a></li>
 				</ul>
@@ -196,28 +116,14 @@
 
 <script src="./js/dashboard/dashboard-1.js"></script>
 <script type="text/javascript">
-	$("#paging").children("li").click(function() {
-		var id = $(this).attr('id');
-		if(id=='next'){
-			if($('.active').next().attr('id')==id){
-				alert("마지막 페이지 입니다");
-				return;
-			}else{
-				$('.active').next().attr('class', 'page-item active');
-				$('.active').first().attr('class', 'page-item');
-			}
-		}else if(id=='pre'){
-			if($('.active').prev().attr('id')==id){
-				alert("첫 페이지 입니다");
-				return;
-			}else{
-				$('.active').prev().attr('class', 'page-item active');
-				$('.active').last().attr('class', 'page-item');
-			}
-		}else{
-			$("#paging").children("li").attr('class', 'page-item');
-			$(this).attr('class', 'page-item active');
-		}
-	});
+function goBlock(no){
+	$("[name=curPage]").val(no);
+	$("form").submit();
+}
+function go(no){
+	$(location).attr("href",
+			"${path}/detailWorkPm.do?workcode="+no);
+}
+	
 </script>
 </html>

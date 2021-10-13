@@ -33,4 +33,10 @@ public class loginController {
 		}
 	}
 	
+	@RequestMapping("logout.do")
+	public String logout(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.invalidate();
+		return "redirect:/index.do";
+	}
 }
