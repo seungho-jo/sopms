@@ -45,6 +45,10 @@
 	<!-- 각자 dao 추가 -->
 	<bean 
 		class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="sopms.Management.dao"/> 
+	</bean>
+	<bean 
+		class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="sopms.login.dao"/> 
 	</bean>
 	<bean 
