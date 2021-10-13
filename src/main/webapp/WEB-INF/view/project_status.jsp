@@ -53,12 +53,12 @@
 							<div class="tab-pane fade show active" id="summary"
 								role="tabpanel">
 								<div class="pt-4">
-									<jsp:include page="project_status_sum.jsp"/>
+									<jsp:include page="project_status_sum.jsp"></jsp:include>
 								</div>
 							</div>
 							<div class="tab-pane fade" id="wbs">
 								<div class="pt-4">
-									<jsp:include page="02_load_json.html"/>
+									<jsp:include page="ganttchart.jsp"/>
 								</div>
 							</div>
 							<div class="tab-pane fade" id="resource">
