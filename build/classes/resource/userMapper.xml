@@ -20,6 +20,11 @@
 	from member
 	where name like '%'||#{name}||'%'
 	</select>
+	<insert id="insertUser" parameterType="user">
+	insert into member values (#{id},#{pass},#{name},#{rank},#{dept},sysdate,null)		
+	
+		
+	</insert> 
 	
 	
 </mapper>
