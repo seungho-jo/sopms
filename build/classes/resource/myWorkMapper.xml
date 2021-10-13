@@ -24,9 +24,17 @@
 		where a.workcode = #{workcode}
 		and a.workcode = b.workcode(+)
 	</select>
-	<insert id="approval" parameterType="work">
-		INSERT INTO works values(#{workcode},#{apprmsg},#{compmsg},sysdate)
-	</insert>
+	<update id="approval" parameterType="work">
+		MERGE INTO works a
+		USING dual
+		ON (a.workcode = #{workcode})
+		WHEN MATCHED THEN
+			UPDATE SET a.apprmsg = #{apprmsg},
+			   		   a.compmsg = #{compmsg},
+			  		   a.apprdate = sysdate
+		WHEN NOT MATCHED THEN
+			INSERT values(#{workcode},#{apprmsg},#{compmsg},sysdate)
+	</update>
 	<insert id="uploadfile" parameterType="workfile">
 		insert into workfile values(
 			#{workcode}, #{fname},sysdate,sysdate)
