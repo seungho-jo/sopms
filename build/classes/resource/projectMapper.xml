@@ -5,7 +5,7 @@
 <mapper namespace="sopms.project.dao.projectDao">
 	<insert id="insertProject" parameterType="project">
 		INSERT INTO project values(project_seq.nextval,#{pname},
-		#{name},#{startdate},#{enddate},#{teamnum},#{explanation})		
+		#{id},#{startdate},#{enddate},#{teamnum},#{status},#{explanation})		
 	</insert> 
 	<insert id="insertProject_dept" parameterType="project">
 		insert into project_dept values(project_seq.currval,#{dept})

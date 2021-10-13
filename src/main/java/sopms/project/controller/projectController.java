@@ -24,7 +24,6 @@ public class projectController {
 	public String projectInsertform(HttpServletRequest request,Model d) {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
-		System.out.println("ddddddddddddddddddd"+user.getRank());
 		if(!user.getRank().equals("부장")) {
 			d.addAttribute("msg","접근권한이 없습니다.");
 			return "WEB-INF\\view\\main.jsp";
@@ -37,7 +36,7 @@ public class projectController {
 	public String projectInsert(HttpServletRequest request,Project project) {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
-		project.setName(user.getName());
+		project.setId(user.getId());
 		service.insertProject(project);
 		return "WEB-INF\\view\\project_Insert.jsp";
 	}

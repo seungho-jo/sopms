@@ -4,10 +4,11 @@ public class Project {
 	private String pcode;
 	private String pname;
 	private String dept;
-	private String name;
+	private String id;
 	private String startdate;
 	private String enddate;
 	private String teamnum;
+	private String status;
 	private String explanation;
 	public String getPcode() {
 		return pcode;
@@ -27,11 +28,12 @@ public class Project {
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
-	public String getName() {
-		return name;
+	
+	public String getId() {
+		return id;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getStartdate() {
 		return startdate;
@@ -57,5 +59,12 @@ public class Project {
 	public void setExplanation(String explanation) {
 		this.explanation = explanation;
 	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
 	
 }
