@@ -35,6 +35,7 @@
 </style>
 </head>
 <script type="text/javascript">
+
 </script>
 
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
@@ -45,19 +46,19 @@
 		<div class="content-body">
 		<div class="card">
 			<div class="card-body">
-				<form id="frm01" style="display: flex;" action="${path}/riskPageList.do" method="post">
-					<input type="hidden" name="curPage">
-					<select id="status" class="form-select">
-						<option>himan</option>
-						<option>higirl</option>
-						<option>yjkim</option>
+				<form id="frm01" style="display: flex;" method="post">
+					<input type="hidden" name="curPage" value="1">
+					<select id="status" name="status" class="form-select">
+						<option value="">찾기 선택</option>
+						<option value="risk_name">리스크명</option>
+						<option value="id">등록자</option>
 					</select>
 				<div class="input-group" id="gp1">
-					<input type="text" class="form-control input-sm" name="risk_name" value="${param.risk_name}" placeholder="리스크명">
+					<input type="text" class="form-control input-sm" id="searchName">
 						<div class="input-group-append">
-							<button class="btn btn-primary" type="button">검색</button>
+							<button class="btn btn-primary" type="button" id="search">검색하기</button>
 						</div>
-				</div>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -65,7 +66,7 @@
 		<div class="card">
 		<h2 id="card-title">리스크</h2>
 			<div class="card-body">
-				<button type="button" class="btn btn-primary" id="button" onclick="location.href='risk_Insert.jsp'">등록하기</button>
+				<button type="button" class="btn btn-primary" id="button">등록하기</button>
 			<div id="content_cnt">
 				<h6 id="title">전체게시글 : ${riskSch.count}</h6>	
 			</div>
@@ -73,7 +74,6 @@
 		<table id="bootstrap-data-table" class="table table-hover table-responsive-sm" width="100%" align="center">
 			<thead>
 				<tr class="text-center">
-					<th class="text-dark">번호</th>
 					<th class="text-dark">리스크명</th>
 					<th class="text-dark">등록자</th>
 					<th class="text-dark">리스크상태</th>
@@ -83,10 +83,9 @@
 			<tbody>
 				<c:forEach var="rk" items="${list}">
 				<tr class="text-center">
-					<td class="text-dark">${rk.risk_no}</td>
 					<td class="text-dark">${rk.risk_name}</td>
 					<td class="text-dark">${rk.id}</td>
-					<td class="text-dark">${rk.risk_status}</td>
+					<td class="text-dark boxes"><span>${rk.risk_status}</span></td>
 					<td class="text-dark">${rk.risk_reg}</td>
 				</tr>		
 				</c:forEach>
@@ -148,10 +147,35 @@
 		$("[name=curPage]").val(1);
 		$("#frm01").submit();
 	});
+	var arr = [];
+	for(var i=1;i<$("tr").length;i++){
+		var status = $("tr").eq(i).children("td:eq(2)").text();
+		if(status=="조치완료"){
+			$("tr").eq(i).children("td:eq(2)").children("span").attr("class","badge badge-success");
+		}else if(status=="진행중"){
+			$("tr").eq(i).children("td:eq(2)").children("span").attr("class","badge badge-info");
+		}else if(status=="홀드"){
+			$("tr").eq(i).children("td:eq(2)").children("span").attr("class","badge badge-danger");
+		}
+	}
+	
 	function goPage(no) {
-		console.log(1111111111111111);
 		$("[name=curPage]").val(no);
 		$("#frm01").submit();
 	}
+	
+	$("#button").click(function(){
+		$(location).attr("href","${path}/insertPageGo.do");
+	});
+	
+	$("#search").click(function(){
+		
+		$("#frm01").submit();
+	});
+	
+	$("#status").change(function(){
+		console.log($(this).val());
+		$("#searchName").attr("name",$(this).val());
+	});
 </script>
 </html>

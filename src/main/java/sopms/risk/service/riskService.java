@@ -6,12 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sopms.risk.dao.riskDao;
+import sopms.vo.Project;
 import sopms.vo.Risk;
 import sopms.vo.riskSch;
 
 @Service
 public class riskService {
-	@Autowired
+	@Autowired(required=false)
 	private riskDao dao;
 	
 	public ArrayList<Risk> getRiskList(String risk_name){
@@ -22,8 +23,11 @@ public class riskService {
 	
 	public ArrayList<Risk> getRiskListPaging(riskSch sch){
 		if(sch.getRisk_name() == null) sch.setRisk_name("");
-		sch.setPageSize(10);
+		if(sch.getId()==null) sch.setId("");
 		sch.setCount(dao.totCnt(sch));
+		if(sch.getPageSize()==0) {
+			sch.setPageSize(10);
+		}
 		
 		sch.setPageCount((int)Math.ceil(
 				sch.getCount()/(double)sch.getPageSize() ));
@@ -56,5 +60,20 @@ public class riskService {
 		sch.setStartBlock((blocknum-1)*sch.getBlockSize()+1);
 		
 		return dao.riskListPaging(sch);
+	}
+	// 리스크 등록
+	public void insertRisk(Risk rk) { 
+		System.out.println("넘어온 Pcodes : "+rk.getPcodeS());
+		System.out.println("넘어온 Pcodes : "+rk.getPcodeS().getClass().getName());
+		
+		rk.setPcode(Integer.parseInt(rk.getPcodeS()));
+		System.out.println("변경된 값 : "+rk.getPcode());
+		
+		dao.insertRisk(rk);
+	}
+
+	// 페이지이동
+	public ArrayList<Project> projectList(String id){
+		return dao.projectList(id);
 	}
 }

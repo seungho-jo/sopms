@@ -1,6 +1,8 @@
 package sopms.vo;
 
 public class riskSch {
+	// 요청값과 로직을 통해서 검색을 위한 vo
+	// 1. 검색 : 제목/작성자
 	private String risk_name;
 	private String id;
 	

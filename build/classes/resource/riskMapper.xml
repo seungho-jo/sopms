@@ -6,11 +6,12 @@
 	<select id="riskListPaging" resultType="risk" parameterType="riskSch">
 		select * 
 		from(
-			select risk_no, risk_name, id, risk_status, risk_reg
+			select rownum as no, risk_name, id, risk_status, risk_reg
 			from risk
 			where risk_name like '%'||#{risk_name}||'%'
+			and id like '%'||#{id}||'%'
 		)
-		where risk_no between #{start} and #{end}
+		where no between #{start} and #{end}
 	</select>
 	
 	<select id="totCnt" resultType="int" parameterType="riskSch">
@@ -18,4 +19,15 @@
 		from risk
 		where risk_name like '%' ||#{risk_name} ||'%'
 	</select>
+	
+	<insert id="insertRisk" parameterType="Risk">
+		INSERT INTO Risk (risk_no, risk_name, risk_content, risk_reg, id, pcode, risk_status) 
+				VALUES (seq_risk_no.nextval, #{risk_name}, #{risk_content}, sysdate, #{id}, #{pcode}, #{risk_status}) 
+	</insert>
+	
+	<select id="projectList" parameterType="String" resultType="project">
+		select * from project
+		where id = #{id}
+	</select>
+	
 </mapper>

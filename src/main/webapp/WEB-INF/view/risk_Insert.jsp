@@ -21,7 +21,7 @@
 <link href="./vendor/jqvmap/css/jqvmap.min.css" rel="stylesheet">
 <link href="./css/style.css" rel="stylesheet">
 <link href="./css/risk_Insert.css" rel="stylesheet">
-<title>Insert title here</title>
+<title>Risk Insert</title>
 <script src="https://unpkg.com/vue/dist/vue.js" type="text/javascript"></script>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
@@ -35,7 +35,9 @@
 		<jsp:include page="header.jsp" />
 		<jsp:include page="navi.jsp" />
 		<div class="content-body">
+			<form style="display: flex" method="post">
 			<div class="card" style="min-height:1000px;">
+			<h2 id="card-title">리스크 등록</h2>
 				<div class="card-body">
 					<!-- 프로젝트명 -->
 					<div class="row g-2" style="margin-top:10%">
@@ -45,11 +47,11 @@
 					    	</div>
 					    </div>
 					    <div class="col-6 mb-3">
-						      <select id="status" class="form-select" id="floatingSelectGrid" aria-label="Floating label select example">
+						      <select id="pcode" class="form-select" name="pcodeS" id="floatingSelectGrid" aria-label="Floating label select example">
 						        <option selected>프로젝트</option>
-						        <option value="1">One</option>
-						        <option value="2">Two</option>
-						        <option value="3">Three</option>
+						      	<c:forEach var="pro" items="${pj}">
+						      		<option value="${pro.pcode}">${pro.pname}</option>
+						      	</c:forEach>
 						      </select>
 					  	</div>	
 					<!-- 리스크명 -->
@@ -60,7 +62,7 @@
 					    </div>
 					    <div class="col-6 mb-3">
 					    	<div class="form-floating">
-					      		<input type="text" class="form-control" placeholder="리스크명 작성" aria-label="리스크명 작성">
+					      		<input type="text" class="form-control" placeholder="리스크명 작성" aria-label="리스크명 작성" name="risk_name" >
 					    	</div>
 					  	</div>
 					<!-- 리스크 내용 -->
@@ -71,10 +73,27 @@
 					    </div>
 					    <div class="col-6 mb-3">
 					    	<div class="form-floating">
-							  <textarea class="form-control" placeholder="리스크내용을 입력하세요." id="floatingTextarea2" style="height: 100px"></textarea>
+							  <textarea class="form-control" name="risk_content" placeholder="리스크내용을 입력하세요." id="floatingTextarea2" style="height: 100px"></textarea>
 							  <label for="floatingTextarea2"></label>
 							</div>
 					  </div>	
+					  <!-- 리스크 상태 -->
+						<div class="col-4 mb-3">
+							<div class="form-floating">
+					     		<h4 id="title">리스크 상태 </h4>
+					    	</div>
+					    </div>
+					    <div class="col-6 mb-3">
+					    	<div class="form-floating">
+					      		<select id="status" name="risk_status" class="form-select" id="floatingSelectGrid" aria-label="Floating label select example">
+						        <option selected>리스크 상태</option>
+						        <option>조치완료</option>
+						        <option>진행중</option>
+						        <option>홀드</option>
+						      </select>
+					    	</div>
+					  </div>
+					  
 					<!-- 등록자 -->
 						<div class="col-4 mb-3">
 							<div class="form-floating">
@@ -83,9 +102,10 @@
 					    </div>
 					    <div class="col-6 mb-3">
 					    	<div class="form-floating">
-					      		<input type="text" class="form-control" placeholder="등록자" aria-label="등록자">
+					      		<input type="text" class="form-control" placeholder="등록자 아이디" aria-label="등록자 아이디" name="id">
 					    	</div>
-					  </div>
+					  	</div>
+					
 				</div>
 				<div class="row g-2">
 					<div class="col-md mb-3">
@@ -97,6 +117,7 @@
 				</div>
 			</div>
 		</div>
+		</form>
 		<jsp:include page="footer.jsp" />
 	</div>
 </body>
@@ -132,5 +153,24 @@
 <script src="./js/dashboard/dashboard-1.js"></script>
 <script type="text/javascript">
 	$(".metismenu").children().eq(8).attr('class', 'mm-active');
+	
+	$("#button_left").click(function(){
+		$("form").attr("action", "${path}/insertRisk.do");
+		$("form").submit();
+		
+	});
+	
+	$("#status").change(function(){
+		console.log($(this).val());
+		console.log($("[name=risk_name]").val());
+		console.log($("[name=risk_content]").val());
+		console.log($("[name=risk_name]").val());
+		
+	});
+	
+	$("[name=pcodeS]").change(function(){
+		console.log($(this).val());
+		console.log(typeof $(this).val());
+	});
 </script>
 </html>
