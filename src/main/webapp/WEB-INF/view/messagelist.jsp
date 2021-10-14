@@ -139,6 +139,7 @@
           $sendmsg = $("#write").val()
           wsocket.send($("#write").val());
           $("#write").val('')
+          
       }
       
   )});
@@ -149,7 +150,7 @@
       let newMsg = $('#template').clone();
       newMsg.find('.messagearea').addClass('yourmessage')
       newMsg.removeAttr('id');
-      newMsg.find('.bubblecontent').html(JSON.stringify(msg));
+      newMsg.find('.bubblecontent').html(JSON.stringify(msg).slice(1, -1));
       $('#chats').append(newMsg);
       let mx = parseInt($("#chats").height());
       $("#chatbelongs").scrollTop(mx);
