@@ -25,8 +25,9 @@ public class loginController {
 	public String login(HttpServletRequest request,Model d,User user) {
 		HttpSession session = request.getSession();
 		if(service.login(user)!=null) {
+			session.removeAttribute("msg");
 			session.setAttribute("user", service.login(user));
-			return "WEB-INF\\view\\main.jsp";
+			return "forward:/dashboard.do";
 		}else {
 			session.setAttribute("msg", "로그인 실패");
 			return "WEB-INF\\view\\index.jsp";

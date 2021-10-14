@@ -84,6 +84,10 @@
     		$("form").submit();
     	}
     });
+    var msg = "${msg}";
+    if(msg!=null&&msg!=""){
+    	alert(msg);
+    }
     </script>
 
 </body>

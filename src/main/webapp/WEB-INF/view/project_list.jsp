@@ -157,7 +157,7 @@
 		}
 	}
 	$("#regBtn").click(function(){
-		location.href = "project_Insert.jsp";
+		location.href = "${path}/project.do?method=insertform";
 	})
 	function goBlock(no){
 		

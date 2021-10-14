@@ -26,7 +26,7 @@
 		</div>
 	</div>
 		<div class="nav-header">
-			<a href="main.jsp" class="brand-logo"> 
+			<a href="${path}/dashboard.do" class="brand-logo"> 
 				<img src="./images/SOPMS-logo.png" alt="" style="width:80%">
 			</a>
 
