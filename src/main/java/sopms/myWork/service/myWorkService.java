@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import sopms.myWork.dao.myWorkDao;
 import sopms.vo.Work;
 import sopms.vo.WorkFile;
+import sopms.vo.WorkPmSch;
 import sopms.vo.WorkSch;
 
 @Service
@@ -22,6 +23,7 @@ public class myWorkService {
 	@Autowired
 	private myWorkDao dao;
 
+	// 직원
 	public ArrayList<Work> myWorkList(WorkSch worksch) {
 		if (worksch.getTitle() == null)
 			worksch.setTitle("");
@@ -91,5 +93,33 @@ public class myWorkService {
 		upfile.setWorkcode(no);
 		upfile.setFname(fileName);
 		dao.uploadfile(upfile);
+	}
+	
+	// pm
+	public ArrayList<Work> myWorkListPm(WorkPmSch workpmsch){
+		workpmsch.setCount(dao.myWorkPmCount(workpmsch.getName()));
+		if (workpmsch.getPageSize() == 0) {
+			workpmsch.setPageSize(5);
+		}
+		workpmsch.setPageCount((int) Math.ceil(workpmsch.getCount() / (double) workpmsch.getPageSize()));
+		if (workpmsch.getCurPage() == 0) {
+			workpmsch.setCurPage(1);
+		}
+		if (workpmsch.getCurPage() > workpmsch.getPageCount()) {
+			workpmsch.setCurPage(workpmsch.getPageCount());
+		}
+		workpmsch.setStart((workpmsch.getCurPage() - 1) * workpmsch.getPageSize() + 1);
+		workpmsch.setEnd(workpmsch.getCurPage() * workpmsch.getPageSize());
+		workpmsch.setBlockSize(10);
+		int blocknum = (int) (Math.ceil(workpmsch.getCurPage() / (double) workpmsch.getBlockSize()));
+		int endBlock = blocknum * workpmsch.getBlockSize();
+
+		if (endBlock > workpmsch.getPageCount()) {
+			endBlock = workpmsch.getPageCount();
+		}
+
+		workpmsch.setEndBlock(endBlock);
+		workpmsch.setStartBlock((blocknum - 1) * workpmsch.getBlockSize() + 1);
+		return dao.myWorkListPm(workpmsch);
 	}
 }

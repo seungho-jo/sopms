@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -85,154 +86,148 @@ td {
 }
 </style>
 </head>
-<script type="text/javascript">
 
-	$(document).ready(function() {
-		$("[name=name]").on("keyup", function() {
-			$.ajax({ //검색기능
-				type : "post",
-				url : "${path}/userListAjax.do",
-				data : $("#searchForm").serialize(),
-				dataType : "json",
-				success : function(data) {
-					// data.모델명
-					var list = data.userList;
-					var show = "";
-					$(list).each(function(idx, member) {
-						show += "<tr class='text-center'>";
-						show += "	<td>" + member.dept + "</td>";
-						show += "	<td>" + member.name + "</td>";
-						show += "	<td>" + member.id + "</td>";
-					});
-					$("#tab tbody").html(show);
-				},
-				error : function(err) {
-					console.log(err);
-				}
-			});
-		});
-	});
-	$("[name=pageSize]").val("${userSch.pageSize}");
-	$("[name=pageSize]").change(function() {
-		$("[name=curPage]").val(1);
-		$("#form1").submit();
-	});
-	function goPage(no) {
-		$("[name=curPage]").val(no);
-		$("#form1").submit();
-
-	}
-</script>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
 	theme-layout="wide-layout">
+
 	<div id="main-wrapper">
 		<jsp:include page="header.jsp" />
-<jsp:include page="navi.jsp" />
-<div class="content-body">
-	<div class="col-lg-12">
-		<div id="card1">
-			<h2
-				style="text-align: left; size: 5%; font-weight: bold; padding: 1em 5em; white-space: nowrap;">사용자
-	목록</h2>
-<div class="card-body">
-	<!-- 지우면 제일 왼오 바깥 세로선 사라짐  -->
+		<jsp:include page="navi.jsp" />
+		<div class="content-body">
+			<div class="col-lg-12">
+				<div id="card1">
+					<h2
+						style="text-align: left; size: 5%; font-weight: bold; padding: 1em 5em; white-space: nowrap;">사용자
+						목록</h2>
+					<div class="card-body">
+						<!-- 지우면 제일 왼오 바깥 세로선 사라짐  -->
 
-	<div class="basic-form">
-		<form id="searchForm">
-			<div class="form-row align-items-center">
-				<div class="col-auto">
-					<div class="input-group mb-2">
-						<div class="input-group-prepend">
-							<div class="input-group-text">검색</div>
+						<div class="basic-form">
+							<form id="searchForm">
+								<div class="form-row align-items-center">
+									<div class="col-auto">
+										<div class="input-group mb-2">
+											<div class="input-group-prepend">
+												<div class="input-group-text">검색</div>
+											</div>
+											<input type="text" class="form-control" name="name"
+												value="${param.name}" placeholder="이름으로 검색하세요">
+										</div>
+									</div>
+								</div>
+							</form>
+							<button type="button" id="btncommit" class="btn btn-secondary"
+								onclick="location.href='${path}/Insertpage.do'">등록하기</button>
+
+
+								<div class="div-memberTable" style="margin-top: 5%;">
+							<form id="form1">
+								<input type="hidden" name="curPage">
+									<!--table-responsive  -->
+
+									<table class="table">
+										<!--table table-bordered verticle-middle table-responsive-sm  -->
+										<thead>
+											<tr id="tableBigname">
+												<th scope="col">No.</th>
+												<th scope="col">부서</th>
+												<th scope="col">이름</th>
+												<th scope="col">아이디</th>
+												<th scope="col">삭제</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="mem" items="${list}">
+												<tr>
+													<td>${mem.no}</td>
+													<c:choose>
+														<c:when test="${mem.dept eq 'gh1'}">
+															<td>기획 1팀</td>
+														</c:when>
+														<c:when test="${mem.dept eq 'gh2'}">
+															<td>기획 2팀</td>
+														</c:when>
+														<c:when test="${mem.dept eq 'ds1'}">
+															<td>디자인 1팀</td>
+														</c:when>
+														<c:when test="${mem.dept eq 'ds2'}">
+															<td>디자인 2팀</td>
+														</c:when>
+														<c:when test="${mem.dept eq 'de1'}">
+															<td>개발 1팀</td>
+														</c:when>
+														<c:when test="${mem.dept eq 'de2'}">
+															<td>개발 2팀</td>
+														</c:when>
+														<c:when test="${mem.dept eq 'is'}">
+															<td>인사팀</td>
+														</c:when>
+														<c:otherwise>
+															<td>${mem.dept}</td>
+														</c:otherwise>
+													</c:choose>
+													<td>${mem.name}</td>
+													<td>${mem.id}</td>
+
+													<td><span><a data-toggle="modal"
+															data-target="#exampleModalCenter" data-toggle="tooltip"
+															data-placement="top" title="Close"><i
+																class="fa fa-close color-danger"></i></a> </span></td>
+												</tr>
+
+											</c:forEach>
+										</tbody>
+									</table>
+							</form>
+								</div>
 						</div>
-						<input type="text" class="form-control" name="name"
-							value="${param.name}" placeholder="이름으로 검색하세요">
+					 	<ul class="pagination justify-content-center" id="paging">
+							<li class="page-item" id="pre"><a class="page-link"
+								href="javascript:goPage(${userSch.startBlock-1})">Pre</a></li>
+							<c:forEach var="cnt" begin="${userSch.startBlock}"
+								end="${userSch.endBlock}">
+								<li class="page-item ${userSch.curPage==cnt?'active':''}">
+									<a class="page-link" href="javascript:goPage(${cnt})">${cnt}</a>
+								</li>
+							</c:forEach>
+							<li class="page-item" id="next"><a class="page-link"
+								href="javascript:goPage(${userSch.endBlock+1})"> Next </a></li>
+
+						</ul>
+					
+						<div class="modal fade" id="exampleModalCenter">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="modaltitle">사용자 삭제</h5>
+										<button type="button" class="close" data-dismiss="modal">
+											<span>&times;</span>
+										</button>
+									</div>
+									<div class="modal-body" id="modalbody">
+										<h5>직원을 삭제하시겠습니까?</h5>
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">삭제</button>
+										<button type="button" class="btn btn-primary"
+											data-dismiss="modal">취소</button>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
+					<!-- .card-body -->
 				</div>
+
 			</div>
-		</form>
-		<button type="button" id="btncommit" class="btn btn-secondary"
-			onclick="location.href='userRegister.jsp'">
-			</a>등록하기
-		</button>
-		<div class="div-memberTable" style="margin-top: 5%;">
-			<!--table-responsive  -->
-			<form id="form1">
-			<table class="table">
-				<!--table table-bordered verticle-middle table-responsive-sm  -->
-				<thead>
-					<tr id="tableBigname">
-						<th scope="col">No.</th>
-						<th scope="col">부서</th>
-						<th scope="col">이름</th>
-						<th scope="col">아이디</th>
-						<th scope="col">삭제</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="mem" items="${list}">
-						<tr>
-							<td>${mem.no}</td>
-							<td>${mem.dept}</td>
-							<td>${mem.name}</td>
-							<td>${mem.id}</td>
-							<td><span><a data-toggle="modal"
-									data-target="#exampleModalCenter" data-toggle="tooltip"
-									data-placement="top" title="Close"><i
-										class="fa fa-close color-danger"></i></a> </span></td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-			</form>
+			<!-- .content-body -->
 		</div>
-	</div>
-	<nav>
-		<ul class="pagination justify-content-center" >
-			<li class="page-item" id="pre"><a class="page-link"
-				href="javascript:goPage(${userSch.startBlock-1})">Pre</a></li>
-			<c:forEach var="cnt" begin="${userSch.startBlock}"
-				end="${userSch.endBlock}">
-				<li class="page-item ${userSch.curPage==cnt?'active':''}">
-					<a class="page-link" href="javascript:goPage(${cnt})">${cnt}</a>
-				</li>
-			</c:forEach>
-			<li class="page-item" id="next"><a class="page-link"
-				href="javascript:goPage(${userSch.endBlock+1})"> Next </a></li>
-
-		</ul>
-	</nav>
-	<div class="modal fade" id="exampleModalCenter">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="modaltitle">사용자 삭제</h5>
-					<button type="button" class="close" data-dismiss="modal">
-						<span>&times;</span>
-					</button>
-				</div>
-				<div class="modal-body" id="modalbody">
-					<h5>직원을 삭제하시겠습니까?</h5>
-
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">삭제</button>
-					<button type="button" class="btn btn-primary"
-						data-dismiss="modal">취소</button>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- .card-body -->
+		<!--# main-wrapper -->
 	</div>
 
-</div>
-<!-- .content-body -->
-</div>
-<!--# main-wrapper -->
-<jsp:include page="footer.jsp" />
+	<jsp:include page="footer.jsp" />
 </body>
 <!-- Required vendors -->
 <script src="./vendor/global/global.min.js"></script>
@@ -264,4 +259,44 @@ td {
 
 
 <script src="./js/dashboard/dashboard-1.js"></script>
+<script type="text/javascript">
+$("[name=pageSize]").val("${userSch.pageSize}");
+$("[name=pageSize]").change(function() {
+	$("[name=curPage]").val(1);
+	$("#form1").submit();
+});
+function goPage(no) {
+	$("[name=curPage]").val(no);
+  $("#form1").submit();
+}
+	$(document).ready(function() {
+		$("[name=name]").on("keyup", function() {
+			$.ajax({ //검색기능
+				type : "post",
+				url : "${path}/userListAjax.do",
+				data : $("#searchForm").serialize(),
+				dataType : "json",
+				success : function(data) {
+					// data.모델명
+					var list = data.userList;
+					var show = "";
+					$(list).each(function(idx, member) {
+						show += "<tr class='text-center'>";
+						show += "	<td>" + member.dept + "</td>";
+						show += "	<td>" + member.name + "</td>";
+						show += "	<td>" + member.id + "</td>";
+					});
+					$("#tab tbody").html(show);
+				},
+				error : function(err) {
+					console.log(err);
+				}
+			});
+		});
+		
+	
+	});
+	
+	
+</script>
 </html>

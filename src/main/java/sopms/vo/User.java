@@ -31,16 +31,7 @@ public class User {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public User(String id, String pass, String name, String rank, String dept, String insertDay, String insertpjDay) {
-		super();
-		this.id = id;
-		this.pass = pass;
-		this.name = name;
-		this.rank = rank;
-		this.dept = dept;
-		this.insertDay = insertDay;
-		this.insertpjDay = insertpjDay;
-	}
+	
 	public String getId() {
 		return id;
 	}

@@ -193,6 +193,7 @@
 </style>
 </head>
 
+
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
 	theme-layout="wide-layout">
 
@@ -201,6 +202,7 @@
 		<jsp:include page="navi.jsp" />
 		<div class="content-body">
 			<div id="card1">
+			<form method="post" action="${path}/memberInsert.do">
 				<h2
 					style="text-align: left; size: 5%; font-weight: bold; padding: 1em 5em; white-space: nowrap;">사용자
 					등록</h2>
@@ -208,22 +210,25 @@
 					<div class="form-name-badge">
 						<span class="form-name-badge-span">이름</span>
 					</div>
-					<input type="text" class="form-name-rounded">
+					<input type="text" class="form-name-rounded" name="name" id="inputname">
 				</div>
 				<!-- .div-nametextform -->
 				<!----------이름 뱃지, 이름 입력창 합 div---------------------->
 				<div class="div-dept-jobgrade">
 					<div class="div-dept">
-						<!-- 부서 div  -->
+						<!-- 부서 div   -->
 						<div class="form-dept-badge">
 							<span class="form-dept-badge-span">부서</span>
 						</div>
 						<div class="select-dept">
-							<select id="selectdept">
-								<option value="gh">기획팀</option>
-								<option value="ds">디자인팀</option>
-								<option value="de">개발팀</option>
-								<option value="">인사팀</option>
+							<select id="selectdept" name="dept">
+								<option value="gh1">기획1팀</option>
+								<option value="gh2">기획2팀</option>
+								<option value="ds1">디자인1팀</option>
+								<option value="ds2">디자인2팀</option>
+								<option value="de1">개발1팀</option>
+								<option value="de2">개발2팀</option>
+								<option value="is">인사팀</option>
 							</select>
 						</div>
 					</div>
@@ -235,7 +240,7 @@
 							<span class="form-jobGrade-badge-span">직급</span>
 						</div>
 						<div class="select-jobGrade">
-							<select id="selectjobGrade">
+							<select id="selectjobGrade" name="rank">
 								<option>이사</option>
 								<option>부장</option>
 								<option>팀장</option>
@@ -250,18 +255,19 @@
 				</div>
 				<div class="div-temporary-id-pass">
 					<div class="form-temporary-id-pass-badge">
-						<span class="form-temporary-id-pass-badge-span">임시 아이디 &
-							비밀번호</span>
+						<span class="form-temporary-id-pass-badge-span">임시 아이디 & 비밀번호</span>
+							
 						<!-- 임시 아이디 비밀번호 뱃지  -->
 					</div>
 					<!-- .form-temporary-id-pass-badge -->
 					<button type="button" class="btn btn-outline-primary" id="but01">생성하기</button>
-					<input id="temporary-id" class="form-control" type="text" disabled>
-					<input id="temporary-pass" class="form-control" type="text"
-						disabled>
+					<input id="temporary-id" class="form-control" type="text" name="id" >
+					
+					<input id="temporary-pass" class="form-control" type="text" name="pass" >
+						
 				</div>
+					</form>
 				<!-- .div-temporary-id-pass -->
-
 
 				<button type="button" id="btncommit" class="btn btn-secondary"
 					data-toggle="modal" data-target="#exampleModalCenter">등록하기</button>
@@ -279,14 +285,15 @@
 								<h5>등록 하시겠습니까?</h5>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary"
-									data-dismiss="modal">등록</button>
-								<button type="button" class="btn btn-primary"
+								<button type="submit" class="btn btn-secondary"
+									data-dismiss="modal" id="userRegBtn">등록</button>
+								<button type="submit" class="btn btn-primary"
 									data-dismiss="modal">취소</button>
 							</div>
 						</div>
 					</div>
 				</div>
+		
 			</div>
 			<!-- .card-body -->
 		</div>
@@ -295,7 +302,6 @@
 	<!-- .content-body -->
 
 	<jsp:include page="footer.jsp" />
-	</div>
 </body>
 <!-- Required vendors -->
 <script src="./vendor/global/global.min.js"></script>
@@ -327,14 +333,50 @@
 
 
 <script src="./js/dashboard/dashboard-1.js"></script>
-
 <script>
-   $("#but01").click(function(){
-      $("#temporary-id").val("아이디입니다.");
-      $("#temporary-pass").val("비밀번호입니다.");
-      
-   })
-	$(".metismenu").children().eq(13).attr('class', 'mm-active');
 
+	
+	var randomPass = Math.floor(Math.random()*9999)+1000; //비밀번호
+	var now = new Date();
+	var year=now.getFullYear();//연도 
+	var month=now.getMonth()+1;//월 
+	var date=now.getDate();//일 
+	var day=now.getDay();//요일 
+	var hr=now.getHours();//시간 
+	var min=now.getMinutes();//분 
+	var sec=now.getSeconds();//초 
+//	var randomId = function(value){
+//	$("#temporary-id").val(value);
+//}
+//var randomId = $('#selectdept').val();
+// var randomId = function(value){// 이걸 밖에 두면 selectbox 선택하면 바로 나옴 
+//		$("#temporary-id").val(value);
+//	}
+
+ $(document).ready(function(){
+	 $('#inputname').keypress(function(e){
+		 if(e.which ==13 ){
+			 if($('#inputname아이디').val()=='') { alert('inputbox아이디에 내용을 입력하세요'); }
+			 alert('inputbox아이디에 내용을 입력하세요');
+		 }
+	 })
+ })
+   $("#but01").click(function(){ //생성하기 버튼을 누르면 
+	   var randomId=$("#selectdept option:selected").val();
+      $("#temporary-id").val(randomId+(year.toString()).slice(-2)+month+date+hr+min+sec);
+      //부서 select value + 등록날짜(ymmdd)+시분초까지(hhmmss) 
+      
+      $("#temporary-pass").val(randomPass);
+      //4자리로 랜덤 숫자 맨앞자리는 0 x
+      //1000~9999
+	   })
+	   $("#userRegBtn").click(function(){
+		$("form").attr("action","${path}/memberInsert.do");
+		alert($("#temporary-id").val());
+		alert($("#temporary-pass").val());
+		alert($("#selectdept option:selected").val()); //부서 선택한건 잘 넘어옴  
+			$("form").submit();
+		});
+	  
 </script>
 </html>

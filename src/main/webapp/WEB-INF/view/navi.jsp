@@ -22,23 +22,23 @@
             <div class="quixnav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="nav-label first"></li>
-                    <li><a class="has-arrow" href="main.jsp"><i class="bi bi-house"></i><span class="nav-text">통합현황</span></a>
+                    <li><a class="has-arrow" href="${path}/dashboard.do"><i class="bi bi-house"></i><span class="nav-text">통합현황</span></a>
                     </li>
                     <li class="nav-label">프로젝트</li>
                     <li><a class="has-arrow" href="${path}/project.do?method=insertform"><i
                                 class="bi bi-clipboard-plus"></i><span class="nav-text">생성</span></a>
                     </li>
-                    <li><a class="has-arrow" href="project_list.jsp" ><i
+                    <li><a class="has-arrow" href="${path}/management.do" ><i
                                 class="bi bi-clipboard-check"></i><span class="nav-text">관리</span></a>
                     </li>
                     <li class="nav-label">작업</li>
                     <li><a class="has-arrow" href="${path}/myWork.do" aria-expanded="false"><i
                                 class="bi bi-file-earmark-ruled"></i><span class="nav-text">내작업</span></a>
                     </li>
-                    <li><a class="has-arrow" href="calendar_mem.jsp" aria-expanded="false"><i
+                    <li><a class="has-arrow" href="${path}/calendar_mem.do" aria-expanded="false"><i
                                 class="bi bi-calendar-week"></i><span class="nav-text">일정</span></a>
                     </li>
-                    <li><a class="has-arrow" href="risk_Index.jsp" aria-expanded="false"><i 
+                    <li><a class="has-arrow" href="${path}/riskPageList.do" aria-expanded="false"><i 
                     			class="bi bi-exclamation-circle"></i><span class="nav-text">리스크</span></a></li>
                     <li class="nav-label">커뮤니티</li>
                     <li><a class="has-arrow" href="${path}/newChatting.do" aria-expanded="false"><i

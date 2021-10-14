@@ -14,13 +14,19 @@ public class userService {
 	
 	@Autowired
 	private userDao dao;
+	
+	public void insertUser(User ins){//회원등록
+	
+		 dao.insertUser(ins);
+	}
+	
 	public ArrayList<User> getUserList(String name){
 		if(name==null) name = ""; //이름검색시 없을때 
 		
 		return dao.userList(name);
 	}
 	public ArrayList<User> getUserListPaging(userSch sch){
-		if(sch.getName() == null) sch.setName("") ;
+		if(sch.getName() == null) sch.setName("");
 		sch.setPageSize(10);
 		sch.setCount(dao.totCnt(sch));
 		
@@ -33,12 +39,12 @@ public class userService {
 		if(sch.getCurPage()>sch.getPageCount()) {
 			sch.setCurPage(sch.getPageCount());
 		}		
-		System.out.println("현재 페이지 번호:"+sch.getCurPage());
-		System.out.println("총 페이지수:"+sch.getPageCount());
+		System.out.println("현재 페이지 번호:"+sch.getCurPage());//1
+		System.out.println("총 페이지수:"+sch.getPageCount());//3
 		sch.setStart((sch.getCurPage()-1)*sch.getPageSize()+1);
 		sch.setEnd(sch.getCurPage()*sch.getPageSize());
-		System.out.println(sch.getStart());
-		System.out.println(sch.getEnd());
+		System.out.println(sch.getStart()); //1
+		System.out.println(sch.getEnd());//10
 		// 블럭 처리.
 				// 1. 블럭 크기 지정.
 				sch.setBlockSize(5);
@@ -53,7 +59,7 @@ public class userService {
 				}
 				sch.setEndBlock(endBlock);
 				sch.setStartBlock((blocknum-1)*sch.getBlockSize()+1);
-		
+
 		return  dao.userListPaging(sch);
 	}
 }

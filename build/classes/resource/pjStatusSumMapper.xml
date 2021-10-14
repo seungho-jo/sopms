@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sopms.projectStatus.dao.ProjectStatusSumDao">
+	
+	<resultMap id="projectInfo" type="sopms.vo.ProjectSum">
+		<result column="pcode" property="pcode"/>
+		<result column="pname" property="pname"/>
+		<result column="id" property="pmId"/>
+		<result column="name" property="pmName"/>		
+		<result column="startdate" property="startDate"/>
+		<result column="enddate" property="endDate"/>
+		<result column="teamnum" property="teamNum"/>
+		<result column="status" property="status"/>
+		<result column="explanation" property="explanation"/>
+	</resultMap>
+	
+	<select id="projectInfo" resultMap="projectInfo"  parameterType="int">
+		SELECT pcode, pname, p.id, name, teamnum, explanation, status, 
+			TO_CHAR(startdate,'YYYY-MM-DD') startdate, TO_CHAR(enddate,'YYYY-MM-DD') enddate
+		FROM project p, member m
+		WHERE p.id = m.id
+		AND pcode = #{pcode}
+	</select>
+	
+	<select id="projectDeptList" resultType="string" parameterType="int">
+		SELECT dept FROM project_dept
+		WHERE pcode = #{pcode}
+		ORDER BY dept
+	</select>
+</mapper>

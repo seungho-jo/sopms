@@ -141,6 +141,8 @@ h3 {
 								<textarea class="form-control" name="explanation" id="exampleFormControlTextarea1"
 									rows="7"></textarea>
 							</div>
+							<input type="hidden" class="form-control" name="status" id="status"
+										placeholder="" value="진행중" required>
 						</form>
 						<button id="insertbtn" data-toggle="modal"
 							data-target="#exampleModalCenter"
@@ -294,9 +296,8 @@ h3 {
 
 	});
 	$("#regBtn").click(function() {
-		console.log(1);
 		$("#insert01").submit();
-		
+		alert("프로젝트를 등록했습니다.");
 	});
 </script>
 </html>

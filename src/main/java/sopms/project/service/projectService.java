@@ -1,5 +1,7 @@
 package sopms.project.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,14 +26,19 @@ public class projectService {
 		}
 		
 	}
-	public Project getProject(int pcode) {
-		Project b = dao.getproject(pcode);
-		return b;
-	}	
 	public void update(Project update) {
 		dao.updateProject(update);
 	}	
 	public void deleteProject(int pcode) {
 		dao.deleteProject(pcode);
 	}		
+	public Project getProject(int pcode) {
+		Project b = dao.getProject(pcode);
+		return b;
+	}
+	ArrayList<Project> projectDeptList(int pcode) {
+		ArrayList<Project> c = dao.projectDeptList(pcode);
+		return c;
+	}
+	
 }

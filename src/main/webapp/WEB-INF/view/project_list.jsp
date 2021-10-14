@@ -36,11 +36,24 @@
 		<jsp:include page="navi.jsp" />
 		<div class="content-body">
 			<div class="card">
+							
                             <div class="card-header" id="title" style="display: block;" >
                                 <h4>프로젝트 리스트</h4>
                             </div>
                             <div class="card-body">
-                            	<button type="button" class="btn btn-primary" id="regBtn">등록하기</button>
+                            	
+                            	<form style="display: flex; padding-left:1%;" method="post">
+								<input type="hidden" name="curPage" value="1"/>
+								
+								<div class="row">
+								  <div class="fl">
+								    <button type="button" class="btn btn-primary" id="regBtn">등록하기</button>
+								  </div>
+								
+								 
+							   </div>
+									
+								</form>
                                 <div class="table-responsive">
                                     <table class="table table-responsive-sm table-hover">
                                         <thead>
@@ -51,173 +64,43 @@
                                                 <th class="text-dark">시작일</th>
                                                 <th class="text-dark">완료일</th>
                                                 <th class="text-dark">PM</th>
-                                                <th class="text-dark">체크</th>
                                                 <th class="text-dark">이슈/리스크</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td><a class="text-dark" href="project_status.jsp">SL솔루션 homepage</a></td>
-                                                <td><span class="badge badge-pill badge-info">진행중</span>
-                                                <td>
+                                        
+										<c:forEach var="project" items="${list}">
+												<fmt:parseDate var="start_date1" value="${project.startdate}" pattern="yyyy-MM-dd"/>
+												<fmt:formatDate  var="start_date2" value="${start_date1}" type="DATE" pattern="yyyy-MM-dd"/>
+												<fmt:parseDate var="end_date1" value="${project.enddate}" pattern="yyyy-MM-dd"/>
+												<fmt:formatDate  var="end_date2" value="${end_date1}" type="DATE" pattern="yyyy-MM-dd"/>
+											<tr onclick="javascript:go(${project.pcode})">
+												<td class="text-dark">${project.pname}</td>
+												 <td><span class="badge badge-pill badge-info">진행중</span>
+												<td>
                                                     <div class="progress" style="background: rgba(127, 99, 244, .1)">
                                                         <div class="progress-bar bg-primary" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td class="text-dark">21/09/23</td>
-												<td class="text-dark">21/09/25</td>
-												<td class="text-dark">PM01</td>
-												<td class="text-dark">PM01</td>
-                                                <td><span class="badge badge-pill badge-warning">0</span>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-dark">SL솔루션 homepage</td>
-                                                <td><span class="badge badge-pill badge-info">진행중</span>
-                                                <td>
-                                                    <div class="progress" style="background: rgba(127, 99, 244, .1)">
-                                                        <div class="progress-bar bg-primary" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-dark">21/09/23</td>
-												<td class="text-dark">21/09/25</td>
-												<td class="text-dark">PM01</td>
-												<td class="text-dark">PM01</td>
-                                                <td><span class="badge badge-pill badge-warning">0</span>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-dark">SL솔루션 homepage</td>
-                                                <td><span class="badge badge-pill badge-info">진행중</span>
-                                                <td>
-                                                    <div class="progress" style="background: rgba(127, 99, 244, .1)">
-                                                        <div class="progress-bar bg-primary" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-dark">21/09/23</td>
-												<td class="text-dark">21/09/25</td>
-												<td class="text-dark">PM01</td>
-												<td class="text-dark">PM01</td>
-                                                <td><span class="badge badge-pill badge-warning">0</span>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-dark">SL솔루션 homepage</td>
-                                                <td><span class="badge badge-pill badge-info">진행중</span>
-                                                <td>
-                                                    <div class="progress" style="background: rgba(127, 99, 244, .1)">
-                                                        <div class="progress-bar bg-primary" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-dark">21/09/23</td>
-												<td class="text-dark">21/09/25</td>
-												<td class="text-dark">PM01</td>
-												<td class="text-dark">PM01</td>
-                                                <td><span class="badge badge-pill badge-warning">0</span>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-dark">SL솔루션 homepage</td>
-                                                <td><span class="badge badge-pill badge-info">진행중</span>
-                                                <td>
-                                                    <div class="progress" style="background: rgba(127, 99, 244, .1)">
-                                                        <div class="progress-bar bg-primary" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-dark">21/09/23</td>
-												<td class="text-dark">21/09/25</td>
-												<td class="text-dark">PM01</td>
-												<td class="text-dark">PM01</td>
-                                                <td><span class="badge badge-pill badge-warning">0</span>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-dark">SL솔루션 homepage</td>
-                                                <td><span class="badge badge-pill badge-info">진행중</span>
-                                                <td>
-                                                    <div class="progress" style="background: rgba(127, 99, 244, .1)">
-                                                        <div class="progress-bar bg-primary" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-dark">21/09/23</td>
-												<td class="text-dark">21/09/25</td>
-												<td class="text-dark">PM01</td>
-												<td class="text-dark">PM01</td>
-                                                <td><span class="badge badge-pill badge-warning">0</span>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-dark">SL솔루션 homepage</td>
-                                                <td><span class="badge badge-pill badge-info">진행중</span>
-                                                <td>
-                                                    <div class="progress" style="background: rgba(127, 99, 244, .1)">
-                                                        <div class="progress-bar bg-primary" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-dark">21/09/23</td>
-												<td class="text-dark">21/09/25</td>
-												<td class="text-dark">PM01</td>
-												<td class="text-dark">PM01</td>
-                                                <td><span class="badge badge-pill badge-warning">0</span>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-dark">SL솔루션 homepage</td>
-                                                <td><span class="badge badge-pill badge-info">진행중</span>
-                                                <td>
-                                                    <div class="progress" style="background: rgba(127, 99, 244, .1)">
-                                                        <div class="progress-bar bg-primary" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-dark">21/09/23</td>
-												<td class="text-dark">21/09/25</td>
-												<td class="text-dark">PM01</td>
-												<td class="text-dark">PM01</td>
-                                                <td><span class="badge badge-pill badge-warning">0</span>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-dark">SL솔루션 homepage</td>
-                                                <td><span class="badge badge-pill badge-info">진행중</span>
-                                                <td>
-                                                    <div class="progress" style="background: rgba(127, 99, 244, .1)">
-                                                        <div class="progress-bar bg-primary" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-dark">21/09/23</td>
-												<td class="text-dark">21/09/25</td>
-												<td class="text-dark">PM01</td>
-												<td class="text-dark">PM01</td>
-                                                <td><span class="badge badge-pill badge-warning">0</span>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-dark">SL솔루션 homepage</td>
-                                                <td><span class="badge badge-pill badge-info">진행중</span>
-                                                <td>
-                                                    <div class="progress" style="background: rgba(127, 99, 244, .1)">
-                                                        <div class="progress-bar bg-primary" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-dark">21/09/23</td>
-												<td class="text-dark">21/09/25</td>
-												<td class="text-dark">PM01</td>
-												<td class="text-dark">PM01</td>
-                                                <td><span class="badge badge-pill badge-warning">0</span>
-                                            </tr>
+												<td class="text-dark">${start_date2}</td>
+												<td class="text-dark">${end_date2}</td>
+												<td class="text-dark">${project.name}</td>
+												<td><span class="badge badge-pill badge-warning">0</span>
+												</tr>
+										</c:forEach>
+									
                                             
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <ul class="pagination justify-content-center" id="paging">
-								<li class="page-item" id="pre"><a class="page-link">Pre</a></li>
-								<li class="page-item active" id="sel"><a class="page-link">1</a></li>
-								<li class="page-item"><a class="page-link">2</a></li>
-								<li class="page-item"><a class="page-link">3</a></li>
-								<li class="page-item"><a class="page-link">4</a></li>
-								<li class="page-item" id="next"><a class="page-link">
+                           <ul class="pagination justify-content-center" id="paging">
+								<li class="page-item" id="pre"><a class="page-link" href="javascript:goBlock(${project_List_paging.startBlock-1})">Pre</a></li>
+								<c:forEach var="cnt" begin="${project_List_paging.startBlock}" end="${project_List_paging.endBlock}">
+								<li class="page-item"><a class="page-link" href="javascript:goBlock(${cnt})">${cnt}</a></li>
+								</c:forEach>
+								<li class="page-item" id="next"><a class="page-link" href="javascript:goBlock(${project_List_paging.endBlock-1})">
 										Next
 								</a></li>
 							</ul>
@@ -258,30 +141,21 @@
 <script src="./js/dashboard/dashboard-1.js"></script>
 <script type="text/javascript">
 	$("#paging").children("li").click(function() {
-		var id = $(this).attr('id');
-		if(id=='next'){
-			if($('.active').next().attr('id')==id){
-				alert("마지막 페이지 입니다");
-				return;
-			}else{
-				$('.active').next().attr('class', 'page-item active');
-				$('.active').first().attr('class', 'page-item');
-			}
-		}else if(id=='pre'){
-			if($('.active').prev().attr('id')==id){
-				alert("첫 페이지 입니다");
-				return;
-			}else{
-				$('.active').prev().attr('class', 'page-item active');
-				$('.active').last().attr('class', 'page-item');
-			}
-		}else{
-			$("#paging").children("li").attr('class', 'page-item');
-			$(this).attr('class', 'page-item active');
-		}
+		$("#paging").children("li").attr('class', 'page-item');
+		$(this).attr('class', 'page-item active');
 	});
+	
 	$("#regBtn").click(function(){
-		location.href = "project_Insert.jsp";
+		location.href = "${path}/project.do?method=insertform";
 	})
+	function goBlock(no){
+		
+		$("[name=curPage]").val(no);
+		$("form").submit();
+	}
+	function go(no){
+		$(location).attr("href",
+				"${path}/status.do?pcode="+no);
+	}
 </script>
 </html>

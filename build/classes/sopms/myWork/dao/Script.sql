@@ -36,3 +36,12 @@ CREATE TABLE workfile(
 	regdate DATE,
 	uptdate date
 );
+MERGE INTO works a
+USING dual
+ON (a.workcode = 6)
+WHEN MATCHED THEN
+	UPDATE SET a.apprmsg = '재 승인 요청부탁드립니다',
+			   a.compmsg = '',
+			   a.apprdate = sysdate
+WHEN NOT MATCHED THEN
+	INSERT values(8,'작업 승인 부탁드립니다','',sysdate);
