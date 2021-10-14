@@ -40,7 +40,10 @@
 <title>Insert title here</title>
 <script src="https://unpkg.com/vue/dist/vue.js" type="text/javascript"></script>
 
-
+<%
+String noS = request.getParameter("pcode");
+int no = Integer.parseInt(noS);
+%>
 
 </head>
 <body>
@@ -102,7 +105,7 @@
    $(document).ready(function() {
       $.ajax({
          type : "post",
-         url : "${path}/wbslist.do",
+         url : "${path}/wbslist.do?no="+<%=no%>,
          dataType : "json",
          success : function(data) {
             var data = data.list;
@@ -115,8 +118,6 @@
                jsonObj.duration= gantt.duration;
                jsonObj.owner= gantt.manager;
                jsonObj.parent= gantt.parent;
-              // jsonObj.open= gantt.open;
-              // jsonObj.type= gantt.type;
                jsonArray.push(jsonObj);
               });
             var task_List = new Object();
