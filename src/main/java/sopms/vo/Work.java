@@ -14,6 +14,7 @@ public class Work {
 	private int spcode;
 	private int parent;
 	private String status;
+	private String reqmsg;
 	private String apprmsg;
 	private String compmsg;
 	private String apprdate;
@@ -83,6 +84,12 @@ public class Work {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getReqmsg() {
+		return reqmsg;
+	}
+	public void setReqmsg(String reqmsg) {
+		this.reqmsg = reqmsg;
 	}
 	public String getApprmsg() {
 		return apprmsg;

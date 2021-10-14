@@ -131,7 +131,7 @@
 				<div class="modal fade" id="exampleModalCenter">
 					<div class="modal-dialog modal-dialog-centered" role="document">
 						<div class="modal-content">
-							<form method="post" enctype="multipart/form-data" action="approval.do">
+							<form method="post" enctype="multipart/form-data" action="request.do">
 							<input type="hidden" name="workcode" value="${param.workcode}">
 							<div class="modal-header">
 								<h5 class="modal-title">승인 요청</h5>
@@ -140,7 +140,7 @@
 								</button>
 							</div>
 							<div class="modal-body">
-								<textarea class="form-control" rows="7" style="resize : none;" name="apprmsg"></textarea>
+								<textarea class="form-control" rows="7" style="resize : none;" name="reqmsg"></textarea>
 								<div class="custom-file">
 								<input type="file" name="report" class="custom-file-input"
 									id="file01"> <label class="custom-file-label"
@@ -200,5 +200,11 @@
 	$("#back").click(function(){
 		history.back();
 	})
+	var apprmsg = "${detail.apprmsg}";
+	console.log(apprmsg);
+	if(apprmsg!=null && apprmsg!=""){
+		alert(apprmsg);
+		history.back();
+	}
 </script>
 </html>

@@ -42,10 +42,33 @@ public class myWorkController {
 		d.addAttribute("detail", service.detailWork(workcode));
 		return "WEB-INF\\view\\detailWork.jsp";
 	}
-	@RequestMapping("approval.do")
-	public String approval(Work work) {
+	@RequestMapping("request.do")
+	public String request(Work work) {
+		work.setStatus("승인요청");
 		service.approval(work);
 		return "redirect:/myWork.do";
 	}
-	
+	@RequestMapping("detailWorkPm.do")
+	public String detailWorkPm(Model d,int workcode) {
+		d.addAttribute("detail", service.detailWork(workcode));
+		return "WEB-INF\\view\\detailWorkPm.jsp";
+	}
+	@RequestMapping("companion.do")
+	public String companion(Work work) {
+		work.setStatus("반려됨");
+		service.compUpt(work);
+		return "redirect:/myWork.do";
+	}
+	@RequestMapping("approval.do")
+	public String approval(Work work) {
+		work.setStatus("종료됨");
+		service.apprUpt(work);
+		return "redirect:/myWork.do";
+	}
+	// http://localhost:7080/sopms/gantlist.do
+	@RequestMapping("gantlist.do")
+	public String gantlist(Model d) {
+		d.addAttribute("list", service.list());
+		return "pageJsonReport";
+	}
 }

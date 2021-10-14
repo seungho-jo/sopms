@@ -29,7 +29,7 @@ public class myWorkService {
 			worksch.setTitle("");
 		if (worksch.getStatus() == null)
 			worksch.setStatus("");
-		worksch.setCount(dao.myWorkCount(worksch.getManager()));
+		worksch.setCount(dao.myWorkCount(worksch));
 		if (worksch.getPageSize() == 0) {
 			worksch.setPageSize(5);
 		}
@@ -60,12 +60,13 @@ public class myWorkService {
 	}
 
 	public void approval(Work work) {
-		if (work.getApprmsg() == null)
-			work.setApprmsg("");
-		if (work.getCompmsg() == null)
-			work.setCompmsg("");
-		uploadFile(work.getWorkcode(),work.getReport());
-		dao.approval(work);
+		if (work.getReqmsg() == null)
+			work.setReqmsg("");
+		if(!work.getReport().isEmpty()) {
+			uploadFile(work.getWorkcode(),work.getReport());
+		}
+		dao.statusUpt(work);
+		dao.request(work);
 	}
 
 	@Value("${upload}")
@@ -122,4 +123,19 @@ public class myWorkService {
 		workpmsch.setStartBlock((blocknum - 1) * workpmsch.getBlockSize() + 1);
 		return dao.myWorkListPm(workpmsch);
 	}
+	
+	public void compUpt(Work work) {
+		dao.statusUpt(work);
+		dao.compUpt(work);
+	}
+	public void apprUpt(Work work) {
+		dao.statusUpt(work);
+		dao.apprUpt(work);
+	}
+	
+	public ArrayList<Work> list(){
+		return dao.list();
+	}
 }
+
+

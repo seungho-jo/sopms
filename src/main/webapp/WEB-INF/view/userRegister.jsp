@@ -336,7 +336,7 @@
 <script>
 
 	
-	var randomPass = Math.floor(Math.random()*9999)+1000; //비밀번호
+	var randomPass = Math.floor(Math.random()*8999)+1000; //비밀번호
 	var now = new Date();
 	var year=now.getFullYear();//연도 
 	var month=now.getMonth()+1;//월 

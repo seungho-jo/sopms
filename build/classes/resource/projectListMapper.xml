@@ -5,12 +5,15 @@
 <mapper namespace="sopms.Management.dao.managementDao">
 	
 	<select id="projectList" parameterType="project_Lp" resultType="project_List">
-		select * from 
-		(select rownum as no, a.*, b.risk_cnt from project a, risk b
-		where  a.pcode = b.pcode
-		and a.id = #{pm} )
-		where no between #{start} and #{end}
-		
+		select * from(
+		select rownum as NO, a.*, NVL(b.risk_cnt,0) AS risk_cnt FROM project a,
+		(SELECT a.pcode, count(*) AS risk_cnt FROM project a, risk b
+		WHERE a.PCODE = b.PCODE 
+		AND a.id = #{pm}
+		GROUP BY a.pcode) b
+		WHERE a.PCODE = b.PCODE(+)
+		AND a.id = #{pm})
+		where no between #{start} and #{end}	
 	</select>
 	
 	<select id="projectCount" parameterType="String" resultType="int">
