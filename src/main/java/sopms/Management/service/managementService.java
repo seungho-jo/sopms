@@ -44,8 +44,8 @@ public class managementService {
 		return dao.projectList(project_Lp);
 	}
 	
-	public ArrayList<Work> wbslist(){
-		return dao.wbslist();
+	public ArrayList<Work> wbslist(int no){
+		return dao.wbslist(no);
 	}
 	
 }

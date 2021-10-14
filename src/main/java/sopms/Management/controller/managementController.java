@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import sopms.Management.service.managementService;
 import sopms.vo.Project_List_paging;
@@ -45,10 +46,11 @@ public class managementController {
 		public String projectStatus01() {
 			return "WEB-INF\\view\\ganttchart.jsp";
 		}
-		// http://localhost:7080/sopms/wbslist.do
+		// http://localhost:7080/sopms/wbslist.do?no=2
 		@RequestMapping("wbslist.do")
-		public String wbslist(Model d) {
-			d.addAttribute("list",service.wbslist());
+		public String wbslist(Model d, @RequestParam("no") int no) {
+			d.addAttribute("list",service.wbslist(no));
+			
 			return "pageJsonReport";
 		}
 }

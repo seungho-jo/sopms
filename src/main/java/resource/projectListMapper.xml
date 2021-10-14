@@ -20,6 +20,7 @@
 	
 	<select id="wbslist" resultType="work">
 		select workcode, title, to_char(start_date,'dd-mm-YYYY') as start_date, duration, manager, parent from wbs
+		where workcode = #{no} or parent = #{no}
 	</select>
 	
 	

@@ -11,6 +11,6 @@ import sopms.vo.Work;
 public interface managementDao {
 	public int projectCount(String pm);
 	public ArrayList<Project_List> projectList(Project_List_paging project_Lp);
-	public ArrayList<Work> wbslist();
+	public ArrayList<Work> wbslist(int no);
 }
 

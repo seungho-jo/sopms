@@ -22,6 +22,10 @@
 <link href="./css/style.css" rel="stylesheet">
 <title>Insert title here</title>
 <script src="https://unpkg.com/vue/dist/vue.js" type="text/javascript"></script>
+<%
+String noS = request.getParameter("pcode");
+
+%>
 </head>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
 	theme-layout="wide-layout">
@@ -58,7 +62,9 @@
 							</div>
 							<div class="tab-pane fade" id="wbs">
 								<div class="pt-4">
-									<jsp:include page="ganttchart.jsp"/>
+									<jsp:include page="ganttchart.jsp">									
+										<jsp:param name="pcode" value="<%=noS %>" />
+									</jsp:include>
 								</div>
 							</div>
 							<div class="tab-pane fade" id="resource">
