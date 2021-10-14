@@ -105,23 +105,27 @@
 					<col width="40%">
 					<col width="10%">
 					<col width="40%">
+					<fmt:parseDate var="start_date1" value="${detail.start_date}" pattern="yyyy-MM-dd"/>
+					<fmt:formatDate  var="start_date2" value="${start_date1}" type="DATE" pattern="yyyy-MM-dd"/>
+					<fmt:parseDate var="end_date1" value="${detail.end_date}" pattern="yyyy-MM-dd"/>
+					<fmt:formatDate  var="end_date2" value="${end_date1}" type="DATE" pattern="yyyy-MM-dd"/>
 					<tr>
 						<th>시작일</th>
-						<td>21/09/23</td>
+						<td>${start_date2}</td>
 						<th>완료일</th>
-						<td>21/09/25</td>
+						<td>${end_date2}</td>
 					</tr>
 					<tr>
-						<th>승인 담당자</th>
-						<td>PM01</td>
+						<th>승인 요청자</th>
+						<td>${detail.manager}</td>
 						<th>상태</th>
-						<td>진행중</td>
+						<td>${detail.status}</td>
 					</tr>
 					<tr>
 						<th>작업 내용</th>
-						<td>지난 주 작업한 내용 정리 및 주간 회의 발표 자료 10부 준비</td>
+						<td>${detail.content}</td>
 						<th>승인 메시지</th>
-						<td>작업 완료하였습니다 확인 부탁드립니다</td>
+						<td>${detail.reqmsg}</td>
 					</tr>
 					<!-- 파일 다운로드 배울시 변경 예정 -->
 					<tr>
@@ -139,6 +143,8 @@
 				<div class="modal fade" id="exampleModalCenter1">
 					<div class="modal-dialog modal-dialog-centered" role="document">
 						<div class="modal-content">
+						<form method="post" id="appr" enctype="multipart/form-data" action="approval.do">
+							<input type="hidden" name="workcode" value="${param.workcode}">
 							<div class="modal-header">
 								<h5 class="modal-title">작업 승인</h5>
 								<button type="button" class="close" data-dismiss="modal">
@@ -146,19 +152,22 @@
 								</button>
 							</div>
 							<div class="modal-body">
-								<textarea class="form-control" rows="7" style="resize : none;"></textarea>
+								<textarea class="form-control" rows="7" style="resize : none;" name="apprmsg"></textarea>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn" id="close"
 									data-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-primary" >작업승인</button>
+								<button type="submit" class="btn btn-primary" >작업승인</button>
 							</div>
+							</form>
 						</div>
 					</div>
 				</div>
 				<div class="modal fade" id="exampleModalCenter2">
 					<div class="modal-dialog modal-dialog-centered" role="document">
 						<div class="modal-content">
+							<form method="post" id="comp" enctype="multipart/form-data" action="companion.do">
+							<input type="hidden" name="workcode" value="${param.workcode}">
 							<div class="modal-header">
 								<h5 class="modal-title">작업 반려</h5>
 								<button type="button" class="close" data-dismiss="modal">
@@ -166,13 +175,14 @@
 								</button>
 							</div>
 							<div class="modal-body">
-								<textarea class="form-control" rows="7" style="resize : none;"></textarea>
+								<textarea class="form-control" rows="7" style="resize : none;" name="compmsg"></textarea>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn" id="close"
 									data-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-danger" >작업반려</button>
+								<button type="submit" class="btn btn-danger" >작업반려</button>
 							</div>
+							</form>
 						</div>
 					</div>
 				</div>

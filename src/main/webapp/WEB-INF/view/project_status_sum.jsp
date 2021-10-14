@@ -182,6 +182,9 @@
 			if(index!=0) deptHTML+='<br>';
 			deptHTML+=element;
 		});
+		if($('#pj_pm').text()=='${user.name}') {
+			$("#btns").css('display','block');
+		}
 		$('#pj_dept').html(deptHTML);
 	}
 

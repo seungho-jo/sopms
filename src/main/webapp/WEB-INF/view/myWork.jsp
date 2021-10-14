@@ -43,6 +43,8 @@
 							<option value="">상태 선택</option>
 							<option value="진행중">진행중</option>
 							<option value="반려됨">반려됨</option>
+							<option value="승인요청">승인요청</option>
+							<option value="종료됨">종료됨</option>
 						</select> 
 						<select id="proOrsub" name="title" class="form-select">
 							<option value="">검색어 선택</option>
@@ -98,7 +100,7 @@
 				<ul class="pagination justify-content-center" id="paging">
 					<li class="page-item" id="pre"><a class="page-link" href="javascript:goBlock(${workSch.startBlock-1})">Pre</a></li>
 					<c:forEach var="cnt" begin="${workSch.startBlock}" end="${workSch.endBlock}">
-					<li class="page-item"><a class="page-link" href="javascript:goBlock(${cnt})">${cnt}</a></li>
+					<li class="page-item ${workSch.curPage==cnt?'active':''}"><a class="page-link" href="javascript:goBlock(${cnt})">${cnt}</a></li>
 					</c:forEach>
 					<li class="page-item" id="next"><a class="page-link" href="javascript:goBlock(${workSch.endBlock-1})">
 							Next
@@ -148,12 +150,14 @@
 	var arr = [];
 	for(var i=1;i<$("tr").length;i++){
 		var status = $("tr").eq(i).children("td:eq(3)").text();
-		if(status=="종료됨"){
+		if(status=="반려됨"){
 			$("tr").eq(i).children("td:eq(3)").children("span").attr("class","badge badge-danger");
 		}else if(status=="진행중"){
 			$("tr").eq(i).children("td:eq(3)").children("span").attr("class","badge badge-info");
 		}else if(status=="종료됨"){
 			$("tr").eq(i).children("td:eq(3)").children("span").attr("class","badge badge-success");
+		}else if(status=="승인요청"){
+			$("tr").eq(i).children("td:eq(3)").children("span").attr("class","badge badge-warning");
 		}
 	}
 	function goBlock(no){
@@ -165,7 +169,6 @@
 				"${path}/detailWork.do?workcode="+no);
 	}
 	var status = "${param.status}";
-	console.log(status);
 	if(status!=null&&status!=""){
 		$("#status option[value="+status+"]").attr('selected','selected');
 	}

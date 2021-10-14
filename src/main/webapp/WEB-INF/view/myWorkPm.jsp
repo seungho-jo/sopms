@@ -63,7 +63,7 @@
 										<td class="text-dark text-center">${wlist.title}</td>
 										<td class="text-dark text-center">SL솔루션 homepage</td>
 										<td class="text-dark text-center">${wlist.pm}</td>
-										<td class="text-dark text-center boxes"><span>${wlist.status}</span></td>
+										<td class="text-dark text-center boxes"><span class="badge badge-warning">${wlist.status}</span></td>
 										<td class="text-dark text-center">${apprdate2}</td> 
 									</tr>
 								</c:forEach>
@@ -72,11 +72,11 @@
 					</div>
 				</div>
 				<ul class="pagination justify-content-center" id="paging">
-					<li class="page-item" id="pre"><a class="page-link" href="javascript:goBlock(${worPmkSch.startBlock-1})">Pre</a></li>
-					<c:forEach var="cnt" begin="${worPmkSch.startBlock}" end="${worPmkSch.endBlock}">
-					<li class="page-item"><a class="page-link" href="javascript:goBlock(${cnt})">${cnt}</a></li>
+					<li class="page-item" id="pre"><a class="page-link" href="javascript:goBlock(${workPmSch.startBlock-1})">Pre</a></li>
+					<c:forEach var="cnt" begin="${workPmSch.startBlock}" end="${workPmSch.endBlock}">
+					<li class="page-item ${workPmSch.curPage==cnt?'active':''}"><a class="page-link" href="javascript:goBlock(${cnt})">${cnt}</a></li>
 					</c:forEach>
-					<li class="page-item" id="next"><a class="page-link" href="javascript:goBlock(${worPmkSch.endBlock-1})">
+					<li class="page-item" id="next"><a class="page-link" href="javascript:goBlock(${workPmSch.endBlock-1})">
 							Next
 					</a></li>
 				</ul>

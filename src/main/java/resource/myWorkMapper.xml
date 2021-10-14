@@ -3,37 +3,47 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="sopms.myWork.dao.myWorkDao">
-	<select id="myWorkCount" parameterType="String" resultType="int">
+	<select id="myWorkCount" parameterType="worksch" resultType="int">
 		select count(*) from wbs
 		where manager = #{manager}
-	</select>
-	<select id="myWorkList" parameterType="worksch" resultType="work">
-		select * from 
-		(select rownum as no, a.* from wbs a
-		where  manager = #{manager} 
 		<if test="status != null and status != ''">
     	and status = #{status} 
 		</if>
 		<if test="title != null and title != ''">
-    	and title = #{title} 
-		</if>)
-		where no between #{start} and #{end}
+    	and title like '%'||#{title}||'%' 
+		</if>
+	</select>
+	<select id="myWorkList" parameterType="worksch" resultType="work">
+		
+		SELECT * from
+		(SELECT rownum AS no, b.* from
+		(SELECT a.* FROM wbs a
+		WHERE manager = #{manager}
+		<if test="status != null and status != ''">
+    	and status = #{status} 
+		</if>
+		<if test="title != null and title != ''">
+    	and title like '%'||#{title}||'%' 
+		</if>
+		ORDER BY START_DATE DESC) b)
+		WHERE no BETWEEN #{start} AND #{end}
+		
 	</select>
 	<select id="detailWork" parameterType="int" resultType="work">
-		select a.*,b.compmsg from wbs a,works b
+		select a.*,b.compmsg,b.apprmsg,b.reqmsg from wbs a,works b
 		where a.workcode = #{workcode}
 		and a.workcode = b.workcode(+)
 	</select>
-	<update id="approval" parameterType="work">
+	<update id="request" parameterType="work">
 		MERGE INTO works a
 		USING dual
 		ON (a.workcode = #{workcode})
 		WHEN MATCHED THEN
-			UPDATE SET a.apprmsg = #{apprmsg},
-			   		   a.compmsg = #{compmsg},
+			UPDATE SET a.reqmsg = #{reqmsg},
 			  		   a.apprdate = sysdate
 		WHEN NOT MATCHED THEN
-			INSERT values(#{workcode},#{apprmsg},#{compmsg},sysdate)
+			INSERT (workcode,reqmsg,apprdate)
+			values (#{workcode},#{reqmsg},sysdate)
 	</update>
 	<update id="uploadfile" parameterType="workfile">
 		merge into workfile a
@@ -56,7 +66,27 @@
 		(SELECT rownum AS NO,a.*,b.APPRDATE FROM wbs a, works b
 		WHERE a.workcode = b.WORKCODE
 		AND a.pm = #{name}
+		AND a.STATUS = '승인요청'
 		ORDER BY b.APPRDATE desc)
 		WHERE NO BETWEEN #{start} AND #{end}
+	</select>
+	<update id="statusUpt" parameterType="work">
+		update wbs
+			set status = #{status}
+		where workcode = #{workcode}
+	</update>
+	<update id="compUpt" parameterType="work">
+		update works
+			set compmsg = #{compmsg}
+		where workcode = #{workcode}
+	</update>
+	<update id="apprUpt" parameterType="work">
+		update works
+			set apprmsg = #{apprmsg}
+		where workcode = #{workcode}
+	</update>
+	
+	<select id="list" resultType="work">
+		select * from wbs
 	</select>
 </mapper>

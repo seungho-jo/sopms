@@ -48,7 +48,7 @@
                                 class="bi bi-receipt-cutoff"></i><span class="nav-text">게시판</span></a>
                     </li>
                     <li class="nav-label">사원</li>
-                    <li><a class="has-arrow" href="userList.jsp" aria-expanded="false"><i
+                    <li><a class="has-arrow" href="${path}/pageList.do" aria-expanded="false"><i
                                 class="icon-people"></i><span class="nav-text">사원목록</span></a>
                     </li>
                 </ul>
