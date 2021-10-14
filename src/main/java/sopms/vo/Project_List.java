@@ -3,11 +3,32 @@ package sopms.vo;
 public class Project_List {
 	private String pcode;
 	private String pname;
-	private String name;
+	private String id;
 	private String startdate;
 	private String enddate;
 	private String teamnum;
+	private String status;
 	private String explanation;
+	private int risk_cnt;
+	
+	public int getRisk_cnt() {
+		return risk_cnt;
+	}
+	public void setRisk_cnt(int risk_cnt) {
+		this.risk_cnt = risk_cnt;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public String getPcode() {
 		return pcode;
 	}
@@ -21,12 +42,6 @@ public class Project_List {
 		this.pname = pname;
 	}
 	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 	public String getStartdate() {
 		return startdate;
 	}

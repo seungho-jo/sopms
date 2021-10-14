@@ -8,6 +8,7 @@ import sopms.vo.Project_List_paging;
 
 
 public interface managementDao {
-	public int projectCount();
+	public int projectCount(String pm);
 	public ArrayList<Project_List> projectList(Project_List_paging project_Lp);
 }
+

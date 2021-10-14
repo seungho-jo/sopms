@@ -14,7 +14,7 @@ public class managementService {
 	@Autowired
 	private managementDao dao;
 	public ArrayList<Project_List> getProjectList(Project_List_paging project_Lp){
-		project_Lp.setCount(dao.projectCount());
+		project_Lp.setCount(dao.projectCount(project_Lp.getPm()));
 			if(project_Lp.getPageSize()==0) {
 				project_Lp.setPageSize(5);
 			}

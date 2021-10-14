@@ -42,7 +42,7 @@
                             </div>
                             <div class="card-body">
                             	
-                            	<form style="display: flex; padding-left:1%;" method="post">
+                            	<form style="display: flex;" method="post">
 								<input type="hidden" name="curPage" value="1"/>
 								
 								<div class="row">
@@ -76,17 +76,18 @@
 												<fmt:formatDate  var="end_date2" value="${end_date1}" type="DATE" pattern="yyyy-MM-dd"/>
 											<tr onclick="javascript:go(${project.pcode})">
 												<td class="text-dark">${project.pname}</td>
-												 <td><span class="badge badge-pill badge-info">진행중</span>
+												 <td><span>${project.status}</span></td>
 												<td>
                                                     <div class="progress" style="background: rgba(127, 99, 244, .1)">
-                                                        <div class="progress-bar bg-primary" style="width: 70%;" role="progressbar"><span class="sr-only">70% Complete</span>
+                                                        <div class="progress-bar bg-primary" style="width: 70%;" role="progressbar">
+                                                        					<span class="sr-only">70% Complete</span>
                                                         </div>
                                                     </div>
                                                 </td>
 												<td class="text-dark">${start_date2}</td>
 												<td class="text-dark">${end_date2}</td>
-												<td class="text-dark">${project.name}</td>
-												<td><span class="badge badge-pill badge-warning">0</span>
+												<td class="text-dark">${project.id}</td>
+												<td><span class="badge badge-pill badge-warning">${project.risk_cnt}</span>
 												</tr>
 										</c:forEach>
 									
@@ -144,9 +145,19 @@
 		$("#paging").children("li").attr('class', 'page-item');
 		$(this).attr('class', 'page-item active');
 	});
-	
+	var arr = [];
+	for(var i=1;i<$("tr").length;i++){
+		var status = $("tr").eq(i).children("td:eq(1)").text();
+		if(status=="종료됨"){
+			$("tr").eq(i).children("td:eq(1)").children("span").attr("class","badge badge-pill badge-danger");
+		}else if(status=="진행중"){
+			$("tr").eq(i).children("td:eq(1)").children("span").attr("class","badge badge-pill badge-info");
+		}else if(status=="완료됨"){
+			$("tr").eq(i).children("td:eq(1)").children("span").attr("class","badge badge-pill badge-success");
+		}
+	}
 	$("#regBtn").click(function(){
-		location.href = "${path}/project.do?method=insertform";
+		location.href = "project_Insert.jsp";
 	})
 	function goBlock(no){
 		

@@ -1,6 +1,7 @@
 package sopms.vo;
 
 public class Project_List_paging {
+	private String pm;
 	private int count;
 	private int pageSize; 
 	private int pageCount; 
@@ -11,6 +12,12 @@ public class Project_List_paging {
 	private int startBlock;
 	private int endBlock;
 	
+	public String getPm() {
+		return pm;
+	}
+	public void setPm(String pm) {
+		this.pm = pm;
+	}
 	public int getCount() {
 		return count;
 	}
