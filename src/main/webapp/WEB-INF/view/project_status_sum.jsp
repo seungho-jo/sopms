@@ -79,95 +79,14 @@
 		<p id="pj_explanation" class="col-8 text-dark"></p>
 	</div>
 	<div class="row">
-		<div class="offset-9">
-			<button id="upt" class="btn btn-primary" data-toggle="modal"
-				data-target="#exampleModalCenter"
-				class="btn btn-primary btn-lg btn-block center-block" type="button">수정</button>
+		<div class="offset-9" id="btns" style="display:none">
+			<button id="upt" class="btn btn-primary" type="button">수정</button>
 			<button id="del" class="btn btn-danger ml-2" data-toggle="modal"
 				data-target="#exampleModalCenter2"
 				class="btn btn-primary btn-lg btn-block center-block" type="button">삭제</button>
 		</div>
 	</div>
 	<!-- Modal -->
-	<div class="modal fade" id="exampleModalCenter">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">프로젝트 수정</h5>
-					<button type="button" class="close" data-dismiss="modal">
-						<span>&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<form method="post"  >
-					<input type="hidden" class="form-control" name="pcode" id="pcode"
-						placeholder="" value="${project.pcode}" required>
-					<div class="row">
-						<div class="col-md-6 mb-3">
-							<label for="name" class="text-dark">프로젝트명</label> <input
-								type="text" class="form-control" name="pname" id="title"
-								placeholder="" value="${project.pname}" required>
-							<div class="invalid-feedback">이름을 입력해주세요.</div>
-						</div>
-						<div class="col-md-6 mb-3">
-							<label for="name" class="text-dark">부서</label>
-							<button id="deptbtn" data-toggle="modal"
-								data-target="#exampleModalCenter3"
-								class="btn btn-primary btn-lg btn-block center-block"
-								type="button">부서선택</button>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-6 mb-3"></div>
-						<div class="col-md-6 mb-3" id="output"><h5>${project.dept}</h5></div>
-						<input type="hidden" class="form-control" name="dept" id="output2"
-							placeholder="" value="" required>
-					</div>
-					<div class="row">
-						<div class="col-md-6 mb-3">
-							<label for="name" class="text-dark">시작일</label> <input
-								type="text" class="form-control" id="startdate"
-								value="${project.startdate}" name="startdate">
-						</div>
-						<div class="col-md-6 mb-3">
-							<label for="name" class="text-dark">종료일</label> <input
-								type="text" class="form-control" id="enddate"
-								value="${project.enddate}" name="enddate">
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-6 mb-3">
-							<label for="name" class="text-dark">팀원수</label> <input
-								type="text" class="form-control" id="team-cnt" name="teamnum"
-								placeholder="" value="${project.teamnum}" required>
-						</div>
-						<div class="col-md-6 mb-3">
-							<label for="name" class="text-dark">프로젝트상태</label><br> <select
-								name="status" id="status">
-								<option selected value="${project.status}">${project.status}</option>
-								<option value="진행중">진행중</option>
-								<option value="종료됨">종료됨</option>
-								<option value="보류">보류</option>
-							</select>
-						</div>
-					</div>
-					<div class="mb-3">
-						<label for="exampleFormControlTextarea1"
-							class="form-label text-dark">프로젝트 설명</label>
-						<textarea class="form-control" name="explanation"
-							id="exampleFormControlTextarea1" rows="7">${project.explanation}</textarea>
-					</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
-					<button type="button" id="uptBtn_modal" name="uptbtn"
-						class="btn btn-primary">저장</button>
-				</div>
-			</div>
-		</div>
-	</div>
 	<div class="modal fade" id="exampleModalCenter2">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
@@ -188,33 +107,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="exampleModalCenter3">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">부서등록</h5>
-					<button type="button" class="close" data-dismiss="modal">
-						<span>&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<form>
-						<input type="checkbox" class="check" value="디자인1"> 디자인1팀 <input
-							type="checkbox" class="check" value="디자인2"> 디자인2팀 <input
-							type="checkbox" class="check" value="개발1"> 개발1팀 <input
-							type="checkbox" class="check" value="개발2"> 개발2팀 <input
-							type="checkbox" class="check" value="기획1"> 기획1팀 <input
-							type="checkbox" class="check" value="기획2"> 기획2팀 <input
-							type="checkbox" id="allCheck"> 모두 체크<br /> 프로젝트 부서리스트 :
-						<span id="multiPrint"></span><br />
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-light" data-dismiss="modal">확인</button>
-				</div>
-			</div>
-		</div>
-	</div>
+
 	<div class="modal fade" id="small_project">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -259,7 +152,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		getProjectData();
-	})
+	});
 	function getProjectData() {
 		$.ajax({
 			type : 'POST',
@@ -284,7 +177,9 @@
 		$('#pj_max_headCnt').text(pjInfo.teamNum);
 		$('#pj_status').text(pjInfo.status);
 		$('#pj_explanation').text(pjInfo.explanation);
-
+		if($('#pj_pm').text()=='${user.name}') {
+			$("#btns").css('display','block');
+		}
 		let pjDeptArr = data.dept;
 		console.log('DEPT:' + JSON.stringify(pjDeptArr));
 		let deptHTML = '';
@@ -304,41 +199,8 @@
 			"${path}/project.do?method=delete&pcode=" + ${param.pcode});
 	});
 	$("#upt").click(function(){
-			$("form").attr("action","${path}/project.do?method=updateform&pcode="+ ${param.pcode});
+			$(location).attr("href","${path}/project.do?method=updateform&pcode="+ ${param.pcode});
 	});
-	$("#uptBtn_modal").click(function(){
-			$("form").attr("action","${path}/project.do?method=update");
-			$("form").submit();
-	});
-	$(document).ready(function() {
-		$(".check").click(function() {
-			var str = "";
-			$(".check").each(function() {
-				if ($(this).is(":checked"))
-					str += $(this).val() + ",";
-			});
-			$("#multiPrint").text(str);
-			$("#output").text(str);
-			$("#output2").attr("value",str);
-		});
-
-		$("#allCheck").click(function() {
-			if ($(this).is(":checked"))
-				$(".check").attr("checked", "checked")
-			else
-				$(".check").removeAttr("checked")
-			var str = "";
-			$(".check").each(function() {
-				if ($(this).is(":checked"))
-					str += $(this).val() + ",";
-			});
-			$("#multiPrint").text(str);
-			$("#output").text(str);
-			$("#output2").attr("value",str);
-
-		});
-		
-
-	});
+	
 </script>
 </html>

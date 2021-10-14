@@ -40,19 +40,28 @@ public class projectController {
 		service.insertProject(project);
 		return "WEB-INF\\view\\project_Insert.jsp";
 	}
-	// http://localhost:7080/sopms/project.do?method=updateform&pcode=2
+	// http://localhost:7080/sopms/project.do?method=updateform
 	@RequestMapping(params = "method=updateform")
-	public String projectUpdateForm(@RequestParam("pcode") int pcode, Model d) {
-		d.addAttribute("project", service.getProject(pcode));
-		//service.
-		return "WEB-INF\\view\\project_status_sum.jsp";
+	public String projectUpdateForm(@RequestParam("pcode") int pcode,HttpServletRequest request, Model d) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		if (!user.getRank().equals("부장")) {
+			d.addAttribute("msg", "접근권한이 없습니다.");
+			return "WEB-INF\\view\\main.jsp";
+		} else {
+			d.addAttribute("project", service.getProject(pcode));
+			return "WEB-INF\\view\\project_Update.jsp";
+		}
+			
 	}
 
 	// http://localhost:7080/sopms/project.do?method=update
 	@RequestMapping(params = "method=update")
 	public String projectUpdate(Project upt) {
 		service.update(upt);
-		return "forward:/project.do?method=update";
+		service.update_dept(upt);
+		
+		return "WEB-INF\\view\\project_status.jsp";
 	}
 
 	// http://localhost:7080/sopms/project.do?method=delete

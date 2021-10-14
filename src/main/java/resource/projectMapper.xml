@@ -16,24 +16,28 @@
  	</delete> 	
  	<select id="getProject" resultType="project" 
  	 	parameterType="int">
- 	 	SELECT pcode, pname, id, teamnum, TO_CHAR(startdate,'YYYY-MM-DD') as startdate, TO_CHAR(enddate,'YYYY-MM-DD') as enddate, 
- 	 	status, explanation
-		FROM project p
-		where pcode = #{pcode}
- 	 </select>
- 	<select id="projectDeptList" resultType="string" parameterType="int">
-		SELECT dept FROM project_dept
-		WHERE pcode = #{pcode}
-		ORDER BY dept
-	</select>	 
+		SELECT p.pcode, pname, id, teamnum, TO_CHAR(startdate,'YYYY-MM-DD') as startdate, TO_CHAR(enddate,'YYYY-MM-DD') as enddate, 
+ 	 	status, explanation, b.dept
+		FROM project p, 
+		(SELECT pcode, LISTAGG(dept,',') WITHIN GROUP(ORDER BY dept) AS dept FROM PROJECT_DEPT GROUP BY pcode) b
+		WHERE p.PCODE = b.PCODE(+)
+		AND b.PCODE = #{pcode}
+ 	 </select> 
 	<update id="updateProject" parameterType="project">
 		UPDATE project
-		   SET pname = ${pname}
-		   		startdate = ${startdate}
-		   		enddate = ${enddate}
-		   		teamnum = ${teamnum}
-		   		status = ${status}
-		   		explanation = ${explanation}
+		   SET pname = #{pname},
+		   		startdate = #{startdate},
+		   		enddate = #{enddate},
+		   		teamnum = #{teamnum},
+		   		status = #{status},
+		   		explanation = #{explanation}
 		 WHERE pcode = #{pcode}
  	</update>
+ 	<delete id="deleteProject_dept" parameterType="project">
+ 		delete from project_dept
+ 		where pcode = #{pcode}
+ 	</delete>
+ 	<insert id="updateProject_dept" parameterType="project">
+ 		insert into project_dept values(#{pcode},#{dept})
+ 	</insert>
 </mapper>
