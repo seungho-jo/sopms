@@ -28,6 +28,16 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Dao"/>
 	</context:component-scan>
+
+
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+	<mvc:default-servlet-handler/>
+
+	<websocket:handlers>
+		<websocket:mapping handler="chatHandler" path="chat-ws.do"/>
+	</websocket:handlers> 
+	
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" 
 		destroy-method="close">
 		<property name="driverClassName" value="${driver}"/>	
@@ -98,4 +108,8 @@
 	<!-- 파일 업로드를 위한 viewResolver 선언 -->
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+		
+	
 </beans>
+
+
