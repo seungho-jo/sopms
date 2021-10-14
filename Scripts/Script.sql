@@ -22,8 +22,20 @@ CREATE TABLE project_bookmark(
 	CONSTRAINT bmcode_pk PRIMARY KEY(bmcode)
 )
 
-DROP TABLE small_project;
+SELECT * FROM 
+(	SELECT count(*) projectcnt FROM project_dept
+	WHERE dept = '개발1'
+),
+(	SELECT count(*) taskcnt FROM wbs
+	WHERE MANAGER = '조승호'
+);
+
+SELECT * FROM PROJECT_BOOKMARK;
 SELECT * FROM project;
 SELECT * FROM PROJECT_DEPT;
 SELECT * FROM tab;
 SELECT * FROM MEMBER;
+SELECT * FROM risk;
+SELECT * FROM works;
+SELECT * FROM WORKFILE;
+SELECT * FROM WBS;

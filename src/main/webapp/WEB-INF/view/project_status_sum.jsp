@@ -167,33 +167,24 @@
 			}
 		});
 	}
-	function printData(data) {
-		let pjInfo = data.info;
-		console.log('INFO:' + JSON.stringify(pjInfo));
-		$('#pj_name').text(pjInfo.pname);
-		$('#pj_pm').text(pjInfo.pmName);
-		$('#pj_start_date').text(pjInfo.startDate);
-		$('#pj_end_date').text(pjInfo.endDate);
-		$('#pj_max_headCnt').text(pjInfo.teamNum);
-		$('#pj_status').text(pjInfo.status);
-		$('#pj_explanation').text(pjInfo.explanation);
-		if($('#pj_pm').text()=='${user.name}') {
-			$("#btns").css('display','block');
-		}
-		let pjDeptArr = data.dept;
-		console.log('DEPT:' + JSON.stringify(pjDeptArr));
+
+	function printData(data){
+		$('#pj_name').text(data.pname);
+		$('#pj_pm').text(data.pmName);
+		$('#pj_start_date').text(data.startDate);
+		$('#pj_end_date').text(data.endDate);
+		$('#pj_max_headCnt').text(data.teamNum);
+		$('#pj_status').text(data.status);
+		$('#pj_explanation').html(data.explanation);
+		//부서 목록 출력
 		let deptHTML = '';
-		pjDeptArr.forEach(function(element, index, array) {
-			if (index != 0)
-				deptHTML += '<br>';
-			deptHTML += element;
+		data.dept.forEach(function(element,index,array){
+			if(index!=0) deptHTML+='<br>';
+			deptHTML+=element;
 		});
 		$('#pj_dept').html(deptHTML);
 	}
 
-	$('#add_sp_btn').click(function() {
-		$('#small_project').modal('show');
-	});
 	$("#delBtn_modal").click(function() {	
 		$(location).attr("href",
 			"${path}/project.do?method=delete&pcode=" + ${param.pcode});
