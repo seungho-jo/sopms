@@ -48,18 +48,17 @@
       select: function(arg) {
     	console.log("매개변수로 받는 내용");
     	console.log(arg);
-    	console.log("시작:"+arg.start);
-    	console.log("종료:"+arg.end);
+    	console.log("시작:"+arg.start.toISOString());
+    	console.log("종료:"+arg.end.toLocaleString());
     	console.log("종일여부:"+arg.allDay);
     	$("h2").click();
     	$("#exampleModalLongTitle").text("일정등록");
     	$("#regBtn").show();
     	$("#uptBtn").hide();
     	$("#delBtn").hide();
-    	$("form")[0].reset();
+    	$(".form")[0].reset();
     	$("#start").val(arg.start.toLocaleString());
     	$("[name=start]").val(arg.start.toISOString());
-    	console.log(arg.start.toISOString());
     	$("#end").val(arg.end.toLocaleString());
     	$("[name=end]").val(arg.end.toISOString());
     	$("#allDay").val(""+arg.allDay);
@@ -143,24 +142,29 @@
 		},
 		error:function(err){
 			console.log(err);
+			console.log($("form").serialize());
 		}
 		
 	});  	  
   }
   function addForm(event){
-  	$("form")[0].reset();
+  	$(".form")[0].reset();
 	$("[name=id]").val(event.id);
+	$("[name=workcode]").val(parseInt(event.workcode));
 	$("[name=title]").val(event.title);
-	$("#color").val(event.color);
+	$("#backgroundColor").val(event.backgroundColor).prop("selected", true);
+	$("[name=backgroundColor]").val(event.backgroundColor);
+	$("[name=pmColor]").val(event.pmColor);
 	$("[name=content]").val(event.extendedProps.content);
 	$("#start").val(event.start.toLocaleString());
 	$("[name=start]").val(event.start.toISOString());
 	$("#end").val(event.end.toLocaleString());
 	$("[name=end]").val(event.end.toISOString());
-	$("#allDay").val(""+event.allDay);
+	$("#allDay").val(event.allDay).prop("selected", true);
 	$("[name=allDay]").val((event.allDay?1:0)); 	  	  
+	$("#process").val(event.process).prop("selected", true);
+	$("[name=process]").val(event.process);
   }
-
 </script>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
 	theme-layout="wide-layout">
@@ -207,6 +211,7 @@
 												</div>
 												<input type="text" name="title" class="form-control"
 													placeholder="일정입력">
+												<input type="hidden" name="workcode" value="2"/>
 											</div>
 											<div class="input-group mb-3">
 												<div class="input-group-prepend">
@@ -233,8 +238,10 @@
 												<div class="input-group-prepend">
 													<span class="input-group-text">일정색상</span>
 												</div>
-												<select id="color" class="form-control">
-													<option value="purple">보라색</option>
+												<select id="backgroundColor" class="form-control"
+													onchange="backgroundColorChange(this.value);">
+													<option value="">색을 선택하세요</option>
+													<option value="#0099cc">보라색</option>
 													<option value="red">빨간색</option>
 													<option value="yellow">노랑색</option>
 													<option value="green">초록색</option>
@@ -243,16 +250,30 @@
 													<option value="pink">분홍색</option>
 													<option value="navy">파란색</option>
 													<option value="aqua">하늘색</option>
-												</select>
+												</select> <input type="hidden" name="backgroundColor"/>
+												<input type="hidden" name="pmColor" value="purple"/>
 											</div>
 											<div class="input-group mb-3">
 												<div class="input-group-prepend">
 													<span class="input-group-text">종일여부</span>
 												</div>
-												<select id="allDay" class="form-control">
+												<select id="allDay" class="form-control"
+													onchange="allDayChange(this.value);">
 													<option value="true">종일</option>
 													<option value="false">시간</option>
 												</select> <input type="hidden" name="allDay" />
+											</div>
+											<div class="input-group mb-3">
+												<div class="input-group-prepend">
+													<span class="input-group-text">진행률</span>
+												</div>
+												<select id="process" class="form-control"
+													onchange="processChange(this.value);">
+													<option value=0>0%</option>
+													<c:forEach var="i" begin="1" end="100">
+													<option value="${i}">${i}%</option>
+													</c:forEach>
+												</select> <input type="hidden" name="process" value="0"/>
 											</div>
 										</form>
 									</div>
@@ -274,6 +295,22 @@
 			<jsp:include page="footer.jsp" />
 		</div>
 </body>
+<script>
+	var backgroundColorChange = function(value){
+		console.log(value);
+		$("[name=backgroundColor]").val(value);
+	}
+	var allDayChange = function(value){
+		console.log(value);
+		console.log($("[name=allDay]").val(value?"1":"2"));
+		$("[name=allDay]").val((value)?"1":"2");
+	}
+	var processChange = function(value){
+		console.log(value);
+		$("[name=process]").val(value);
+	}
+</script>
+
 <!-- Required vendors -->
 <script src="./vendor/global/global.min.js"></script>
 <script src="./js/quixnav-init.js"></script>

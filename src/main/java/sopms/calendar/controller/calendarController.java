@@ -17,10 +17,7 @@ public class calendarController {
 	private calendarService service;
 	// http://localhost:8088/sopms/calendar_mem.do
 	@RequestMapping("calendar_mem.do")
-	public String calendar(HttpServletRequest request, Calendar calendar) {
-		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
-		calendar.setManager(user.getName());
+	public String calendar() {
 		return "WEB-INF\\view\\calendar_mem.jsp";
 	}
 	
