@@ -6,13 +6,16 @@
 	
 	<select id="projectList" parameterType="project_Lp" resultType="project_List">
 		select * from 
-		(select rownum as no, a.* from project a)
+		(select rownum as no, a.*, b.risk_cnt from project a, risk b
+		where  a.pcode = b.pcode
+		and a.id = #{pm} )
 		where no between #{start} and #{end}
 		
 	</select>
 	
-	<select id="projectCount" resultType="int">
+	<select id="projectCount" parameterType="String" resultType="int">
 		select count(*) from project
+		where id = #{pm}
 	</select>
 	
 	
