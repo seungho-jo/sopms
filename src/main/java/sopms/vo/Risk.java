@@ -6,15 +6,17 @@ public class Risk {
 	private String risk_content;	// 리스크 내용
 	private String risk_reg;	// 리스크 등록일 
 	private String risk_upt;	// 리스크 수정일
-	private int risk_status;	// 리스크 상태
+	private String risk_status;	// 리스크 상태
 	private int risk_cnt;	// 리스크 조회수
 	private String id;	// 사용자 테이블 id
+	private int pcode;
+	private String pcodeS;
 	public Risk() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public Risk(String risk_no, String risk_name, String risk_content, String risk_reg, String risk_upt,
-			int risk_status, int risk_cnt, String id) {
+			String risk_status, int risk_cnt, String id, int pcode) {
 		super();
 		this.risk_no = risk_no;
 		this.risk_name = risk_name;
@@ -24,6 +26,7 @@ public class Risk {
 		this.risk_status = risk_status;
 		this.risk_cnt = risk_cnt;
 		this.id = id;
+		this.pcode = pcode;
 	}
 	public String getRisk_no() {
 		return risk_no;
@@ -55,10 +58,10 @@ public class Risk {
 	public void setRisk_upt(String risk_upt) {
 		this.risk_upt = risk_upt;
 	}
-	public int getRisk_status() {
+	public String getRisk_status() {
 		return risk_status;
 	}
-	public void setRisk_status(int risk_status) {
+	public void setRisk_status(String risk_status) {
 		this.risk_status = risk_status;
 	}
 	public int getRisk_cnt() {
@@ -73,7 +76,18 @@ public class Risk {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+	public int getPcode() {
+		return pcode;
+	}
+	public void setPcode(int pcode) {
+		this.pcode = pcode;
+	}
+	public String getPcodeS() {
+		return pcodeS;
+	}
+	public void setPcodeS(String pcodeS) {
+		this.pcodeS = pcodeS;
+	}
 	
 	
 }

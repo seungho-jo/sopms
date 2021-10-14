@@ -48,6 +48,29 @@ INSERT INTO risk VALUES (seq_risk_no.nextval,'보고서 누락','보고서 누�
 
 
 
+/* 리스크 프로젝트 코드 열 삽입*/
+ALTER TABLE risk ADD pcode NUMBER;
+
+/*리스크 프로젝트 코드 제약조건*/
+ALTER TABLE risk ADD 
+	CONSTRAINT risk_to_project
+	FOREIGN KEY (pcode) 
+	REFERENCES project (pcode);
+
+/* 리스크 프로젝트 코드 삽입 */
+UPDATE risk SET pcode = 2 WHERE risk_no = 1;
+UPDATE risk SET pcode = 3 WHERE risk_no = 2;
+UPDATE risk SET pcode= 4 WHERE risk_no = 3;
+UPDATE risk SET pcode = 5 WHERE risk_no = 4;
+UPDATE risk SET pcode = 6 WHERE risk_no = 5;
+UPDATE risk SET pcode = 7 WHERE risk_no = 6;
+UPDATE risk SET pcode = 8 WHERE risk_no = 7;
+UPDATE risk SET pcode = 9 WHERE risk_no = 8;
+UPDATE risk SET pcode = 10 WHERE risk_no = 9;
+UPDATE risk SET pcode = 11 WHERE risk_no = 10;
+UPDATE risk SET pcode = 12 WHERE risk_no = 11;
+
+
 
 
 /*
@@ -140,3 +163,41 @@ FROM dual;
 
 SELECT seq_risk_no.currval
 FROM dual;
+
+INSERT INTO Risk (risk_no, risk_name, risk_content, risk_status, risk_reg) 
+			VALUES (seq_risk_no.nextval, '리스크테스트', '리스크 테스트중입니다.', 1, sysdate); 
+		
+SELECT * FROM risk;
+DELETE FROM risk WHERE risk_no =12;
+
+
+	select risk_no, risk_name, id, risk_status, risk_reg
+			from risk
+			where risk_name like '%'||'보고서'||'%'
+			and id like '%'||''||'%';
+			
+/* 리스크 상태 데이터유형 변경*/
+ALTER TABLE risk DROP column risk_status;
+
+ALTER TABLE risk modify risk_status varchar2(20);
+
+UPDATE risk SET risk_status = '진행중' WHERE risk_no = 1;
+UPDATE risk SET risk_status = '진행중' WHERE risk_no = 2;
+UPDATE risk SET risk_status = '조치완료' WHERE risk_no = 3;
+UPDATE risk SET risk_status = '조치완료' WHERE risk_no = 4;
+UPDATE risk SET risk_status = '진행중' WHERE risk_no = 5;
+UPDATE risk SET risk_status = '진행중' WHERE risk_no = 6;
+UPDATE risk SET risk_status = '홀드' WHERE risk_no = 7;
+UPDATE risk SET risk_status = '홀드' WHERE risk_no = 8;
+UPDATE risk SET risk_status = '홀드' WHERE risk_no = 9;
+UPDATE risk SET risk_status = '조치완료' WHERE risk_no = 10;
+UPDATE risk SET risk_status = '조치완료' WHERE risk_no = 11;
+
+SELECT pname 
+FROM project;
+
+INSERT INTO Risk (risk_no, risk_name, risk_content, risk_reg, id, pcode, risk_status) 
+			VALUES (seq_risk_no.nextval, 'risk_name', 'risk_content_add', sysdate, 'happy02', 3, '진행중'); 
+			
+SELECT * FROM risk;
+DELETE FROM risk WHERE risk_no = 12;
