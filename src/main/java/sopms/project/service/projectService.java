@@ -1,6 +1,5 @@
 package sopms.project.service;
 
-import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,8 +25,18 @@ public class projectService {
 		}
 		
 	}
-	public void update(Project update) {
-		dao.updateProject(update);
+	public void update(Project upt) {
+		dao.deleteProject_dept(upt);
+		dao.updateProject(upt);			
+	}	
+	
+	public void update_dept(Project upt) {
+		String[] deptss = upt.getDept().split(",");
+		System.out.println(deptss.length);
+		for(int i=0; i<deptss.length; i++) {
+			upt.setDept(deptss[i]);
+			dao.updateProject_dept(upt);
+		}		
 	}	
 	public void deleteProject(int pcode) {
 		dao.deleteProject(pcode);
@@ -35,10 +44,6 @@ public class projectService {
 	public Project getProject(int pcode) {
 		Project b = dao.getProject(pcode);
 		return b;
-	}
-	ArrayList<Project> projectDeptList(int pcode) {
-		ArrayList<Project> c = dao.projectDeptList(pcode);
-		return c;
 	}
 	
 }

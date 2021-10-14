@@ -26,13 +26,18 @@ SELECT * FROM project;
 
 SELECT * FROM MEMBER;
 SELECT * FROM PROJECT;
+SELECT * FROM PROJECT_dept;
 
 프로젝트 상태 컬럼 : 진행중 / 몇개는 종료된걸로
 name = id 
-SET id
+SET id;
 
-		 
-SELECT p.pcode, p.pname, d.dept, p.id, p.teamnum, TO_CHAR(startdate,'YYYY-MM-DD') AS startdate, TO_CHAR(enddate,'YYYY-MM-DD') AS enddate, 
-status, explanation
-FROM project p, project_dept d
-where pcode = 2;
+SELECT p.pcode, pname, id, teamnum, TO_CHAR(startdate,'YYYY-MM-DD') as startdate, TO_CHAR(enddate,'YYYY-MM-DD') as enddate, 
+ 	 	status, explanation, b.dept
+FROM project p, 
+	(SELECT pcode, LISTAGG(dept,',') WITHIN GROUP(ORDER BY dept) AS dept FROM PROJECT_DEPT GROUP BY pcode) b
+WHERE p.PCODE = b.PCODE(+)
+AND p.PCODE = 8;
+
+
+SELECT LISTAGG(dept,',') WITHIN GROUP(ORDER BY dept) AS dept FROM PROJECT_DEPT GROUP BY pcode;
