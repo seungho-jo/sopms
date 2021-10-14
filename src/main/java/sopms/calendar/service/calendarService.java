@@ -12,7 +12,16 @@ import sopms.vo.Calendar;
 public class calendarService {
 	@Autowired
 	private calendarDao dao;
-	public List<Calendar> calList(){
-		return dao.calList();
+	public List<Calendar> calList(Calendar calendar){
+		return dao.calList(calendar);
+	}
+	public void insertCalendar(Calendar insert) {
+		dao.insertCalendar(insert);
+	}
+	public void uptCalendar(Calendar upt) {
+		dao.uptCalendar(upt);
+	}
+	public void delCalendar(int id) {
+		dao.delCalendar(id);
 	}
 }

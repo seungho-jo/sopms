@@ -7,9 +7,9 @@ public class Calendar {
 	private String content;
 	private String start;
 	private String end;
-	private boolean allday;
-	private String color;
-	private String pmcolor;
+	private boolean allDay;
+	private String backgroundColor;
+	private String pmColor;
 	private String manager;
 	private int process;
 	public int getId() {
@@ -48,23 +48,23 @@ public class Calendar {
 	public void setEnd(String end) {
 		this.end = end;
 	}
-	public boolean isAllday() {
-		return allday;
+	public boolean isAllDay() {
+		return allDay;
 	}
-	public void setAllday(boolean allday) {
-		this.allday = allday;
+	public void setAllDay(boolean allDay) {
+		this.allDay = allDay;
 	}
-	public String getColor() {
-		return color;
+	public String getBackgroundColor() {
+		return backgroundColor;
 	}
-	public void setColor(String color) {
-		this.color = color;
+	public void setBackgroundColor(String backgroundColor) {
+		this.backgroundColor = backgroundColor;
 	}
-	public String getPmcolor() {
-		return pmcolor;
+	public String getPmColor() {
+		return pmColor;
 	}
-	public void setPmcolor(String pmcolor) {
-		this.pmcolor = pmcolor;
+	public void setPmcolor(String pmColor) {
+		this.pmColor = pmColor;
 	}
 	public String getManager() {
 		return manager;

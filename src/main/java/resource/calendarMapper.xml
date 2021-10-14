@@ -7,17 +7,25 @@
 		<result property="start" column="start1"/>
 		<result property="end" column="end1"/>
 	</resultMap>
-	<select id="calendarList" resultMap="calResult">
-		SELECT id, workcode,
-			title, content,
-			TO_char(start1, 'YYYY-MM-DD"T"HH24:MI:SS') start1, 
-			TO_char(end1, 'YYYY-MM-DD"T"HH24:MI:SS') end1, 
-			ALLDAY, 
-			COLOR,
-			pmcolor,
-			manager,
-			process 
+	<select id="calList" resultMap="calResult" parameterType="cal">
+		SELECT id, title, content, start1, end1, allday, backgroundcolor
 		FROM calendar
-		where manager = #{manager}
 	</select>
+	<insert id="insertCalendar" parameterType="cal">
+		insert into calendar values(cal_seq.nextval, #{workcode}, #{title}, #{content},
+		#{start}, #{end}, #{allDay}, #{backgroundColor}, #{pmColor}, #{manager}, #{process})
+	</insert>
+	<update id="updateCalendar" parameterType="cal">
+		UPDATE calendar
+				SET title = #{title},
+					start1 = #{start},
+					end1 = #{end},
+					content = #{content},
+					backgroundcolor = #{backgroundColor},
+					allday = #{allDay}
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteCalendar" parameterType="int">
+		delete from calendar where id = #{id}
+	</delete>
 </mapper>
