@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import sopms.Management.dao.managementDao;
 import sopms.vo.Project_List;
 import sopms.vo.Project_List_paging;
+import sopms.vo.Work;
 
 @Service
 public class managementService {
@@ -41,6 +42,10 @@ public class managementService {
 			project_Lp.setStartBlock((blocknum-1)*project_Lp.getBlockSize()+1);
 			
 		return dao.projectList(project_Lp);
+	}
+	
+	public ArrayList<Work> wbslist(){
+		return dao.wbslist();
 	}
 	
 }

@@ -39,6 +39,9 @@
 
 <title>Insert title here</title>
 <script src="https://unpkg.com/vue/dist/vue.js" type="text/javascript"></script>
+
+
+
 </head>
 <body>
 	<div id="gantt_here" style='width:auto; min-height:1000px;'></div>
@@ -62,36 +65,7 @@
 	         </div>
 	     </div>
 	     
-	<script>
-
-	gantt.config.autosize = "xy";
-	gantt.config.autosize_min_width = 1000;
-	gantt.config.columns =  [
-	    {name:"text",       label:"Task name",  tree:true, width:100 },
-	    {name:"start_date", label:"Start time", align: "center", width: 100 },
-	    {name:"end_date", label:"End time", align: "center", width: 100 },
-	    {name:"PM", label:"PM", align: "center", width: 60 },
-	    {name: "duration", width: 60, align: "center"},
-	    {name: "add", width: 44}
-	];
 	
-		gantt.init("gantt_here");
-
-		gantt.parse({
-			data: [
-				{ id: 1, text: "Project #2", start_date: "01-04-2018", end_date: "19-04-2018", PM: "PM01",duration: 18, progress: 0.4, open: true },
-				{ id: 2, text: "Task #1", start_date: "02-04-2018", end_date: "10-04-2018", PM: "PM01", duration: 8, progress: 0.6, parent: 1 },
-				{ id: 3, text: "Task #2", start_date: "11-04-2018", end_date: "19-04-2018", PM: "PM01", duration: 8, progress: 0.6, parent: 1 }
-			],
-			links: [
-				{id: 1, source: 1, target: 2, type: "1"},
-				{id: 2, source: 2, target: 3, type: "0"}
-			]
-		});
-		gantt.attachEvent("onTaskClick", function() {
-			 $("#exampleModalCenter").modal("show");
-		});
-	</script>
 </body>
 <!-- Required vendors -->
 <script src="./vendor/global/global.min.js"></script>
@@ -124,3 +98,48 @@
 
 <script src="./js/dashboard/dashboard-1.js"></script>
 </html>
+<script type="text/javascript">
+   $(document).ready(function() {
+      $.ajax({
+         type : "post",
+         url : "${path}/wbslist.do",
+         dataType : "json",
+         success : function(data) {
+            var data = data.list;
+            var jsonArray = new Array();
+              $.each(data,function(index, gantt){
+                 var jsonObj = new Object();
+               jsonObj.id= gantt.workcode;
+               jsonObj.text= gantt.title;
+               jsonObj.start_date= gantt.start_date;
+               jsonObj.duration= gantt.duration;
+               jsonObj.owner= gantt.manager;
+               jsonObj.parent= gantt.parent;
+              // jsonObj.open= gantt.open;
+              // jsonObj.type= gantt.type;
+               jsonArray.push(jsonObj);
+              });
+            var task_List = new Object();
+            task_List.data=jsonArray;
+            console.log(task_List);
+         
+            gantt.init("gantt_here");
+            gantt.parse(task_List);
+         },
+         error : function(err) {
+            console.log(err);
+         }
+      });
+      
+      
+      
+      
+      $(".gantt_btn_set gantt_left_btn_set gantt_save_btn_set").click(function(){
+         alert("g");
+      });
+      
+      $("#regBtn").click(function(){
+         alert("a");
+      });
+   });
+</script>
