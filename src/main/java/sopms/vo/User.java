@@ -1,9 +1,9 @@
 package sopms.vo;
 
 public class User {
+	private String name;
 	private String id; 
 	private String pass;
-	private String name;
 	private String rank; //직급
 	private String dept; //부서 
 	private String insertDay; //사원을 등록한 날짜 

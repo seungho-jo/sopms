@@ -15,16 +15,21 @@ public class userService {
 	@Autowired
 	private userDao dao;
 	
-	public void insertUser(User ins){//회원등록
+	public void deleteUser(String id) {
+		dao.deleteMemberRisk(id);
+		dao.deleteMember(id);
+	}
 	
+	public void insertUser(User ins){//회원등록
+		
 		 dao.insertUser(ins);
 	}
 	
-	public ArrayList<User> getUserList(String name){
-		if(name==null) name = ""; //이름검색시 없을때 
+//	public ArrayList<User> getUserList(String name){
+//		if(name==null) name = ""; //이름검색시 없을때 
 		
-		return dao.userList(name);
-	}
+//		return dao.userList(name);
+//	}
 	public ArrayList<User> getUserListPaging(userSch sch){
 		if(sch.getName() == null) sch.setName("");
 		sch.setPageSize(10);
