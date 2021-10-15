@@ -1,12 +1,9 @@
 package sopms.calendar.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,13 +16,17 @@ import sopms.vo.User;
 public class calRestController {
 	@Autowired
 	private calendarService service;
+	// http://localhost:8088/sopms/calendar_mem.do
+	// http://localhost:7080/sopms/calList.do
+	/*
 	@RequestMapping("calList.do")
 	public List<Calendar> calList(HttpServletRequest request, Model d, Calendar calendar){
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
-		calendar.setManager(user.getName());
+		calendar.setManager("조승호");
 		return service.calList(calendar);
 	}
+	*/
 	@RequestMapping("calendarInsert.do")
 	public String calendarInsert(HttpServletRequest request, Calendar insert) {
 		HttpSession session = request.getSession();

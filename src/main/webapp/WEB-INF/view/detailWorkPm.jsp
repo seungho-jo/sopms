@@ -89,6 +89,12 @@
 #close:hover {
 	background-color: rgba(0, 0, 0, 1);
 }
+#fname{
+	line-height : 35px;
+}
+#fname:hover{
+	cursor:pointer;
+}
 </style>
 </head>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
@@ -130,8 +136,8 @@
 					<!-- 파일 다운로드 배울시 변경 예정 -->
 					<tr>
 						<th>첨부파일</th>
-						<td><div class="custom-file">
-								주간 보고서
+						<td><div class="custom-file" id="fname">
+								${detail.fname}
 							</div></td>
 					</tr>
 				</table>
@@ -229,6 +235,9 @@
 	})
 	$("#back").click(function(){
 		history.back();
+	})
+	$("#fname").click(function(){
+		location.href="${path}/download.do?fname="+$(this).text();
 	})
 </script>
 </html>

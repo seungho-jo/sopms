@@ -30,9 +30,10 @@
 		
 	</select>
 	<select id="detailWork" parameterType="int" resultType="work">
-		select a.*,b.compmsg,b.apprmsg,b.reqmsg from wbs a,works b
+		select a.*,b.compmsg,b.apprmsg,b.reqmsg,c.fname from wbs a,works b,workfile c
 		where a.workcode = #{workcode}
 		and a.workcode = b.workcode(+)
+		AND a.workcode = c.workcode(+)
 	</select>
 	<update id="request" parameterType="work">
 		MERGE INTO works a
@@ -50,7 +51,7 @@
 		using dual
 		on (a.workcode = #{workcode})
 		when matched then
-		update set a.fname = #{fname}
+		update set a.fname = #{fname},
 				   a.regdate = sysdate,
 				   a.uptdate = sysdate
 		when not matched then

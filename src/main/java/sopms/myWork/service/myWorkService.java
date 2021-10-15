@@ -62,6 +62,7 @@ public class myWorkService {
 	public void approval(Work work) {
 		if (work.getReqmsg() == null)
 			work.setReqmsg("");
+		System.out.println("dddddddddddddddddddddddddddddddddddddd"+!work.getReport().isEmpty());
 		if(!work.getReport().isEmpty()) {
 			uploadFile(work.getWorkcode(),work.getReport());
 		}
