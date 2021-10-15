@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sopms.calendar.service.calendarService;
@@ -21,5 +22,12 @@ public class calendarController {
 		return "WEB-INF\\view\\calendar_mem.jsp";
 	}
 	
-	
+	@RequestMapping("calList.do")
+	public String calList(HttpServletRequest request, Model d, Calendar calendar){
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		calendar.setManager("조승호");
+		d.addAttribute("list", service.calList(calendar));
+		return "pageJsonReport";
+	}
 }

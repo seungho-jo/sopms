@@ -122,7 +122,7 @@
   
 
   $(document).ready(function() {
-      let wsocket = new WebSocket("ws://localhost:8080/${path}/chat-ws.do");
+      let wsocket = new WebSocket("ws://localhost:7080/${path}/chat-ws.do");
       wsocket.onopen = function (evt) {
           console.log("안냥")
       }

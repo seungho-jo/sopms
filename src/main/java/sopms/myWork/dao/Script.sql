@@ -110,3 +110,8 @@ SELECT * from
 		AND a.STATUS = '승인요청'
 		ORDER BY b.APPRDATE desc)
 		WHERE NO BETWEEN 1 AND 5
+		
+select a.*,b.compmsg,b.apprmsg,b.reqmsg,c.fname from wbs a,works b,workfile c
+		where a.workcode = -7
+		and a.workcode = b.workcode(+)
+		AND a.workcode = c.workcode(+);

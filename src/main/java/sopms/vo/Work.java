@@ -18,6 +18,7 @@ public class Work {
 	private String apprmsg;
 	private String compmsg;
 	private String apprdate;
+	private String fname;
 	private MultipartFile report;
 	public int getWorkcode() {
 		return workcode;
@@ -108,6 +109,12 @@ public class Work {
 	}
 	public void setApprdate(String apprdate) {
 		this.apprdate = apprdate;
+	}
+	public String getFname() {
+		return fname;
+	}
+	public void setFname(String fname) {
+		this.fname = fname;
 	}
 	public MultipartFile getReport() {
 		return report;

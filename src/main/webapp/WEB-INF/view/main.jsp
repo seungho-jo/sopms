@@ -270,7 +270,6 @@ var msg = "${msg}";
 if(msg!=null && msg!="") {
 	alert(msg);
 }
-$(".metismenu").children().eq(1).attr('class', 'mm-active');
 //Pie Chart Example
 var ctx = document.getElementById("myPieChart");
 var myPieChart = new Chart(ctx, {
