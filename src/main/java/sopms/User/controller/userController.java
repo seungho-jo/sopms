@@ -23,7 +23,7 @@ public class userController {
 	public String userList2(HttpServletRequest request,userSch sch,Model d) { 
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
-		if(user.getDept().equals("is")) {
+		if(user.getDept().equals("인사팀")) {
 			d.addAttribute("list",service.getUserListPaging(sch));
 			return "WEB-INF\\view\\userList.jsp";
 		}else {
@@ -54,7 +54,7 @@ public class userController {
 		service.deleteUser(id);
 		return "redirect:/pageList.do";
 	}
-	
+
 	/*		@RequestMapping("userList.do")
 	public String userList(Model d,String name) { //직원리스트
 		d.addAttribute("list",service.getUserList(name));

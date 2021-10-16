@@ -18,6 +18,7 @@ public class loginController {
 	// http://localhost:7080/sopms/index.do
 	@RequestMapping("index.do")
 	public String index() {
+		
 		return "WEB-INF\\view\\index.jsp";
 	}
 	

@@ -142,22 +142,22 @@ td {
 	<td>${mem.no}</td>
 	<c:choose>
 		<c:when test="${mem.dept eq 'gh1'}">
-			<td>기획 1팀</td>
+			<td>기획1팀</td>
 		</c:when>
 		<c:when test="${mem.dept eq 'gh2'}">
-			<td>기획 2팀</td>
+			<td>기획2팀</td>
 		</c:when>
 		<c:when test="${mem.dept eq 'ds1'}">
-			<td>디자인 1팀</td>
+			<td>디자인1팀</td>
 		</c:when>
 		<c:when test="${mem.dept eq 'ds2'}">
-			<td>디자인 2팀</td>
+			<td>디자인2팀</td>
 		</c:when>
 		<c:when test="${mem.dept eq 'de1'}">
-			<td>개발 1팀</td>
+			<td>개발1팀</td>
 		</c:when>
 		<c:when test="${mem.dept eq 'de2'}">
-			<td>개발 2팀</td>
+			<td>개발2팀</td>
 		</c:when>
 		<c:when test="${mem.dept eq 'is'}">
 			<td>인사팀</td>
@@ -279,7 +279,6 @@ $(document).ready(function() {
 //});
 function goPage(no) {
 	$("[name=curPage]").val(no);
-	alert(no);
   $("#form1").submit();
 };
 	

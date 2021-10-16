@@ -10,6 +10,7 @@ public class SumController {
 	// http://localhost:7080/sopms/projectStatus.do
 	@RequestMapping("projectStatus.do")
 	public String projectStatus() {
+		
 		return "WEB-INF/view/project_status.jsp";
 	}
 	
