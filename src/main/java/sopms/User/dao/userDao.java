@@ -12,6 +12,6 @@ public interface userDao {
 	public void insertUser(User ins); //사용자초기등록
 	public void deleteMember(String id); //삭제
 	public void deleteMemberRisk(String id); //회원 , 리스크까지 삭제 
-	
-	
+	public ArrayList<User> resource(String pcode);
+	public void resourcememberDelete(String id); //리소스 멤버 삭제
 }

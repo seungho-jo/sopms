@@ -28,4 +28,13 @@
 	<delete id="deleteMemberRisk" parameterType="String">
 		delete from risk where id = #{id}
 	</delete>
+	<select id="resource" resultType="user" parameterType="String">
+	<!-- 이름, 부서, 직급, 투입날짜 -->
+	SELECT mem.id,mem.name,mem.dept,mem.RANK,TO_CHAR(MEM.INSERTPJDAY,'YYYY-MM-DD') AS INSERTPJDAY
+	FROM lesource le,MEMBER mem
+	WHERE le.id = mem.id AND pcode= #{pcode}
+	</select> 
+	<delete id="resourcememberDelete" parameterType="String">
+	delete from lesource where id = #{id}
+	</delete>
 </mapper>
