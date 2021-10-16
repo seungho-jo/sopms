@@ -59,6 +59,7 @@ CREATE TABLE board(
 );
 INSERT INTO board VALUES (board_seq.nextval,#{btitle},#{name},#{bcontent},#{readcnt},#{regdte});
 INSERT INTO board VALUES (board_seq.nextval,'테스트','홍길동','안녕',30,sysdate);
+INSERT INTO board VALUES (board_seq.nextval,'안녕하세요','김길동','안녕',30,sysdate);
 SELECT * FROM board;
 SELECT *
 		FROM (
@@ -73,3 +74,7 @@ SELECT *
 		FROM BOARD b
 		WHERE btitle LIKE '%'||''||'%'
 		AND name LIKE '%'||''||'%';
+		
+	SELECT bcode, btitle, name, bcontent, readcnt, TO_CHAR(REGDTE ,'YYYY-MM-DD HH:MM') as REGDTE
+	FROM board
+	WHERE bcode =1;

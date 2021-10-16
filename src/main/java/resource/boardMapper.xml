@@ -5,11 +5,12 @@
 <mapper namespace="sopms.project.dao.boardDao">
 	<insert id="insertBoard" parameterType="board">
 		INSERT INTO board VALUES
-		(board_seq.nextval,#{btitle},#{name},#{bcontent},#{readcnt},#{regdte})
+		(board_seq.nextval,#{btitle},#{name},#{bcontent},#{readcnt},sysdate)
 	</insert>
 	<update id="uptReadCnt" parameterType="int">
 		UPDATE board
-		SET readcnt = readcnt+1
+		SET readcnt =
+		readcnt+1
 		WHERE bcode = #{bcode}
 	</update>
 	<select id="boardList" resultType="board"
@@ -18,17 +19,27 @@
 		FROM (
 		SELECT rownum cnt, b.*
 		FROM BOARD b
-		WHERE btitle LIKE
+		WHERE
+		btitle LIKE
 		'%'||#{btitle}||'%'
 		AND name LIKE '%'||#{name}||'%'
-		ORDER BY bcode
+		ORDER BY
+		bcode
 		DESC)
-		WHERE cnt BETWEEN 1 AND 5
+		WHERE cnt BETWEEN #{start} AND #{end}
 	</select>
 	<select id="totCnt" resultType="int" parameterType="boardsch">
-		SELECT count(*)
+		SELECT
+		count(*)
 		FROM BOARD b
 		WHERE btitle LIKE '%'||#{btitle}||'%'
-		AND name LIKE '%'||#{name}||'%'
+		AND name LIKE
+		'%'||#{name}||'%'
+	</select>
+	<select id="getBoard"  resultType="board" 
+ 	 	parameterType="int">
+		SELECT bcode, btitle, name, bcontent, readcnt, regdte
+		FROM board
+		WHERE bcode = #{bcode}
 	</select>
 </mapper>
