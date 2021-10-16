@@ -2,11 +2,71 @@
 <!DOCTYPE mapper
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="sopms.dashBoard.dao.DashboardDao">
+<mapper namespace="sopms.dashboard.dao.DashboardDao">
+	<resultMap id="projectInfo" type="sopms.vo.ProjectSum">
+		<result column="pcode" property="pcode"/>
+		<result column="pname" property="pname"/>
+		<result column="id" property="pmId"/>
+		<result column="name" property="pmName"/>		
+		<result column="startdate" property="startDate"/>
+		<result column="enddate" property="endDate"/>
+		<result column="teamnum" property="teamNum"/>
+		<result column="status" property="status"/>
+		<result column="explanation" property="explanation"/>
+	</resultMap>
 	<select id="projectCnt" resultType="int" parameterType="string">
-		SELECT count(*) projectcnt FROM project_dept
-		WHERE dept = #{dept}
+		SELECT count(*) cnt FROM project p, project_dept pd
+		WHERE p.pcode = pd.pcode
+		AND pd.dept = #{dept}
+		AND NOT p.status = '종료됨'
 	</select>
 	<select id="taskCnt" resultType="int" parameterType="string">
+		SELECT count(*) cnt FROM wbs
+		WHERE manager = #{name}
+		AND NOT status = '종료됨'
+	</select>
+	<select id="taskCntAll" resultType="int" parameterType="string">
+		SELECT count(*) cnt FROM wbs
+		WHERE pm = ${name}
+		AND NOT status = '종료됨'	
+	</select>
+	<select id="taskReqCnt" resultType="int" parameterType="string">
+		SELECT count(*) cnt FROM wbs
+		WHERE pm = ${name}
+		AND status = '승인요청'
+	</select>
+	<select id="riskCnt" resultType="int" parameterType="string">
+		SELECT count(*) cnt FROM risk
+		WHERE id = #{id}
+		AND NOT risk_status = '조치완료'
+	</select>
+	<select id="riskCntAll" resultType="int" parameterType="string">
+		SELECT count(*) cnt FROM risk r, member m
+		WHERE r.id = m.id
+		AND m.dept = #{dept}
+		AND NOT risk_status = '조치완료'
+	</select>
+	<select id="outputCnt" resultType="int" parameterType="string">
+		SELECT count(*) cnt FROM wbs w, workfile wf
+		WHERE w.manager = #{name}
+		AND w.workcode = wf.workcode
+		AND NOT w.status = '종료됨'
+	</select>
+	<select id="outputCntAll" resultType="int" parameterType="string">
+		SELECT count(*) cnt FROM wbs w, workfile wf
+		WHERE w.pm = #{name}
+		AND w.workcode = wf.workcode
+		AND NOT w.status = '종료됨'
+	</select>
+	<insert id="insertBookmark" parameterType="sopms.vo.ProjectBookmark">
+		INSERT INTO project_bookmark
+		VALUES (#{id}||'-'||#{pcode}, #{pcode}, #{id})
+	</insert>
+	<delete id="deleteBookmark" parameterType="string">
+		DELETE FROM project_bookmark
+		WHERE bmcode = #{bmcode}
+	</delete>
+	<select id="bookmarkList" parameterType="string" resultType="sopms.vo.ProjectSum">
+		
 	</select>
 </mapper>

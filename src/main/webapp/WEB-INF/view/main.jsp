@@ -20,12 +20,31 @@
 	href="./vendor/owl-carousel/css/owl.theme.default.min.css">
 <link href="./vendor/jqvmap/css/jqvmap.min.css" rel="stylesheet">
 <link href="./css/style.css" rel="stylesheet">
+<link href="./css/dashboard.css" rel="stylesheet">
 <title>Insert title here</title>
 <script src="https://unpkg.com/vue/dist/vue.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
 <style>
+	
 	#proj_tab{text-align:center;}
 	#proj_tab thead{color:darkgray;font-weight:bold;}
+	.countSumIcon{font-size:1.5rem;}
+	.card{
+		border-radius:10px !important;
+	}
+	.count_sum_header{
+		display:inline-block;
+		padding:0.5rem 1rem 0.5rem 1rem;
+		border-bottom:1px solid #D8D8D8;
+		background:#FAFAFA;
+	}
+	.count_sum_header h6{
+		display:inline-block;
+	}
+	.count_sum{
+		border-top:5px solid !important;
+	}
+	
 </style>
 </head>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
@@ -40,87 +59,143 @@
 	
 	           <!-- Page Heading_통합현황 -->
 	           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-	               <h1 class="h3 mb-0 font-weight-bold text-gray-800">통합현황</h1>
+	           		<i class="bi bi-house text-primary countSumIcon"></i>
+	               	<div id="title" class="h3 mb-0 font-weight-bold text-gray-800">통합현황</div>
 	           </div>
 	
 	           <!-- Content Row -->
-	           <div class="row">
+				<div class="row">
+				
+					<!-- Project -->
+					<div class="col-xl-3 col-md-6 mb-4">
+						<div class="card border-left-primary shadow h-100 count_sum" style="border-color:#4e73df !important;">
+							<div class="count_sum_header">
+								<i class="bi bi-clipboard-check text-primary countSumIcon"></i>
+								<h6 class="m-0 font-weight-bold text-primary">프로젝트</h6>
+							</div>
+							<div class="card-body">
+								<div class="h4 mb-0 font-weight-bold text-gray-800 text-center">${countSum.projectCnt}</div>
+							</div>
+						</div>
+					</div>
+	             
+	           		<!-- Task -->
+					<c:choose>
+						<c:when test="${sessionScope.user.rank eq '부장'}">
+							<!-- 부장 직급 사용자일 경우 -->
+							<div class="col-xl-3 col-md-6 mb-4">
+								<div class="card border-left-primary shadow h-100 count_sum" style="border-color:#1cc88a !important;">
+									<div class="count_sum_header">
+										<i class="bi bi-tools text-success countSumIcon"></i>
+										<h6 class="m-0 font-weight-bold text-success">작업</h6>
+									</div>
+									<div class="card-body">
+										<div class="h4 mb-0 font-weight-bold text-gray-800 text-center">${countSum.taskCntAll}</div>
+									</div>
+								</div>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<!-- 기타 직급 사용자일 경우 -->
+							<div class="col-xl-3 col-md-6 mb-4">
+								<div class="card border-left-success shadow h-100 count_sum" style="border-color:#1cc88a !important;">
+									<div class="count_sum_header">
+										<i class="bi bi-tools text-success countSumIcon"></i>
+										<h6 class="m-0 font-weight-bold text-success">작업</h6>
+									</div>
+									<div class="card-body">
+										<div class="h4 mb-0 font-weight-bold text-gray-800 text-center">${countSum.taskCnt}</div>
+									</div>
+								</div>
+							</div>	
+						</c:otherwise>
+					</c:choose>
+	               
+	              <!-- Risk -->
+					<c:choose>
+						<c:when test="${sessionScope.user.rank eq '부장'}">
+							<!-- 부장 직급 사용자일 경우 -->
+							<div class="col-xl-3 col-md-6 mb-4">
+								<div class="card border-left-warning shadow h-100 py-2">
+									<div class="card-body">
+										<div class="row no-gutters align-items-center">
+											<div class="col mr-2">
+												<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+													리스크</div>
+												<div class="h5 mb-0 font-weight-bold text-warning">${countSum.riskCntAll}</div>
+											</div>
+											<div class="col-auto">
+												<i class="bi bi-exclamation-triangle text-warning countSumIcon"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<!-- 기타 직급 사용자일 경우 -->
+							<div class="col-xl-3 col-md-6 mb-4">
+								<div class="card border-left-warning shadow h-100 py-2">
+									<div class="card-body">
+										<div class="row no-gutters align-items-center">
+											<div class="col mr-2">
+												<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+													리스크</div>
+												<div class="h5 mb-0 font-weight-bold text-warning-800">${countSum.riskCnt}</div>
+											</div>
+											<div class="col-auto">
+												<i class="bi bi-exclamation-triangle text-warning countSumIcon"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:otherwise>
+					</c:choose>
 	
-	               <!-- Project -->
-	               <div class="col-xl-3 col-md-6 mb-4">
-	                   <div class="card border-left-primary shadow h-100 py-2">
-	                       <div class="card-body">
-	                           <div class="row no-gutters">
-	                               <div class="col-auto">
-	                                   <i class="bi bi-clipboard-check fa-2x text-gray-300"></i>
-	                               </div>
-	                               <div class="col mr-2">
-	                                   <div class="h3 text-xs font-weight-bold text-primary text-uppercase mb-1 ml-2 mt-2">
-	                                       프로젝트</div><br>
-	                                   <div class="h3 mb-0 font-weight-bold text-gray-800 text-center">4</div>
-	                               </div>
-	                           </div>
-	                       </div>
-	                   </div>
-	               </div>
-	
-	               <!-- Task -->
-	               <div class="col-xl-3 col-md-6 mb-4">
-	                   <div class="card border-left-success shadow h-100 py-2">
-	                       <div class="card-body">
-	                           <div class="row no-gutters">
-	                               <div class="col-auto">
-	                                   <i class="bi bi-file-earmark-ruled fa-2x text-gray-300"></i>
-	                               </div>
-	                               <div class="col mr-2">
-	                                   <div class="h3 text-xs font-weight-bold text-success text-uppercase mb-1 ml-2 mt-2">
-	                                       작업</div><br>
-	                                   <div class="h3 mb-0 font-weight-bold text-gray-800 text-center">5</div>
-	                               </div>
-	                           </div>
-	                       </div>
-	                   </div>
-	               </div>
-	               <!-- Risk -->
-	               <div class="col-xl-3 col-md-6 mb-4">
-	                   <div class="card border-left-info shadow h-100 py-2">
-	                       <div class="card-body">
-	                           <div class="row no-gutters">
-	                               <div class="col-auto">
-	                                   <i class="bi bi-exclamation-triangle fa-2x text-gray-300"></i>
-	                               </div>
-	                               <div class="col mr-2">
-	                                   <div class="h3 text-xs font-weight-bold text-info text-uppercase mb-1 mt-2 ml-2">리스크
-	                                   </div>
-	                                   <div class="col-auto"><br>
-	                                       <div class="h3 mb-0 mr-3 font-weight-bold text-gray-800 text-center">6</div>
-	                                   </div>
-	                               </div>
-	                               
-	                           </div>
-	                       </div>
-	                   </div>
-	               </div>
 	
 	               <!-- Output -->
-	               <div class="col-xl-3 col-md-6 mb-4">
-	                   <div class="card border-left-warning shadow h-100 py-2">
-	                       <div class="card-body">
-	                           <div class="row no-gutters">
-	                               <div class="col-auto">
-	                                   <i class="bi bi-sd-card fa-2x text-gray-300"></i>
-	                               </div>
-	                               <div class="col mr-2">
-	                                   <div class="h3 text-xs font-weight-bold text-warning text-uppercase mb-1 mt-2 ml-2">
-	                                       산출물</div><br>
-	                                   <div class="h3 mb-0 font-weight-bold text-gray-800 text-center">1</div>
-	                               </div>
-	                           </div>
-	                       </div>
-	                   </div>
-	               </div>
-	               
-	             </div>
+	               <c:choose>
+						<c:when test="${sessionScope.user.rank eq '부장'}">
+							<!-- 부장 직급 사용자일 경우 -->
+							<div class="col-xl-3 col-md-6 mb-4">
+								<div class="card border-left-info shadow h-100 py-2">
+									<div class="card-body">
+										<div class="row no-gutters align-items-center">
+											<div class="col mr-2">
+												<div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+													산출물</div>
+												<div class="h5 mb-0 font-weight-bold text-info-800">${countSum.outputCntAll}</div>
+											</div>
+											<div class="col-auto">
+												<i class="bi bi-sd-card text-info countSumIcon"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<!-- 기타 직급 사용자일 경우 -->
+							<div class="col-xl-3 col-md-6 mb-4">
+								<div class="card border-left-info shadow h-100 py-2">
+									<div class="card-body">
+										<div class="row no-gutters align-items-center">
+											<div class="col mr-2">
+												<div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+													산출물</div>
+												<div class="h5 mb-0 font-weight-bold text-info-800">${countSum.outputCnt}</div>
+											</div>
+											<div class="col-auto">
+												<i class="bi bi-sd-card text-info countSumIcon"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:otherwise>
+					</c:choose>
+				</div>
 	           
 	           <!-- Heading_중요프로젝트 -->
 	           <div class="card">

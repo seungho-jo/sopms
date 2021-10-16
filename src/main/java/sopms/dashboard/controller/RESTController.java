@@ -12,22 +12,7 @@ import sopms.dashboard.service.DashboardService;
 public class RESTController {
 	@Autowired
 	DashboardService service;
-	@RequestMapping("/projectCnt.do")
-	public int projectCnt(@RequestParam(value="id") int empno) {
-		return service.projectCnt(empno);
-	}
-	@RequestMapping("/taskCnt.do")
-	public int taskCnt(@RequestParam(value="id") int empno) {
-		return service.taskCnt(empno);
-	}
-	@RequestMapping("/riskCnt.do")
-	public int riskCnt(@RequestParam(value="id") int empno) {
-		return service.riskCnt(empno);
-	}
-	@RequestMapping("/outputCnt.do")
-	public int outputCnt(@RequestParam(value="id") int empno) {
-		return service.outputCnt(empno);
-	}
+	
 	//@RequestMapping("/project.do")
 	//@RequestMapping("/notice.do")
 	//@RequestMapping("/riskClass.do")
