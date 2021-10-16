@@ -38,7 +38,7 @@ h3 {
 }
 
 #form-backgroud{
-	min-height: 500px;
+	min-height: 650px;
 }
 .input-form {
 	max-width: 680px;
@@ -51,7 +51,7 @@ h3 {
 	border-radius: 10px;
 	-webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
 	-moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
-	box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
+	box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
 }
 
 #uptbtn, #delbtn {
@@ -95,7 +95,7 @@ h3 {
 #contentdiv {
 	display: block;
 	width: 96%;
-	min-height: 30%;
+	min-height: 60%;
 	border: 1px solid #eaeaea;
 	padding: 0.375rem 0.75rem;
 	font-size: 0.875rem;
@@ -104,6 +104,7 @@ h3 {
 	border-radius: 0.25rem;
 	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 	margin: auto;
+	color: #3D4465;
 }
 </style>
 
@@ -121,32 +122,32 @@ h3 {
 				<div class="input-form-backgroud row" id="form-backgroud">
 					<div class="input-form col-md-12 mx-auto">
 						<div id="titlediv">
-							<h3>파일요청의 건</h3>
+							<h3>${board.btitle}</h3>
 						</div>
 						<div class="row" id="detailinfo">
 							<div class="form-group row">
 								<label class="col-sm-3 col-form-label">작성자</label>
 								<div class="col-sm-9">
 									<input type="text" readonly class="form-control-plaintext"
-										value="홍길동">
+										value="${board.name}">
 								</div>
 								<label class="col-sm-3 col-form-label">조회수</label>
 								<div class="col-sm-9">
 									<input type="text" readonly class="form-control-plaintext"
-										value="3">
+										value="${board.readcnt}">
 								</div>
 								<label class="col-sm-3 col-form-label">등록일자</label>
 								<div class="col-sm-9">
 									<input type="text" readonly class="form-control-plaintext"
-										value="2021-10-05">
+										value="${board.regdte}">
 								</div>
 							</div>
 						</div>
 						<div id="contentdiv">
-							<span>파일부탁드립니다.</span>
+							<span>${board.bcontent}</span>
 						</div>
 
-
+						<!-- 
 						<div class="input-group mb-3" id="filediv">
 							<div class="input-group-prepend">
 								<span class="input-group-text">첨부 파일</span>
@@ -157,6 +158,7 @@ h3 {
 									for="file01"> 양식.html </label>
 							</div>
 						</div>
+						 -->
 							<button id="uptbtn" data-toggle="modal"
 								data-target="#exampleModalCenter"
 								class="btn btn-primary btn-lg btn-block center-block"

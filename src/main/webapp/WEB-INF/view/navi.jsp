@@ -44,7 +44,7 @@
                     <li><a class="has-arrow" href="${path}/newChatting.do" aria-expanded="false"><i
                                 class="bi bi-chat"></i><span class="nav-text">채팅</span></a>
                     </li>
-                    <li><a class="has-arrow" href="projectboard_List.jsp" aria-expanded="false"><i
+                    <li><a class="has-arrow" href="${path}/board.do?method=list" aria-expanded="false"><i
                                 class="bi bi-receipt-cutoff"></i><span class="nav-text">게시판</span></a>
                     </li>
                     <li class="nav-label">사원</li>

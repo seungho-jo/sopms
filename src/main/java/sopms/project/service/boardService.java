@@ -44,4 +44,10 @@ public class boardService {
 		sch.setStartBlock((blocknum-1)*sch.getBlockSize()+1);
 		return dao.boardList(sch);
 	}
+	public Board getBoard(int bcode) {
+		dao.uptReadCnt(bcode);
+		Board b = dao.getBoard(bcode);
+
+		return b;
+	}	
 }

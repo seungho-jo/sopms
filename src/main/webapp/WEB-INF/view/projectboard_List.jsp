@@ -26,10 +26,27 @@
 h3 {
 	border-bottom: 1px solid f9f9f9;
 	padding-bottom: 5px;
+	margin: 2% 0px 0px 1%;
 }
 
 table {
 	text-align: center;
+}
+
+#goinsert {
+	margin-bottom: 2%;
+	margin-right: 2%;
+	float: left;
+}
+
+#search1 {
+	width: 22%;
+	position: relative;
+	left: 74%;
+}
+
+#clear {
+	clear: both;
 }
 </style>
 </head>
@@ -38,78 +55,75 @@ table {
 	<div id="main-wrapper">
 		<jsp:include page="header.jsp" />
 		<jsp:include page="navi.jsp" />
-		<div class="content-body">
-			<div class="card">
-				<div class="card-header" id="title" style="display: block;">
-					<h3>커뮤니티 게시판</h3>
-				</div>
-				<div class="content-body">
-					<div class="card">
-						<div class="card-body">
-							<form id="frm01" style="display: flex;" method="post">
-								<input type="hidden" name="curPage" value="1"> <select
-									id="status" name="status" class="form-select">
-									<option value="">찾기 선택</option>
-									<option value="btitle">제목</option>
-									<option value="name">작성자</option>
-								</select>
-							</form>
+		<div class="card">
+			<div class="content-body">
+				<h3>커뮤니티 게시판</h3>
+				<div class="card"></div>
+				<div class="card-body">
+					<button type="button" id="goinsert" class="btn btn-primary">작성</button>
+					<form id="frm01" style="display: flex;" method="post">
+						<input type="hidden" name="curPage" value="1">
+						<div class="input-group" id="search1">
+							<select id="status" name="status" class="form-select">
+								<option value="btitle">제목</option>
+								<option value="name">작성자</option>
+							</select> <input type="text" class="form-control input-sm" id="search">
+							<div class="input-group-append">
+								<button class="btn btn-primary" type="button" id="searchbtn">검색</button>
+							</div>
 						</div>
+					</form>
+					<div id="clear"></div>
+					<div id="content_cnt">
+						<h6 id="totcount">전체게시글 : ${boardSch.count}</h6>
 					</div>
-					<div class="card-body">
-						<button type="button" id="goinsert"
-							class="btn btn-primary">작성</button>
-						<div id="content_cnt">
-							<h6 id="title">전체게시글 : ${boardSch.count}</h6>
-						</div>
-						<div class="table-responsive">
-							<table class="table table-responsive-sm table-hover">
-								<col width="10%">
-								<col width="54%">
-								<col width="13%">
-								<col width="13%">
-								<col width="10%">
-								<thead>
-									<tr>
-										<th class="text-dark">글번호</th>
-										<th class="text-dark">제목</th>
-										<th class="text-dark">작성자</th>
-										<th class="text-dark">등록일자</th>
-										<th class="text-dark">조회수</th>
+					<div class="table-responsive">
+						<table class="table table-responsive-sm table-hover">
+							<col width="10%">
+							<col width="54%">
+							<col width="13%">
+							<col width="13%">
+							<col width="10%">
+							<thead>
+								<tr>
+									<th class="text-dark">글번호</th>
+									<th class="text-dark">제목</th>
+									<th class="text-dark">작성자</th>
+									<th class="text-dark">등록일자</th>
+									<th class="text-dark">조회수</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="bd" items="${list}">
+									<tr onclick="javascript:go(${bd.bcode})">
+										<td class="text-dark">${bd.bcode}</td>
+										<td class="text-dark">${bd.btitle}</td>
+										<td class="text-dark">${bd.name}</td>
+										<td class="text-dark"><fmt:formatDate
+												value="${bd.regdte}" /></td>
+										<td class="text-dark">${bd.readcnt}</td>
 									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="bd" items="${list}">
-										<tr onclick="javascript:go(${bd.bcode})">
-											<td class="text-dark">${bd.bcode}</td>
-											<td class="text-dark">${bd.btitle}</td>
-											<td class="text-dark">${bd.name}</td>
-											<td class="text-dark"><fmt:formatDate
-													value="${bd.regdte}" /></td>
-											<td class="text-dark">${bd.readcnt}</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</div>
+								</c:forEach>
+							</tbody>
+						</table>
 					</div>
-					<ul class="pagination justify-content-center">
-						<li class="page-item"><a class="page-link"
-							href="javascript:goPage(${boardSch.startBlock-1})">Previous</a></li>
-
-						<c:forEach var="cnt" begin="${boardSch.startBlock}"
-							end="${boardSch.endBlock}">
-							<li class="page-item ${boardSch.curPage==cnt?'active':''}">
-								<a class="page-link" href="javascript:goPage(${cnt})">${cnt}</a>
-							</li>
-						</c:forEach>
-						<li class="page-item"><a class="page-link"
-							href="javascript:goPage(${boardSch.endBlock+1})">Next</a></li>
-					</ul>
 				</div>
+				<ul class="pagination justify-content-center" id="paging">
+					<li class="page-item" id="pre"><a class="page-link"
+						href="javascript:goBlock(${boardSch.startBlock-1})">Pre</a></li>
+					<c:forEach var="cnt" begin="${boardSch.startBlock}"
+						end="${boardSch.endBlock}">
+						<li class="page-item ${boardSch.curPage==cnt?'active':''}"><a
+							class="page-link" href="javascript:goBlock(${cnt})">${cnt}</a></li>
+					</c:forEach>
+					<li class="page-item" id="next"><a class="page-link"
+						href="javascript:goBlock(${boardSch.endBlock-1})"> Next </a></li>
+				</ul>
 			</div>
-			<jsp:include page="footer.jsp" />
 		</div>
+		<jsp:include page="footer.jsp" />
+	</div>
+
 </body>
 <!-- Required vendors -->
 <script src="./vendor/global/global.min.js"></script>
@@ -144,17 +158,17 @@ table {
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#regBtn").click(function() {
-			$(location).attr("href", "${path}/board.do?method=insertForm");
+			$(location).attr("href", "${path}/board.do?method=insertform");
 		});
 		$("[name=pageSize]").val("${boardSch.pageSize}");
 		$("[name=pageSize]").change(function() {
 			$("[name=curPage]").val(1);
-			$("form").submit();
+			$("#frm01").submit();
 		});
 	});
 	function goPage(bcode){
 		$("[name=curPage]").val(bcode);
-		$("form").submit();
+		$("#frm01").submit();
 	}
 	function go(bcode){		
 		$(location).attr("href",
@@ -163,6 +177,9 @@ table {
 	$("#goinsert").click(function(){
 		$(location).attr("href","${path}/board.do?method=insertform");
 		
+	});	
+	$("#searchbtn").click(function(){	
+		$("#frm01").submit();
 	});	
 	$("#paging").children("li").click(function() {
 		var id = $(this).attr('id');

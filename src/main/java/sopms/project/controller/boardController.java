@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import sopms.project.service.boardService;
 import sopms.vo.Board;
@@ -42,5 +43,10 @@ public class boardController {
 		return "WEB-INF\\view\\projectboard_List.jsp";
 	}	
 	
-	
+	// http://localhost:7080/sopms/board.do?method=detail&bcode=1
+	@RequestMapping(params="method=detail")
+	public String boardDetail(@RequestParam("bcode") int bcode, Model d) {	
+		d.addAttribute("board", service.getBoard( bcode ));
+		return "WEB-INF\\view\\projectboard_Detail.jsp";
+	}	
 }
