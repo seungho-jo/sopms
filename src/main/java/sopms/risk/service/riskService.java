@@ -74,6 +74,18 @@ public class riskService {
 
 	// 페이지이동
 	public ArrayList<Project> projectList(String id){
+		
 		return dao.projectList(id);
+	}
+	
+	// 상세페이지 입장
+	public Risk detailRiskPaging(int risk_no){
+		dao.upReadCnt(risk_no);
+		return dao.detailRiskPaging(risk_no);	
+	}
+	
+	// 세부사항 페이지 삭제
+	public void deleteDetailRiskPage(int risk_no) {
+		dao.deleteDetailRiskPage(risk_no);
 	}
 }

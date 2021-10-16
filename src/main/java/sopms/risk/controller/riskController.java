@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import sopms.risk.service.riskService;
 import sopms.vo.Risk;
@@ -61,4 +62,22 @@ public class riskController {
 			service.insertRisk(rk);
 			return "redirect:/riskPageList.do";
 		}
+		
+	// 상세페이지 이동
+	@RequestMapping("updatePageGo.do")
+	public String updatePageGo(@RequestParam("risk_no") int risk_no, Model d) {
+		d.addAttribute("riskDetail", service.detailRiskPaging(risk_no));
+		return "WEB-INF\\view\\risk_Update.jsp";
+	}
+	
+	
+	// 등록 모달 창
+	
+	
+	// 삭제
+	@RequestMapping("deleteRisk.do")
+	public String deleteRisk(@RequestParam("risk_no") int risk_no) {
+		service.deleteDetailRiskPage(risk_no);
+		return "redirect:/riskPageList.do";
+	}
 }	

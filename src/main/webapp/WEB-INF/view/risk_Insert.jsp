@@ -160,6 +160,10 @@
 		
 	});
 	
+	$("#button_right").click(function(){
+		$("location").attr("href","${path}/riskPageList.do");
+	});
+	
 	$("#status").change(function(){
 		console.log($(this).val());
 		console.log($("[name=risk_name]").val());
@@ -172,5 +176,6 @@
 		console.log($(this).val());
 		console.log(typeof $(this).val());
 	});
+	
 </script>
 </html>

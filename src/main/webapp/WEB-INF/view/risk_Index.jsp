@@ -81,12 +81,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="rk" items="${list}">
-				<tr class="text-center">
-					<td class="text-dark">${rk.risk_name}</td>
-					<td class="text-dark">${rk.id}</td>
-					<td class="text-dark boxes"><span>${rk.risk_status}</span></td>
-					<td class="text-dark">${rk.risk_reg}</td>
+				<c:forEach var="rlist" items="${list}">
+				<tr class="text-center" onclick="javascript:go(${rlist.risk_no})">
+					<td class="text-dark">${rlist.risk_name}</td>
+					<td class="text-dark">${rlist.id}</td>
+					<td class="text-dark boxes"><span>${rlist.risk_status}</span></td>
+					<td class="text-dark">${rlist.risk_reg}</td>
 				</tr>		
 				</c:forEach>
 			</tbody>
@@ -157,6 +157,9 @@
 		}else if(status=="홀드"){
 			$("tr").eq(i).children("td:eq(2)").children("span").attr("class","badge badge-danger");
 		}
+	}
+	function go(no){
+		$(location).attr("href", "${path}/updatePageGo.do?risk_no="+no);
 	}
 	
 	function goPage(no) {

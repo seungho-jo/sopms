@@ -201,3 +201,20 @@ INSERT INTO Risk (risk_no, risk_name, risk_content, risk_reg, id, pcode, risk_st
 			
 SELECT * FROM risk;
 DELETE FROM risk WHERE risk_no = 12;
+
+SELECT a.*, b.pname FROM risk a, project b
+WHERE a.pcode = b.pcode
+AND a.risk_no = 4;
+
+select * 
+		from(
+			select rownum as no, risk_name, id, risk_status, risk_reg, risk_no
+			from risk
+			where risk_name like '%'||''||'%'
+			and id like '%'||''||'%'
+		)
+		where no between 1 and 10
+		order by risk_reg DESC;
+
+delete from risk
+		where risk_no = 16;
