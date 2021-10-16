@@ -46,7 +46,7 @@
 						</div>
 						<div class="col-6 mb-3">
 							<div class="form-floating">
-								<h5>요구사항작성누락</h5>
+								<h5>${riskDetail.pname}</h5>
 							</div>
 						</div>
 
@@ -58,7 +58,7 @@
 						</div>
 						<div class="col-6 mb-3">
 							<div class="form-floating">
-								<h5>리스크1</h5>
+								<h5>${riskDetail.risk_name}</h5>
 							</div>
 						</div>
 						<!-- 리스크내용 -->
@@ -69,7 +69,7 @@
 						</div>
 						<div class="col-6 mb-3">
 							<div class="form-floating">
-								<h5>요구사항정의서 작성 누락되었습니다!!</h5>
+								<h5>${riskDetail.risk_content}</h5>
 							</div>
 						</div>
 						<!-- 리스크상태 -->
@@ -79,7 +79,7 @@
 							</div>
 						</div>
 						<div class="col-6 mb-3">
-							<h5>진행중</h5>
+							<h5>${riskDetail.risk_status}</h5>
 						</div>
 						<!-- 등록자 -->
 						<div class="col-md-3 mb-3">
@@ -88,7 +88,7 @@
 							</div>
 						</div>
 						<div class="col-md-3 mb-3">
-							<h5>김영진</h5>
+							<h5>${riskDetail.id}</h5>
 						</div>
 						<div class="col-md-3 mb-3">
 							<div class="form-floating">
@@ -97,7 +97,7 @@
 						</div>
 						<div class="col-md-3 mb-3">
 							<div class="form-floating">
-								<h5>2021.09.30</h5>
+								<h5>${riskDetail.risk_reg}</h5>
 							</div>
 						</div>
 					</div>
@@ -106,7 +106,8 @@
 							<button type="button" class="btn btn-primary" id="button_left">수정</button>
 						</div>
 						<div class="col-md mb-3">
-							<button type="button" class="btn btn-primary" id="button_right">삭제</button>
+							<button type="button" class="btn btn-primary" id="button_right"
+								onclick="javascript:goDelete(${riskDetail.risk_no})">삭제</button>
 						</div>
 					</div>
 				</div>
@@ -233,5 +234,12 @@
 <script src="./js/dashboard/dashboard-1.js"></script>
 <script type="text/javascript">
 	$(".metismenu").children().eq(8).attr('class', 'mm-active');
+	
+	$("#button_right").click(function(){
+	});
+	
+	function goDelete(no){
+		$(location).attr("href","${path}/deleteRisk.do?risk_no="+no);
+	}
 </script>
 </html>

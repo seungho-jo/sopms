@@ -10,24 +10,10 @@ public class Risk {
 	private int risk_cnt;	// 리스크 조회수
 	private String id;	// 사용자 테이블 id
 	private int pcode;
+	
 	private String pcodeS;
-	public Risk() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	public Risk(String risk_no, String risk_name, String risk_content, String risk_reg, String risk_upt,
-			String risk_status, int risk_cnt, String id, int pcode) {
-		super();
-		this.risk_no = risk_no;
-		this.risk_name = risk_name;
-		this.risk_content = risk_content;
-		this.risk_reg = risk_reg;
-		this.risk_upt = risk_upt;
-		this.risk_status = risk_status;
-		this.risk_cnt = risk_cnt;
-		this.id = id;
-		this.pcode = pcode;
-	}
+	private String pname; // 
+	
 	public String getRisk_no() {
 		return risk_no;
 	}
@@ -87,6 +73,12 @@ public class Risk {
 	}
 	public void setPcodeS(String pcodeS) {
 		this.pcodeS = pcodeS;
+	}
+	public String getPname() {
+		return pname;
+	}
+	public void setPname(String pname) {
+		this.pname = pname;
 	}
 	
 	

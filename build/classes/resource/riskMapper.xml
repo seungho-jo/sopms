@@ -6,12 +6,13 @@
 	<select id="riskListPaging" resultType="risk" parameterType="riskSch">
 		select * 
 		from(
-			select rownum as no, risk_name, id, risk_status, risk_reg
+			select rownum as no, risk_name, id, risk_status, risk_reg, risk_no
 			from risk
 			where risk_name like '%'||#{risk_name}||'%'
 			and id like '%'||#{id}||'%'
 		)
 		where no between #{start} and #{end}
+		order by risk_reg DESC
 	</select>
 	
 	<select id="totCnt" resultType="int" parameterType="riskSch">
@@ -20,7 +21,7 @@
 		where risk_name like '%' ||#{risk_name} ||'%'
 	</select>
 	
-	<insert id="insertRisk" parameterType="Risk">
+	<insert id="insertRisk" parameterType="risk">
 		INSERT INTO Risk (risk_no, risk_name, risk_content, risk_reg, id, pcode, risk_status) 
 				VALUES (seq_risk_no.nextval, #{risk_name}, #{risk_content}, sysdate, #{id}, #{pcode}, #{risk_status}) 
 	</insert>
@@ -30,4 +31,20 @@
 		where id = #{id}
 	</select>
 	
+	<select id="detailRiskPaging" parameterType="int" resultType="risk">
+		select a.*,b.pname from risk a, project b
+		where a.pcode = b.pcode
+		and a.risk_no = #{risk_no}
+	</select>
+	
+	<update id="upReadCnt" parameterType="int">
+		update risk 
+			set risk_cnt = risk_cnt+1
+			where risk_no = #{risk_no}
+	</update>
+	
+	<delete id="deleteDetailRiskPage" parameterType="int">
+		delete from risk
+		where risk_no = #{risk_no}
+	</delete>
 </mapper>
