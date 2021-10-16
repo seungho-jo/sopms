@@ -12,11 +12,11 @@
 		insert into
 		project_dept values(project_seq.currval,#{dept})
 	</insert>
-	<delete id="deleteProject" parameterType="int">
+	<delete id="deleteProject" parameterType="String">
 		DELETE FROM project
 		WHERE pcode = #{pcode}
 	</delete>
-	<select id="getProject" resultType="project" parameterType="int">
+	<select id="getProject" resultType="project" parameterType="String">
 		SELECT p.pcode, pname, id, teamnum, TO_CHAR(startdate,'YYYY-MM-DD') as
 		startdate, TO_CHAR(enddate,'YYYY-MM-DD') as enddate,
 		status, explanation, b.dept
@@ -37,7 +37,7 @@
 		explanation = #{explanation}
 		WHERE pcode = #{pcode}
 	</update>
-	<delete id="deleteProject_dept" parameterType="project">
+	<delete id="deleteProject_dept" parameterType="String">
 		delete from project_dept
 		where pcode = #{pcode}
 	</delete>

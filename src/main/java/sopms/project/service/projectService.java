@@ -26,7 +26,7 @@ public class projectService {
 		
 	}
 	public void update(Project upt) {
-		dao.deleteProject_dept(upt);
+		dao.deleteProject_dept(upt.getPcode());
 		dao.updateProject(upt);			
 	}	
 	
@@ -38,10 +38,11 @@ public class projectService {
 			dao.updateProject_dept(upt);
 		}		
 	}	
-	public void deleteProject(int pcode) {
+	public void deleteProject(String pcode) {
 		dao.deleteProject(pcode);
+		dao.deleteProject_dept(pcode);
 	}		
-	public Project getProject(int pcode) {
+	public Project getProject(String pcode) {
 		Project b = dao.getProject(pcode);
 		return b;
 	}

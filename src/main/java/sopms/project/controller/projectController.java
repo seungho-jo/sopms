@@ -42,7 +42,7 @@ public class projectController {
 	}
 	// http://localhost:7080/sopms/project.do?method=updateform
 	@RequestMapping(params = "method=updateform")
-	public String projectUpdateForm(@RequestParam("pcode") int pcode,HttpServletRequest request, Model d) {
+	public String projectUpdateForm(@RequestParam("pcode") String pcode,HttpServletRequest request, Model d) {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		if (!user.getRank().equals("부장")) {
@@ -66,7 +66,7 @@ public class projectController {
 
 	// http://localhost:7080/sopms/project.do?method=delete
 	@RequestMapping(params = "method=delete")
-	public String deleteProject(@RequestParam("pcode") int pcode) {
+	public String deleteProject(@RequestParam("pcode") String pcode) {
 		service.deleteProject(pcode);
 		return "redirect:/management.do";
 	}

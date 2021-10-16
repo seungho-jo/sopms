@@ -210,12 +210,12 @@ h3 {
 										</button>
 									</div>
 									<div class="modal-body">
-											<input type="checkbox" class="check" value="디자인1">
-											디자인1팀 <input type="checkbox" class="check" value="디자인2">
-											디자인2팀 <input type="checkbox" class="check" value="개발1">
-											개발1팀 <input type="checkbox" class="check" value="개발2">
-											개발2팀 <input type="checkbox" class="check" value="기획1">
-											기획1팀 <input type="checkbox" class="check" value="기획2">
+											<input type="checkbox" class="check" value="디자인1팀">
+											디자인1팀 <input type="checkbox" class="check" value="디자인2팀">
+											디자인2팀 <input type="checkbox" class="check" value="개발1팀">
+											개발1팀 <input type="checkbox" class="check" value="개발2팀">
+											개발2팀 <input type="checkbox" class="check" value="기획1팀">
+											기획1팀 <input type="checkbox" class="check" value="기획2팀">
 											기획2팀 <input type="checkbox" id="allCheck"> 모두 체크<br />
 											프로젝트 부서리스트 : <span id="multiPrint"></span><br />
 									</div>
@@ -295,7 +295,7 @@ h3 {
 
 <script src="./js/dashboard/dashboard-1.js"></script>
 <script type="text/javascript">
-	$(".metismenu").children().eq(3).attr('class', 'mm-active');
+	$(".metismenu").children().eq(4).attr('class', 'mm-active');
 	$(document).ready(function() {
 		$(".check").click(function() {
 			var str = "";

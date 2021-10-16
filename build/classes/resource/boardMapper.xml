@@ -19,8 +19,8 @@
 		SELECT rownum cnt, b.*
 		FROM BOARD b
 		WHERE btitle LIKE
-		'%'||'#{btitle}'||'%'
-		AND name LIKE '%'||'#{name}'||'%'
+		'%'||#{btitle}||'%'
+		AND name LIKE '%'||#{name}||'%'
 		ORDER BY bcode
 		DESC)
 		WHERE cnt BETWEEN 1 AND 5
