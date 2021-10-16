@@ -103,11 +103,13 @@ h3 {
 								<div class="input-group-prepend">
 									<span class="input-group-text">첨부 파일</span>
 								</div>
+								<!--  
 								<div class="custom-file">
 									<input type="file" name="report" class="custom-file-input"
 										id="file01"> <label class="custom-file-label"
 										for="file01"> 파일을 선택하세요. </label>
 								</div>
+								-->
 							</div>
 							<button id="insertbtn" data-toggle="modal"
 								data-target="#exampleModalCenter"
@@ -129,7 +131,7 @@ h3 {
 										<div class="modal-footer">
 											<button type="button" class="btn btn-light"
 												data-dismiss="modal">취소</button>
-											<button type="button" class="btn btn-primary">등록</button>
+											<button type="button" id="regbtn" class="btn btn-primary">등록</button>
 										</div>
 									</div>
 								</div>

@@ -8,6 +8,8 @@
 		<typeAlias alias="user" type="sopms.vo.User"/>
 		<typeAlias alias="risk" type="sopms.vo.Risk"/>
 		<typeAlias alias="project" type="sopms.vo.Project"/>
+		<typeAlias alias="board" type="sopms.vo.Board"/>
+		<typeAlias alias="boardsch" type="sopms.vo.BoardSch"/>
 		<typeAlias alias="userSch" type="sopms.vo.userSch"/>
 		<typeAlias alias="cal" type="sopms.vo.Calendar"/>
 		<typeAlias alias="riskSch" type="sopms.vo.riskSch"/>
@@ -22,6 +24,7 @@
 		<mapper resource="resource/userMapper.xml"/>
 		<mapper resource="resource/riskMapper.xml"/>
 		<mapper resource="resource/projectMapper.xml"/>
+		<mapper resource="resource/boardMapper.xml"/>
 		<mapper resource="resource/loginMapper.xml"/>
 		<mapper resource="resource/calendarMapper.xml"/>
 		<mapper resource="resource/dashBoardMapper.xml"/>
