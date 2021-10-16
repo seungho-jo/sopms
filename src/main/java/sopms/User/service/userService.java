@@ -14,6 +14,15 @@ public class userService {
 	
 	@Autowired
 	private userDao dao;
+
+	public void resourcememberDelete(String id) {
+		
+		dao.resourcememberDelete(id);
+	}
+		
+	public ArrayList<User> resource(String pcode){
+		return dao.resource(pcode);
+	}
 	
 	public void deleteUser(String id) {
 		dao.deleteMemberRisk(id);
@@ -21,15 +30,25 @@ public class userService {
 	}
 	
 	public void insertUser(User ins){//회원등록
-		
+			switch (ins.getDept()) {
+			case "gh1":
+				ins.setDept("기획1팀");
+			case "gh2":
+				ins.setDept("기획1팀");
+			case "ds1":
+				ins.setDept("디자인1팀");
+			case "ds2":
+				ins.setDept("디자인2팀");
+			case "de1":
+				ins.setDept("개발1팀");
+			case "de2":
+				ins.setDept("개발2팀");
+			case "is":
+				ins.setDept("인사팀");
+			}
 		 dao.insertUser(ins);
 	}
 	
-//	public ArrayList<User> getUserList(String name){
-//		if(name==null) name = ""; //이름검색시 없을때 
-		
-//		return dao.userList(name);
-//	}
 	public ArrayList<User> getUserListPaging(userSch sch){
 		if(sch.getName() == null) sch.setName("");
 		sch.setPageSize(10);

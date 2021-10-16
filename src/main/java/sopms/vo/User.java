@@ -7,9 +7,17 @@ public class User {
 	private String rank; //직급
 	private String dept; //부서 
 	private String insertDay; //사원을 등록한 날짜 
-	private String insertpjDay; // 투입날짜 
+
 	//리소스 부분 합쳐도 되고 따로작성해도됨 
+	private int pcode;
 	
+	private String insertpjDay; // 투입날짜 
+	public int getPcode() {
+		return pcode;
+	}
+	public void setPcode(int pcode) {
+		this.pcode = pcode;
+	}
 	//리스트부분
 	private int cnt;
 	private int no; // 리스트 목록 번호 
