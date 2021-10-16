@@ -41,3 +41,35 @@ AND p.PCODE = 8;
 
 
 SELECT LISTAGG(dept,',') WITHIN GROUP(ORDER BY dept) AS dept FROM PROJECT_DEPT GROUP BY pcode;
+DROP TABLE board;
+
+CREATE SEQUENCE board_seq
+START WITH 1
+MINVALUE 1
+INCREMENT BY 1
+MAXVALUE 9999999;
+--커뮤니티게시판
+CREATE TABLE board(
+	bcode NUMBER PRIMARY key,
+	btitle varchar2(70) NOT NULL,
+	name varchar2(60),
+	bcontent varchar2(4000),
+	readcnt NUMBER,
+	regdte date
+);
+INSERT INTO board VALUES (board_seq.nextval,#{btitle},#{name},#{bcontent},#{readcnt},#{regdte});
+INSERT INTO board VALUES (board_seq.nextval,'테스트','홍길동','안녕',30,sysdate);
+SELECT * FROM board;
+SELECT *
+		FROM (
+		SELECT rownum cnt, b.*
+		FROM BOARD b
+		WHERE btitle LIKE '%'||''||'%'
+		AND name LIKE '%'||''||'%'
+		ORDER BY bcode DESC)
+		WHERE cnt BETWEEN 1 AND 5;
+	
+		SELECT count(*)
+		FROM BOARD b
+		WHERE btitle LIKE '%'||''||'%'
+		AND name LIKE '%'||''||'%';
