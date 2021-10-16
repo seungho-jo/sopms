@@ -57,8 +57,7 @@ table {
 						</div>
 					</div>
 					<div class="card-body">
-						<button type="button"
-							onclick="location.href='projectboard_Insert.jsp'"
+						<button type="button" id="goinsert"
 							class="btn btn-primary">작성</button>
 						<div id="content_cnt">
 							<h6 id="title">전체게시글 : ${boardSch.count}</h6>
@@ -157,10 +156,14 @@ table {
 		$("[name=curPage]").val(bcode);
 		$("form").submit();
 	}
-	function go(no){		
+	function go(bcode){		
 		$(location).attr("href",
 				"${path}/board.do?method=detail&bcode="+bcode);
 	}
+	$("#goinsert").click(function(){
+		$(location).attr("href","${path}/board.do?method=insertform");
+		
+	});	
 	$("#paging").children("li").click(function() {
 		var id = $(this).attr('id');
 		if (id == 'next') {
