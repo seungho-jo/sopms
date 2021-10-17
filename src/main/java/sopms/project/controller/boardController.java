@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import sopms.project.service.boardService;
 import sopms.vo.Board;
 import sopms.vo.BoardSch;
+import sopms.vo.Project;
 import sopms.vo.User;
 
 @Controller
@@ -24,7 +25,12 @@ public class boardController {
 	public String boardInsertform(HttpServletRequest request, Model d) {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		return "WEB-INF\\view\\projectboard_Insert.jsp";
+		if (user.getRank().equals("부장")||user.getDept().equals("인사팀")) {
+			return "WEB-INF\\view\\projectboard_Insert.jsp";
+		} else {
+			d.addAttribute("msg", "접근권한이 없습니다.");
+			return "WEB-INF\\view\\main.jsp";	
+		}	
 	}
 	
 	@RequestMapping(params = "method=insert")
@@ -33,7 +39,7 @@ public class boardController {
 		User user = (User) session.getAttribute("user");
 		board.setName(user.getName());
 		service.insertBoard(board);
-		return "WEB-INF\\view\\project_Insert.jsp";
+		return "WEB-INF\\view\\projectboard_List.jsp";
 	}
 	
 	// http://localhost:7080/sopms/board.do?method=list
@@ -49,4 +55,34 @@ public class boardController {
 		d.addAttribute("board", service.getBoard( bcode ));
 		return "WEB-INF\\view\\projectboard_Detail.jsp";
 	}	
+	
+	// http://localhost:7080/sopms/board.do?method=updateform
+	@RequestMapping(params = "method=updateform")
+	public String boardUpdateForm(@RequestParam("bcode") int bcode,HttpServletRequest request, Model d) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		if (user.getRank().equals("부장")||user.getDept().equals("인사팀")) {
+			d.addAttribute("board", service.getBoard(bcode));
+			return "WEB-INF\\view\\projectboard_Update.jsp";
+		} else {
+			d.addAttribute("msg", "접근권한이 없습니다.");
+			return "WEB-INF\\view\\main.jsp";
+
+		}
+			
+	}
+
+	// http://localhost:7080/sopms/board.do?method=update
+	@RequestMapping(params = "method=update")
+	public String boardUpdate(Board upt) {
+		service.update(upt);
+		return "WEB-INF\\view\\projectboard_Detail.jsp";
+	}
+
+	// http://localhost:7080/sopms/board.do?method=delete
+	@RequestMapping(params = "method=delete")
+	public String deleteBoard(@RequestParam("bcode") int bcode) {
+		service.deleteBoard(bcode);
+		return "redirect:/management.do";
+	}
 }

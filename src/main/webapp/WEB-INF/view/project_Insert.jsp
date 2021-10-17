@@ -67,6 +67,8 @@ h3 {
 #insertbtn {
 	margin-top: 50px;
 	display: inline-block;
+	width: 14%;
+	margin-left: 84%;
 }
 
 #title, #date-start, #date-end, #team-cnt {
@@ -77,7 +79,7 @@ h3 {
 <title>SOPMS</title>
 <script src="https://unpkg.com/vue/dist/vue.js" type="text/javascript"></script>
 <script type="text/javascript">
-
+	
 </script>
 </head>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
@@ -97,30 +99,29 @@ h3 {
 							<div class="row">
 								<div class="col-md-6 mb-3">
 									<label for="name" class="text-dark">프로젝트명</label> <input
-										type="text" class="form-control" name="pname" id="title" placeholder=""
-										value="" required>
+										type="text" class="form-control" name="pname" id="title"
+										placeholder="" value="" required>
 									<div class="invalid-feedback">이름을 입력해주세요.</div>
 								</div>
 								<div class="col-md-6 mb-3">
 									<label for="name" class="text-dark">부서</label>
 									<button id="deptbtn" data-toggle="modal"
 										data-target="#exampleModalCenter2"
-										class="btn btn-primary btn-lg btn-block center-block"
+										class="btn btn-light btn-lg btn-block center-block"
 										type="button">부서선택</button>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-6 mb-3"></div>
-								<div class="col-md-6 mb-3" id="output">
-									
-								</div>
-								<input type="hidden" class="form-control" name="dept" id="output2"
-										placeholder="" value="" required>
+								<div class="col-md-6 mb-3" id="output"></div>
+								<input type="hidden" class="form-control" name="dept"
+									id="output2" placeholder="" value="" required>
 							</div>
 							<div class="row">
 								<div class="col-md-6 mb-3">
 									<label for="name" class="text-dark">시작일</label> <input
-										type="date" class="form-control" id="startdate" name="startdate">
+										type="date" class="form-control" id="startdate"
+										name="startdate">
 								</div>
 								<div class="col-md-6 mb-3">
 									<label for="name" class="text-dark">종료일</label> <input
@@ -131,18 +132,18 @@ h3 {
 							<div class="row">
 								<div class="col-md-6 mb-3">
 									<label for="name" class="text-dark">팀원수</label> <input
-										type="text" class="form-control" id="team-cnt" name="teamnum" placeholder=""
-										value="" required>
+										type="text" class="form-control" id="team-cnt" name="teamnum"
+										placeholder="" value="" required>
 								</div>
 							</div>
 							<div class="mb-3">
 								<label for="exampleFormControlTextarea1"
 									class="form-label text-dark">프로젝트 설명</label>
-								<textarea class="form-control" name="explanation" id="exampleFormControlTextarea1"
-									rows="7"></textarea>
+								<textarea class="form-control" name="explanation"
+									id="exampleFormControlTextarea1" rows="7"></textarea>
 							</div>
-							<input type="hidden" class="form-control" name="status" id="status"
-										placeholder="" value="진행중" required>
+							<input type="hidden" class="form-control" name="status"
+								id="status" placeholder="" value="진행중" required>
 						</form>
 						<button id="insertbtn" data-toggle="modal"
 							data-target="#exampleModalCenter"
@@ -164,7 +165,8 @@ h3 {
 									<div class="modal-footer">
 										<button type="button" class="btn btn-light"
 											data-dismiss="modal">취소</button>
-										<button type="button" id="regBtn" name="regbtn" class="btn btn-primary">등록</button>
+										<button type="button" id="regBtn" name="regbtn"
+											class="btn btn-primary">등록</button>
 									</div>
 								</div>
 							</div>
@@ -180,13 +182,13 @@ h3 {
 									</div>
 									<div class="modal-body">
 										<form>
-											<input type="checkbox" class="check" value="디자인1"> 디자인1팀 
-											<input type="checkbox" class="check" value="디자인2"> 디자인2팀 
-											<input type="checkbox" class="check" value="개발1"> 개발1팀
-											<input type="checkbox" class="check" value="개발2"> 개발2팀
-											<input type="checkbox" class="check" value="기획1"> 기획1팀
-											<input type="checkbox" class="check" value="기획2"> 기획2팀
-											<input type="checkbox" id="allCheck"> 모두 체크<br />
+											<input type="checkbox" class="check" value="디자인1">
+											디자인1팀 <input type="checkbox" class="check" value="디자인2">
+											디자인2팀 <input type="checkbox" class="check" value="개발1">
+											개발1팀 <input type="checkbox" class="check" value="개발2">
+											개발2팀 <input type="checkbox" class="check" value="기획1">
+											기획1팀 <input type="checkbox" class="check" value="기획2">
+											기획2팀 <input type="checkbox" id="allCheck"> 모두 체크<br />
 											프로젝트 부서리스트 : <span id="multiPrint"></span><br />
 										</form>
 									</div>
@@ -275,7 +277,7 @@ h3 {
 			});
 			$("#multiPrint").text(str);
 			$("#output").text(str);
-			$("#output2").attr("value",str);
+			$("#output2").attr("value", str);
 		});
 
 		$("#allCheck").click(function() {
@@ -290,7 +292,7 @@ h3 {
 			});
 			$("#multiPrint").text(str);
 			$("#output").text(str);
-			$("#output2").attr("value",str);
+			$("#output2").attr("value", str);
 
 		});
 

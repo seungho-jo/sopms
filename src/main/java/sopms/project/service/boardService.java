@@ -50,4 +50,10 @@ public class boardService {
 
 		return b;
 	}	
+	public void update(Board upt) {
+		dao.updateBoard(upt);
+	}	
+	public void deleteBoard(int bcode) {
+		dao.deleteBoard(bcode);
+	}
 }

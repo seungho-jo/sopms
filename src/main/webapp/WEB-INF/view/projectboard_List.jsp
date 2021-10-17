@@ -57,7 +57,7 @@ table {
 		<jsp:include page="navi.jsp" />
 		<div class="card">
 			<div class="content-body">
-				<h3>커뮤니티 게시판</h3>
+				<h3>공지사항</h3>
 				<div class="card"></div>
 				<div class="card-body">
 					<button type="button" id="goinsert" class="btn btn-primary">작성</button>
@@ -114,7 +114,7 @@ table {
 					<c:forEach var="cnt" begin="${boardSch.startBlock}"
 						end="${boardSch.endBlock}">
 						<li class="page-item ${boardSch.curPage==cnt?'active':''}"><a
-							class="page-link" href="javascript:goBlock(${cnt})">${cnt}</a></li>
+							class="page-link" href="javascript:goPage(${cnt})">${cnt}</a></li>
 					</c:forEach>
 					<li class="page-item" id="next"><a class="page-link"
 						href="javascript:goBlock(${boardSch.endBlock-1})"> Next </a></li>
@@ -181,29 +181,7 @@ table {
 	$("#searchbtn").click(function(){	
 		$("#frm01").submit();
 	});	
-	$("#paging").children("li").click(function() {
-		var id = $(this).attr('id');
-		if (id == 'next') {
-			if ($('.active').next().attr('id') == id) {
-				alert("마지막 페이지 입니다");
-				return;
-			} else {
-				$('.active').next().attr('class', 'page-item active');
-				$('.active').first().attr('class', 'page-item');
-			}
-		} else if (id == 'pre') {
-			if ($('.active').prev().attr('id') == id) {
-				alert("첫 페이지 입니다");
-				return;
-			} else {
-				$('.active').prev().attr('class', 'page-item active');
-				$('.active').last().attr('class', 'page-item');
-			}
-		} else {
-			$("#paging").children("li").attr('class', 'page-item');
-			$(this).attr('class', 'page-item active');
-		}
-	});
+
 
 	$(".metismenu").children().eq(12).attr('class', 'mm-active');
 </script>

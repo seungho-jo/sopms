@@ -17,29 +17,39 @@
 		parameterType="boardsch">
 		SELECT *
 		FROM (
-		SELECT rownum cnt, b.*
-		FROM BOARD b
+		SELECT rownum cnt, b.*,m.name
+		FROM BOARD b, member m
 		WHERE
-		btitle LIKE
-		'%'||#{btitle}||'%'
-		AND name LIKE '%'||#{name}||'%'
-		ORDER BY
-		bcode
-		DESC)
+		b.id = m.id
+		and btitle LIKE '%'||#{btitle}||'%'
+		AND m.name LIKE '%'||#{name}||'%'
+		ORDER BY bcode DESC)
 		WHERE cnt BETWEEN #{start} AND #{end}
 	</select>
 	<select id="totCnt" resultType="int" parameterType="boardsch">
 		SELECT
 		count(*)
-		FROM BOARD b
-		WHERE btitle LIKE '%'||#{btitle}||'%'
+		FROM BOARD b,member m
+		WHERE b.id = m.id 
+		and btitle LIKE '%'||#{btitle}||'%'
 		AND name LIKE
 		'%'||#{name}||'%'
 	</select>
 	<select id="getBoard"  resultType="board" 
  	 	parameterType="int">
 		SELECT bcode, btitle, name, bcontent, readcnt, regdte
-		FROM board
-		WHERE bcode = #{bcode}
+		FROM board a, member b
+		WHERE a.id = b.id 
+		and bcode = #{bcode}
 	</select>
+	<update id="updateBoard" parameterType="board">
+		UPDATE board
+			set btitle = #{btitle},
+				bcontent = #{bcontent} 
+			where bcode = #{bcode}
+	</update>
+	<delete id="deleteBoard" parameterType="int">
+			DELETE FROM board 
+			where bcode = #{bcode}
+	</delete>
 </mapper>
