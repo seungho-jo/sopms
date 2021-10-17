@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import sopms.Management.service.managementService;
 import sopms.vo.Project_List_paging;
 import sopms.vo.User;
+import sopms.vo.Work;
+
 
 @Controller
 public class managementController {
@@ -29,7 +31,10 @@ public class managementController {
 			return "WEB-INF\\view\\main.jsp";
 		} else {
 			project_Lp.setPm(user.getId());
+			
 			d.addAttribute("list",service.getProjectList(project_Lp));
+			d.addAttribute("pm",user.getName());
+			d.addAttribute("id",user.getId());
 			return "WEB-INF\\view\\project_list.jsp";
 		}
 		
@@ -52,5 +57,25 @@ public class managementController {
 			d.addAttribute("list",service.wbslist(no));
 			
 			return "pageJsonReport";
+		}
+		
+		@RequestMapping("delete.do")
+		public String wbs03(@RequestParam("id") int id,@RequestParam("r_pcode") int r_pcode,@RequestParam("r_pm") String r_pm) {
+			service.deleteWbs(id);
+			return "forward:/status.do?pcode="+r_pcode+"&pm="+r_pm; 
+		}
+		
+		
+		@RequestMapping("update.do")
+		public String wbs04(Work update,@RequestParam("r_pcode") int r_pcode,@RequestParam("r_pm") String r_pm) {
+			service.updateWbs(update);
+			return "forward:/status.do?pcode="+r_pcode+"&pm="+r_pm; 
+		}
+		
+		
+		@RequestMapping("insert.do")
+		public String wbs05(Work insert,@RequestParam("r_pcode") int r_pcode,@RequestParam("r_pm") String r_pm) {
+			service.insertWbs(insert);
+			return "redirect:/status.do?pcode="+r_pcode+"&pm="+r_pm; 
 		}
 }

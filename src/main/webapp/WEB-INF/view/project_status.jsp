@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8" import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <fmt:requestEncoding value="utf-8" />
 <!DOCTYPE html>
@@ -24,8 +25,10 @@
 <script src="https://unpkg.com/vue/dist/vue.js" type="text/javascript"></script>
 <%
 String noS = request.getParameter("pcode");
-
+String pm = request.getParameter("pm");
+int no = Integer.parseInt(noS);
 %>
+
 </head>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
 	theme-layout="wide-layout">
@@ -45,15 +48,21 @@ String noS = request.getParameter("pcode");
 								data-toggle="tab" href="#summary">요약정보</a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
 								href="#wbs">WBS</a></li>
+							
+							
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
 								href="#resource">리소스</a></li>
+								
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
 								href="#issue">이슈/리스크</a></li>
 
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
 								href="#output">산출물</a></li>
 						</ul>
+						
 						<div class="tab-content">
+						
+						
 							<div class="tab-pane fade show active" id="summary"
 								role="tabpanel">
 								<div class="pt-4">
@@ -63,8 +72,10 @@ String noS = request.getParameter("pcode");
 							<div class="tab-pane fade" id="wbs">
 								<div class="pt-4">
 									<jsp:include page="ganttchart.jsp">									
-										<jsp:param name="pcode" value="<%=noS %>" />
+										<jsp:param name="pcode" value="<%=noS%>" />
+										<jsp:param name="pm" value="<%=pm%>" />
 									</jsp:include>
+									
 								</div>
 							</div>
 							<div class="tab-pane fade" id="resource">
