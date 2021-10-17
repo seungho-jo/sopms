@@ -7,9 +7,17 @@ public class Board {
 	private int bcode;
 	private String btitle;
 	private String name;
+	private String id;
 	private String bcontent;
 	private int readcnt;
 	private Date regdte;
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public int getBcode() {
 		return bcode;
 	}
