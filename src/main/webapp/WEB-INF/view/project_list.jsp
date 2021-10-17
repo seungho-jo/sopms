@@ -28,6 +28,7 @@
  	padding-bottom: 5px;
  }
 </style>
+
 </head>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
 	theme-layout="wide-layout">
@@ -55,12 +56,11 @@
 									
 								</form>
                                 <div class="table-responsive">
-                                    <table class="table table-responsive-sm table-hover">
+                                    <table class="table table-responsive-sm table-hover" width="100%" align="center">
                                         <thead>
                                             <tr>
                                                 <th class="text-dark">프로젝트</th>
                                                 <th class="text-dark">상태</th>
-                                                <th class="text-dark">완료율</th>
                                                 <th class="text-dark">시작일</th>
                                                 <th class="text-dark">완료일</th>
                                                 <th class="text-dark">PM</th>
@@ -77,16 +77,10 @@
 											<tr onclick="javascript:go(${project.pcode})">
 												<td class="text-dark">${project.pname}</td>
 												 <td><span>${project.status}</span></td>
-												<td>
-                                                    <div class="progress" style="background: rgba(127, 99, 244, .1)">
-                                                        <div class="progress-bar bg-primary" style="width: 70%;" role="progressbar">
-                                                        					<span class="sr-only">70% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
+												
 												<td class="text-dark">${start_date2}</td>
 												<td class="text-dark">${end_date2}</td>
-												<td class="text-dark">${project.id}</td>
+												<td class="text-dark">${pm}</td>
 												<td><span class="badge badge-pill badge-warning">${project.risk_cnt}</span>
 												</tr>
 										</c:forEach>
@@ -166,7 +160,7 @@
 	}
 	function go(no){
 		$(location).attr("href",
-				"${path}/status.do?pcode="+no);
+				"${path}/status.do?pcode="+no+"&pm=${id}");
 	}
 </script>
 </html>
