@@ -11,4 +11,6 @@ public interface boardDao {
 	public ArrayList<Board> boardList(BoardSch sch);
 	public int totCnt(BoardSch sch);
 	public Board getBoard(int bcode);
+	public void updateBoard(Board upt);
+	public void deleteBoard(int bcode);
 }

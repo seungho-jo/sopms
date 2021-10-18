@@ -47,5 +47,17 @@ public class managementService {
 	public ArrayList<Work> wbslist(int no){
 		return dao.wbslist(no);
 	}
+	public void deleteWbs(int id) {
+		dao.deleteWbs(id);
+	}	
+	
+	public void updateWbs(Work update) {
+		
+		dao.updateWbs(update);
+	}	
+	public void insertWbs(Work insert) {
+		
+		dao.insertWbs(insert);
+	}	
 	
 }

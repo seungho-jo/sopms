@@ -22,8 +22,41 @@
 	</select>
 	
 	<select id="wbslist" resultType="work">
-		select workcode, title, to_char(start_date,'dd-mm-YYYY') as start_date, duration, manager, parent from wbs
+		select * from(
+		select a.workcode, a.title, a.content, to_char(a.start_date,'dd-mm-YYYY') as start_date, a.duration, a.manager, a.parent, b.name as pm_name from wbs a, member b
+		where a.manager = b.id OR (a.pm = b.id AND a.MANAGER IS NULL)
+		)
 		where workcode = #{no} or parent = #{no}
+		
+		
+	</select>
+	<update id="updateWbs" parameterType="work">
+		UPDATE wbs
+		   SET title = #{title},
+		   	   content = #{content},
+		   	   start_date = to_date(#{start_date},'YYYY-MM-DD'),
+		   	   end_date = to_date(#{start_date},'YYYY-MM-DD') + #{duration},
+		   	   duration = #{duration},
+		       pm = #{pm},
+		       manager = #{manager},
+		   	   parent = #{parent}
+		 WHERE workcode = #{workcode}
+ 	</update>
+ 	<insert id="insertWbs" parameterType="work">
+		insert into wbs(workcode, title, content, start_date, end_date, duration, pm, manager, parent, status) 
+		values(wbs01_seq.nextval,#{title},#{content},to_date(#{start_date},'YYYY-MM-DD'),
+						to_date(#{start_date},'YYYY-MM-DD') + #{duration},#{duration},#{pm},#{manager},#{parent},'진행중')
+	</insert> 
+  	<delete id="deleteWbs" parameterType="int">
+		DELETE FROM wbs
+		 WHERE workcode = #{workcode}
+ 	</delete> 	
+ 	
+ 	<select id="resource" resultType="user" parameterType="String">
+	<!-- 이름, 부서, 직급, 투입날짜 -->
+	SELECT mem.id,mem.name,mem.dept,mem.RANK,TO_CHAR(MEM.INSERTPJDAY,'YYYY-MM-DD') AS INSERTPJDAY
+	FROM lesource le,MEMBER mem
+	WHERE le.id = mem.id AND pcode= #{pcode}
 	</select>
 	
 	

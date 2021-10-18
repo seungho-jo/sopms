@@ -3,6 +3,7 @@ package sopms.vo;
 public class BoardSch {
 		private String btitle;
 		private String name;
+		private String id;
 
 		private int count; 
 		private int pageSize; 
@@ -16,6 +17,12 @@ public class BoardSch {
 		private int endBlock;
 		
 		
+		public String getId() {
+			return id;
+		}
+		public void setId(String id) {
+			this.id = id;
+		}
 		public String getBtitle() {
 			return btitle;
 		}

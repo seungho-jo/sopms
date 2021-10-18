@@ -54,8 +54,8 @@ h3 {
 #insertbtn {
 	margin-top: 50px;
 	display: inline-block;
-    width: 14%;
-    margin-left: 84%;
+	width: 14%;
+	margin-left: 84%;
 }
 
 #title, #date-start, #date-end, #team-cnt {
@@ -79,6 +79,7 @@ h3 {
 .custom-file-label {
 	width: 96%;
 }
+
 #contentdiv {
 	display: block;
 	width: 100%;
@@ -105,27 +106,27 @@ h3 {
 		<jsp:include page="navi.jsp" />
 		<div class="content-body">
 			<div class="container">
-				<form id="list" action="${path}/board.do?method=list" method="post">
-					<input type="hidden" name="curPage" value="1">
-				</form>
-				<!-- 등록 후, 현재 페이지 번호를 변경 처리 ==> session값에 영향. -->
-				<form id="insert01"
-					action="${path}/board.do?method=insert" method="post">
-					<input type="hidden" name="readcnt" value="0" />
+
+				<form action="${path}/board.do?method=update" method="post"
+					id="updateform">
+					<input type="hidden" class="form-control" name="bcode" id="bcode"
+						placeholder="" value="${board.bcode}" required> <input
+						type="hidden" class="form-control" name="name" id="name"
+						placeholder="" value="${board.name}" required>
 					<div class="input-form-backgroud row">
 						<div class="input-form col-md-12 mx-auto">
-							<h3 class="mb-5">공지사항 등록</h3>
-								<div class="row">
-									<div class="col-md-6 mb-3" id="titlediv">
-										<input type="text" class="form-control" id="title" name="btitle"
-											placeholder="글 제목을 입력하세요." value="" required>
-									</div>
+							<h3 class="mb-5">공지사항 수정</h3>
+							<div class="row">
+								<div class="col-md-6 mb-3" id="titlediv">
+									<input type="text" class="form-control" id="title"
+										name="btitle" value="${board.btitle}" required>
 								</div>
+							</div>
 
-								<div class="card-body">
-									<textarea rows="10" cols="" name="bcontent" id="contentdiv"></textarea>
-								</div>
-								<!-- 첨부파일
+							<div class="card-body">
+								<textarea rows="10" cols="" name="bcontent" id="contentdiv">${board.bcontent}</textarea>
+							</div>
+							<!-- 첨부파일
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
 									<span class="input-group-text">첨부 파일</span>
@@ -138,31 +139,35 @@ h3 {
 								
 							</div>
 							-->
-								<button id="insertbtn" data-toggle="modal"
-									data-target="#exampleModalCenter"
-									class="btn btn-primary btn-lg btn-block center-block"
-									type="button">등록</button>
-								<!-- Modal -->
-								<div class="modal fade" id="exampleModalCenter">
-									<div class="modal-dialog modal-dialog-centered" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title">게시물 등록</h5>
-												<button type="button" class="close" data-dismiss="modal">
-													<span>&times;</span>
-												</button>
-											</div>
-											<div class="modal-body">
-												<h5>게시물을 등록하시겠습니까?</h5>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-light"
-													data-dismiss="modal">취소</button>
-												<button type="button" id="regbtn" class="btn btn-primary">등록</button>
-											</div>
+							<div class="row">
+								<div class="offset-9">
+									<button id="upt" class="btn btn-primary" data-toggle="modal"
+										data-target="#exampleModalCenter" type="button" type="button">수정</button>
+									<button id="del" class="btn btn-light" type="button">취소</button>
+								</div>
+							</div>
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModalCenter">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title">프로젝트 수정</h5>
+											<button type="button" class="close" data-dismiss="modal">
+												<span>&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<p>프로젝트를 수정하시겠습니까?</p>
+										</div>
+										<div class="modal-footer">
+											<button type="button" id="uptBtn_modal" name="uptbtn"
+												class="btn btn-primary">확인</button>
+											<button type="button" id="canBtn_modal" class="btn btn-light"
+												data-dismiss="modal">취소</button>
 										</div>
 									</div>
 								</div>
+							</div>
 						</div>
 					</div>
 				</form>
@@ -208,10 +213,12 @@ h3 {
 <script src="./js/dashboard/dashboard-1.js"></script>
 <script type="text/javascript">
 	$(".metismenu").children().eq(11).attr('class', 'mm-active');
-	$("#regbtn").click(function() {
-		$("#insert01").submit();
-		console.log(123);
-		alert("게시물을 등록했습니다.");
+	$("#uptBtn_modal").click(function() {
+		$("#updateform").submit();
+		alert("프로젝트를 수정했습니다.");
+	});
+	$("#canBtn_modal").click(function(){
+		history.back();
 	});
 </script>
 </html>

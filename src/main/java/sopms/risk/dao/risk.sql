@@ -218,3 +218,48 @@ select *
 
 delete from risk
 		where risk_no = 16;
+		
+	
+update risk
+			set id = 'happy02',
+				risk_content = 'test',
+				risk_status ='조치완료'
+			where risk_no = 14;
+			
+CREATE TABLE riskJochi(
+	risk_no VARCHAR2(15),
+	id  VARCHAR2(60),
+	risk_jochiCont VARCHAR2(1000),
+	risk_jochiUpt DATE,
+	CONSTRAINT fk_risk_no FOREIGN KEY (risk_no) REFERENCES risk(risk_no)
+);
+SELECT * FROM risk;
+SELECT * FROM riskJochi;
+DELETE from riskJochi;
+SELECT b.pcode, b.dept, m.*
+FROM project_dept b, MEMBER m
+WHERE b.dept = m.dept
+AND id NOT IN (SELECT id FROM lesource WHERE pcode = 2);
+
+INSERT INTO RISKJOCHI (risk_no, id, RISK_JOCHICONT, RISK_JOCHIUPT)
+SELECT RISK_NO, id, risk_content, sysdate FROM risk
+WHERE risk_no = 14;
+
+SELECT * FROM risk WHERE risk_no = 3;
+
+SELECT a.risk_no, a.id, a.risk_jochiCont, a.risk_jochiUpt
+FROM riskJochi a, risk b
+WHERE a.risk_no = b.risk_no
+AND b.risk_no = 14;
+
+MERGE INTO RISKJOCHI a
+USING dual
+ON (a.risk_no = 14)
+WHEN MATCHED THEN 
+UPDATE SET 
+		a.id = 'happy02',
+		a.RISK_JOCHICONT = 'testing',
+		a.RISK_JOCHIUPT = sysdate
+WHEN NOT MATCHED THEN 
+INSERT (a.risk_no, a.id, a.RISK_JOCHICONT, a.RISK_JOCHIUPT) 
+VALUES (14,'happy02','testing',sysdate);

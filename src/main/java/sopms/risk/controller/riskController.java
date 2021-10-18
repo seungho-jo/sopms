@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import sopms.risk.service.riskService;
 import sopms.vo.Risk;
 import sopms.vo.User;
+import sopms.vo.riskJochi;
 import sopms.vo.riskSch;
 
 
@@ -72,6 +73,17 @@ public class riskController {
 	
 	
 	// 등록 모달 창
+	@RequestMapping("updateModalContent.do")
+	public String updateModalContent(HttpServletRequest request, Risk rk, Model d) {
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		rk.setId(user.getId());
+		service.uptModalContent(rk);
+		d.addAttribute("riskJochi", service.riskJochiSelect(Integer.parseInt(rk.getRisk_no())));
+		return "forward:/updatePageGo.do";
+	}
+	
+	// 상세페이지 리스크 내용 수정
 	
 	
 	// 삭제

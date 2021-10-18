@@ -18,8 +18,10 @@ public class Work {
 	private String apprmsg;
 	private String compmsg;
 	private String apprdate;
-	private String fname;
 	private MultipartFile report;
+	private String pm_name;
+	private String m_name;
+	
 	public int getWorkcode() {
 		return workcode;
 	}
@@ -110,17 +112,25 @@ public class Work {
 	public void setApprdate(String apprdate) {
 		this.apprdate = apprdate;
 	}
-	public String getFname() {
-		return fname;
-	}
-	public void setFname(String fname) {
-		this.fname = fname;
-	}
 	public MultipartFile getReport() {
 		return report;
 	}
 	public void setReport(MultipartFile report) {
 		this.report = report;
 	}
+	public String getPm_name() {
+		return pm_name;
+	}
+	public void setPm_name(String pm_name) {
+		this.pm_name = pm_name;
+	}
+	public String getM_name() {
+		return m_name;
+	}
+	public void setM_name(String m_name) {
+		this.m_name = m_name;
+	}
+	
+	
 	
 }

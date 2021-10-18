@@ -37,9 +37,10 @@ h3 {
 	padding-left: 16px;
 }
 
-#form-backgroud{
+#form-backgroud {
 	min-height: 650px;
 }
+
 .input-form {
 	max-width: 680px;
 	margin-top: 10px;
@@ -54,18 +55,18 @@ h3 {
 	box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
 }
 
-#uptbtn, #delbtn {
+#upt, #del {
 	margin-top: 20px;
 	display: inline-block;
 	width: 8%;
 	float: right;
 	margin: 0.5%;
+	padding: 1;
+	height: 34px;
 }
-#uptbtn {
+
+#upt {
 	margin-right: 18px;
-}
-#title, #date-start, #date-end, #team-cnt {
-	height: 39px;
 }
 
 .input-group-text {
@@ -81,9 +82,11 @@ h3 {
 .custom-file-label {
 	width: 96%;
 }
+
 #titlediv {
 	margin-left: 4px;
 }
+
 #detailinfo {
 	margin-left: 10px;
 }
@@ -118,36 +121,38 @@ h3 {
 		<jsp:include page="navi.jsp" />
 		<div class="content-body">
 			<div class="container">
-
-				<div class="input-form-backgroud row" id="form-backgroud">
-					<div class="input-form col-md-12 mx-auto">
-						<div id="titlediv">
-							<h3>${board.btitle}</h3>
-						</div>
-						<div class="row" id="detailinfo">
-							<div class="form-group row">
-								<label class="col-sm-3 col-form-label">작성자</label>
-								<div class="col-sm-9">
-									<input type="text" readonly class="form-control-plaintext"
-										value="${board.name}">
-								</div>
-								<label class="col-sm-3 col-form-label">조회수</label>
-								<div class="col-sm-9">
-									<input type="text" readonly class="form-control-plaintext"
-										value="${board.readcnt}">
-								</div>
-								<label class="col-sm-3 col-form-label">등록일자</label>
-								<div class="col-sm-9">
-									<input type="text" readonly class="form-control-plaintext"
-										value="${board.regdte}">
+				<form method="post">
+					<input type="hidden" name="bcode" value="${board.bcode}"/>
+					<input type="hidden" name="name" value="${board.name}"/>
+					<div class="input-form-backgroud row" id="form-backgroud">
+						<div class="input-form col-md-12 mx-auto">
+							<div id="titlediv">
+								<h3>${board.btitle}</h3>
+							</div>
+							<div class="row" id="detailinfo">
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label">작성자</label>
+									<div class="col-sm-9">
+										<input type="text" readonly class="form-control-plaintext"
+											value="${board.name}">
+									</div>
+									<label class="col-sm-3 col-form-label">조회수</label>
+									<div class="col-sm-9">
+										<input type="text" readonly class="form-control-plaintext"
+											value="${board.readcnt}">
+									</div>
+									<label class="col-sm-3 col-form-label">등록일자</label>
+									<div class="col-sm-9">
+										<input type="text" readonly class="form-control-plaintext"
+											value="${board.regdte}">
+									</div>
 								</div>
 							</div>
-						</div>
-						<div id="contentdiv">
-							<span>${board.bcontent}</span>
-						</div>
+							<div id="contentdiv">
+								<span>${board.bcontent}</span>
+							</div>
 
-						<!-- 
+							<!-- 
 						<div class="input-group mb-3" id="filediv">
 							<div class="input-group-prepend">
 								<span class="input-group-text">첨부 파일</span>
@@ -159,35 +164,15 @@ h3 {
 							</div>
 						</div>
 						 -->
-							<button id="uptbtn" data-toggle="modal"
-								data-target="#exampleModalCenter"
-								class="btn btn-primary btn-lg btn-block center-block"
-								type="button">수정</button>
-							<button id="delbtn" data-toggle="modal"
-								data-target="#exampleModalCenter2"
-								class="btn btn-danger btn-lg btn-block center-block"
-								type="button">삭제</button>
+						 	<c:if test="${user.id == board.id}">
+						 		<button id="upt" class="btn btn-primary" type="button">수정</button>
+								<button id="del" data-toggle="modal"
+									data-target="#exampleModalCenter2"
+									class="btn btn-danger btn-lg btn-block center-block"
+									type="button">삭제</button>
+						 	</c:if>
 							<!-- Modal -->
-							<div class="modal fade" id="exampleModalCenter">
-								<div class="modal-dialog modal-dialog-centered" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title">게시물 수정</h5>
-											<button type="button" class="close" data-dismiss="modal">
-												<span>&times;</span>
-											</button>
-										</div>
-										<div class="modal-body">
-											<h5>게시물을 수정하시겠습니까?</h5>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-light"
-												data-dismiss="modal">취소</button>
-											<button type="button" class="btn btn-primary">수정</button>
-										</div>
-									</div>
-								</div>
-							</div>						
+
 							<div class="modal fade" id="exampleModalCenter2">
 								<div class="modal-dialog modal-dialog-centered" role="document">
 									<div class="modal-content">
@@ -203,14 +188,15 @@ h3 {
 										<div class="modal-footer">
 											<button type="button" class="btn btn-light"
 												data-dismiss="modal">취소</button>
-											<button type="button" class="btn btn-danger">삭제</button>
+											<button type="button" id="delBtn_modal" class="btn btn-danger">삭제</button>
 										</div>
 									</div>
 								</div>
-							</div>						
-						
+							</div>
+
+						</div>
 					</div>
-				</div>
+				</form>
 			</div>
 
 		</div>
@@ -253,5 +239,12 @@ h3 {
 <script src="./js/dashboard/dashboard-1.js"></script>
 <script type="text/javascript">
 	$(".metismenu").children().eq(11).attr('class', 'mm-active');
+	$("#delBtn_modal").click(function() {	
+		$(location).attr("href",
+			"${path}/board.do?method=delete&bcode=" + $("[name=bcode]").val());
+	});
+	$("#upt").click(function(){
+			$(location).attr("href","${path}/board.do?method=updateform&bcode="+ $("[name=bcode]").val());
+	});
 </script>
 </html>
