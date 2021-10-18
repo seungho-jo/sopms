@@ -8,10 +8,19 @@ public class Calendar {
 	private String start;
 	private String end;
 	private boolean allDay;
+	private String borderColor;
 	private String backgroundColor;
-	private String pmColor;
+	private String textColor;
 	private String manager;
+	private String name;
 	private int process;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public int getId() {
 		return id;
 	}
@@ -60,12 +69,6 @@ public class Calendar {
 	public void setBackgroundColor(String backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
-	public String getPmColor() {
-		return pmColor;
-	}
-	public void setPmcolor(String pmColor) {
-		this.pmColor = pmColor;
-	}
 	public String getManager() {
 		return manager;
 	}
@@ -77,6 +80,18 @@ public class Calendar {
 	}
 	public void setProcess(int process) {
 		this.process = process;
+	}
+	public String getBorderColor() {
+		return borderColor;
+	}
+	public void setBorderColor(String borderColor) {
+		this.borderColor = borderColor;
+	}
+	public String getTextColor() {
+		return textColor;
+	}
+	public void setTextColor(String textColor) {
+		this.textColor = textColor;
 	}
 	
 }

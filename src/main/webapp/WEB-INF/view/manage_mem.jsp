@@ -21,10 +21,9 @@
 <link href="./vendor/jqvmap/css/jqvmap.min.css" rel="stylesheet">
 <link href="./css/manage_mem.css" rel="stylesheet">
 <!-- fullcalendar -->
-<link href="./vendor/fullcalendar/lib/main.css"
-	rel="stylesheet">
-<script src="./vendor/fullcalendar/lib/main.js"
-	type="text/javascript"></script>
+<link href="./vendor/fullcalendar/lib/main.css" rel="stylesheet">
+<script src="./vendor/fullcalendar/lib/main.js" type="text/javascript"></script>
+
 <title>Insert title here</title>
 <script src="https://unpkg.com/vue/dist/vue.js" type="text/javascript"></script>
 <script

@@ -79,6 +79,13 @@ public class User {
 	public String getInsertpjDay() {
 		return insertpjDay;
 	}
+	
+	@Override
+	public String toString() {
+		return "User [name=" + name + ", id=" + id + ", pass=" + pass + ", rank=" + rank + ", dept=" + dept
+				+ ", insertDay=" + insertDay + ", pcode=" + pcode + ", insertpjDay=" + insertpjDay + ", cnt=" + cnt
+				+ ", no=" + no + "]";
+	}
 	public void setInsertpjDay(String insertpjDay) {
 		this.insertpjDay = insertpjDay;
 	}

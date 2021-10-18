@@ -5,7 +5,7 @@
 <mapper namespace="sopms.project.dao.boardDao">
 	<insert id="insertBoard" parameterType="board">
 		INSERT INTO board VALUES
-		(board_seq.nextval,#{btitle},#{name},#{bcontent},#{readcnt},sysdate)
+		(board_seq.nextval,#{btitle},#{id},#{bcontent},#{readcnt},sysdate)
 	</insert>
 	<update id="uptReadCnt" parameterType="int">
 		UPDATE board
@@ -52,4 +52,14 @@
 			DELETE FROM board 
 			where bcode = #{bcode}
 	</delete>
+	<insert id="uploadFile" parameterType="boardfile">
+		insert into boardfile values(
+			board_seq.currval,#{bfname},sysdate)
+	</insert>	
+	<select id="getBoardFile" 
+		resultType="String" parameterType="int">
+		select bfname
+		from boardfile
+		where bcode = #{bcode}
+	</select>
 </mapper>

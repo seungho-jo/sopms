@@ -59,7 +59,7 @@ CREATE TABLE board(
 INSERT INTO board VALUES (board_seq.nextval,#{btitle},#{id},#{bcontent},#{readcnt},#{regdte});
 INSERT INTO board VALUES (board_seq.nextval,'테스트','홍길동','안녕',30,sysdate);
 INSERT INTO board VALUES (board_seq.nextval,'안녕하세요','김길동','안녕',30,sysdate);
-SELECT * FROM board;
+SELECT * FROM boardfile;
 SELECT *
 		FROM (
 		SELECT rownum cnt, b.*
@@ -77,3 +77,9 @@ SELECT *
 	SELECT bcode, btitle, name, bcontent, readcnt, TO_CHAR(REGDTE ,'YYYY-MM-DD HH:MM') as REGDTE
 	FROM board
 	WHERE bcode =1;
+	SELECT * FROM board;
+CREATE TABLE boardfile(
+	bcode NUMBER, 
+	bfname varchar2(300),
+	credte date
+);
