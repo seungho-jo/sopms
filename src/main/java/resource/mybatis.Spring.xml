@@ -17,6 +17,7 @@
 		<typeAlias alias="project_List" type="sopms.vo.Project_List"/>
 		<typeAlias alias="project_Lp" type="sopms.vo.Project_List_paging"/>
 		<typeAlias alias="workpmsch" type="sopms.vo.WorkPmSch"/>
+		<typeAlias alias="riskJochi" type="sopms.vo.riskJochi"/>
 		
 	</typeAliases>
 	<mappers>

@@ -2,8 +2,10 @@ package sopms.risk.dao;
 
 import java.util.ArrayList;
 
+
 import sopms.vo.Project;
 import sopms.vo.Risk;
+import sopms.vo.riskJochi;
 import sopms.vo.riskSch;
 
 public interface riskDao {
@@ -17,4 +19,12 @@ public interface riskDao {
 	public Risk detailRiskPaging(int risk_no);
 	public void upReadCnt (int risk_no);
 	public Project getProject (int pcode);
+	
+	// 모달 창 내용 업데이트
+	public void uptModalContent( Risk rk);
+	
+	// 업데이트로 인해 상태 변화 
+	public void uptRiskStatus(Risk rk);
+	// 입력 받은 조치내역 출력
+	public riskJochi riskJochiSelect(int riskNum);
 }
