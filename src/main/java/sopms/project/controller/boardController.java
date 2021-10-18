@@ -1,5 +1,6 @@
 package sopms.project.controller;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import sopms.project.service.boardService;
 import sopms.vo.Board;
 import sopms.vo.BoardSch;
-import sopms.vo.Project;
 import sopms.vo.User;
 
 @Controller
@@ -85,4 +85,6 @@ public class boardController {
 		service.deleteBoard(bcode);
 		return "redirect:/management.do";
 	}
+	
+
 }

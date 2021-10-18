@@ -152,18 +152,16 @@ h3 {
 								<span>${board.bcontent}</span>
 							</div>
 
-							<!-- 
 						<div class="input-group mb-3" id="filediv">
 							<div class="input-group-prepend">
 								<span class="input-group-text">첨부 파일</span>
 							</div>
 							<div class="custom-file">
-								<input type="file" name="report" class="custom-file-input"
-									id="file01"> <label class="custom-file-label"
-									for="file01"> 양식.html </label>
+								<input type="file" name="fname" class="custom-file-input"
+									id="file01" value="${board.fname}"> <label class="custom-file-label"
+									for="file01"></label>
 							</div>
 						</div>
-						 -->
 						 	<c:if test="${user.id == board.id}">
 						 		<button id="upt" class="btn btn-primary" type="button">수정</button>
 								<button id="del" data-toggle="modal"
@@ -245,6 +243,16 @@ h3 {
 	});
 	$("#upt").click(function(){
 			$(location).attr("href","${path}/board.do?method=updateform&bcode="+ $("[name=bcode]").val());
+	});
+	$("#file01").click(function(){
+		var fname=$(this).val();
+		if(confirm("다운로드하시겠습니까?")){
+			$(location).attr("href",
+				"${path}/board.do?method=download&fname="+fname);	
+		}
+	});
+	$("#fname").click(function(){
+		location.href="${path}/boarddownload.do?fname="+$(this).val();
 	});
 </script>
 </html>
