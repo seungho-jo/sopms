@@ -24,18 +24,18 @@ public class DownloadViewer extends AbstractView{
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// TODO Auto-generated method stub
-		String fname = (String)model.get("boardFile");
+		String bfname = (String)model.get("boardFile");
 		// 	 	1) 파일을 객체로 생성 처리하여, 전달 준비.
-		File file = new File(upload+fname);
+		File file = new File(upload+bfname);
 		System.out.println("## viewer오신 것을 환영합니다##");
 		System.out.println("전체파일명:"+file.getPath());
 		System.out.println("파일명:"+file.getName());
 		System.out.println("파일길이:"+(int)file.length());
 		response.setContentType("application/download; charset=UTF-8");
 		response.setContentLength((int)file.length());
-		fname = URLEncoder.encode(fname,"utf-8").replaceAll("\\+", " ");
+		bfname = URLEncoder.encode(bfname,"utf-8").replaceAll("\\+", " ");
 		response.setHeader("Content-Disposition",
-				"attachment;filename=\""+fname+"\"");
+				"attachment;filename=\""+bfname+"\"");
 		response.setHeader("Content-Transfer-Encoding", "binary");
 		FileInputStream fis = new FileInputStream(file);
 		
