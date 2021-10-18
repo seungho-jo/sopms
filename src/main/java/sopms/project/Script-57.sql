@@ -77,3 +77,9 @@ SELECT *
 	SELECT bcode, btitle, name, bcontent, readcnt, TO_CHAR(REGDTE ,'YYYY-MM-DD HH:MM') as REGDTE
 	FROM board
 	WHERE bcode =1;
+	
+CREATE TABLE boardfile(
+	bcode NUMBER, 
+	bfname varchar2(300),
+	credte date
+);

@@ -2,8 +2,10 @@ package sopms.vo;
 
 import java.util.Date;
 
-public class Board {
+import org.springframework.web.multipart.MultipartFile;
 
+public class Board {
+	private int cnt;
 	private int bcode;
 	private String btitle;
 	private String name;
@@ -11,7 +13,27 @@ public class Board {
 	private String bcontent;
 	private int readcnt;
 	private Date regdte;
+	private String fname;
+	private MultipartFile report;
 	
+	public MultipartFile getReport() {
+		return report;
+	}
+	public void setReport(MultipartFile report) {
+		this.report = report;
+	}
+	public int getCnt() {
+		return cnt;
+	}
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
+	public String getFname() {
+		return fname;
+	}
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
 	public String getId() {
 		return id;
 	}

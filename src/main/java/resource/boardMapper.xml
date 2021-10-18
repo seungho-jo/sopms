@@ -52,4 +52,14 @@
 			DELETE FROM board 
 			where bcode = #{bcode}
 	</delete>
+	<insert id="uploadFile" parameterType="boardfile">
+		insert into boardfile values(
+			board_seq.currval,#{fname},sysdate)
+	</insert>	
+	<select id="getBoardFile" 
+		resultType="String" parameterType="int">
+		select fname
+		from boardfile
+		where bcode = #{bcode}
+	</select>
 </mapper>

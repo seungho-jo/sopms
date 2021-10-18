@@ -65,6 +65,7 @@ table {
 						<input type="hidden" name="curPage" value="1">
 						<div class="input-group" id="search1">
 							<select id="status" name="status" class="form-select">
+								<option value="">분류</option>
 								<option value="btitle">제목</option>
 								<option value="name">작성자</option>
 							</select> <input type="text" class="form-control input-sm" id="search">
@@ -181,7 +182,10 @@ table {
 	$("#searchbtn").click(function(){	
 		$("#frm01").submit();
 	});	
-
+	$("#status").change(function(){
+		console.log($(this).val());
+		$("#search").attr("name",$(this).val());
+	});
 
 	$(".metismenu").children().eq(12).attr('class', 'mm-active');
 </script>
