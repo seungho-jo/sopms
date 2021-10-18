@@ -91,8 +91,8 @@ h3 {
 	margin-left: 10px;
 }
 
-#filediv {
-	margin-top: 15px;
+#filediv, #filediv input {
+	cursor: pointer;
 }
 
 #contentdiv {
@@ -146,22 +146,17 @@ h3 {
 										<input type="text" readonly class="form-control-plaintext"
 											value="${board.regdte}">
 									</div>
+									<label class="col-sm-3 col-form-label">첨부파일</label>
+									<div class="col-sm-9" id="filediv">
+										<input type="text" readonly class="form-control-plaintext" id="file01"
+											value="${board.bfname}">
+									</div>
 								</div>
 							</div>
 							<div id="contentdiv">
 								<span>${board.bcontent}</span>
 							</div>
 
-						<div class="input-group mb-3" id="filediv">
-							<div class="input-group-prepend">
-								<span class="input-group-text">첨부 파일</span>
-							</div>
-							<div class="custom-file">
-								<input type="text" name="fname" class="custom-file-input"
-									id="file01" value="${board.bfname}" readonly> <label class="custom-file-label"
-									for="file01"></label>
-							</div>
-						</div>
 						 	<c:if test="${user.id == board.id}">
 						 		<button id="upt" class="btn btn-primary" type="button">수정</button>
 								<button id="del" data-toggle="modal"
@@ -248,7 +243,7 @@ h3 {
 		var bfname=$(this).val();
 		if(confirm("다운로드하시겠습니까?")){
 			$(location).attr("href",
-				"${path}/board.do?method=download&bfname="+bfname);	
+				"${path}/boarddownload.do?bfname="+bfname);	
 		}
 	});
 	$("#fname").click(function(){

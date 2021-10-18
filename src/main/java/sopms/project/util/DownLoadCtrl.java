@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class DownLoadCtrl {
 	// http://localhost:7080/board/download.do?fname=@@@;
 	@RequestMapping("boarddownload.do")
-	public String download(@RequestParam("fname") String fname, Model d) {
-		d.addAttribute("boardFile", fname);
+	public String download(@RequestParam("bfname") String bfname, Model d) {
+		d.addAttribute("boardFile", bfname);
 		return "boarddownloadViewer";
 	}
 }
