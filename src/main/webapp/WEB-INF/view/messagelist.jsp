@@ -81,6 +81,7 @@
                 <div class="chatinfo">
                   <div class="shown"></div>
                   <div class="time"></div>
+                  <div class="fromId"></div>
                 </div>
               </div>
             </div>
@@ -119,10 +120,11 @@
 <script src="./vendor/jquery.counterup/jquery.counterup.min.js"></script>
 
   <script type="text/javascript">
-  
+ 
+  let id = "<c:out value='${currentId}'/>"
 
   $(document).ready(function() {
-      let wsocket = new WebSocket("ws://localhost:7080/${path}/chat-ws.do");
+      let wsocket = new WebSocket("ws://localhost:8080/${path}/chat-ws.do");
       wsocket.onopen = function (evt) {
           console.log("안냥")
       }
@@ -135,9 +137,13 @@
       }
 
 
-      $("#send").click(function (evt){
-          $sendmsg = $("#write").val()
-          wsocket.send($("#write").val());
+      $("#send").click(function (){
+  		let option ={
+  				fromId: "<c:out value='${currentId}'/>",
+  				msg : $("#write").val()
+  			}
+  		console.log(option)
+          wsocket.send(JSON.stringify(option));
           $("#write").val('')
           
       }
@@ -146,14 +152,31 @@
   
 
   function receiveMsg(msg) {
+	  let messageItem = JSON.parse(msg)
+	  console.log(messageItem)
+	  if(messageItem.fromId==id){
+		  let newMsg = $('#template').clone();
+	      newMsg.find('.messagearea').addClass('mymessage')
+	      newMsg.removeAttr('id');
+	      newMsg.find('.bubblecontent').html(messageItem.msg);
+	      //JSON.stringify(msg.msg).slice(1, -1)
+	      $('#chats').append(newMsg);
+	      let mx = parseInt($("#chats").height());
+	      $("#chatbelongs").scrollTop(mx);
+		  
+	  }
+	  
+	  else{
+		  let newMsg = $('#template').clone();
+	      newMsg.find('.messagearea').addClass('yourmessage')
+	      newMsg.removeAttr('id');
+	      newMsg.find('.bubblecontent').html(messageItem.msg);
+	      $('#chats').append(newMsg);
+	      let mx = parseInt($("#chats").height());
+	      $("#chatbelongs").scrollTop(mx);
+	  }
 
-      let newMsg = $('#template').clone();
-      newMsg.find('.messagearea').addClass('yourmessage')
-      newMsg.removeAttr('id');
-      newMsg.find('.bubblecontent').html(JSON.stringify(msg).slice(1, -1));
-      $('#chats').append(newMsg);
-      let mx = parseInt($("#chats").height());
-      $("#chatbelongs").scrollTop(mx);
+     
   }
   
   function sendMsg(msg) {
