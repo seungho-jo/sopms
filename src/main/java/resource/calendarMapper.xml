@@ -7,22 +7,31 @@
 		<result property="start" column="start1"/>
 		<result property="end" column="end1"/>
 	</resultMap>
+	<resultMap type="cal" id="calResult2">
+		<result property="start" column="start_date"/>
+		<result property="end" column="end_date"/>
+	</resultMap>
 	<select id="calList" resultMap="calResult" parameterType="cal">
-		SELECT id, title, content, start1, end1, allday, backgroundcolor
-		FROM calendar
+		SELECT a.*, b.name
+		FROM calendar a, MEMBER b
+		WHERE a.MANAGER = b.id
+		AND a.MANAGER = #{manager}
 	</select>
 	<insert id="insertCalendar" parameterType="cal">
 		insert into calendar values(cal_seq.nextval, #{workcode}, #{title}, #{content},
-		#{start}, #{end}, #{allDay}, #{backgroundColor}, #{pmColor}, #{manager}, #{process})
+		#{start}, #{end}, #{allDay}, #{borderColor}, #{backgroundColor}, #{textColor}, #{manager}, #{process})
 	</insert>
 	<update id="updateCalendar" parameterType="cal">
 		UPDATE calendar
 				SET title = #{title},
+					content = #{content},
 					start1 = #{start},
 					end1 = #{end},
-					content = #{content},
+					allday = #{allDay},
+					bordercolor = #{borderColor},
 					backgroundcolor = #{backgroundColor},
-					allday = #{allDay}
+					textcolor = #{textColor},
+					process = #{process}
 		WHERE id = #{id}
 	</update>
 	<delete id="deleteCalendar" parameterType="int">
