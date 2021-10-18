@@ -37,9 +37,9 @@ public class boardController {
 	public String boardInsert(HttpServletRequest request, Board board) {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		board.setName(user.getName());
+		board.setId(user.getId());
 		service.insertBoard(board);
-		return "WEB-INF\\view\\projectboard_List.jsp";
+		return "forward:/board.do?method=list";
 	}
 	
 	// http://localhost:7080/sopms/board.do?method=list

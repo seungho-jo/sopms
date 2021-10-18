@@ -4,19 +4,17 @@ import java.util.Date;
 
 public class BoardFile {
 		private int bcode;
-		private String fname;
+		private String bfname;
 		private Date regdte;
 		
 		public BoardFile() {
 			super();
 			// TODO Auto-generated constructor stub
 		}
-		
-		public BoardFile(String fname) {
+		public BoardFile(String bfname) {
 			super();
-			this.fname = fname;
+			this.bfname = bfname;
 		}
-
 		public int getBcode() {
 			return bcode;
 		}
@@ -25,12 +23,12 @@ public class BoardFile {
 			this.bcode = bcode;
 		}
 
-		public String getFname() {
-			return fname;
+		public String getBfname() {
+			return bfname;
 		}
 
-		public void setFname(String fname) {
-			this.fname = fname;
+		public void setBfname(String bfname) {
+			this.bfname = bfname;
 		}
 
 		public Date getRegdte() {
@@ -40,5 +38,7 @@ public class BoardFile {
 		public void setRegdte(Date regdte) {
 			this.regdte = regdte;
 		}
+		
+
 
 }

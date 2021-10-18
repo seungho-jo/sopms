@@ -53,7 +53,7 @@ public class boardService {
 	public Board getBoard(int bcode) {
 		dao.uptReadCnt(bcode);
 		Board b = dao.getBoard(bcode);
-		b.setFname(dao.getBoardFile(bcode));
+		b.setBfname(dao.getBoardFile(bcode));
 		return b;
 	}	
 	public void update(Board upt) {
@@ -91,7 +91,7 @@ public class boardService {
 		}
 		BoardFile upfile = new BoardFile();
 		upfile.setBcode(bcode);
-		upfile.setFname(fileName);
+		upfile.setBfname(fileName);
 		dao.uploadFile(new BoardFile(fileName));
 	}	
 }

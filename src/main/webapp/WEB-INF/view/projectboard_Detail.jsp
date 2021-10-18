@@ -157,8 +157,8 @@ h3 {
 								<span class="input-group-text">첨부 파일</span>
 							</div>
 							<div class="custom-file">
-								<input type="file" name="fname" class="custom-file-input"
-									id="file01" value="${board.fname}"> <label class="custom-file-label"
+								<input type="text" name="fname" class="custom-file-input"
+									id="file01" value="${board.bfname}" readonly> <label class="custom-file-label"
 									for="file01"></label>
 							</div>
 						</div>
@@ -245,14 +245,14 @@ h3 {
 			$(location).attr("href","${path}/board.do?method=updateform&bcode="+ $("[name=bcode]").val());
 	});
 	$("#file01").click(function(){
-		var fname=$(this).val();
+		var bfname=$(this).val();
 		if(confirm("다운로드하시겠습니까?")){
 			$(location).attr("href",
-				"${path}/board.do?method=download&fname="+fname);	
+				"${path}/board.do?method=download&bfname="+bfname);	
 		}
 	});
 	$("#fname").click(function(){
-		location.href="${path}/boarddownload.do?fname="+$(this).val();
+		location.href="${path}/boarddownload.do?bfname="+$(this).val();
 	});
 </script>
 </html>

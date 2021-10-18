@@ -13,7 +13,7 @@ public class Board {
 	private String bcontent;
 	private int readcnt;
 	private Date regdte;
-	private String fname;
+	private String bfname;
 	private MultipartFile report;
 	
 	public MultipartFile getReport() {
@@ -28,11 +28,12 @@ public class Board {
 	public void setCnt(int cnt) {
 		this.cnt = cnt;
 	}
-	public String getFname() {
-		return fname;
+
+	public String getBfname() {
+		return bfname;
 	}
-	public void setFname(String fname) {
-		this.fname = fname;
+	public void setBfname(String bfname) {
+		this.bfname = bfname;
 	}
 	public String getId() {
 		return id;
