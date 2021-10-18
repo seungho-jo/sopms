@@ -34,16 +34,37 @@
 #button_left{
 	position:relative;
 	left:90%;
+	width: 12%;
 }
 #button_right{
 	position:relative;
 	left:10%;
+	width: 12%;
 }
-#action_btn{
+#jochiBtn{
 	position:relative;
-	left:93%;
+	left: 1%;
+	
 }
 #modal_status{
 	position:relative;
 	left:20%;
 }
+
+#title_jochi{
+	position:relative;
+	left:20%;
+	font-weight:bold;
+}
+
+#regMan{
+    position:relative;
+    left:8%;
+}
+
+#regDate{
+	position:relative;
+	right: 45%;
+}
+	
+

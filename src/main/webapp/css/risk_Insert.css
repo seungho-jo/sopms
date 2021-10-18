@@ -13,10 +13,12 @@
 #button_left{
 	position:relative;
 	left:90%;
+	width: 12%;
 }
 #button_right{
 	position:relative;
 	left:10%;
+	width: 12%;
 }
 
 #card-title{

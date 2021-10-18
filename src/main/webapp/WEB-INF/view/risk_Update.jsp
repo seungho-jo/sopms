@@ -87,7 +87,7 @@
 								<h4 id="title_1">등록자</h4>
 							</div>
 						</div>
-						<div class="col-md-3 mb-3">
+						<div class="col-md-3 mb-3" id="regMan">
 							<h5>${riskDetail.id}</h5>
 						</div>
 						<div class="col-md-3 mb-3">
@@ -96,14 +96,15 @@
 							</div>
 						</div>
 						<div class="col-md-3 mb-3">
-							<div class="form-floating">
+							<div class="form-floating" id="regDate">
 								<h5>${riskDetail.risk_reg}</h5>
 							</div>
 						</div>
 					</div>
 					<div class="row g-2">
 						<div class="col-md mb-3">
-							<button type="button" class="btn btn-primary" id="button_left">수정</button>
+							<button type="button" class="btn btn-primary" id="button_left"
+								onclick="javascript:goUpdate(${riskDetail.risk_no})">수정</button>
 						</div>
 						<div class="col-md mb-3">
 							<button type="button" class="btn btn-primary" id="button_right"
@@ -117,11 +118,43 @@
 				<div class="card-header">
 					<h4 class="card-title">조치내역</h4>
 				</div>
+					<div class="card-body">
+						<div class="row g-2">
+							<div class="col-1 mb-2">
+								<div class="form-floating">
+									<h4 id="title_jochi">조치내용</h4>
+								</div>
+							</div>
+							<div class="col-11 mb-2">
+								<div class="form-floating">
+									<h5>${riskJochi.risk_jochiCont}</h5>
+								</div>
+							</div>
+							<div class="col-1 mb-3">
+								<div class="form-floating">
+									<h4 id="title_jochi">수정일</h4>
+								</div>
+							</div>
+							<div class="col-11 mb-2">
+								<div class="form-floating">
+									<h5>${riskJochi.risk_jochiUpt}</h5>
+								</div>
+							</div>
+							<div class="col-1 mb-2">
+								<div class="form-floating">
+									<h4 id="title_jochi">조치자</h4>
+								</div>
+							</div>
+							<div class="col-11 mb-2">
+								<h5>${riskJochi.id}</h5>
+							</div>
+						</div>
+					</div>
+	
 				<div id="action_btn">
-					<button class="btn btn-primary me-md-2" type="button"
+					<button class="btn btn-primary me-md-2" id="jochiBtn" type="button"
 						data-toggle="modal" data-target="#exampleModalCenter">조치등록</button>
 				</div>
-				<div class="card-body"></div>
 			</div>
 			<div class="card">
 				<div class="card-header">
@@ -129,21 +162,32 @@
 				</div>
 				<div class="card-body">
 					<div class="form-floating">
-						<label for="floatingTextarea2">himan</label>
+						<label for="floatingTextarea2">${riskDetail.id}</label>
 						<textarea class="form-control" placeholder="Leave a comment here"
 							id="floatingTextarea2" style="height: 100px">
 					  	</textarea>
-						<div class="d-flex justify-content-end">
 							<button class="btn btn-primary me-md-2" type="button">댓글
 								등록</button>
 						</div>
-					</div>
 				</div>
 			</div>
-			<!--  modal -->
+			<!-- modal 수정 -->
+			<div class="modal fade" id="UpdateModalCenter" tabindex="-1"
+				role="dialog" aria-labelledby="exampleModalCenterTitle"
+				aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-header">	
+						<h5 class="modal-title" id="exampleModalLongTitle">수정 상세페이지</h5>
+			</div>
+			</div>
+			</div>
+			</div>
+			<!--  modal 조치내역-->
 			<div class="modal fade" id="exampleModalCenter" tabindex="-1"
 				role="dialog" aria-labelledby="exampleModalCenterTitle"
 				aria-hidden="true">
+					
 				<div class="modal-dialog modal-dialog-centered" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -153,25 +197,18 @@
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
+						<form style="display: flex" method="post">
 						<div class="modal-body">
 							<div class="row g-2">
-								<div class="col-4 mb-3">
-
-									<h4 id="title">조치자 명</h4>
-
-								</div>
-								<div class="col-6 mb-3">
-									<input type="text" class="form-control" placeholder="조치자명 작성"
-										aria-label="조치자명 작성">
-								</div>
 								<div class="col-4 mb-3">
 
 									<h4 id="title">조치내용</h4>
 
 								</div>
 								<div class="col-6 mb-3">
+									<input type="hidden" name="risk_no" value="${riskDetail.risk_no}"/>
 									<textarea class="form-control" placeholder="조치내용을 입력하세요."
-										id="floatingTextarea2" style="height: 100px"></textarea>
+										name="risk_content" id="floatingTextarea2" style="height: 100px"></textarea>
 									<label for="floatingTextarea2"></label>
 								</div>
 								<div class="col-4 mb-3">
@@ -179,20 +216,21 @@
 								</div>
 								<div class="col-4 mb-3">
 									<select class="form-select" aria-label="Default select example"
-										id="modal_status">
+										id="modal_status" name="risk_status">
 										<option selected>리스크상태</option>
-										<option value="1">One</option>
-										<option value="2">Two</option>
-										<option value="3">Three</option>
+										<option>조치완료</option>
+										<option>진행중</option>
+										<option>홀드</option>
 									</select>
 								</div>
 							</div>
 							<div class="modal-footer">
 								<div class="d-flex justify-content-center">
-									<button type="button" class="btn btn-primary">조치완료</button>
+									<button type="button" class="btn btn-primary" id="btn_complete">조치완료</button>
 								</div>
 							</div>
 						</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -237,9 +275,17 @@
 	
 	$("#button_right").click(function(){
 	});
+	function goUpdate(no){
+		$(location).attr("href","${path}/"+no);
+	}
 	
 	function goDelete(no){
 		$(location).attr("href","${path}/deleteRisk.do?risk_no="+no);
 	}
+	
+	$("#btn_complete").click(function(){
+		$("form").attr("action", "${path}/updateModalContent.do");
+		$("form").submit();
+	});
 </script>
 </html>

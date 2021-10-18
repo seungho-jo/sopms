@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import sopms.risk.dao.riskDao;
 import sopms.vo.Project;
 import sopms.vo.Risk;
+import sopms.vo.riskJochi;
 import sopms.vo.riskSch;
 
 @Service
@@ -87,5 +88,17 @@ public class riskService {
 	// 세부사항 페이지 삭제
 	public void deleteDetailRiskPage(int risk_no) {
 		dao.deleteDetailRiskPage(risk_no);
+	}
+	
+	// 모달창 입력값을 조치내역에 insert
+	// 업데이트로 인한 상태값 변화
+	public void uptModalContent(Risk rk) {
+		dao.uptModalContent(rk);
+		dao.uptRiskStatus(rk);
+	}
+	
+	public riskJochi riskJochiSelect(int riskNum) {
+		
+		return dao.riskJochiSelect(riskNum);
 	}
 }

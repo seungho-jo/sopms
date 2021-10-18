@@ -47,4 +47,32 @@
 		delete from risk
 		where risk_no = #{risk_no}
 	</delete>
+	
+	<!-- 모달 창 입력값들을 조치테이블에 입력 -->
+	<insert id="uptModalContent" parameterType="risk">
+		merge into riskJochi a
+		using dual
+		on (a.risk_no = #{risk_no})
+		when matched then
+		update set
+			a.id = #{id},
+			a.risk_jochiCont = #{risk_content},
+			a.risk_jochiUpt = sysdate
+		when not matched then
+		insert (a.risk_no, a.id, a.risk_jochiCont, a.risk_jochiUpt)
+		values (#{risk_no}, #{id}, #{risk_content}, sysdate) 
+	</insert>
+	
+	<update id="uptRiskStatus" parameterType="risk">
+		update risk
+			set risk_status = #{risk_status}
+		where risk_no = #{risk_no}
+	</update>
+	<!-- 조치내역에 출력될 내용 -->
+	<select id = "riskJochiSelect" resultType="riskJochi" parameterType="int">
+		select a.risk_no, a.id, a.risk_jochiCont, a.risk_jochiUpt 
+		from riskJochi a, risk b 
+		where a.risk_no = b.risk_no
+		and b.risk_no = #{risk_no}
+	</select>
 </mapper>
