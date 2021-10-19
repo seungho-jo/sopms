@@ -2,10 +2,13 @@ package sopms.risk.service;
 
 import java.util.ArrayList;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import sopms.risk.dao.riskDao;
+import sopms.vo.OutPut;
 import sopms.vo.Project;
 import sopms.vo.Risk;
 import sopms.vo.riskJochi;
@@ -85,8 +88,9 @@ public class riskService {
 		return dao.detailRiskPaging(risk_no);	
 	}
 	
-	// 세부사항 페이지 삭제
+	// 세부사항 페이지 삭제, 리스크 조치테이블 삭제
 	public void deleteDetailRiskPage(int risk_no) {
+		dao.delDetailJochi(risk_no);
 		dao.deleteDetailRiskPage(risk_no);
 	}
 	
@@ -98,7 +102,42 @@ public class riskService {
 	}
 	
 	public riskJochi riskJochiSelect(int riskNum) {
-		
 		return dao.riskJochiSelect(riskNum);
+	}
+	
+	// 프로젝트 리스크 출력
+	public ArrayList<Risk> projRiskList(int pcode) {
+		return dao.projRiskList(pcode);
+	}
+	
+	
+	public ArrayList<Risk> outputList01(OutPut outputs){
+		outputs.setCount(dao.outputCnt(outputs.getPcode()));
+		if (outputs.getPageSize() == 0) {
+			outputs.setPageSize(5);
+		}
+		outputs.setPageCount((int) Math.ceil(outputs.getCount() / (double) outputs.getPageSize()));
+		if (outputs.getCurPage() == 0) {
+			outputs.setCurPage(1);
+		}
+		if (outputs.getCurPage() > outputs.getPageCount()) {
+			outputs.setCurPage(outputs.getPageCount());
+		}
+		outputs.setStart((outputs.getCurPage() - 1) * outputs.getPageSize() + 1);
+		outputs.setEnd(outputs.getCurPage() * outputs.getPageSize());
+		outputs.setBlockSize(10);
+		int blocknum = (int) (Math.ceil(outputs.getCurPage() / (double) outputs.getBlockSize()));
+		int endBlock = blocknum * outputs.getBlockSize();
+
+		if (endBlock > outputs.getPageCount()) {
+			endBlock = outputs.getPageCount();
+		}
+
+		outputs.setEndBlock(endBlock);
+		outputs.setStartBlock((blocknum - 1) * outputs.getBlockSize() + 1);
+		if(outputs.getStartBlock()<0) {
+			outputs.setStartBlock(1);
+		}
+		return dao.outputList01(outputs);
 	}
 }

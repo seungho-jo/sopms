@@ -47,6 +47,10 @@
 		delete from risk
 		where risk_no = #{risk_no}
 	</delete>
+	<delete id="delDetailJochi" parameterType="int">
+		delete from riskJochi
+		where risk_no = #{risk_no}
+	</delete>
 	
 	<!-- 모달 창 입력값들을 조치테이블에 입력 -->
 	<insert id="uptModalContent" parameterType="risk">
@@ -62,7 +66,7 @@
 		insert (a.risk_no, a.id, a.risk_jochiCont, a.risk_jochiUpt)
 		values (#{risk_no}, #{id}, #{risk_content}, sysdate) 
 	</insert>
-	
+	<!-- 리스크 상태 업데이트 -->
 	<update id="uptRiskStatus" parameterType="risk">
 		update risk
 			set risk_status = #{risk_status}
@@ -75,4 +79,30 @@
 		where a.risk_no = b.risk_no
 		and b.risk_no = #{risk_no}
 	</select>
+	
+	<!-- 프로젝트 리스크 출력 -->
+	<select id="projRiskList" parameterType="int" resultType="risk">
+		select rownum as no, r.risk_name, r.risk_status, r.id, r.risk_reg
+		from risk r, member m 
+		where r.id = m.id
+		and pcode = #{pcode}
+	</select>
+	
+	<select id="outputList" resultType="risk" parameterType="outputs">
+		select * from 
+		(select rownum as no, d.* from
+		(select r.risk_name, r.risk_status, m.id, risk_reg 
+		from risk r, member m
+		where r.id = m.id
+		and r.pcode = #{pcode}) d)
+		where no between #{start} and #{end}
+		order by no desc
+	</select>
+	
+	<select id="outputCnt" resultType="int" parameterType="int">
+		select count(*) from risk r, member m
+		where r.id = m.id
+		and r.pcode = #{pcode}
+	</select>
+	
 </mapper>

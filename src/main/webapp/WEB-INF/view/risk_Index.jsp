@@ -23,6 +23,7 @@
 <link href="./css/risk_Index.css" rel="stylesheet">
 <title>리스크</title>
 <script src="https://unpkg.com/vue/dist/vue.js" type="text/javascript"></script>
+<script src="https://developers.google.com/web/ilt/pwa/working-with-the-fetch-api" type="text/javascript"></script>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
 	rel="stylesheet"

@@ -1,6 +1,7 @@
 package sopms.risk.controller;
 
 import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import sopms.risk.service.riskService;
+import sopms.vo.OutPut;
 import sopms.vo.Risk;
 import sopms.vo.User;
 import sopms.vo.riskJochi;
@@ -67,7 +69,10 @@ public class riskController {
 	// 상세페이지 이동
 	@RequestMapping("updatePageGo.do")
 	public String updatePageGo(@RequestParam("risk_no") int risk_no, Model d) {
+		// 리스크 상세페이지 내용
 		d.addAttribute("riskDetail", service.detailRiskPaging(risk_no));
+		// 리스크 조치내역 조회
+		d.addAttribute("riskJochi", service.riskJochiSelect(risk_no));
 		return "WEB-INF\\view\\risk_Update.jsp";
 	}
 	
@@ -83,8 +88,6 @@ public class riskController {
 		return "forward:/updatePageGo.do";
 	}
 	
-	// 상세페이지 리스크 내용 수정
-	
 	
 	// 삭제
 	@RequestMapping("deleteRisk.do")
@@ -92,4 +95,13 @@ public class riskController {
 		service.deleteDetailRiskPage(risk_no);
 		return "redirect:/riskPageList.do";
 	}
+	
+	// 프로젝트 리스트 페이징 처리
+	// http://localhost:7080/sopms/outputList01.do
+	@RequestMapping("outputList01.do")
+	public String outputList01(Model d,OutPut output) {
+		d.addAttribute("list", service.outputList01(output));
+		return "pageJsonReport";
+	}
+	
 }	

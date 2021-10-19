@@ -103,8 +103,8 @@
 					</div>
 					<div class="row g-2">
 						<div class="col-md mb-3">
-							<button type="button" class="btn btn-primary" id="button_left"
-								onclick="javascript:goUpdate(${riskDetail.risk_no})">수정</button>
+							<button type="button" class="btn btn-primary" id="jochiBtn"
+							data-toggle="modal" data-target="#exampleModalCenter">수정</button>
 						</div>
 						<div class="col-md mb-3">
 							<button type="button" class="btn btn-primary" id="button_right"
@@ -151,10 +151,6 @@
 						</div>
 					</div>
 	
-				<div id="action_btn">
-					<button class="btn btn-primary me-md-2" id="jochiBtn" type="button"
-						data-toggle="modal" data-target="#exampleModalCenter">조치등록</button>
-				</div>
 			</div>
 			<div class="card">
 				<div class="card-header">
@@ -171,24 +167,13 @@
 						</div>
 				</div>
 			</div>
-			<!-- modal 수정 -->
-			<div class="modal fade" id="UpdateModalCenter" tabindex="-1"
-				role="dialog" aria-labelledby="exampleModalCenterTitle"
-				aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered" role="document">
-						<div class="modal-content">
-							<div class="modal-header">	
-						<h5 class="modal-title" id="exampleModalLongTitle">수정 상세페이지</h5>
-			</div>
-			</div>
-			</div>
-			</div>
+			
 			<!--  modal 조치내역-->
 			<div class="modal fade" id="exampleModalCenter" tabindex="-1"
 				role="dialog" aria-labelledby="exampleModalCenterTitle"
 				aria-hidden="true">
 					
-				<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title" id="exampleModalLongTitle">조치 상세페이지</h5>
@@ -273,18 +258,18 @@
 <script type="text/javascript">
 	$(".metismenu").children().eq(8).attr('class', 'mm-active');
 	
-	$("#button_right").click(function(){
-	});
-	function goUpdate(no){
-		$(location).attr("href","${path}/"+no);
-	}
-	
 	function goDelete(no){
 		$(location).attr("href","${path}/deleteRisk.do?risk_no="+no);
 	}
-	
+	// 조치버튼 클릭
 	$("#btn_complete").click(function(){
 		$("form").attr("action", "${path}/updateModalContent.do");
+		$("form").submit();
+	});
+	
+	// 리스크 수정 버튼 클릭
+	$("#btn_LittleUpdate").click(function(){
+		$("form").attr("action", "${path}/updateDetailRisk.do");
 		$("form").submit();
 	});
 </script>
