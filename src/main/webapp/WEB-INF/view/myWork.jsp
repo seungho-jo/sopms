@@ -87,7 +87,7 @@
 										<th><input type="checkbox" class="text-dark"></th>
 										<td class="text-dark text-center">${wlist.title}</td>
 										<td class="text-dark text-center">SL솔루션 homepage</td>
-										<td class="text-dark text-center">${wlist.pm}</td>
+										<td class="text-dark text-center">${wlist.pm_name}</td>
 										<td class="text-dark text-center boxes"><span>${wlist.status}</span></td>
 										<td class="text-dark text-center">${start_date2}</td> 
 										<td class="text-dark text-center">${end_date2}</td>

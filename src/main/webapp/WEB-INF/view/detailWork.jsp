@@ -113,7 +113,7 @@
 					</tr>
 					<tr>
 						<th>승인 담당자</th>
-						<td>${detail.pm}</td>
+						<td>${detail.pm_name}</td>
 						<th>상태</th>
 						<td>${detail.status}</td>
 					</tr>

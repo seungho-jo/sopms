@@ -3,6 +3,7 @@ package sopms.vo;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Work {
+	private int no;
 	private int workcode;
 	private String title;
 	private String content;
@@ -17,11 +18,19 @@ public class Work {
 	private String reqmsg;
 	private String apprmsg;
 	private String compmsg;
+	private String regdate;
+	private String uptdate;
 	private String apprdate;
 	private MultipartFile report;
+	private String fname;
 	private String pm_name;
 	private String m_name;
-	
+	public int getNo() {
+		return no;
+	}
+	public void setNo(int no) {
+		this.no = no;
+	}
 	public int getWorkcode() {
 		return workcode;
 	}
@@ -106,6 +115,18 @@ public class Work {
 	public void setCompmsg(String compmsg) {
 		this.compmsg = compmsg;
 	}
+	public String getRegdate() {
+		return regdate;
+	}
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
+	}
+	public String getUptdate() {
+		return uptdate;
+	}
+	public void setUptdate(String uptdate) {
+		this.uptdate = uptdate;
+	}
 	public String getApprdate() {
 		return apprdate;
 	}
@@ -117,6 +138,12 @@ public class Work {
 	}
 	public void setReport(MultipartFile report) {
 		this.report = report;
+	}
+	public String getFname() {
+		return fname;
+	}
+	public void setFname(String fname) {
+		this.fname = fname;
 	}
 	public String getPm_name() {
 		return pm_name;
@@ -130,7 +157,5 @@ public class Work {
 	public void setM_name(String m_name) {
 		this.m_name = m_name;
 	}
-	
-	
-	
+
 }

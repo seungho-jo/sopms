@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import sopms.myWork.dao.myWorkDao;
+import sopms.vo.OutPut;
 import sopms.vo.Work;
 import sopms.vo.WorkFile;
 import sopms.vo.WorkPmSch;
@@ -52,6 +53,9 @@ public class myWorkService {
 
 		worksch.setEndBlock(endBlock);
 		worksch.setStartBlock((blocknum - 1) * worksch.getBlockSize() + 1);
+		if(worksch.getStartBlock()<0) {
+			worksch.setStartBlock(1);
+		}
 		return dao.myWorkList(worksch);
 	}
 
@@ -62,7 +66,6 @@ public class myWorkService {
 	public void approval(Work work) {
 		if (work.getReqmsg() == null)
 			work.setReqmsg("");
-		System.out.println("dddddddddddddddddddddddddddddddddddddd"+!work.getReport().isEmpty());
 		if(!work.getReport().isEmpty()) {
 			uploadFile(work.getWorkcode(),work.getReport());
 		}
@@ -122,6 +125,9 @@ public class myWorkService {
 
 		workpmsch.setEndBlock(endBlock);
 		workpmsch.setStartBlock((blocknum - 1) * workpmsch.getBlockSize() + 1);
+		if(workpmsch.getStartBlock()<0) {
+			workpmsch.setStartBlock(1);
+		}
 		return dao.myWorkListPm(workpmsch);
 	}
 	
@@ -134,9 +140,37 @@ public class myWorkService {
 		dao.apprUpt(work);
 	}
 	
-	public ArrayList<Work> list(){
-		return dao.list();
+	public ArrayList<Work> outputList(OutPut outputs){
+		outputs.setCount(dao.outputCnt(outputs.getPcode()));
+		if (outputs.getPageSize() == 0) {
+			outputs.setPageSize(5);
+		}
+		outputs.setPageCount((int) Math.ceil(outputs.getCount() / (double) outputs.getPageSize()));
+		if (outputs.getCurPage() == 0) {
+			outputs.setCurPage(1);
+		}
+		if (outputs.getCurPage() > outputs.getPageCount()) {
+			outputs.setCurPage(outputs.getPageCount());
+		}
+		outputs.setStart((outputs.getCurPage() - 1) * outputs.getPageSize() + 1);
+		outputs.setEnd(outputs.getCurPage() * outputs.getPageSize());
+		outputs.setBlockSize(10);
+		int blocknum = (int) (Math.ceil(outputs.getCurPage() / (double) outputs.getBlockSize()));
+		int endBlock = blocknum * outputs.getBlockSize();
+
+		if (endBlock > outputs.getPageCount()) {
+			endBlock = outputs.getPageCount();
+		}
+
+		outputs.setEndBlock(endBlock);
+		outputs.setStartBlock((blocknum - 1) * outputs.getBlockSize() + 1);
+		if(outputs.getStartBlock()<0) {
+			outputs.setStartBlock(1);
+		}
+		return dao.outputList(outputs);
 	}
+	
+
 }
 
 

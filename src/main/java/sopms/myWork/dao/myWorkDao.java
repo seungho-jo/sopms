@@ -2,6 +2,7 @@ package sopms.myWork.dao;
 
 import java.util.ArrayList;
 
+import sopms.vo.OutPut;
 import sopms.vo.Work;
 import sopms.vo.WorkFile;
 import sopms.vo.WorkPmSch;
@@ -20,6 +21,7 @@ public interface myWorkDao {
 	public void statusUpt(Work work);
 	public void compUpt(Work work);
 	public void apprUpt(Work work);
-	
-	public ArrayList<Work> list();
+	// 산출물
+	public ArrayList<Work> outputList(OutPut outputs);
+	public int outputCnt(int pcode);
 }
