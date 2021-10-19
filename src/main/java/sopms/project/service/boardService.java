@@ -28,7 +28,7 @@ public class boardService {
 		if(sch.getName()==null) sch.setName("");
 		sch.setCount(dao.totCnt(sch));
 		if(sch.getPageSize()==0) {
-			sch.setPageSize(5);
+			sch.setPageSize(10);
 		}
 		sch.setPageCount( (int)Math.ceil( 
 				sch.getCount()/(double)sch.getPageSize() ));
