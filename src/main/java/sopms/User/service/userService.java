@@ -1,7 +1,7 @@
 package sopms.User.service;
 
 import java.util.ArrayList;
-
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,27 @@ public class userService {
 	@Autowired
 	private userDao dao;
 
+	public void resource2(User user){
+		String[] mlist = user.getId().split(",");
+		for(int i=0; i<mlist.length;i++) {
+			user.setId(mlist[i]);	
+			dao.resource2(user);
+		}
+	}
+	 public ArrayList<User> resourceModal(String pcode){
+		 ArrayList<String> list = dao.resourceModal1(pcode);
+		ArrayList<User> memlist = new ArrayList<User>();
+		User user1 = new User();
+		user1.setPcode(pcode);
+		
+		for(int i=0; i<list.size(); i++) {
+			user1.setDept(list.get(i));
+			for(User user:dao.resourceModal2(user1)){
+				memlist.add(user);
+			}
+		}
+		return memlist;
+	} 
 	public void resourcememberDelete(String id) {
 		
 		dao.resourcememberDelete(id);
