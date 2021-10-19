@@ -31,11 +31,6 @@
 	right:70%;
 }
 
-#button_left{
-	position:relative;
-	left:90%;
-	width: 12%;
-}
 #button_right{
 	position:relative;
 	left:10%;
@@ -43,8 +38,8 @@
 }
 #jochiBtn{
 	position:relative;
-	left: 1%;
-	
+	left:90%;
+	width: 12%;
 }
 #modal_status{
 	position:relative;

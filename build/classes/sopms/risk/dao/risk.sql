@@ -263,3 +263,11 @@ UPDATE SET
 WHEN NOT MATCHED THEN 
 INSERT (a.risk_no, a.id, a.RISK_JOCHICONT, a.RISK_JOCHIUPT) 
 VALUES (14,'happy02','testing',sysdate);
+
+ALTER TABLE riskJochi ADD pname varchar2(70);
+
+select rownum as no, r.risk_name, r.risk_content, r.id, r.risk_reg
+		from risk r, member m 
+		where r.id = m.id
+		and pcode = 2;
+

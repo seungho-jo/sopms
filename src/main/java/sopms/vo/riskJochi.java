@@ -6,7 +6,7 @@ public class riskJochi {
 	private String id;
 	private String risk_jochiCont;
 	private String risk_jochiUpt;
-	
+	private String pname;
 	
 	public riskJochi() {
 		super();
@@ -35,6 +35,12 @@ public class riskJochi {
 	}
 	public void setRisk_jochiUpt(String risk_jochiUpt) {
 		this.risk_jochiUpt = risk_jochiUpt;
+	}
+	public String getPname() {
+		return pname;
+	}
+	public void setPname(String pname) {
+		this.pname = pname;
 	}
 	
 	
