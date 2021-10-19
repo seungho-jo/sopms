@@ -34,6 +34,19 @@ public class resourceController {
 		
 		return "forward:/projectStatus_resource.do";
 	}
+	@RequestMapping("resourceModal.do")
+	public String resourceModal(Model d, String pcode) {
+		d.addAttribute("modalList",service.resourceModal(pcode));
+		
+		return "pageJsonReport";
+	}
+	@RequestMapping("resourceModalReg.do")
+	public String resourceModalReg(User user) {
+		service.resource2(user);
+		System.out.println("dddddddddddddddddddddddddddddddddd:"+user.getPcode());
+		System.out.println("dddddddddddddddddddddddddddddddddd:"+user.getId());
+		return "forward:/projectStatus_resource.do";
+	}
 	
 }
 
