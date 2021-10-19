@@ -2,11 +2,160 @@
 <!DOCTYPE mapper
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="sopms.dashBoard.dao.DashboardDao">
+<mapper namespace="sopms.dashboard.dao.DashboardDao">
+	<resultMap id="projectInfo" type="sopms.vo.ProjectSum">
+		<result column="pcode" property="pcode"/>
+		<result column="pname" property="pname"/>
+		<result column="id" property="pmId"/>
+		<result column="name" property="pmName"/>		
+		<result column="startdate" property="startDate"/>
+		<result column="enddate" property="endDate"/>
+		<result column="teamnum" property="teamNum"/>
+		<result column="status" property="status"/>
+		<result column="explanation" property="explanation"/>
+	</resultMap>
+	<resultMap id="riskStatusInfo" type="sopms.vo.RiskStatusCnt">
+		<result column="risk_status" property="status"/>
+		<result column="cnt" property="cnt"/>
+	</resultMap>
+	
 	<select id="projectCnt" resultType="int" parameterType="string">
-		SELECT count(*) projectcnt FROM project_dept
-		WHERE dept = #{dept}
+		SELECT count(*) cnt FROM project p, project_dept pd
+		WHERE p.pcode = pd.pcode
+		AND pd.dept = #{dept}
+		AND NOT p.status = '종료됨'
 	</select>
 	<select id="taskCnt" resultType="int" parameterType="string">
+		SELECT count(*) cnt FROM wbs
+		WHERE manager = #{id}
+		AND NOT status = '종료됨'
+	</select>
+	<select id="taskCntAll" resultType="int" parameterType="string">
+		SELECT count(*) cnt FROM wbs
+		WHERE pm = #{id}
+		AND NOT status = '종료됨'	
+	</select>
+	<select id="taskReqCnt" resultType="int" parameterType="string">
+		SELECT count(*) cnt FROM wbs
+		WHERE pm = #{id}
+		AND status = '승인요청'
+	</select>
+	<select id="riskCnt" resultType="int" parameterType="string">
+		SELECT count(*) cnt FROM risk
+		WHERE id = #{id}
+		AND NOT risk_status = '조치완료'
+	</select>
+	<select id="riskCntAll" resultType="int" parameterType="string">
+		SELECT *  FROM risk r, PROJECT_DEPT pd
+		WHERE r.pcode = pd.pcode
+		AND pd.dept = #{dept}
+		AND NOT risk_status = '조치완료'
+	</select>
+	<select id="outputCnt" resultType="int" parameterType="string">
+		SELECT count(*) cnt FROM wbs w, workfile wf
+		WHERE w.manager = #{id}
+		AND w.workcode = wf.workcode
+		AND NOT w.status = '종료됨'
+	</select>
+	<select id="outputCntAll" resultType="int" parameterType="string">
+		SELECT count(*) cnt FROM wbs w, workfile wf
+		WHERE w.pm = #{id}
+		AND w.workcode = wf.workcode
+		AND NOT w.status = '종료됨'
+	</select>
+	
+	<select id="projectList" resultType="sopms.vo.ProjectSum" parameterType="sopms.vo.User">
+		SELECT p.pcode, p.pname, m.name AS pmName, ( TRUNC(p.enddate,'DD') - TRUNC(sysdate,'DD') ) AS status,
+			TO_CHAR(p.startdate,'YYYY-MM-DD') startdate, TO_CHAR(p.enddate,'YYYY-MM-DD') enddate, NVL(pb.bmcode,' ') AS explanation
+		FROM project p, project_dept pd, member m,
+			(	SELECT pcode, bmcode FROM project_bookmark
+				WHERE id = #{id} ) pb
+		WHERE p.pcode = pd.pcode
+		AND p.id = m.id
+		AND pd.dept = #{dept}
+		AND NOT p.status = '종료됨'
+		AND p.pcode = pb.pcode(+)
+		ORDER BY p.pname
+	</select>
+	
+	<insert id="insertBookmark" parameterType="sopms.vo.ProjectBookmark">
+		INSERT INTO project_bookmark
+		VALUES (#{id}||'-'||#{pcode}, #{pcode}, #{id})
+	</insert>
+	<delete id="deleteBookmark" parameterType="sopms.vo.ProjectBookmark">
+		DELETE FROM project_bookmark
+		WHERE pcode = #{pcode}
+		AND id = #{id}
+	</delete>
+	<select id="bookmarkList" parameterType="string" resultType="sopms.vo.ProjectSum">
+		SELECT p.pcode, p.pname, m.name AS pmName, ( TRUNC(p.enddate,'DD') - TRUNC(sysdate,'DD') ) AS status,
+			TO_CHAR(p.startdate,'YYYY-MM-DD') startdate, TO_CHAR(p.enddate,'YYYY-MM-DD') enddate 
+		FROM project p, project_bookmark pb, member m
+		WHERE p.pcode = pb.pcode
+		AND p.id = m.id
+		AND pb.id = #{id} 
+		ORDER BY p.pname
+	</select>
+
+	<select id="riskStatusCnt" parameterType="string" resultMap="riskStatusInfo">
+		SELECT risk_status, count(*) cnt FROM risk r
+		WHERE id = #{id}
+		GROUP BY risk_status
+	</select>
+	<select id="riskStatusCntAll" parameterType="string" resultMap="riskStatusInfo">
+		SELECT risk_status, count(*) cnt FROM RISK r , PROJECT p , PROJECT_DEPT pd 
+		WHERE r.pcode = pd.PCODE 
+		AND r.PCODE = p.PCODE 
+		AND pd.DEPT = #{dept}
+		AND NOT p.STATUS = '종료됨'
+		GROUP BY r.risk_status
+	</select>
+	<select id="riskMonthly" parameterType="string" resultType="sopms.vo.RiskMonthly">
+		SELECT TO_CHAR(b.dt, 'YYYY-MM') AS month
+		     , NVL(SUM(a.cnt), 0) count
+		FROM(	SELECT TRUNC(risk_reg,'DD') risk_reg, count(*) cnt FROM risk
+				WHERE risk_reg BETWEEN ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6) AND ADD_MONTHS(TRUNC(SYSDATE,'MM'),1)
+				AND id = #{id}
+				GROUP BY TRUNC(risk_reg,'DD')
+			) a,
+			(	SELECT ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6) + LEVEL - 1 AS dt
+				FROM dual 
+				CONNECT BY LEVEL &lt;= (ADD_MONTHS(TRUNC(SYSDATE,'MM'),0) 
+									- ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6) + 1)
+			) b
+		WHERE b.dt = a.risk_reg(+)
+		GROUP BY TO_CHAR(b.dt, 'YYYY-MM')
+		ORDER BY TO_CHAR(b.dt, 'YYYY-MM')
+	</select>
+	<select id="riskMonthlyAll" parameterType="string" resultType="sopms.vo.RiskMonthly">
+		SELECT TO_CHAR(b.dt, 'YYYY-MM') month
+		     , NVL(SUM(a.cnt), 0) count
+		FROM(	SELECT TRUNC(risk_reg,'DD') risk_reg, count(*) cnt FROM risk r, project_dept pd
+				WHERE risk_reg BETWEEN ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6) AND ADD_MONTHS(TRUNC(SYSDATE,'MM'),1)
+				AND r.pcode = pd.pcode
+				AND pd.dept = #{dept}
+				GROUP BY TRUNC(risk_reg,'DD')
+			) a,
+			(	SELECT ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6) + LEVEL - 1 AS dt
+				FROM dual 
+				CONNECT BY LEVEL <![CDATA[<=]]> (ADD_MONTHS(TRUNC(SYSDATE,'MM'),0) 
+									- ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6) + 1)
+			) b
+		WHERE b.dt = a.risk_reg(+)
+		GROUP BY TO_CHAR(b.dt, 'YYYY-MM')
+		ORDER BY TO_CHAR(b.dt, 'YYYY-MM')
+	</select>
+	<select id="boardNotice" resultType="sopms.vo.Notice">
+		SELECT bcode, btitle, id, name, readcnt,
+			CASE	WHEN TRUNC(SYSDATE,'DD')=TRUNC(regdte,'DD') THEN TO_CHAR(regdte,'HH24:MI')
+					ELSE TO_CHAR(regdte,'fmMM-DD')
+			END AS regdte
+		FROM (
+			SELECT rownum rnum, b.bcode, b.btitle, b.id, m.name, b.readcnt, b.regdte 
+			FROM board b, MEMBER m
+			WHERE b.id = m.id
+			ORDER BY regdte DESC
+		) a
+		WHERE rnum <![CDATA[<=]]> 5
 	</select>
 </mapper>
