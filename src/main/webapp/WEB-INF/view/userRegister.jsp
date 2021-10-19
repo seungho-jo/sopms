@@ -372,9 +372,6 @@
 	   })
 	   $("#userRegBtn").click(function(){
 		$("form").attr("action","${path}/memberInsert.do");
-		alert($("#temporary-id").val());
-		alert($("#temporary-pass").val());
-		alert($("#selectdept option:selected").val()); //부서 선택한건 잘 넘어옴  
 			$("form").submit();
 		});
 	  
