@@ -15,7 +15,7 @@ import sopms.vo.User;
 public class loginController {
 	@Autowired
 	private loginService service;
-	// http://localhost:6080/sopms/index.do
+	// http://localhost:7080/sopms/index.do
 	@RequestMapping("index.do")
 	public String index() {
 		
