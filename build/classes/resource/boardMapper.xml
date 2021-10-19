@@ -37,7 +37,7 @@
 	</select>
 	<select id="getBoard"  resultType="board" 
  	 	parameterType="int">
-		SELECT bcode, btitle, name, bcontent, readcnt, regdte
+		SELECT bcode, btitle, name, bcontent, readcnt, regdte, a.id
 		FROM board a, member b
 		WHERE a.id = b.id 
 		and bcode = #{bcode}

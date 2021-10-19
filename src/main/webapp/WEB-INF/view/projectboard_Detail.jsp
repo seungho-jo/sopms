@@ -240,14 +240,12 @@ h3 {
 			$(location).attr("href","${path}/board.do?method=updateform&bcode="+ $("[name=bcode]").val());
 	});
 	$("#file01").click(function(){
+		
 		var bfname=$(this).val();
-		if(confirm("다운로드하시겠습니까?")){
+		if(bfname!=""){
 			$(location).attr("href",
 				"${path}/boarddownload.do?bfname="+bfname);	
 		}
-	});
-	$("#fname").click(function(){
-		location.href="${path}/boarddownload.do?bfname="+$(this).val();
 	});
 </script>
 </html>
