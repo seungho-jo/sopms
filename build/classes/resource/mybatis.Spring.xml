@@ -5,6 +5,7 @@
 	<typeAliases>
 		<typeAlias alias="work" type="sopms.vo.Work"/>
 		<typeAlias alias="worksch" type="sopms.vo.WorkSch"/>
+		<typeAlias alias="outputs" type="sopms.vo.OutPut"/>
 		<typeAlias alias="user" type="sopms.vo.User"/>
 		<typeAlias alias="risk" type="sopms.vo.Risk"/>
 		<typeAlias alias="project" type="sopms.vo.Project"/>

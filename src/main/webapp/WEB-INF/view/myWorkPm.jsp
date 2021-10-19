@@ -37,10 +37,9 @@
 		<div class="content-body">
 			<div class="card">
 				<h2 id="card-title">요청된 작업</h2>
-				<div id="colBtn">
-					<button class="btn btn-primary" id="reqConfirm">작업승인</button>
-					<button class="btn btn-danger" id="companion">작업반려</button>
-				</div>
+				<form method="post">
+					<input type="hidden" name="curPage" value="1">
+				</form>	
 				<div class="card-body" id="card-body">
 					<div class="table-responsive">
 						<table class="table table-hover table-responsive-sm" id="workList">
@@ -62,7 +61,7 @@
 										<th><input type="checkbox" class="text-dark"></th>
 										<td class="text-dark text-center">${wlist.title}</td>
 										<td class="text-dark text-center">SL솔루션 homepage</td>
-										<td class="text-dark text-center">${wlist.pm}</td>
+										<td class="text-dark text-center">${wlist.m_name}</td>
 										<td class="text-dark text-center boxes"><span class="badge badge-warning">${wlist.status}</span></td>
 										<td class="text-dark text-center">${apprdate2}</td> 
 									</tr>
