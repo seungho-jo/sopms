@@ -153,8 +153,8 @@ h3 {
 									</div>
 								</div>
 							</div>
-							<div id="contentdiv">
-								<span>${board.bcontent}</span>
+							<div class="card-body">
+								<textarea style="resize: none;" readonly rows="20" cols="" name="bcontent" id="contentdiv">${board.bcontent}</textarea>
 							</div>
 
 						 	<c:if test="${user.id == board.id}">

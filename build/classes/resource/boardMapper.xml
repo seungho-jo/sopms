@@ -15,16 +15,15 @@
 	</update>
 	<select id="boardList" resultType="board"
 		parameterType="boardsch">
-		SELECT *
-		FROM (
-		SELECT rownum cnt, b.*,m.name
-		FROM BOARD b, member m
-		WHERE
-		b.id = m.id
-		and btitle LIKE '%'||#{btitle}||'%'
-		AND m.name LIKE '%'||#{name}||'%'
-		ORDER BY bcode DESC)
+		SELECT * FROM 
+		(SELECT rownum cnt,a.* FROM
+		(SELECT b.*,m.name
+		from board b,MEMBER m
+		WHERE b.id = m.id
+		AND btitle LIKE '%'||#{btitle}||'%'
+		AND m.name LIKE '%'||#{name}||'%'ORDER BY bcode desc) a)
 		WHERE cnt BETWEEN #{start} AND #{end}
+		ORDER BY bcode desc
 	</select>
 	<select id="totCnt" resultType="int" parameterType="boardsch">
 		SELECT
