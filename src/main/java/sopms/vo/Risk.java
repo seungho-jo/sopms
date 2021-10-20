@@ -14,6 +14,8 @@ public class Risk {
 	private String pcodeS;
 	private String pname; // 
 	
+	private String m_name; // 멤버 이름
+	
 	public String getRisk_no() {
 		return risk_no;
 	}
@@ -79,6 +81,12 @@ public class Risk {
 	}
 	public void setPname(String pname) {
 		this.pname = pname;
+	}
+	public String getM_name() {
+		return m_name;
+	}
+	public void setM_name(String m_name) {
+		this.m_name = m_name;
 	}
 	
 	

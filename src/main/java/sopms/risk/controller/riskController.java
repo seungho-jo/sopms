@@ -96,7 +96,8 @@ public class riskController {
 	// http://localhost:7080/sopms/outputList01.do
 	@RequestMapping("outputList01.do")
 	public String outputList01(Model d,OutPut output) {
-		d.addAttribute("list", service.outputList01(output));
+		d.addAttribute("rlist", service.outputList01(output));
+		System.out.println("curPage : "+output.getCount());
 		return "pageJsonReport";
 	}
 	
