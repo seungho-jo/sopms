@@ -48,6 +48,7 @@ public class riskController {
 		User user = (User)session.getAttribute("user");
 		System.out.println("login : "+user.getId());
 		d.addAttribute("pj", service.projectList(user.getId()));
+		
 		return "WEB-INF\\view\\risk_Insert.jsp";
 	}
 	
@@ -64,11 +65,14 @@ public class riskController {
 		
 	// 상세페이지 이동
 	@RequestMapping("updatePageGo.do")
-	public String updatePageGo(@RequestParam("risk_no") int risk_no, Model d) {
+	public String updatePageGo(HttpServletRequest request, @RequestParam("risk_no") int risk_no, Model d) {
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
 		// 리스크 상세페이지 내용
 		d.addAttribute("riskDetail", service.detailRiskPaging(risk_no));
 		// 리스크 조치내역 조회
 		d.addAttribute("riskJochi", service.riskJochiSelect(risk_no));
+		d.addAttribute("memList", service.getUserJochi(service.detailRiskPaging(risk_no).getPcode()));
 		return "WEB-INF\\view\\risk_Update.jsp";
 	}
 	
@@ -83,7 +87,15 @@ public class riskController {
 		d.addAttribute("riskJochi", service.riskJochiSelect(Integer.parseInt(rk.getRisk_no())));
 		return "forward:/updatePageGo.do";
 	}
-	
+	// 조치자 권한 넘김
+	@RequestMapping("updateAuthority.do")
+	public String updateAuthority(HttpServletRequest request, Risk rk, Model d) {
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		rk.setId(user.getId());
+		service.jochiAuthority(rk);
+		return "redirect:/riskPageList.do";
+	}
 	
 	// 삭제
 	@RequestMapping("deleteRisk.do")

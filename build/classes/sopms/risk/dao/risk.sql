@@ -271,3 +271,34 @@ select rownum as no, r.risk_name, r.risk_content, r.id, r.risk_reg
 		where r.id = m.id
 		and pcode = 2;
 
+SELECT * FROM risk;
+ALTER TABLE risk ADD RANK varchar2(50);
+
+UPDATE risk SET jochiperson = 'happy07' WHERE id= 'happy' AND risk_no = 4;
+UPDATE risk SET jochiperson = 'happy01' WHERE id = 'happy01' AND risk_no = 1;
+UPDATE risk SET jochiperson = 'happy07' WHERE id = 'happy07' AND risk_no = 3;
+UPDATE risk SET jochiperson = 'happy07' WHERE id = 'happy07' AND risk_no = 4;
+UPDATE risk SET jochiperson = 'happy06' WHERE id = 'happy06' AND risk_no = 8;
+UPDATE risk SET jochiperson = 'happy09' WHERE id = 'happy09' AND risk_no = 9;
+UPDATE risk SET jochiperson = 'happy10' WHERE id = 'happy10' AND risk_no = 10;
+UPDATE risk SET jochiperson = 'happy11' WHERE id = 'happy11' AND risk_no = 11;
+
+UPDATE risk SET RANK = '부장' WHERE id = 'happy02';
+UPDATE risk SET RANK = '차장' WHERE id = 'happy01';
+UPDATE risk SET RANK = '주임' WHERE id = 'happy07';
+UPDATE risk SET RANK = '주임' WHERE id = 'happy06';
+UPDATE risk SET RANK = '사원' WHERE id = 'happy09';
+UPDATE risk SET RANK = '과장' WHERE id = 'happy10';
+UPDATE risk SET RANK = '부장' WHERE id = 'happy11';
+
+
+update risk 
+		set jochiPerson = 'happy07'
+		where risk_no = 8
+		and pcode = 9;
+		
+	
+SELECT m.id, m.name 
+FROM LESOURCE l, MEMBER m
+WHERE m.id = l.id
+AND l.pcode = 2;

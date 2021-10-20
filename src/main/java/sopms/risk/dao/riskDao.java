@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import sopms.vo.OutPut;
 import sopms.vo.Project;
 import sopms.vo.Risk;
+import sopms.vo.User;
 import sopms.vo.riskJochi;
 import sopms.vo.riskSch;
 
@@ -36,4 +37,8 @@ public interface riskDao {
 	// 프로젝트 페이징 처리
 	public ArrayList<Risk> outputList01(OutPut outputs);
 	public int outputCnt(int pcode);
+	// PM일 경우 조치자 선택
+	public ArrayList<User> getUserJochi(int pcode);
+	// PM이 조치자 권한 넘김
+	public void jochiAuthority(Risk rk);
 }

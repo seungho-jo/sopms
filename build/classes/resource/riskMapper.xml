@@ -26,6 +26,20 @@
 				VALUES (seq_risk_no.nextval, #{risk_name}, #{risk_content}, sysdate, #{id}, #{pcode}, #{risk_status}) 
 	</insert>
 	
+	<select id="getUserJochi" parameterType="int" resultType="user">
+		SELECT m.id, m.name 
+		FROM LESOURCE l, MEMBER m
+		WHERE m.id = l.id
+			AND l.pcode = #{pcode}
+	</select>
+	<!-- 조치자 선택 -->
+	<update id="jochiAuthority" parameterType="risk">
+		update risk 
+			set jochiPerson = #{jochiPerson}
+			where risk_no = #{risk_no}
+			and pcode = #{pcode}
+	</update>
+	
 	<select id="projectList" parameterType="String" resultType="project">
 		select * from project
 		where id = #{id}
