@@ -15,4 +15,5 @@ public class CalStatusCnt {
 	public void setCnt(int cnt) {
 		this.cnt = cnt;
 	}
+	
 }

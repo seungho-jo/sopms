@@ -8,8 +8,8 @@
 		<result property="end" column="end1"/>
 	</resultMap>
 	<resultMap type="sopms.vo.CalStatusCnt" id="calStatusInfo">
-		<result column="status" property="status"/>
-		<result column="cnt" property="cnt"/>
+		<result property="status" column="status"/>
+		<result property="cnt" column="cnt"/>
 	</resultMap>
 	<select id="calList" resultMap="calResult" parameterType="cal">
 		SELECT a.*, b.name
@@ -60,10 +60,44 @@
 		WHERE manager = #{id}
 		GROUP BY status
 	</select>
-	<select id="calStatusCntAll" parameterType="string" resultMap="calStatusInfo">
+	<select id="calStatusCntAll" parameterType="sopms.vo.CalListSch" resultMap="calStatusInfo">
 		SELECT status, count(*) cnt 
 		FROM CALENDAR
-		WHERE manager = #{id}
+		WHERE 
+		<if test="workcode != null and workcode != 0">
+		(parent = #{workcode} OR workcode = #{workcode}) AND 
+		</if>
+		(pm = #{manager} OR manager = #{manager})
 		GROUP BY status
+	</select>
+	<select id="calListAll" parameterType="sopms.vo.CalListSch" resultType="sopms.vo.CalList">
+		SELECT * FROM (SELECT rownum AS NO, e.* FROM
+		(SELECT a.title, c.d_day, b.cal_name,
+				CASE WHEN to_char(a.process) IS NULL 
+					THEN a.status
+					ELSE to_char(a.process) 
+				END AS cal_process 
+		FROM calendar a, 
+			(SELECT DISTINCT a.id, CASE WHEN a.manager IS NULL 
+										THEN '전체일정'
+										ELSE b.name 
+									END AS cal_name
+					FROM calendar a, MEMBER b
+					WHERE a.manager = b.id 
+					OR a.manager IS NULL) b,
+			(SELECT id, (TO_DATE(SUBSTR(end1,1,10),'YYYY-MM-DD')-TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD'))) AS d_day 
+				FROM calendar) c
+		WHERE c.id = a.id AND b.id = a.id
+		AND (a.pm = #{manager} OR a.manager = #{manager})
+		AND a.status != '종료됨'
+		ORDER BY c.d_day) e)
+		WHERE no BETWEEN #{start} AND #{end}
+	</select>
+	<select id="calCount" parameterType="sopms.vo.CalListSch" resultType="int">
+		SELECT count(*) from calendar
+		where manager = #{manager} or pm = #{manager}
+		<if test="workcode != null and workcode != 0">
+		and (parent = #{workcode} or workcode = #{workcode})
+		</if>
 	</select>
 </mapper>
