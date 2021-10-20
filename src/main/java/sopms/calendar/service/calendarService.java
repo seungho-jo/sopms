@@ -10,7 +10,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import sopms.calendar.dao.calendarDao;
+import sopms.vo.CalStatusCnt;
 import sopms.vo.Calendar;
+import sopms.vo.User;
 
 @Service
 public class calendarService {
@@ -47,5 +49,32 @@ public class calendarService {
 	}
 	public void delCalendar(int id) {
 		dao.deleteCalendar(id);
+	}
+	public String calStatusCntJson(User user) {
+		Gson gson = new Gson();
+		JsonObject jsonObj = new JsonObject();
+		ArrayList<CalStatusCnt> statusArr = null;
+		System.out.println("직급:"+user.getRank());
+		if(user.getRank().equals("부장")) {
+			statusArr = dao.calStatusCntAll(user.getId());
+		}else {			
+			statusArr = dao.calStatusCnt(user.getId());
+		}
+		
+		for(CalStatusCnt cs:statusArr) {
+			String key = null;
+			if(cs.getStatus().equals("진행중")) {
+				key = "prog";
+			}else if(cs.getStatus().equals("승인요청")) {
+				key = "hold";
+				cs.setStatus("미진행");
+			}else if(cs.getStatus().equals("종료됨")) {
+				key = "fin";
+				cs.setStatus("완료");
+			}
+			System.out.println(cs.getStatus()+":"+cs.getCnt());
+		}
+		
+		return gson.toJson(jsonObj);
 	}
 }

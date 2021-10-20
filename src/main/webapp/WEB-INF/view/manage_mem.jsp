@@ -28,6 +28,74 @@
 <script src="https://unpkg.com/vue/dist/vue.js" type="text/javascript"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	var calendarEl = document.getElementById('calendar');
+	var toDay = new Date().toISOString().split("T")[0];
+	var calendar = new FullCalendar.Calendar(calendarEl, {
+		headerToolbar : {
+			left : 'dayGridMonth,timeGridWeek,timeGridDay',
+			center : 'title',
+			right : 'prev,next today'
+		},
+		initialView: 'timeGridWeek',
+		initialDate : toDay,
+		navLinks : true,
+		selectable : true,
+		selectMirror : true,
+		eventLimit : false,
+		eventClick : function(arg) {
+			$("h2").click();
+			$("#exampleModalLongTitle").text("상세일정");
+			
+			if(arg.event.extendedProps.workcode != 0) {
+				$("#table-cal").hide();
+				$("#table-wbs").show();
+			}else{
+				$("#table-cal").show();
+				$("#table-wbs").hide();
+			}
+			addForm(arg.event);
+		},
+		editable : true,
+		dayMaxEvents : false,
+		events : function(info, successCallback, failureCallback) {
+			$.ajax({
+				type : "post",
+				url : "${path}/calList.do",
+				dataType : "json",
+				success : function(data) {
+					console.log(data)
+					successCallback(data);
+				},
+				error : function(err) {
+					console.log(err);
+				}
+
+			});
+
+		}
+	});
+
+	calendar.render();
+});
+function addForm(event) {
+	if(event.extendedProps.workcode == 0){
+		$("#title-cal").text(event.title);
+		$("#content-cal").text(event.extendedProps.content);
+		$("#start-cal").text(event.start.toLocaleString());
+		$("#end-cal").text(event.end.toLocaleString());
+		$("#process-cal").text(event.extendedProps.process+"%");
+	}  else {
+		// wbs 모달창
+		$("#title-wbs").text(event.title);
+		$("#content-wbs").text(event.extendedProps.content);
+		$("#start-wbs").text(event.start.toLocaleString());
+		$("#end-wbs").text(event.end.toLocaleString());
+		$("#process-wbs").text(event.extendedProps.status);
+	}
+}
+</script>
 <style>
 #proj_tab {
 	text-align: center;
@@ -37,6 +105,36 @@
 	color: darkgray;
 	font-weight: bold;
 }
+	#table-wbs table tr th {
+	    font-size: 17px;
+	    color: black;
+	    padding: 10px;
+	    width: 20%;
+	}
+	#table-wbs table tr td {
+	    font-size: 17px;
+	    color: black;
+	    padding-left: 40px;
+	    width: 80%;
+	}
+	#table-wbs table tr {
+    height: 4vw;
+	}	
+	#table-cal table tr th {
+	    font-size: 17px;
+	    color: black;
+	    padding: 10px;
+	    width: 20%;
+	}
+	#table-cal table tr td {
+	    font-size: 17px;
+	    color: black;
+	    padding-left: 40px;
+	    width: 80%;
+	}
+	#table-cal table tr {
+    height: 4vw;
+	}	
 </style>
 </head>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
@@ -168,9 +266,51 @@
 							<div class="container">
 								<!-- 주별 일정 -->
 								<div id="wrapper">
-									<div id="loading"></div>
 									<div id="calendar"></div>
 								</div>
+								<!-- 일정 추가 MODAL -->
+						<h2 data-toggle="modal" data-target="#exampleModalCenter"></h2>
+						<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+							role="dialog" aria-labelledby="exampleModalCenterTitle"
+							aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLongTitle">타이틀</h5>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<!-- 일반 모달창 -->
+										<div id="table-cal">
+												<table height="100%">
+													<tr><th>일정</th><td id="title-cal"></td></tr>
+													<tr><th>시작일</th><td id="start-cal"></td></tr>
+													<tr><th>종료일</th><td id="end-cal"></td></tr>
+													<tr><th>내용</th><td id="content-cal"></td></tr>
+													<tr><th>진행률</th><td id="process-cal"></td></tr>
+												</table>
+										</div>
+										<!-- wbs 모달창 -->
+										<div id="table-wbs">
+												<table height="100%">
+													<tr><th>일정</th><td id="title-wbs"></td></tr>
+													<tr><th>시작일</th><td id="start-wbs"></td></tr>
+													<tr><th>종료일</th><td id="end-wbs"></td></tr>
+													<tr><th>내용</th><td id="content-wbs"></td></tr>
+													<tr><th>진행률</th><td id="process-wbs"></td></tr>
+												</table>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
 							</div>
 							<!-- /.container -->
 						</div>
@@ -183,17 +323,19 @@
 </body>
 <script type="text/javascript">
 	//Pie Chart Example
+	console.log(${calStatus});
+	let calStatusObj = JSON.parse('${calStatus}');
 	var ctx = document.getElementById("myPieChart");
 	var myPieChart = new Chart(ctx, {
 		type : 'doughnut',
 		data : {
-			labels : [ "완료", "진행중", "시작전", "일정지연" ],
-			datasets : [ {
-				data : [ 7, 6, 4, 3 ],
+			labels : [ "완료", "진행중", "미진행"],
+			datasets : [{
+				data : [calStatusObj.fin, calStatusObj.prog, calStatusObj.hold],
 				backgroundColor : [ '#4e73df', '#1cc88a', '#36b9cc' ],
 				hoverBackgroundColor : [ '#2e59d9', '#17a673', '#2c9faf' ],
 				hoverBorderColor : "rgba(234, 236, 244, 1)",
-			} ],
+			}],
 		},
 		options : {
 			maintainAspectRatio : false,

@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,13 +20,17 @@ public class calRestController {
 	private calendarService service;
 	// http://localhost:8088/sopms/calendar_mem.do
 	// http://localhost:8088/sopms/calList.do
-	// http://localhost:8088/sopms/calList2.do
 
 	@RequestMapping("calList.do")
-	public List<Calendar> calList(HttpServletRequest request, Model d, Calendar calendar){
+	public List<Calendar> calList(HttpServletRequest request, Calendar calendar){
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
-		calendar.setManager(user.getId());
+		
+		if(!user.getRank().equals("부장")) {
+			calendar.setManager(user.getId());			
+		} else {
+			calendar.setPm(user.getId());
+		}
 		return service.calList(calendar);
 	}
 
@@ -35,7 +38,12 @@ public class calRestController {
 	public String calendarInsert(HttpServletRequest request, Calendar insert) {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
-		insert.setManager(user.getId());
+		insert.setRank(user.getRank());
+		if(!user.getRank().equals("부장")) {
+			insert.setManager(user.getId());
+		}else {
+			insert.setPm(user.getId());
+		}
 		service.insertCalendar(insert);
 		return "등록완료";
 	}
