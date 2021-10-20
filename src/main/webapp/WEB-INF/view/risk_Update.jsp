@@ -88,7 +88,7 @@
 							</div>
 						</div>
 						<div class="col-md-3 mb-3" id="regMan">
-							<h5>${riskDetail.id}</h5>
+							<h5>${riskDetail.m_name}</h5>
 						</div>
 						<div class="col-md-3 mb-3">
 							<div class="form-floating">

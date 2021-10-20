@@ -38,7 +38,7 @@
 
 </head>
 <body>
-	<form id="outputForm">
+	<form id="outputForm01">
 		<input type="hidden" name="pcode" value="${param.pcode}">
 		<input type="hidden" name="curPage" value="1">
 	</form>
@@ -99,13 +99,14 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-	getRiskList();
+	outputList01();
 });
 
-function getRiskList(){
+function outputList01(){
 	$.ajax({
 		type :'post',
-		url :'${path}/projectRisk.do?pcode=${param.pcode}',
+		url :'${path}/outputList01.do',
+		data:$("#outputForm01").serialize(),
 		dataType:'json',
 		success : function(data){
 			var show = "";
@@ -117,21 +118,21 @@ function getRiskList(){
 			})
 			$("#tableList tbody").html(show);
 			var paging = "";
-			paging += "<li class='page-item' id='pre'><a class='page-link' href='javascript:goBlock("+(data.outPut.startBlock-1)+")'>Pre</a></li>"
+			paging += "<li class='page-item' id='pre'><a class='page-link' href='javascript:goBlock01("+(data.outPut.startBlock-1)+")'>Pre</a></li>"
 			for(var i=data.outPut.startBlock;i<=data.outPut.endBlock;i++){	
 				var check = (data.outPut.curPage==i) ? 'active' : '';
-				paging += "<li class='page-item "+ check +"'><a class='page-link' href='javascript:goBlock("+i+")'>"+i+"</a></li>"
+				paging += "<li class='page-item "+ check +"'><a class='page-link' href='javascript:goBlock01("+i+")'>"+i+"</a></li>"
 			}
-			paging += "<li class='page-item' id='next'><a class='page-link' href='javascript:goBlock("+(data.outPut.endBlock-1)+")'>Next</a></li>"
+			paging += "<li class='page-item' id='next'><a class='page-link' href='javascript:goBlock01("+(data.outPut.endBlock-1)+")'>Next</a></li>"
 			$("#paging3").html(paging);
 		},
 		error:function(err){
 			console.log(err);
 			alert(err);
 		}
-	});
+	})
 }
-function goBlock(no){
+function goBlock01(no){
 	$("[name=curPage]").val(no);
 	outputList01();
 }

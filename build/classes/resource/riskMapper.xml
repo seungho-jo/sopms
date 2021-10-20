@@ -4,15 +4,15 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="sopms.risk.dao.riskDao">
 	<select id="riskListPaging" resultType="risk" parameterType="riskSch">
-		select * 
-		from(
-			select rownum as no, risk_name, id, risk_status, risk_reg, risk_no
+		select * from
+		( select rownum as no, b.* from 
+		( select risk_name, id, risk_status, risk_reg, risk_no
 			from risk
 			where risk_name like '%'||#{risk_name}||'%'
 			and id like '%'||#{id}||'%'
-		)
+			order by risk_reg DESC
+		) b )
 		where no between #{start} and #{end}
-		order by risk_reg DESC
 	</select>
 	
 	<select id="totCnt" resultType="int" parameterType="riskSch">
@@ -32,8 +32,9 @@
 	</select>
 	
 	<select id="detailRiskPaging" parameterType="int" resultType="risk">
-		select a.*,b.pname from risk a, project b
+		select a.*,b.pname, m.name as m_name from risk a, project b, member m
 		where a.pcode = b.pcode
+		and a.id = m.id
 		and a.risk_no = #{risk_no}
 	</select>
 	
