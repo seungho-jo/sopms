@@ -61,7 +61,7 @@
 			
 			</tbody>
 		</table>
-		<ul class="pagination justify-content-center" id="paging2">
+		<ul class="pagination justify-content-center" id="paging3">
 				
 		</ul>
 	</div>		
@@ -123,7 +123,7 @@ function getRiskList(){
 				paging += "<li class='page-item "+ check +"'><a class='page-link' href='javascript:goBlock("+i+")'>"+i+"</a></li>"
 			}
 			paging += "<li class='page-item' id='next'><a class='page-link' href='javascript:goBlock("+(data.outPut.endBlock-1)+")'>Next</a></li>"
-			$("#paging2").html(paging);
+			$("#paging3").html(paging);
 		},
 		error:function(err){
 			console.log(err);

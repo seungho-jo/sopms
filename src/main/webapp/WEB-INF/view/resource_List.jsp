@@ -141,7 +141,7 @@
 									</table>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" id="regMaster"
-											data-dismiss="modal" >등록하기</button>
+											data-dismiss="modal">등록하기</button>
 										<!-- modal에서 추가한 데이터 등록하기 -->
 										<button type="button" class="btn btn-primary"
 											data-dismiss="modal" id="cancelMaster">취소</button>
@@ -167,10 +167,10 @@
 		</div>
 		<!--.card-body -->
 
+	</div>
 
 
-
-		<!-- .card -->
+	<!-- .card -->
 </body>
 
 

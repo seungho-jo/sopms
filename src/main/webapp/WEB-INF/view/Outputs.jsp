@@ -108,7 +108,7 @@
 					show+="<td>"+item.title+"</td>";
 					show+="<td>"+item.fname+"</td>";
 					show+="<td>"+item.m_name+"</td>";
-					show+="<td>"+item.regdate+"</td></tr>";
+					show+="<td>"+item.reqdate+"</td></tr>";
 				})
 				$("#tab_output tbody").html(show);
 				var paging = "";

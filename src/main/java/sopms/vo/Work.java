@@ -18,7 +18,7 @@ public class Work {
 	private String reqmsg;
 	private String apprmsg;
 	private String compmsg;
-	private String regdate;
+	private String reqdate;
 	private String uptdate;
 	private String apprdate;
 	private MultipartFile report;
@@ -115,11 +115,11 @@ public class Work {
 	public void setCompmsg(String compmsg) {
 		this.compmsg = compmsg;
 	}
-	public String getRegdate() {
-		return regdate;
+	public String getReqdate() {
+		return reqdate;
 	}
-	public void setRegdate(String regdate) {
-		this.regdate = regdate;
+	public void setReqdate(String reqdate) {
+		this.reqdate = reqdate;
 	}
 	public String getUptdate() {
 		return uptdate;

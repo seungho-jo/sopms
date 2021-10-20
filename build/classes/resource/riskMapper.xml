@@ -88,7 +88,7 @@
 		and pcode = #{pcode}
 	</select>
 	
-	<select id="outputList" resultType="risk" parameterType="outputs">
+	<select id="outputList01" resultType="risk" parameterType="outputs">
 		select * from 
 		(select rownum as no, d.* from
 		(select r.risk_name, r.risk_status, m.id, risk_reg 

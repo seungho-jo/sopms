@@ -131,6 +131,10 @@ public class myWorkService {
 		return dao.myWorkListPm(workpmsch);
 	}
 	
+	public Work detailWorkPm(int workcode) {
+		return dao.detailWorkPm(workcode);
+	}
+	
 	public void compUpt(Work work) {
 		dao.statusUpt(work);
 		dao.compUpt(work);
