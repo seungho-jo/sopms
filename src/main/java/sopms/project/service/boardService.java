@@ -59,6 +59,9 @@ public class boardService {
 	public void update(Board upt) {
 		dao.updateBoard(upt);
 	}	
+	public void updatefile(Board upt) {
+		dao.updateBoard_file(upt);
+	}	
 	public void deleteBoard(int bcode) {
 		dao.deleteBoard(bcode);
 	}

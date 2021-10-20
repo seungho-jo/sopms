@@ -39,7 +39,7 @@ public class boardController {
 		User user = (User) session.getAttribute("user");
 		board.setId(user.getId());
 		service.insertBoard(board);
-		return "forward:/board.do?method=list";
+		return "redirect:/board.do?method=list";
 	}
 	
 	// http://localhost:7080/sopms/board.do?method=list
@@ -76,7 +76,8 @@ public class boardController {
 	@RequestMapping(params = "method=update")
 	public String boardUpdate(Board upt) {
 		service.update(upt);
-		return "WEB-INF\\view\\projectboard_Detail.jsp";
+		service.updatefile(upt);
+		return "redirect:/board.do?method=list";
 	}
 
 	// http://localhost:7080/sopms/board.do?method=delete

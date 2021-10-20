@@ -13,6 +13,7 @@ public interface boardDao {
 	public int totCnt(BoardSch sch);
 	public Board getBoard(int bcode);
 	public void updateBoard(Board upt);
+	public void updateBoard_file(Board upt);
 	public void deleteBoard(int bcode);
 	public void uploadFile(BoardFile ins);
 	public String getBoardFile(int bcode);
