@@ -31,7 +31,8 @@
 		
 	</select>
 	<select id="detailWork" parameterType="int" resultType="work">
-		select a.*,b.compmsg,b.apprmsg,b.reqmsg,c.fname,d.name AS pm_name from wbs a,works b,workfile c,MEMBER d
+		select a.*,b.compmsg,b.apprmsg,d.name AS pm_name 
+		from wbs a,works b,workfile c,MEMBER d
 		where a.workcode = #{workcode}
 		AND a.pm = d.id
 		and a.workcode = b.workcode(+)
@@ -43,9 +44,9 @@
 		ON (a.workcode = #{workcode})
 		WHEN MATCHED THEN
 			UPDATE SET a.reqmsg = #{reqmsg},
-			  		   a.apprdate = sysdate
+			  		   a.reqdate = sysdate
 		WHEN NOT MATCHED THEN
-			INSERT (workcode,reqmsg,apprdate)
+			INSERT (workcode,reqmsg,reqdate)
 			values (#{workcode},#{reqmsg},sysdate)
 	</update>
 	<update id="uploadfile" parameterType="workfile">
@@ -53,11 +54,9 @@
 		using dual
 		on (a.workcode = #{workcode})
 		when matched then
-		update set a.fname = #{fname},
-				   a.regdate = sysdate,
-				   a.uptdate = sysdate
+		update set a.fname = #{fname}
 		when not matched then
-		insert  values(#{workcode}, #{fname},sysdate,sysdate)
+		insert  values(#{workcode}, #{fname})
 	</update>
 	<select id="myWorkPmCount" parameterType="String" resultType="int">
 		SELECT count(*) FROM wbs a, works b
@@ -67,7 +66,7 @@
 	</select>
 	<select id="myWorkListPm" parameterType="workpmsch" resultType="work">
 		SELECT * from
-		(SELECT rownum AS NO,a.*,b.APPRDATE,c.name as m_name
+		(SELECT rownum AS NO,a.*,b.reqdate,c.name as m_name
 		 FROM wbs a, works b,member c
 		WHERE a.workcode = b.WORKCODE
 		AND a.MANAGER = c.id
@@ -76,29 +75,40 @@
 		ORDER BY b.APPRDATE desc)
 		WHERE NO BETWEEN #{start} AND #{end}
 	</select>
+	<select id="detailWorkPm" parameterType="int" resultType="work">
+		select a.*,b.reqmsg,c.fname,d.name AS m_name 
+		from wbs a,works b,workfile c,MEMBER d
+		where a.workcode = #{workcode}
+		AND a.manager = d.id
+		and a.workcode = b.workcode(+)
+		AND a.workcode = c.workcode(+)
+	</select>
 	<update id="statusUpt" parameterType="work">
 		update wbs
 			set status = #{status}
 		where workcode = #{workcode}
 	</update>
 	<update id="compUpt" parameterType="work">
-		update works
-			set compmsg = #{compmsg}
-		where workcode = #{workcode}
+			UPDATE works
+			SET compmsg = #{compmsg},
+			    compdate = sysdate
+			where workcode = #{workcode}
 	</update>
 	<update id="apprUpt" parameterType="work">
-		update works
-			set apprmsg = #{apprmsg}
-		where workcode = #{workcode}
+			UPDATE works
+			SET apprmsg = #{apprmsg},
+			    apprdate = sysdate
+			where workcode = #{workcode}		
 	</update>
 	<select id="outputList" parameterType="outputs" resultType="work">
 		SELECT * from
-		(SELECT  rownum AS NO,d.* from
-		(SELECT a.title,b.fname,c.name AS m_name,regdate
-		FROM wbs a,workfile b,MEMBER c
+		(SELECT  rownum AS NO,e.* from
+		(SELECT a.title,b.fname,c.name AS m_name,reqdate
+		FROM wbs a,workfile b,MEMBER c,works d
 		WHERE a.WORKCODE = b.WORKCODE 
+		and a.workcode = d.workcode
 		AND a.MANAGER = c.id
-		AND a.PARENT = #{pcode}) d)
+		AND a.PARENT = #{pcode}) e)
 		WHERE NO BETWEEN #{start} AND #{end}
 		ORDER BY NO desc
 	</select>

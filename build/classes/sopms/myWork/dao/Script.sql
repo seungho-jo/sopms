@@ -228,3 +228,32 @@ SELECT count(*) FROM WORKFILE a,wbs b,project c
 WHERE a.WORKCODE = b.WORKCODE 
 AND b.PARENT = c.PCODE
 AND c.pcode = 2;
+
+select a.*,b.reqmsg,c.fname,d.name AS m_name 
+from wbs a,works b,workfile c,MEMBER d
+where a.workcode = -2
+AND a.manager = d.id
+and a.workcode = b.workcode(+)
+AND a.workcode = c.workcode(+);
+
+SELECT * FROM 
+(SELECT rownum cnt,a.* FROM
+(SELECT b.*,m.name
+from board b,MEMBER m
+WHERE b.id = m.id
+AND btitle LIKE '%'||''||'%'
+AND m.name LIKE '%'||''||'%'ORDER BY bcode) a)
+WHERE cnt BETWEEN 1 AND 10
+ORDER BY bcode desc;
+SELECT reqdate FROM works;
+
+SELECT * from
+		(SELECT  rownum AS NO,e.* from
+		(SELECT a.title,b.fname,c.name AS m_name,reqdate
+		FROM wbs a,workfile b,MEMBER c,works d
+		WHERE a.WORKCODE = b.WORKCODE 
+		and a.workcode = d.workcode
+		AND a.MANAGER = c.id
+		AND a.PARENT = 2) e)
+		WHERE NO BETWEEN 1 AND 10
+		ORDER BY NO DESC;

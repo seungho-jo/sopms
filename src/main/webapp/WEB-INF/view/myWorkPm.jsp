@@ -55,7 +55,7 @@
 							</thead>
 							<tbody>
 								<c:forEach var="wlist" items="${list}">
-								<fmt:parseDate var="apprdate1" value="${wlist.apprdate}" pattern="yyyy-MM-dd"/>
+								<fmt:parseDate var="apprdate1" value="${wlist.reqdate}" pattern="yyyy-MM-dd"/>
 								<fmt:formatDate  var="apprdate2" value="${apprdate1}" type="DATE" pattern="yyyy-MM-dd"/>
 									<tr onclick="javascript:go(${wlist.workcode})">
 										<th><input type="checkbox" class="text-dark"></th>

@@ -116,14 +116,14 @@
 					<fmt:parseDate var="end_date1" value="${detail.end_date}" pattern="yyyy-MM-dd"/>
 					<fmt:formatDate  var="end_date2" value="${end_date1}" type="DATE" pattern="yyyy-MM-dd"/>
 					<tr>
-						<th>시작일</th>
+						<th>작업 시작일</th>
 						<td>${start_date2}</td>
-						<th>완료일</th>
+						<th>작업 완료일</th>
 						<td>${end_date2}</td>
 					</tr>
 					<tr>
 						<th>승인 요청자</th>
-						<td>${detail.pm_name}</td>
+						<td>${detail.m_name}</td>
 						<th>상태</th>
 						<td>${detail.status}</td>
 					</tr>

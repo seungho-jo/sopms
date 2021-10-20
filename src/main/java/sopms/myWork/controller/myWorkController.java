@@ -51,7 +51,7 @@ public class myWorkController {
 	}
 	@RequestMapping("detailWorkPm.do")
 	public String detailWorkPm(Model d,int workcode) {
-		d.addAttribute("detail", service.detailWork(workcode));
+		d.addAttribute("detail", service.detailWorkPm(workcode));
 		return "WEB-INF\\view\\detailWorkPm.jsp";
 	}
 	@RequestMapping("companion.do")

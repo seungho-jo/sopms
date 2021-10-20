@@ -18,6 +18,7 @@ public interface myWorkDao {
 	// pm
 	public int myWorkPmCount(String name);
 	public ArrayList<Work> myWorkListPm(WorkPmSch workpmsch);
+	public Work detailWorkPm(int workcode);
 	public void statusUpt(Work work);
 	public void compUpt(Work work);
 	public void apprUpt(Work work);
@@ -25,3 +26,5 @@ public interface myWorkDao {
 	public ArrayList<Work> outputList(OutPut outputs);
 	public int outputCnt(int pcode);
 }
+
+
