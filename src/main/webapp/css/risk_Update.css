@@ -32,14 +32,16 @@
 }
 
 #button_right{
+	margin-top:5%;
 	position:relative;
 	left:10%;
-	width: 12%;
+	width: 15%;
 }
 #jochiBtn{
+	margin-top:5%;
 	position:relative;
-	left:90%;
-	width: 12%;
+	left:80%;
+	width: 15%;
 }
 #modal_status{
 	position:relative;
@@ -62,4 +64,10 @@
 	right: 45%;
 }
 	
+#btnAuthority{
+	margin-top:4%;
+	position:relative;
+	left:47%;
+	width:10%
+}
 

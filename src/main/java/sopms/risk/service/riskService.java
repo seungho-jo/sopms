@@ -11,6 +11,7 @@ import sopms.risk.dao.riskDao;
 import sopms.vo.OutPut;
 import sopms.vo.Project;
 import sopms.vo.Risk;
+import sopms.vo.User;
 import sopms.vo.riskJochi;
 import sopms.vo.riskSch;
 
@@ -75,6 +76,15 @@ public class riskService {
 		
 		dao.insertRisk(rk);
 	}
+	// PM일 경우 조치자 선택
+	public ArrayList<User> getUserJochi(int pcode){
+		return dao.getUserJochi(pcode);
+	}
+	// pm이 조치자 선택
+	public void jochiAuthority(Risk rk) {
+		rk.setPcode(Integer.parseInt(rk.getPcodeS()));
+		dao.jochiAuthority(rk);
+	}
 
 	// 페이지이동
 	public ArrayList<Project> projectList(String id){
@@ -100,7 +110,7 @@ public class riskService {
 		dao.uptModalContent(rk);
 		dao.uptRiskStatus(rk);
 	}
-	
+	// 조치 리스트 춮력
 	public riskJochi riskJochiSelect(int riskNum) {
 		return dao.riskJochiSelect(riskNum);
 	}

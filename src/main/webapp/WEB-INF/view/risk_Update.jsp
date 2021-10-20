@@ -101,16 +101,37 @@
 							</div>
 						</div>
 					</div>
-					<div class="row g-2">
-						<div class="col-md mb-3">
-							<button type="button" class="btn btn-primary" id="jochiBtn"
-							data-toggle="modal" data-target="#exampleModalCenter">수정</button>
+					
+					<c:set var="name" value="${riskDetail.jochiPerson}"/>
+					<c:choose>
+						<c:when test="${user.rank=='부장'}">
+						<div class="row g-2">
+							<div class="col-md mb-3">
+								<button type="button" class="btn btn-primary" id="btnAuthority"
+								data-toggle="modal" data-target="#exampleModalCenter01">권한</button>
+							</div>
 						</div>
-						<div class="col-md mb-3">
-							<button type="button" class="btn btn-primary" id="button_right"
-								onclick="javascript:goDelete(${riskDetail.risk_no})">삭제</button>
+						</c:when>
+						<!-- user아이디와 리스크 조치자가 같으면 실행 -->
+						<c:when test="${user.id == name}" >
+							<div class="row g-2">
+							<div class="col-md mb-3">
+								<button type="button" class="btn btn-primary" id="jochiBtn"
+								data-toggle="modal" data-target="#exampleModalCenter02">수정</button>
+							</div>
+				
+							<div class="col-md mb-3">
+								<button type="button" class="btn btn-primary" id="button_right"
+									onclick="javascript:goDelete(${riskDetail.risk_no})">삭제</button>
+							</div>
 						</div>
-					</div>
+						</c:when>
+						
+						<c:otherwise>
+						
+						</c:otherwise>
+					</c:choose>
+
 				</div>
 			</div>
 
@@ -152,24 +173,53 @@
 					</div>
 	
 			</div>
-			<div class="card">
-				<div class="card-header">
-					<h4 class="card-title">댓글</h4>
-				</div>
-				<div class="card-body">
-					<div class="form-floating">
-						<label for="floatingTextarea2">${riskDetail.id}</label>
-						<textarea class="form-control" placeholder="Leave a comment here"
-							id="floatingTextarea2" style="height: 100px">
-					  	</textarea>
-							<button class="btn btn-primary me-md-2" type="button">댓글
-								등록</button>
+			
+			<!--  modal 권한-->
+			<div class="modal fade" id="exampleModalCenter01" tabindex="-1"
+				role="dialog" aria-labelledby="exampleModalCenterTitle"
+				aria-hidden="true">
+					
+				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle">권한 부여</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
 						</div>
+						<form id="frm01" style="display: flex" method="post">
+						<input type="hidden" name="pcodeS" value="${riskDetail.pcode}">
+						<input type="hidden" name="risk_no" value="${riskDetail.risk_no}">
+						<div class="modal-body">
+							<div class="row g-2">
+								<div class="col-4 mb-3">
+									<h4 id="title">조치자</h4>
+								</div>
+								<div class="col-4 mb-3">
+									<select class="form-select" aria-label="Default select example"
+										id="modal_status" name="jochiPerson">
+										<option selected>리스크상태</option>
+										<c:forEach var="meml" items="${memList}">
+											<option value="${meml.id}">${meml.name}</option>
+										</c:forEach>
+									</select>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<div class="d-flex justify-content-center">
+									<button type="button" class="btn btn-primary" id="btn_authority">조치완료</button>
+								</div>
+							</div>
+						</div>
+						</form>
+					</div>
 				</div>
 			</div>
 			
-			<!--  modal 조치내역-->
-			<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+			
+			<!-- 조치내역 수정 -->
+			<div class="modal fade" id="exampleModalCenter02" tabindex="-1"
 				role="dialog" aria-labelledby="exampleModalCenterTitle"
 				aria-hidden="true">
 					
@@ -182,7 +232,7 @@
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
-						<form style="display: flex" method="post">
+						<form id="frm02" style="display: flex" method="post">
 						<div class="modal-body">
 							<div class="row g-2">
 								<div class="col-4 mb-3">
@@ -263,14 +313,13 @@
 	}
 	// 조치버튼 클릭
 	$("#btn_complete").click(function(){
-		$("form").attr("action", "${path}/updateModalContent.do");
-		$("form").submit();
+		$("#frm02").attr("action", "${path}/updateModalContent.do");
+		$("#frm02").submit();
 	});
 	
-	// 리스크 수정 버튼 클릭
-	$("#btn_LittleUpdate").click(function(){
-		$("form").attr("action", "${path}/updateDetailRisk.do");
-		$("form").submit();
+	$("#btn_authority").click(function(){
+		$("#frm01").attr("action","${path}/updateAuthority.do");
+		$("#frm01").submit();
 	});
 </script>
 </html>

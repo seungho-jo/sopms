@@ -36,6 +36,8 @@
 		<jsp:include page="navi.jsp" />
 		<div class="content-body">
 			<form style="display: flex" method="post">
+			<input type="hidden" name="jochiPerson" value="">
+			<input type="hidden" name="rank" value="">
 			<div class="card" style="min-height:1000px;">
 			<h2 id="card-title">리스크 등록</h2>
 				<div class="card-body">
