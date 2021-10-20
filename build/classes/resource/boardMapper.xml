@@ -47,6 +47,11 @@
 				bcontent = #{bcontent} 
 			where bcode = #{bcode}
 	</update>
+	<update id="updateBoard_file" parameterType="board">
+		UPDATE boardfile
+			set bfname = #{bfname}
+			where bcode = #{bcode}
+	</update>
 	<delete id="deleteBoard" parameterType="int">
 			DELETE FROM board 
 			where bcode = #{bcode}

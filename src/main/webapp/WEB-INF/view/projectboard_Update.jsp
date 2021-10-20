@@ -126,19 +126,17 @@ h3 {
 							<div class="card-body">
 								<textarea rows="10" cols="" name="bcontent" id="contentdiv">${board.bcontent}</textarea>
 							</div>
-							<!-- 첨부파일
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
 									<span class="input-group-text">첨부 파일</span>
 								</div>
 								<div class="custom-file">
-									<input type="file" name="report" class="custom-file-input"
-										id="file01"> <label class="custom-file-label"
-										for="file01"> 파일을 선택하세요. </label>
+									<input type="file" name="bfname" class="custom-file-input"
+										id="file01" value="${board.bfname}"> <label class="custom-file-label"
+										for="file01">${board.bfname}</label>
 								</div>
 								
 							</div>
-							-->
 							<div class="row">
 								<div class="offset-9">
 									<button id="upt" class="btn btn-primary" data-toggle="modal"
@@ -216,6 +214,9 @@ h3 {
 	$("#uptBtn_modal").click(function() {
 		$("#updateform").submit();
 		alert("프로젝트를 수정했습니다.");
+	});
+	$(".custom-file-input").on("change",function(){
+		$(this).next(".custom-file-label").text($(this).val());
 	});
 	$("#canBtn_modal").click(function(){
 		history.back();
