@@ -24,17 +24,22 @@ public class DashboardController {
 	public String dashboard(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
-		System.out.println("직급:"+user.getRank());
 		if(user!=null) {
-			model.addAttribute("countSum", service.getCount(user));
+			// 리스크 상태 Chart
 			model.addAttribute("riskStatus", service.riskStatusCntJson(user));
+			// 월별 리스크 Chart
 			model.addAttribute("riskMonthly", service.riskMonthlyJson(user));
+			// 프로젝트/작업/리스크/산출물 name list Json
+			model.addAttribute("nameList", service.nameListJson(user));
+			// 북마크 - 진행중인 프로젝트 list
 			model.addAttribute("projectList", service.projectList(user));
+			// 공지사항
 			model.addAttribute("notice", service.boardNotice());
 		}
 		return "WEB-INF/view/main.jsp";
 	}
 
+	// 북마크 추가 Ajax
 	@RequestMapping("dashboard/insertBookmark.do")
 	public void insertBookmark(HttpServletRequest request, @RequestParam("pcode") int pcode) {
 		HttpSession session = request.getSession();
@@ -42,6 +47,7 @@ public class DashboardController {
 		service.insertBookmark(new ProjectBookmark(pcode,id));
 	}
 	
+	// 북마크 제거 Ajax
 	@RequestMapping("dashboard/deleteBookmark.do")
 	public void deleteBookmark(HttpServletRequest request, @RequestParam("pcode") int pcode) {
 		HttpSession session = request.getSession();
@@ -49,6 +55,7 @@ public class DashboardController {
 		service.deleteBookmark(new ProjectBookmark(pcode,id));
 	}
 	
+	// 북마크 리스트 조회 Ajax
 	@ResponseBody
 	@RequestMapping(value="dashboard/bookmarkList.do", produces = "application/text;charset=utf8")
 	public String bookmarkListJson(HttpServletRequest request) {

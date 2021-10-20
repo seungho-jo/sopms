@@ -76,24 +76,27 @@
 				
 	           <!-- Content Row -->
 				<div class="row">
-				
-					<!-- Project -->
-					<div class="col-xl-3 col-md-6 mb-4">
-						<div class="card shadow h-100 " style="border-color:#4e73df !important;">
-							<div class="card_header">
-								<i class="bi bi-clipboard-check text-primary sum_icon"></i>
-								<h6 class="m-0 font-weight-bold text-primary ml-1">프로젝트</h6>
-							</div>
-							<div class="card-body">
-								<div class="h4 mt-4 mb-0 font-weight-bold text-gray-800 text-center">${countSum.projectCnt}</div>
-							</div>
-						</div>
-					</div>
-	             
-	           		<!-- Task -->
+	           		
 					<c:choose>
 						<c:when test="${sessionScope.user.rank eq '부장'}">
 							<!-- 부장 직급 사용자일 경우 -->
+							<!-- Project -->
+							<div class="col-xl-3 col-md-6 mb-4">
+								<div class="card shadow h-100 " style="border-color:#4e73df !important;">
+									<div class="card_header">
+										<i class="bi bi-clipboard-check text-primary sum_icon"></i>
+										<h6 class="m-0 font-weight-bold text-primary ml-1">프로젝트</h6>
+									</div>
+									<div class="card-body">
+										<div class="h4 mt-4 mb-0 font-weight-bold text-gray-800 text-center">
+											<div class="h4 mb-0 mt-4 font-weight-bold text-gray-800 text-center">
+												<span id="project_cnt_PM" data-toggle="tooltip" data-html="true" data-placement="right" title=""></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Task (부장) -->
 							<div class="col-xl-3 col-md-6 mb-4">
 								<div class="card shadow h-100" style="border-color:#1cc88a !important;">
 									<div class="card_header">
@@ -101,15 +104,62 @@
 										<h6 class="m-0 font-weight-bold text-success ml-1">작업</h6>
 									</div>
 									<div class="card-body">
-										<div class="h4 mb-0 font-weight-bold text-gray-800 text-center">${countSum.taskCntAll}</div>
+										<div class="h4 mb-0 mt-4 font-weight-bold text-gray-800 text-center">
+											<span id="task_cnt_PM" data-toggle="tooltip" data-html="true" data-placement="right" title=""></span>
+										</div>
 										<hr>
-										<div class="h5 mb-0 font-weight-bold text-gray-800 text-center">승인요청 ${countSum.taskReqCnt}</div>
+										<div class="h5 mb-0 font-weight-bold text-gray-800 text-center">승인요청 
+											<span id="task_req_cnt_PM" data-toggle="tooltip" data-html="true" data-placement="right" title=""></span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Risk (부장) -->
+							<div class="col-xl-3 col-md-6 mb-4">
+								<div class="card shadow h-100 " style="border-color:#f6c23e !important;">
+									<div class="card_header">
+										<i class="bi bi-exclamation-triangle text-warning sum_icon"></i>
+										<h6 class="m-0 font-weight-bold text-warning ml-1">리스크</h6>
+									</div>
+									<div class="card-body">
+										<div class="h4 mb-0 mt-4 font-weight-bold text-gray-800 text-center">
+											<span id="risk_cnt_PM" data-toggle="tooltip" data-html="true" data-placement="right" title=""></span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Output (부장) -->
+							<div class="col-xl-3 col-md-6 mb-4">
+								<div class="card shadow h-100 " style="border-color:#36b9cc !important;">
+									<div class="card_header">
+										<i class="bi bi-sd-card text-info sum_icon"></i>
+										<h6 class="m-0 font-weight-bold text-info ml-1">산출물</h6>
+									</div>
+									<div class="card-body">
+										<div class="h4 mb-0 mt-4 font-weight-bold text-gray-800 text-center">
+											<span id="output_cnt_PM" data-toggle="tooltip" data-html="true" data-placement="right" title=""></span>
+										</div>
 									</div>
 								</div>
 							</div>
 						</c:when>
 						<c:otherwise>
 							<!-- 기타 직급 사용자일 경우 -->
+							<!-- Project -->
+							<div class="col-xl-3 col-md-6 mb-4">
+								<div class="card shadow h-100 " style="border-color:#4e73df !important;">
+									<div class="card_header">
+										<i class="bi bi-clipboard-check text-primary sum_icon"></i>
+										<h6 class="m-0 font-weight-bold text-primary ml-1">프로젝트</h6>
+									</div>
+									<div class="card-body">
+										<div class="h4 mt-4 mb-0 font-weight-bold text-gray-800 text-center">
+											<span id="project_cnt" data-toggle="tooltip" data-html="true" data-placement="right" title=""></span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Task -->
 							<div class="col-xl-3 col-md-6 mb-4">
 								<div class="card shadow h-100 " style="border-color:#1cc88a !important;">
 									<div class="card_header">
@@ -117,17 +167,13 @@
 										<h6 class="m-0 font-weight-bold text-success ml-1">작업</h6>
 									</div>
 									<div class="card-body">
-										<div class="h4 mt-4 mb-0 font-weight-bold text-gray-800 text-center">${countSum.taskCnt}</div>
+										<div class="h4 mb-0 mt-4 font-weight-bold text-gray-800 text-center">
+											<span id="task_cnt" data-toggle="tooltip" data-html="true" data-placement="right" title=""></span>
+										</div>
 									</div>
 								</div>
-							</div>	
-						</c:otherwise>
-					</c:choose>
-	               
-	              <!-- Risk -->
-					<c:choose>
-						<c:when test="${sessionScope.user.rank eq '부장'}">
-							<!-- 부장 직급 사용자일 경우 -->
+							</div>
+							<!-- Risk -->
 							<div class="col-xl-3 col-md-6 mb-4">
 								<div class="card shadow h-100 " style="border-color:#f6c23e !important;">
 									<div class="card_header">
@@ -135,32 +181,13 @@
 										<h6 class="m-0 font-weight-bold text-warning ml-1">리스크</h6>
 									</div>
 									<div class="card-body">
-										<div class="h4 mb-0 mt-4 font-weight-bold text-gray-800 text-center">${countSum.riskCntAll}</div>
+										<div class="h4 mb-0 mt-4 font-weight-bold text-gray-800 text-center">
+											<span id="risk_cnt" data-toggle="tooltip" data-html="true" data-placement="right" title=""></span>
+										</div>
 									</div>
 								</div>
 							</div>
-						</c:when>
-						<c:otherwise>
-							<!-- 기타 직급 사용자일 경우 -->
-							<div class="col-xl-3 col-md-6 mb-4">
-								<div class="card shadow h-100 " style="border-color:#f6c23e !important;">
-									<div class="card_header">
-										<i class="bi bi-exclamation-triangle text-warning sum_icon"></i>
-										<h6 class="m-0 font-weight-bold text-warning ml-1">리스크</h6>
-									</div>
-									<div class="card-body">
-										<div class="h4 mt-4 mb-0 font-weight-bold text-gray-800 text-center">${countSum.riskCnt}</div>
-									</div>
-								</div>
-							</div>
-						</c:otherwise>
-					</c:choose>
-	
-	
-	               <!-- Output -->
-	               <c:choose>
-						<c:when test="${sessionScope.user.rank eq '부장'}">
-							<!-- 부장 직급 사용자일 경우 -->
+							<!-- Output -->
 							<div class="col-xl-3 col-md-6 mb-4">
 								<div class="card shadow h-100 " style="border-color:#36b9cc !important;">
 									<div class="card_header">
@@ -168,21 +195,9 @@
 										<h6 class="m-0 font-weight-bold text-info ml-1">산출물</h6>
 									</div>
 									<div class="card-body">
-										<div class="h4 mb-0 mt-4 font-weight-bold text-gray-800 text-center">${countSum.outputCntAll}</div>
-									</div>
-								</div>
-							</div>
-						</c:when>
-						<c:otherwise>
-							<!-- 기타 직급 사용자일 경우 -->
-							<div class="col-xl-3 col-md-6 mb-4">
-								<div class="card shadow h-100 " style="border-color:#36b9cc !important;">
-									<div class="card_header">
-										<i class="bi bi-sd-card text-info sum_icon"></i>
-										<h6 class="m-0 font-weight-bold text-info ml-1">산출물</h6>
-									</div>
-									<div class="card-body">
-										<div class="h4 mb-0 mt-4 font-weight-bold text-gray-800 text-center">${countSum.outputCnt}</div>
+										<div class="h4 mb-0 mt-4 font-weight-bold text-gray-800 text-center">
+											<span id="output_cnt" data-toggle="tooltip" data-html="true" data-placement="right" title=""></span>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -239,7 +254,7 @@
 								<td>PM</td>
 								<td>시작일</td>
 								<td>종료일</td>
-								<td>남은기간</td>
+								<td>남은기한</td>
 				           </tr>
 						</thead>
 						<tbody class="text-secondary">  
@@ -263,10 +278,11 @@
 				              <td>조회수</td>
 				           </tr>
 						</thead>
-						<tbody class="text-dark">
+						<tbody class="text-primary">
 							<c:forEach var="board" items="${notice}" varStatus="status">
 								<input type="hidden" value="${board.bcode}"/>
-								<tr>
+								<tr onClick="location.href='${path}/board.do?method=detail&bcode=${board.bcode}'"
+									style="cursor:pointer">
 									<td>${board.btitle}</td>
 									<td>${board.name}</td>
 									<td>${board.regdte}</td>
@@ -343,7 +359,11 @@
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
+	// 프로젝트/작업/리스크/산출물 수 출력
+	loadCountAll();
+	//bookmark 목록 출력
 	loadBookmark();
+	//modal 창 닫는 이벤트 바인딩.
 	$('#bookmark_modal').on('hide.bs.modal',loadBookmark);
 })
 
@@ -517,6 +537,7 @@ $('#bookmark_modal .bookmark_icon').click(function(){
 	}
 });
 
+// 북마크 추가 함수. bookmark_icon class 입력
 function bookmarkOn(obj){
 	$(obj).children('input[type=checkbox]').attr('checked',true);
 	$(obj).children('i').eq(0).hide();
@@ -525,6 +546,7 @@ function bookmarkOn(obj){
 	let pcode = $('#modal_project_tab input[type=hidden]').eq(index).val();
 	insertBookmark(pcode);
 }
+// 북마크 제거 함수. bookmark_icon class 입력
 function bookmarkOff(obj){
 	$(obj).children('input[type=checkbox]').attr('checked',false);
 	$(obj).children('i').eq(0).show();
@@ -533,7 +555,7 @@ function bookmarkOff(obj){
 	let pcode = $('#modal_project_tab input[type=hidden]').eq(index).val();
 	deleteBookmark(pcode);
 }
-
+// url pattern, 전송 데이터, success 시 실행할 함수를 입력받아 ajax 통신하는 함수.
 function ajax(pattern,param,callback){
 	$.ajax({
 		url:pattern,
@@ -541,7 +563,6 @@ function ajax(pattern,param,callback){
 		data:param,
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		success:function(data){
-			console.log('Ajax 데이터:'+data);
 			callback(data);
 		},
 		error:function(e){
@@ -549,17 +570,19 @@ function ajax(pattern,param,callback){
 		}
 	});
 }
-
+// bookmark list 를 Database에서 가져온 후 화면에 출력.
 function loadBookmark(){
 	ajax('dashboard/bookmarkList.do', null, bookmarkListCallback);
 }
+// bookmark Database Table 에 프로젝트의 pcode 추가.
 function insertBookmark(pcode){
 	ajax('dashboard/insertBookmark.do', 'pcode='+pcode, null);
 }
+// bookmark Database Table 에 프로젝트의 pcode 제거.
 function deleteBookmark(pcode){
 	ajax('dashboard/deleteBookmark.do', 'pcode='+pcode, null);
 }
-
+// bookmark list를 화면에 업데이트. ajax로 가져왔을 때 실행.
 function bookmarkListCallback(projectArrJson){
 	let projectArr = JSON.parse(projectArrJson);
 	let tableHTML = '';
@@ -573,6 +596,36 @@ function bookmarkListCallback(projectArrJson){
 	});
 	$('#bookmark_tab tbody').html(tableHTML);
 }
+
+function loadCountAll(){
+	let nameListObj = JSON.parse('${nameList}');
+	if(isPM){
+		updateCntSpan(nameListObj.projectPM, $('#project_cnt_PM'));
+		updateCntSpan(nameListObj.taskPM, $('#task_cnt_PM'));
+		updateCntSpan(nameListObj.taskReqPM, $('#task_req_cnt_PM'));
+		updateCntSpan(nameListObj.riskPM, $('#risk_cnt_PM'));
+		updateCntSpan(nameListObj.outputPM, $('#output_cnt_PM'));
+	}else{
+		updateCntSpan(nameListObj.project, $('#project_cnt'));
+		updateCntSpan(nameListObj.task, $('#task_cnt'));
+		updateCntSpan(nameListObj.risk, $('#risk_cnt'));
+		updateCntSpan(nameListObj.output, $('#output_cnt'));	
+	}
+}
+
+function updateCntSpan(list, $spanObj){
+	let tooltip='';
+	list.forEach(function(pname,index,arr){
+		if(index!=0) tooltip+='<br>';
+		tooltip += index+1+'. '+pname;
+	});
+	$spanObj.prop('title',tooltip);
+	$spanObj.html(list.length);	
+}
+
+$(function () {
+	$('[data-toggle="tooltip"]').tooltip()
+})
 
 </script>
 

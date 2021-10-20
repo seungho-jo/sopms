@@ -19,46 +19,51 @@
 		<result column="cnt" property="cnt"/>
 	</resultMap>
 	
-	<select id="projectCnt" resultType="int" parameterType="string">
-		SELECT count(*) cnt FROM project p, project_dept pd
+	<select id="projectName" resultType="string" parameterType="string">
+		SELECT p.pname FROM project p, project_dept pd
 		WHERE p.pcode = pd.pcode
 		AND pd.dept = #{dept}
 		AND NOT p.status = '종료됨'
 	</select>
-	<select id="taskCnt" resultType="int" parameterType="string">
-		SELECT count(*) cnt FROM wbs
+	<select id="projectNamePM" resultType="string" parameterType="string">
+		SELECT pname FROM project
+		WHERE id = #{id}
+		AND NOT status = '종료됨'
+	</select>
+	<select id="taskName" resultType="string" parameterType="string">
+		SELECT title FROM wbs
 		WHERE manager = #{id}
 		AND NOT status = '종료됨'
 	</select>
-	<select id="taskCntAll" resultType="int" parameterType="string">
-		SELECT count(*) cnt FROM wbs
+	<select id="taskNamePM" resultType="string" parameterType="string">
+		SELECT title FROM wbs
 		WHERE pm = #{id}
 		AND NOT status = '종료됨'	
 	</select>
-	<select id="taskReqCnt" resultType="int" parameterType="string">
-		SELECT count(*) cnt FROM wbs
+	<select id="taskReqNamePM" resultType="string" parameterType="string">
+		SELECT title FROM wbs
 		WHERE pm = #{id}
 		AND status = '승인요청'
 	</select>
-	<select id="riskCnt" resultType="int" parameterType="string">
-		SELECT count(*) cnt FROM risk
+	<select id="riskName" resultType="string" parameterType="string">
+		SELECT risk_name FROM risk
 		WHERE id = #{id}
 		AND NOT risk_status = '조치완료'
 	</select>
-	<select id="riskCntAll" resultType="int" parameterType="string">
-		SELECT *  FROM risk r, PROJECT_DEPT pd
+	<select id="riskNamePM" resultType="string" parameterType="string">
+		SELECT risk_name FROM risk r, PROJECT_DEPT pd
 		WHERE r.pcode = pd.pcode
 		AND pd.dept = #{dept}
 		AND NOT risk_status = '조치완료'
 	</select>
-	<select id="outputCnt" resultType="int" parameterType="string">
-		SELECT count(*) cnt FROM wbs w, workfile wf
+	<select id="outputName" resultType="string" parameterType="string">
+		SELECT fname FROM wbs w, workfile wf
 		WHERE w.manager = #{id}
 		AND w.workcode = wf.workcode
 		AND NOT w.status = '종료됨'
 	</select>
-	<select id="outputCntAll" resultType="int" parameterType="string">
-		SELECT count(*) cnt FROM wbs w, workfile wf
+	<select id="outputNamePM" resultType="string" parameterType="string">
+		SELECT fname FROM wbs w, workfile wf
 		WHERE w.pm = #{id}
 		AND w.workcode = wf.workcode
 		AND NOT w.status = '종료됨'
