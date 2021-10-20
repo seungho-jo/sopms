@@ -101,7 +101,7 @@
 							</div>
 						</div>
 					</div>
-					
+					<!-- 아이디와 조치자아이디 같은지 확인 -->
 					<c:set var="name" value="${riskDetail.jochiPerson}"/>
 					<c:choose>
 						<c:when test="${user.rank=='부장'}">
@@ -112,7 +112,7 @@
 							</div>
 						</div>
 						</c:when>
-						<!-- user아이디와 리스크 조치자가 같으면 실행 -->
+				
 						<c:when test="${user.id == name}" >
 							<div class="row g-2">
 							<div class="col-md mb-3">

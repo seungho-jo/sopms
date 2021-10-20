@@ -157,13 +157,36 @@
 	$(".metismenu").children().eq(8).attr('class', 'mm-active');
 	
 	$("#button_left").click(function(){
-		$("form").attr("action", "${path}/insertRisk.do");
-		$("form").submit();
-		
+		if($("[name=pcodeS]").val()=="프로젝트"){
+			alert("프로젝트명을 선택하세요.");
+			$("[name=pcodeS]").focus();
+			return false;
+		}else if($("[name=risk_name]").val()==""){
+			alert("리스크명을 입력하세요.");
+			$("[name=risk_name]").focus();
+			return false;
+		}else if($("[name=risk_content]").val()==""){
+			alert("리스크내용을 입력하세요.");
+			$("[name=risk_content]").focus();
+			return false;
+		}else if($("[name=risk_status]").val()=="리스크 상태"){
+			alert("리스크 상태를 선택하세요.");
+			$("[name=risk_status]").focus();
+			return false;
+		}else if($("[name=id]").val()==""){
+			alert("등록자를 선택하세요.");
+			$("[name=id]").focus();
+			return false;
+		}else{
+			$("form").attr("action", "${path}/insertRisk.do");
+			$("form").submit();
+		}
 	});
 	
 	$("#button_right").click(function(){
-		$("location").attr("href","${path}/riskPageList.do");
+		if(confirm("취소하시겠습니까?")){
+		$(location).attr("href","${path}/riskPageList.do");
+		}
 	});
 	
 	$("#status").change(function(){
