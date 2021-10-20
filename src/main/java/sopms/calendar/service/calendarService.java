@@ -7,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import sopms.calendar.dao.calendarDao;
+import sopms.vo.CalList;
+import sopms.vo.CalListSch;
 import sopms.vo.CalStatusCnt;
 import sopms.vo.Calendar;
 import sopms.vo.User;
@@ -51,30 +52,61 @@ public class calendarService {
 		dao.deleteCalendar(id);
 	}
 	public String calStatusCntJson(User user) {
-		Gson gson = new Gson();
-		JsonObject jsonObj = new JsonObject();
-		ArrayList<CalStatusCnt> statusArr = null;
-		System.out.println("직급:"+user.getRank());
-		if(user.getRank().equals("부장")) {
-			statusArr = dao.calStatusCntAll(user.getId());
-		}else {			
-			statusArr = dao.calStatusCnt(user.getId());
-		}
-		
-		for(CalStatusCnt cs:statusArr) {
-			String key = null;
-			if(cs.getStatus().equals("진행중")) {
-				key = "prog";
-			}else if(cs.getStatus().equals("승인요청")) {
-				key = "hold";
-				cs.setStatus("미진행");
-			}else if(cs.getStatus().equals("종료됨")) {
-				key = "fin";
+	    Gson gson = new Gson();
+	      
+	    ArrayList<CalStatusCnt> statusArr = null;
+	    System.out.println("직급:"+user.getRank());
+	    if(user.getRank().equals("부장")) {
+	       CalListSch ss = new CalListSch();
+	       ss.setManager(user.getId());
+	       ss.setWorkcode(2);
+	       statusArr = dao.calStatusCntAll(ss);
+	    }else {         
+	       statusArr = dao.calStatusCnt(user.getId());
+	    }
+	      
+	    for(CalStatusCnt cs:statusArr) {
+			if(cs.getStatus().equals("종료됨")) {
 				cs.setStatus("완료");
+			} else if(cs.getStatus().equals("승인요청")) {
+				cs.setStatus("미진행");;
 			}
-			System.out.println(cs.getStatus()+":"+cs.getCnt());
+		}
+	    	    
+	    return gson.toJson(statusArr);
+	}
+	public String calListAll(CalListSch cal) {
+		Gson gson = new Gson();
+	      
+	    ArrayList<CalList> arr = null;
+		cal.setCount(dao.calCount(cal));
+		if(cal.getPageSize() == 0) {
+			cal.setPageSize(5);
+		}
+		cal.setPageCount((int) Math.ceil(cal.getCount() / (double) cal.getPageSize()));
+		if(cal.getCurPage() == 0) {
+			cal.setCurPage(1);
+		}
+		if(cal.getCurPage() > cal.getPageCount()) {
+			cal.setCurPage(cal.getPageCount());
+		}
+		cal.setStart((cal.getCurPage()-1) * cal.getPageSize() + 1);
+		cal.setEnd(cal.getCurPage() * cal.getPageSize());
+		cal.setBlockSize(5);
+		int blocknum = (int) (Math.ceil(cal.getCurPage() / (double)cal.getBlockSize()));
+		int endBlock = blocknum * cal.getBlockSize();
+		
+		if(endBlock > cal.getPageCount()) {
+			endBlock = cal.getPageCount();
 		}
 		
-		return gson.toJson(jsonObj);
+		cal.setEndBlock(endBlock);
+		cal.setStartBlock((blocknum - 1) * cal.getBlockSize() + 1);
+		if(cal.getStartBlock()<0) {
+			cal.setStartBlock(1);
+		}
+		arr = dao.calListAll(cal);
+		System.out.println(arr);
+		return gson.toJson(arr);
 	}
 }

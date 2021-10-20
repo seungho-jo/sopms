@@ -1,7 +1,5 @@
 package sopms.calendar.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sopms.calendar.service.calendarService;
-import sopms.vo.Calendar;
+import sopms.vo.CalListSch;
 import sopms.vo.User;
 
 @Controller
@@ -34,12 +32,15 @@ public class calendarController {
 	}
 */
 	@RequestMapping("manage_mem.do")
-	public String calendarStatus(HttpServletRequest request, Model d) {
+	public String calendarStatus(HttpServletRequest request, Model d, CalListSch cal) {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		if(user!=null) {
-			d.addAttribute("calStatus", service.calStatusCntJson(user));			
+			d.addAttribute("calStatus", service.calStatusCntJson(user));
+			cal.setManager(user.getId());
+			d.addAttribute("calListAll", service.calListAll(cal));			
 		}
 		return "WEB-INF/view/manage_mem.jsp";
 	}
+	
 }

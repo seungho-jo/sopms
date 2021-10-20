@@ -23,7 +23,10 @@
 <!-- fullcalendar -->
 <link href="./vendor/fullcalendar/lib/main.css" rel="stylesheet">
 <script src="./vendor/fullcalendar/lib/main.js" type="text/javascript"></script>
-
+<script
+  src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
 <title>Insert title here</title>
 <script src="https://unpkg.com/vue/dist/vue.js" type="text/javascript"></script>
 <script
@@ -187,74 +190,59 @@ function addForm(event) {
 										</tr>
 									</thead>
 									<tbody class="text-secondary">
+										<c:forEach var="list" items="${calListObj}">
 										<tr>
-											<td>방성원</td>
-											<td>화면구현</td>
-											<td>10일</td>
+											<td>${list.cal_name}</td>
+											<td>${list.title}</td>
+											<td>${list.d_day}</td>
 											<td>
-												<div class="progress" style="height: 15px;">
-													<div class="progress-bar" role="progressbar"
-														aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
-														style="width: 90%;">
-														<span>90%</span>
+											<!-- 진행률별 프로테이지바 수정 -->
+											<c:choose>
+												<c:when test="${list.cal_process eq '진행중'}">
+													<div class="progress" style="height: 15px;">
+														<div class="progress-bar" role="progressbar"
+															aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
+															style="width: 50;">
+															<span>${list.process}%</span>
+														</div>
 													</div>
-												</div>
+												</c:when>
+												<c:when test="${list.cal_process eq '승인요청'}">
+													<div class="progress" style="height: 15px;">
+														<div class="progress-bar" role="progressbar"
+															aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
+															style="width: 0;">
+															<span>${list.cal_process}%</span>
+														</div>
+													</div>
+												</c:when>
+												<c:otherwise>
+													<div class="progress" style="height: 15px;">
+														<div class="progress-bar" role="progressbar"
+															aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
+															style="width: ${list.cal_process};">
+															<span>${list.cal_process}%</span>
+														</div>
+													</div>
+												</c:otherwise>
+											</c:choose>
 											</td>
 										</tr>
-										<tr>
-											<td>김길동</td>
-											<td>화면설계</td>
-											<td>14일</td>
-											<td>
-												<div class="progress" style="height: 15px;">
-													<div class="progress-bar" role="progressbar"
-														aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
-														style="width: 76%;">
-														<span>76%</span>
-													</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>홍길동</td>
-											<td>DB설계</td>
-											<td>16일</td>
-											<td>
-												<div class="progress" style="height: 15px;">
-													<div class="progress-bar" role="progressbar"
-														aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
-														style="width: 36%;">
-														<span>36%</span>
-													</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>신길동</td>
-											<td>DB설계</td>
-											<td>16일</td>
-											<td>
-												<div class="progress" style="height: 15px;">
-													<div class="progress-bar" role="progressbar"
-														aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
-														style="width: 54%;">
-														<span>54%</span>
-													</div>
-												</div>
-											</td>
-										</tr>
+										</c:forEach>
 									</tbody>
 								</table>
-								                            <ul class="pagination justify-content-center" id="paging">
-								<li class="page-item" id="pre"><a class="page-link">Pre</a></li>
-								<li class="page-item active" id="sel"><a class="page-link">1</a></li>
-								<li class="page-item"><a class="page-link">2</a></li>
-								<li class="page-item"><a class="page-link">3</a></li>
-								<li class="page-item"><a class="page-link">4</a></li>
-								<li class="page-item" id="next"><a class="page-link">
-										Next
-								</a></li>
-							</ul>
+								<form method="post">
+									<input type="hidden" name="curPage" value="1"/>
+								</form>
+								 <ul class="pagination justify-content-center" id="paging">
+									<li class="page-item" id="pre"><a class="page-link" href="javascript:goBlock(${calListSch.startBlock-1})">Pre</a></li>
+									<c:forEach var="cnt" begin="${calListSch.startBlock}" end="${calListSch.endBlock}">
+									<li class="page-item ${calListSch.curPage==cnt?'active':''}"><a class="page-link" href="javascript:goBlock(${cnt})">${cnt}</a></li>
+									</c:forEach>
+									<li class="page-item" id="next"><a class="page-link" href="javascript:goBlock(${calListSch.endBlock-1})">
+											Next
+									</a></li>
+								</ul>
 							</div>
 						</div>
 					</div>
@@ -322,40 +310,73 @@ function addForm(event) {
 	</div>
 </body>
 <script type="text/javascript">
-	//Pie Chart Example
-	console.log(${calStatus});
-	let calStatusObj = JSON.parse('${calStatus}');
-	var ctx = document.getElementById("myPieChart");
-	var myPieChart = new Chart(ctx, {
-		type : 'doughnut',
-		data : {
-			labels : [ "완료", "진행중", "미진행"],
-			datasets : [{
-				data : [calStatusObj.fin, calStatusObj.prog, calStatusObj.hold],
-				backgroundColor : [ '#4e73df', '#1cc88a', '#36b9cc' ],
-				hoverBackgroundColor : [ '#2e59d9', '#17a673', '#2c9faf' ],
-				hoverBorderColor : "rgba(234, 236, 244, 1)",
-			}],
-		},
-		options : {
-			maintainAspectRatio : false,
-			tooltips : {
-				backgroundColor : "rgb(255,255,255)",
-				bodyFontColor : "#858796",
-				borderColor : '#dddfeb',
-				borderWidth : 1,
-				xPadding : 15,
-				yPadding : 15,
-				displayColors : false,
-				caretPadding : 10,
-			},
-			legend : {
-				display : true,
-				position : 'bottom'
-			},
-			cutoutPercentage : 80,
-		},
-	});
+$(".metismenu").children().eq(6).attr('class', 'mm-active');
+$("#paging").children("li").click(function() {
+	$("#paging").children("li").attr('class', 'page-item');
+	$(this).attr('class', 'page-item active');
+});
+function goBlock(no){
+	$("[name=curPage]").val(no);
+	$("form").submit();
+}
+
+let calListObj = JSON.parse('${calListAll}');
+let noArr = [];
+let titleArr = [];
+let d_dayArr = [];
+let cal_nameArr = [];
+let cal_processArr = [];
+calListObj.forEach(function(item, index, arr)){
+	noArr.push(item.no);
+	titleArr.push(item.title);
+	d_dayArr.push(item.d_day);
+	cal_nameArr.push(item.cal_name);
+	cal_processArr.push(item.cal_process);
+}
+console.log(${callListAll});
+console.log(${callListSch});
+console.log(${calListObj});
+//Pie Chart Example
+console.log(${calStatus});
+let calStatusObj = JSON.parse('${calStatus}');
+let statusArr = [];
+let cntArr = [];
+calStatusObj.forEach(function(item, index, arr){
+   statusArr.push(item.status);
+   cntArr.push(item.cnt);
+})
+var ctx = document.getElementById("myPieChart");
+var myPieChart = new Chart(ctx, {
+   type : 'doughnut',
+   data : {
+      labels : statusArr,
+      datasets : [{
+         data : cntArr,
+         backgroundColor : [ '#4e73df', '#1cc88a', '#36b9cc' ],
+         hoverBackgroundColor : [ '#2e59d9', '#17a673', '#2c9faf' ],
+         hoverBorderColor : "rgba(234, 236, 244, 1)",
+      }],
+   },
+   options : {
+      maintainAspectRatio : false,
+      tooltips : {
+         backgroundColor : "rgb(255,255,255)",
+         bodyFontColor : "#858796",
+         borderColor : '#dddfeb',
+         borderWidth : 1,
+         xPadding : 15,
+         yPadding : 15,
+         displayColors : false,
+         caretPadding : 10,
+      },
+      legend : {
+         display : true,
+         position : 'bottom'
+      },
+      cutoutPercentage : 80,
+   },
+});
+
 	function number_format(number, decimals, dec_point, thousands_sep) {
 		// *     example: number_format(1234.56, 2, ',', ' ');
 		// *     return: '1 234,56'
@@ -378,31 +399,6 @@ function addForm(event) {
 		}
 		return s.join(dec);
 	}
-	
-	<!-- 페이징 -->
-	$("#paging").children("li").click(function() {
-		var id = $(this).attr('id');
-		if(id=='next'){
-			if($('.active').next().attr('id')==id){
-				alert("마지막 페이지 입니다");
-				return;
-			}else{
-				$('.active').next().attr('class', 'page-item active');
-				$('.active').first().attr('class', 'page-item');
-			}
-		}else if(id=='pre'){
-			if($('.active').prev().attr('id')==id){
-				alert("첫 페이지 입니다");
-				return;
-			}else{
-				$('.active').prev().attr('class', 'page-item active');
-				$('.active').last().attr('class', 'page-item');
-			}
-		}else{
-			$("#paging").children("li").attr('class', 'page-item');
-			$(this).attr('class', 'page-item active');
-		}
-	});
 </script>
 
 <!-- Required vendors -->
