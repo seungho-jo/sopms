@@ -96,7 +96,7 @@ int no = Integer.parseInt(noS);
 	               jsonObj.text= gantt.title;
 	               jsonObj.start_date= gantt.start_date;
 	               jsonObj.duration= gantt.duration;
-	               jsonObj.owner= gantt.pm_name;
+	               jsonObj.owner= gantt.manager;
 	               jsonObj.parent= gantt.parent;
 	               jsonObj.content= gantt.content;
 	               jsonArray.push(jsonObj);
@@ -168,76 +168,6 @@ int no = Integer.parseInt(noS);
 	     
 	     
 	     <script>
-	     gantt.config.open_tree_initially = true;
-	 	gantt.locale.labels.section_description = "작업명";
-		gantt.locale.labels.section_time = "기간";
-		gantt.locale.labels.section_owner = "담당자";
-		gantt.locale.labels.section_content = "작업내용";
-		/*var opts = [
-		   // {key:1, label: "High"},                                            
-		   // {key:2, label: "Normal"},                                         
-		   // {key:3, label: "Low"}                                            
-		];
-		$.ajax({
-			type:"post",
-			url:"${path}/schMember2.do",
-			dataType:"json",
-			async:false,
-			success:function(data){
-				console.log("결과");
-				console.log(data);
-				
-				var show="";
-				$(mlist).each(function(idx, mem){
-					//Object.keys(mlist).length mlist.length
-					//if(idx < Object.keys(mlist).length)
-						opts[idx] = {key: mem.id, label: mem.name};
-					
-				});
-				
-			},
-			error:function(err){
-				console.log(err);
-			}
-		});*/
-		
-		gantt.config.lightbox.sections=[
-		    {name:"description", height:45, map_to:"text", type:"textarea", focus:true},
-		    {name:"content", height:70, map_to:"content", type:"textarea"},
-		    {name:"owner", height:45, map_to:"owner",type:"textarea"},
-		    /*{ //멤버 목록
-				name: "owner", height: 22, map_to: "owner", type: "select", options: opts]
-			},*/
-		    {name:"time", height:72, map_to:"auto", type:"duration"}
-		];
-	     
-	     var colHeader = '<div class="gantt_grid_head_cell gantt_grid_head_add" onclick="gantt.createTask()"></div>',
-			colContent = function (task) {
-				return ('<i class="fa gantt_button_grid gantt_grid_edit fa-pencil" onclick="clickGridButton(' + task.id + ', \'edit\')"></i>' +
-					'<i class="fa gantt_button_grid gantt_grid_add fa-plus" onclick="clickGridButton(' + task.id + ', \'add\')"></i>' +
-					'<i class="fa gantt_button_grid gantt_grid_delete fa-times" onclick="clickGridButton(' + task.id + ', \'delete\')"></i>');
-			};
-	
-
-		
-	     gantt.config.columns =  [
-	 	    {name:"text",       label:"작업명",  tree:true, min_width: 180, width: 200, resize: true },
-	 	    {name:"start_date", label:"시작 날짜", align: "center", min_width: 100, width: 200, resize: true },
-	 	    {name:"end_date", label:"종료 날짜", align: "center", min_width: 100, width: 200, resize: true },
-	 	    {name:"owner", label:"PM", align: "center", width: 60, resize: true },
-	 	    {name: "duration", label:"기간",width: 60, align: "center", resize: true},
-	 	    {name: "content", label:"작업내용",width: 60, align: "center", resize: true},
-	 	    
-	 	   {
-				name: "buttons",
-				label: colHeader,
-				width: 75,
-				template: colContent
-			}
-	 	   
-	 	];
-	    // gantt.init("gantt_here");
-	     var formatFunc = gantt.date.date_to_str("%Y-%m-%d"); // 날짜 변환
 	     function reset(){//gant차트 다시 로딩하는 함수
 	    	 $.ajax({
 			         type : "post",
@@ -252,7 +182,7 @@ int no = Integer.parseInt(noS);
 			               jsonObj.text= gantt.title;
 			               jsonObj.start_date= gantt.start_date;
 			               jsonObj.duration= gantt.duration;
-			               jsonObj.owner= gantt.pm_name;
+			               jsonObj.owner= gantt.manager;
 			               jsonObj.parent= gantt.parent;
 			               jsonObj.content= gantt.content;
 			               jsonArray.push(jsonObj);
@@ -270,8 +200,108 @@ int no = Integer.parseInt(noS);
 			         }
 			      });
 	     }
+	     var opts = [];
+	     
+	     $.ajax({
+				type:"post",
+				url:"${path}/resourcelist.do?no="+<%=no%>,
+				dataType:"json",
+				async:false,
+				success:function(data) {
+		            var data = data.list;
+		              $.each(data,function(index, res){
+		            	  	
+							opts[index] = {key: res.id, label: res.name};
+							 console.log(opts[index]);
+					});
+		            
+				},
+				error:function(err){
+					console.log(err);
+				}
+			});
+		
+			
+		 var colHeader = '<div class="gantt_grid_head_cell gantt_grid_head_add" onclick="gantt.createTask()"></div>',
+			colContent = function (task) {
+			 if(task.id == <%=no%>){
+					return ('<i class="fa gantt_button_grid gantt_grid_edit fa-pencil" onclick="clickGridButton(' + task.id + ', \'edit\')"></i>' +
+							'<i class="fa gantt_button_grid gantt_grid_add fa-plus" onclick="clickGridButton(' + task.id + ', \'add\')"></i>'
+						
+						);
+			 }
+			 else{
+				 return ('<i class="fa gantt_button_grid gantt_grid_edit fa-pencil" onclick="clickGridButton(' + task.id + ', \'edit\')"></i>' +
+							'<i class="fa gantt_button_grid gantt_grid_delete fa-times" onclick="clickGridButton(' + task.id + ', \'delete\')"></i>'
+							);
+			 }
+			};
+	    gantt.config.open_tree_initially = true;
+	 	gantt.locale.labels.section_description = "작업명";
+		gantt.locale.labels.section_time = "기간";
+		gantt.locale.labels.section_owner = "담당자";
+		gantt.locale.labels.section_content = "작업내용";
+		
+		 gantt.config.columns =  [
+		 	    {name:"text",       label:"작업명",  tree:true, min_width: 180, width: 200, resize: true },
+		 	    {name:"start_date", label:"시작 날짜", align: "center", min_width: 100, width: 200, resize: true },
+		 	    {name:"end_date", label:"종료 날짜", align: "center", min_width: 100, width: 200, resize: true },
+		 	    {name:"owner", label:"담당자", align: "center", width: 60, resize: true,
+		 	    	template: function (item) {
+		 	    		//alert(item.owner);
+		 	    		 //$.each(opts,function(index, res){
+		 	    			//console.log(res.key);
+		 	    			for(var i =0; i<opts.length; i++){
+		 	    				if (item.owner == opts[i].key){return opts[i].label;}
+		 	    			}
+		 		   	        
+		 	 					
+		 		   	    	return "Undefined";
+		 		   		//});
+					} 
+		 	    },
+		 	
+		 	    {name: "duration", label:"기간",width: 60, align: "center", resize: true},
+		 	    {name: "content", label:"작업내용",width: 60, align: "center", resize: true},
+		 	    
+		 	   {
+					name: "buttons",
+					label: "  ",
+					width: 75,
+					template: colContent
+				}
+		 	   
+		 	];
+		
+		
+		gantt.config.lightbox.sections=[
+		    {name:"description", height:45, map_to:"text", type:"textarea", focus:true},
+		    {name:"content", height:70, map_to:"content", type:"textarea"},
+		    {name: "owner", height: 22, map_to: "owner", type: "select", options: opts},
+		    {name:"time", height:72, map_to:"auto", type:"duration"}
+		];
+	
+	    
+	
+		   /*template: function (item) {
+	   	    $.each(opts,function(index, res){
+	   	        if (item.owner == res.key)
+ 				return res.label;
+	   		});
+	   	 if (item.owner == "happy05")
+			return "최형우";
+	   	 if (item.priority == "happy14")
+				return "최형우";
+	} */
+		
+	    
+	    // gantt.init("gantt_here");
+	     var formatFunc = gantt.date.date_to_str("%Y-%m-%d"); // 날짜 변환
+	    
+	
 	  // 등록 수정 삭제 버튼 함수
 	 	function clickGridButton(id, action) {
+	 		
 	 		var stat = 0;
 	 		switch (action) {
 	 			case "edit":
@@ -324,9 +354,9 @@ int no = Integer.parseInt(noS);
 	 									data : {
 	 										workcode : id,
 	 										title : gantt.getTask(id).text,
+	 										content : gantt.getTask(id).content,
 	 		 								start_date : formatFunc(gantt.getTask(id).start_date),
 	 		 								duration : gantt.getTask(id).duration,
-	 		 								pm : "<%=pm%>",
 	 		 								manager : gantt.getTask(id).owner,
 	 		 								parent : gantt.getTask(id).parent,
 	 		 								r_pcode : <%=no%>,
@@ -335,7 +365,8 @@ int no = Integer.parseInt(noS);
 	 									success : function(data) {
 	 										console.log(data);
 	 										reset();
-	 										alert(gantt.getTask(id).id);
+	 										//alert(gantt.getTask(id).id);
+	 										alert("성공");
 	 										
 	 									},
 	 									error : function(err) {
@@ -415,7 +446,8 @@ int no = Integer.parseInt(noS);
 
 	 				break;
 	 			}
-	 		}
+	 		
+	     }
 	 		
 	     
 	     

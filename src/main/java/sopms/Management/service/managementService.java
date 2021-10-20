@@ -49,15 +49,18 @@ public class managementService {
 	}
 	public void deleteWbs(int id) {
 		dao.deleteWbs(id);
+		dao.deleteCal(id);
 	}	
 	
 	public void updateWbs(Work update) {
 		
 		dao.updateWbs(update);
+		dao.updateCal(update);
 	}	
 	public void insertWbs(Work insert) {
 		
 		dao.insertWbs(insert);
+		dao.insertCal(insert);
 	}	
 	
 }

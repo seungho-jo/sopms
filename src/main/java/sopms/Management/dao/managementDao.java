@@ -16,5 +16,9 @@ public interface managementDao {
 	public void deleteWbs(int id);
 	public void updateWbs(Work update);
 	public void insertWbs(Work insert);
+	
+	public void deleteCal(int id);
+	public void updateCal(Work update);
+	public void insertCal(Work insert);
 }
 

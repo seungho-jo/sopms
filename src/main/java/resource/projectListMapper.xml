@@ -42,15 +42,39 @@
 		   	   parent = #{parent}
 		 WHERE workcode = #{workcode}
  	</update>
+ 	
+ 	<update id="updateCal" parameterType="work">
+		UPDATE calendar
+		   SET title = #{title},
+		   	   content = #{content},
+		   	   start1 = to_char(to_date(#{start_date},'YYYY-MM-DD'),'YYYY-MM-DD"T"HH24:MI:SS".000Z"'),
+		   	   end1 = to_char(to_date(#{start_date},'YYYY-MM-DD') + #{duration},'YYYY-MM-DD"T"HH24:MI:SS".000Z"'),
+		       manager = #{manager},
+		   	   parent = #{parent}
+		 WHERE workcode = #{workcode}
+ 	</update>
+ 	
  	<insert id="insertWbs" parameterType="work">
 		insert into wbs(workcode, title, content, start_date, end_date, duration, pm, manager, parent, status) 
 		values(wbs01_seq.nextval,#{title},#{content},to_date(#{start_date},'YYYY-MM-DD'),
 						to_date(#{start_date},'YYYY-MM-DD') + #{duration},#{duration},#{pm},#{manager},#{parent},'진행중')
 	</insert> 
+	
+	<insert id="insertCal" parameterType="work">
+		insert into calendar values(cal_seq.nextval,wbs02_seq.currval,#{title},#{content},to_char(to_date(#{start_date},'YYYY-MM-DD'),'YYYY-MM-DD"T"HH24:MI:SS".000Z"'), 
+						to_char(to_date(#{start_date},'YYYY-MM-DD') + #{duration},'YYYY-MM-DD"T"HH24:MI:SS".000Z"'),
+						1, '#6633FF', '#6633FF', '#FFFFFF',#{pm},#{manager},#{parent},null,'진행중')
+	</insert> 
+	
   	<delete id="deleteWbs" parameterType="int">
 		DELETE FROM wbs
 		 WHERE workcode = #{workcode}
  	</delete> 	
+ 	
+ 	<delete id="deleteCal" parameterType="int">
+		DELETE FROM calendar
+		 WHERE workcode = #{workcode}
+ 	</delete>
  	
  	<select id="resource" resultType="user" parameterType="String">
 	<!-- 이름, 부서, 직급, 투입날짜 -->
