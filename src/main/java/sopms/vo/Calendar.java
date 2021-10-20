@@ -11,10 +11,38 @@ public class Calendar {
 	private String borderColor;
 	private String backgroundColor;
 	private String textColor;
+	private String pm;
 	private String manager;
 	private String name;
+	private int parent;
 	private int process;
+	private String status;
+	private String rank;
 	
+	public String getRank() {
+		return rank;
+	}
+	public void setRank(String rank) {
+		this.rank = rank;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getPm() {
+		return pm;
+	}
+	public void setPm(String pm) {
+		this.pm = pm;
+	}
+	public int getParent() {
+		return parent;
+	}
+	public void setParent(int parent) {
+		this.parent = parent;
+	}
 	public String getName() {
 		return name;
 	}

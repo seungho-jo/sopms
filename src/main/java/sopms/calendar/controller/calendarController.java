@@ -33,4 +33,13 @@ public class calendarController {
 		return "pageJsonReport";
 	}
 */
+	@RequestMapping("manage_mem.do")
+	public String calendarStatus(HttpServletRequest request, Model d) {
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		if(user!=null) {
+			d.addAttribute("calStatus", service.calStatusCntJson(user));			
+		}
+		return "WEB-INF/view/manage_mem.jsp";
+	}
 }

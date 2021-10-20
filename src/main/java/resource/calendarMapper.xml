@@ -7,19 +7,35 @@
 		<result property="start" column="start1"/>
 		<result property="end" column="end1"/>
 	</resultMap>
-	<resultMap type="cal" id="calResult2">
-		<result property="start" column="start_date"/>
-		<result property="end" column="end_date"/>
+	<resultMap type="sopms.vo.CalStatusCnt" id="calStatusInfo">
+		<result column="status" property="status"/>
+		<result column="cnt" property="cnt"/>
 	</resultMap>
 	<select id="calList" resultMap="calResult" parameterType="cal">
 		SELECT a.*, b.name
 		FROM calendar a, MEMBER b
-		WHERE a.MANAGER = b.id
+		<if test="pm != null and pm != ''">
+		WHERE a.manager = b.id
+		AND a.pm = #{pm}
+		</if>
+		<if test="pm == null or pm == ''">
+		WHERE a.MANAGER = b.id		
 		AND a.MANAGER = #{manager}
+		</if>
 	</select>
 	<insert id="insertCalendar" parameterType="cal">
-		insert into calendar values(cal_seq.nextval, #{workcode}, #{title}, #{content},
-		#{start}, #{end}, #{allDay}, #{borderColor}, #{backgroundColor}, #{textColor}, #{manager}, #{process})
+		insert into calendar values(cal_seq.nextval, null, #{title}, #{content},
+		#{start}, #{end}, #{allDay}, #{borderColor}, #{backgroundColor}, #{textColor},
+		<if test="pm == null or pm == ''">
+		(SELECT pm
+		FROM CALENDAR 
+		WHERE workcode =
+		(SELECT DISTINCT parent FROM calendar WHERE manager = 'happy01')),
+		#{manager}, (SELECT DISTINCT parent FROM calendar WHERE manager = 'happy01'), #{process}, #{status})
+		</if>
+		<if test="pm != null and pm != ''">
+		#{pm}, null, #{parent}, #{process}, #{status})
+		</if>
 	</insert>
 	<update id="updateCalendar" parameterType="cal">
 		UPDATE calendar
@@ -31,10 +47,23 @@
 					bordercolor = #{borderColor},
 					backgroundcolor = #{backgroundColor},
 					textcolor = #{textColor},
-					process = #{process}
+					process = #{process},
+					status = #{status}
 		WHERE id = #{id}
 	</update>
 	<delete id="deleteCalendar" parameterType="int">
 		delete from calendar where id = #{id}
 	</delete>
+	<select id="calStatusCnt" parameterType="string" resultMap="calStatusInfo">
+		SELECT status, count(*) cnt 
+		FROM CALENDAR
+		WHERE manager = #{id}
+		GROUP BY status
+	</select>
+	<select id="calStatusCntAll" parameterType="string" resultMap="calStatusInfo">
+		SELECT status, count(*) cnt 
+		FROM CALENDAR
+		WHERE manager = #{id}
+		GROUP BY status
+	</select>
 </mapper>
