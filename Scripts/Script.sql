@@ -48,13 +48,14 @@ SELECT * FROM WORKFILE;
 SELECT * FROM WBS;
 SELECT * FROM board;
 
-SELECT bcode, btitle, id, readcnt,
+SELECT bcode, btitle, id, name, readcnt,
 	CASE	WHEN TRUNC(SYSDATE,'DD')=TRUNC(regdte,'DD') THEN TO_CHAR(regdte,'HH24:MI')
 			ELSE TO_CHAR(regdte,'fmMM-DD')
 	END AS regdte
 FROM (
-	SELECT rownum rnum, bcode, btitle, id, readcnt, regdte 
-	FROM board
+	SELECT rownum rnum, b.bcode, b.btitle, b.id, m.name, b.readcnt, b.regdte 
+	FROM board b, MEMBER m
+	WHERE b.id = m.id
 	ORDER BY regdte DESC
 ) a
 WHERE rnum <= 5;
