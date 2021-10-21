@@ -67,7 +67,7 @@
 
 					<c:forEach var="teammate" items="${teamlist}">
 						<c:if test="${teammate.id ne currentId}">
-							<div class="col-xl-4 col-xxl-6 col-lg-6 col-sm-6 ">
+							<div class="col-xl-4 col-xxl-3 col-lg-3 col-sm-3 ">
 								<div class="card">
 									<div class="card-header">
 										<div class="profileImage">
