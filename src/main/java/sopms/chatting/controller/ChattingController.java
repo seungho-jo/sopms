@@ -44,13 +44,6 @@ public class ChattingController {
 		return "WEB-INF/view/chat.jsp";
 	}
 	
-//	@RequestMapping("newChatting.do")
-//	public String chatRoom(@SessionAttribute("user")User user, Model model) {
-//		
-//		return "WEB-INF/view/chat.jsp";
-//	}
-
-	
 	@RequestMapping("chatmain.do")
 	public String chatMain(@SessionAttribute("user")User user, Model model) {
 		
@@ -80,6 +73,4 @@ public class ChattingController {
 		
 	}
 	
-	
-
 }

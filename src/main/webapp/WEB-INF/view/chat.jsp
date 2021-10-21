@@ -125,7 +125,7 @@
 	let id = "<c:out value='${currentId}'/>"
 
 	$(document).ready(function() {
-		let wsocket = new WebSocket("ws://localhost:8080/${path}/chat-ws.do?chatroomId=${chatroomId}");
+		let wsocket = new WebSocket("ws://"+location.host+"/sopms/chat-ws.do?chatroomId=${chatroomId}");
 		wsocket.onopen = function(evt) {
 			let userInfo = {
 				type : 'System',
@@ -139,7 +139,6 @@
 			let time = evt.timeStamp;
 
 			receiveMsg(evt.data);
-			console.log("메시지 받음");
 		}
 
 		$("#send").click(function() {
