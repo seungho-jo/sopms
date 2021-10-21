@@ -60,6 +60,11 @@ CREATE TABLE board(
 	readcnt NUMBER,
 	regdte date
 );
+CREATE TABLE boardfile(
+	bcode NUMBER, 
+	bfname varchar2(300),
+	credte date
+);
 INSERT INTO board VALUES (board_seq.nextval,#{btitle},#{id},#{bcontent},#{readcnt},#{regdte});
 INSERT INTO board VALUES (board_seq.nextval,'테스트','홍길동','안녕',30,sysdate);
 INSERT INTO board VALUES (1,'2021년도 사내승진 공고','정도원','2021년도 사내 승진 사항을 공고합니다.',0,sysdate);
@@ -106,8 +111,3 @@ ORDER BY bcode ASC;
 	FROM board
 	WHERE bcode =1;
 	SELECT * FROM board ORDER BY BCODE DESC;
-CREATE TABLE boardfile(
-	bcode NUMBER, 
-	bfname varchar2(300),
-	credte date
-);
