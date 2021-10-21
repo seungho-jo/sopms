@@ -20,15 +20,23 @@
 	href="./vendor/owl-carousel/css/owl.theme.default.min.css">
 <link href="./vendor/jqvmap/css/jqvmap.min.css" rel="stylesheet">
 <link href="./css/style.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-  <link rel="stylesheet" href="./css/teamlist.css" />
-  <link rel="stylesheet" href="./css/chat.css" />
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
-  </script>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="./css/teamlist.css" />
+<link rel="stylesheet" href="./css/chat.css" />
+<link rel="stylesheet" href="./css/messagelist.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+	crossorigin="anonymous">
 	
+</script>
+
 </head>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
 	theme-layout="wide-layout">
@@ -36,132 +44,46 @@
 		<jsp:include page="header.jsp" />
 		<jsp:include page="navi.jsp" />
 		<div class="content-body">
-		
-		<div class ="card">
-		
-		  <div id="showcontent">
 
-    <div id="chatbox">
-      <div class="topbar">
-        <div class="list-group">
-          <div class="list-group-item">
-            <div class="input-group mb-3">
-              <span class="input-group-text">Search</span>
-              <input type="text" class="form-control" aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-default" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="profileArea">
-        <ul class="list-group">
-          <li class="list-group-item" aria-disabled="true">
-            내 프로필
-          </li>
-          <li class="list-group-item" aria-disabled="true">
-            <div class="profileItem myProfile">
-              <div class="itemBox">
-                <div class="profilePic">
-                  <div class="photo"></div>
-                </div>
-                <div class="profileContent">
-                  <ul>
-                    <li class="name">이진섭 대리</li>
-                    <li class="position">인사관리모듈 개발</li>
-                  </ul>
-                </div>
-                <div class="groupchat"></div>
-              </div>
-            </div>
-          </li>
-        </ul>
-        <div class="accordion" id="accordionExample">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                aria-expanded="true" aria-controls="collapseOne">
-                팀원 목록
-              </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-              data-bs-parent="#accordionExample">
-              <div class="accordion-body">
-                <div class="list-group">
-                  <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
-                    <div class="profileItem">
-                      <div class="itemBox">
-                        <div class="profilePic">
-                          <div class="photo"></div>
-                        </div>
-                        <div class="profileContent">
-                          김광진 부장
-                          <br>
-                          프로젝트 매니저
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="#" class="list-group-item list-group-item-action">
-                    <div class="profileItem">
-                      <div class="itemBox">
-                        <div class="profilePic">
-                          <div class="photo"></div>
-                        </div>
-                        <div class="profileContent">
-                          박진행 과장
-                          <br>
-                          회계모듈 개발
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                   <a href="#" class="list-group-item list-group-item-action">
-                    <div class="profileItem">
-                      <div class="itemBox">
-                        <div class="profilePic">
-                          <div class="photo"></div>
-                        </div>
-                        <div class="profileContent">
-                          최승민 사원
-                          <br>
-                          일정관리모듈 개발
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                   <a href="#" class="list-group-item list-group-item-action">
-                    <div class="profileItem">
-                      <div class="itemBox">
-                        <div class="profilePic">
-                          <div class="photo"></div>
-                        </div>
-                        <div class="profileContent">
-                          박규민 사원
-                          <br>
-                          기획자
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- 채팅방 Start -->
-    <div class="contentarea">
-		<jsp:include page="messagelist.jsp" />
-    </div>
-<!-- 채팅방 END -->
+			<div class="card">
 
-  </div>
-		
-  		</div>
-  		
-  		</div>
+				<div id="showcontent">
+
+					<div id="chatbox">
+						<div class="profileArea">
+							<ul class="list-group">
+								<li class="list-group-item" aria-disabled="true">채팅방 목록</li>
+								<li class="list-group-item" aria-disabled="true">
+									<div class="profileItem myProfile">
+										<div class="itemBox">
+											<div class="profilePic">
+												<div class="photo"></div>
+											</div>
+											<div class="profileContent">
+												<ul>
+													<li class="name">이진섭 대리</li>
+													<li class="position">인사관리모듈 개발</li>
+												</ul>
+											</div>
+											<div class="groupchat"></div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<!-- 채팅방 Start -->
+					<div class="contentarea">
+						<jsp:include page="messagelist.jsp" />
+					</div>
+					<!-- 채팅방 END -->
+
+				</div>
+
+			</div>
+
+		</div>
 
 		<jsp:include page="footer.jsp" />
 	</div>
@@ -196,4 +118,87 @@
 
 
 <script src="./js/dashboard/dashboard-1.js"></script>
+
+<script type="text/javascript">
+	$('.chatname').val("<c:out value='${toId}'/>")
+
+	let id = "<c:out value='${currentId}'/>"
+
+	$(document).ready(function() {
+		let wsocket = new WebSocket("ws://localhost:8080/${path}/chat-ws.do?chatroomId=${chatroomId}");
+		wsocket.onopen = function(evt) {
+			let userInfo = {
+				type : 'System',
+				userId : id,
+			}
+			console.log(userInfo)
+			wsocket.send(JSON.stringify(userInfo))
+		}
+
+		wsocket.onmessage = function(evt) {
+			let time = evt.timeStamp;
+
+			receiveMsg(evt.data);
+			console.log("메시지 받음");
+		}
+
+		$("#send").click(function() {
+			let option = {
+				chatroomId : "<c:out value='${chatroomId}'/>",
+				fromId : "<c:out value='${currentId}'/>",
+				toId : $('.chatname').val(),
+				msg : $("#write").val()
+			}
+			console.log(option)
+			wsocket.send(JSON.stringify(option));
+			$("#write").val('')
+
+		}
+
+		)
+	});
+
+	function receiveMsg(msg) {
+		let messageItem = JSON.parse(msg)
+		console.log(messageItem)
+		if (messageItem.type !== null && messageItem.type == 'system') {
+			console.log('system message')
+		} else {
+			if (messageItem.fromId == id) {
+				let newMsg = $('#template').clone();
+				newMsg.find('.messagearea').addClass('mymessage')
+				newMsg.removeAttr('id');
+				newMsg.find('.name').html("<c:out value='${showName}'/>");
+				newMsg.find('.bubblecontent').html(messageItem.msg);
+				//JSON.stringify(msg.msg).slice(1, -1)
+				$('#chats').append(newMsg);
+				let mx = parseInt($("#chats").height());
+				$("#chatbelongs").scrollTop(mx);
+
+			}
+
+			else {
+				let newMsg = $('#template').clone();
+				newMsg.find('.messagearea').addClass('yourmessage')
+				newMsg.removeAttr('id');
+				newMsg.find('.bubblecontent').html(messageItem.msg);
+				$('#chats').append(newMsg);
+				let mx = parseInt($("#chats").height());
+				$("#chatbelongs").scrollTop(mx);
+			}
+		}
+
+	}
+
+	function sendMsg(msg) {
+
+		let myMsg = $('#template').clone();
+		myMsg.removeAttr('id');
+		myMsg.find('.bubblecontent').html($sendmsg);
+		$('#chats').append(myMsg);
+
+		console.log("메시지 보내는중~")
+
+	}
+</script>
 </html>

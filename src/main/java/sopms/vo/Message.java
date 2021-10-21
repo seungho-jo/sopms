@@ -4,15 +4,15 @@ import java.util.Date;
 
 public class Message {
 	
-	private String fromId;
+	private String sender_id;
 	private String messageBody;
-	private Date sendTime;
+	private String to_id;
 	
-	public String getFromId() {
-		return fromId;
+	public String getSender_id() {
+		return sender_id;
 	}
-	public void setFromId(String fromId) {
-		this.fromId = fromId;
+	public void setSender_id(String sender_id) {
+		this.sender_id = sender_id;
 	}
 	public String getMessageBody() {
 		return messageBody;
@@ -20,12 +20,15 @@ public class Message {
 	public void setMessageBody(String messageBody) {
 		this.messageBody = messageBody;
 	}
-	public Date getSendTime() {
-		return sendTime;
+	
+	public String getTo_id() {
+		return to_id;
 	}
-	public void setSendTime(Date sendTime) {
-		this.sendTime = sendTime;
+	public void setTo_id(String to_id) {
+		this.to_id = to_id;
 	}
+
+
 
 
 }

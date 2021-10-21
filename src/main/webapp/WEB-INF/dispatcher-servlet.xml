@@ -57,6 +57,7 @@
 			value="classpath:resource/mybatis.Spring.xml" />
 		
 	</bean> 
+		
 	<!-- 각자 dao 추가 -->
 	<bean 
 		class="org.mybatis.spring.mapper.MapperScannerConfigurer">
@@ -91,6 +92,10 @@
 		class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="sopms.dashboard.dao"/> 
 	</bean>		
+		<bean 
+		class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="sopms.chatting.dao"/> 
+	</bean>
 	<bean
 		class="org.mybatis.spring.mapper.MapperScannerConfigurer">	
 		<property name="basePackage" value="sopms.calendar.dao"/> 
