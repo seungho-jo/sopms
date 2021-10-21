@@ -59,6 +59,13 @@ public class managementController {
 			return "pageJsonReport";
 		}
 		
+		@RequestMapping("resourcelist.do")
+		public String resourcelist(Model d, @RequestParam("no") int pcode) {
+			d.addAttribute("list",service.resourcelist(pcode));
+			
+			return "pageJsonReport";
+		}
+		
 		@RequestMapping("delete.do")
 		public String wbs03(@RequestParam("id") int id,@RequestParam("r_pcode") int r_pcode,@RequestParam("r_pm") String r_pm) {
 			service.deleteWbs(id);
