@@ -41,4 +41,11 @@ public class loginController {
 		session.invalidate();
 		return "redirect:/index.do";
 	}
+	
+	@RequestMapping("myPage.do")
+	public String myPage(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		return "WEB-INF\\view\\myPage.jsp";
+	}
 }

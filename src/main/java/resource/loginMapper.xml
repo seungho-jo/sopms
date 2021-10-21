@@ -4,10 +4,37 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="sopms.login.dao.loginDao">
 	<select id="login" resultType="user" parameterType="user">
-		select * from member
+		select * from
+		member
 		where id = #{id} and pass = #{pass}
 	</select>
-	
-	
-	
+	<select id="mypageCount" resultType="mypage" parameterType="String">
+		SELECT * from
+		(SELECT count(*) procwork FROM WBS
+		WHERE MANAGER = #{id}
+		AND status = '진행중') a,
+		(SELECT count(*) totwork FROM WBS
+		WHERE MANAGER = #{id}) b,
+		(SELECT count(*) endwork FROM WBS
+		WHERE MANAGER = #{id}
+		AND status = '종료됨')c
+		()SELECT count(*) attpj FROM LESOURCE l
+		WHERE l.ID = #{id}) d
+	</select>
+	<select id="mypagePj" resultType="mypage" parameterType="String">
+		SELECT a.* FROM project a,LESOURCE l 
+		WHERE a.PCODE = l.PCODE 
+		AND l.id = #{id}
+	</select>
+	<select id="mypageWork" resultType="mypage" parameterType="String">
+		SELECT * from
+		(SELECT rownum AS no, b.* from
+		(SELECT a.*,m.name as pm_name, p.pname FROM wbs a,MEMBER m,project p
+		WHERE manager = #{id}
+		and a.parent = p.pcode
+		AND pm = m.id
+		ORDER BY START_DATE) b
+		ORDER BY rownum desc)
+		WHERE no &lt;= 5
+	</select>
 </mapper>

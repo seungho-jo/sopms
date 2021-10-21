@@ -56,7 +56,7 @@
  	
  	<insert id="insertWbs" parameterType="work">
 		insert into wbs(workcode, title, content, start_date, end_date, duration, pm, manager, parent, status) 
-		values(wbs01_seq.nextval,#{title},#{content},to_date(#{start_date},'YYYY-MM-DD'),
+		values(wbs02_seq.nextval,#{title},#{content},to_date(#{start_date},'YYYY-MM-DD'),
 						to_date(#{start_date},'YYYY-MM-DD') + #{duration},#{duration},#{pm},#{manager},#{parent},'진행중')
 	</insert> 
 	
