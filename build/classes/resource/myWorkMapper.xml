@@ -17,23 +17,22 @@
 		
 		SELECT * from
 		(SELECT rownum AS no, b.* from
-		(SELECT a.*,m.name as pm_name FROM wbs a,MEMBER m 
+		(SELECT a.*,m.name as pm_name, p.pname FROM wbs a,MEMBER m,project p
 		WHERE manager = #{manager}
+		and a.parent = p.pcode
 		AND pm = m.id
-		<if test="status != null and status != ''">
-    	and status = #{status} 
-		</if>
-		<if test="title != null and title != ''">
+    	and a.status like '%'||#{status}||'%' 
     	and title like '%'||#{title}||'%' 
-		</if>
+    	and p.pname like '%'||#{pname}||'%' 
 		ORDER BY START_DATE DESC) b)
 		WHERE no BETWEEN #{start} AND #{end}
 		
 	</select>
 	<select id="detailWork" parameterType="int" resultType="work">
-		select a.*,b.compmsg,b.apprmsg,d.name AS pm_name 
-		from wbs a,works b,workfile c,MEMBER d
+		select a.*,b.compmsg,b.apprmsg,d.name AS pm_name , p.pname
+		from wbs a,works b,workfile c,MEMBER d,project p
 		where a.workcode = #{workcode}
+		and a.parent = p.pcode
 		AND a.pm = d.id
 		and a.workcode = b.workcode(+)
 		AND a.workcode = c.workcode(+)
@@ -103,14 +102,14 @@
 	<select id="outputList" parameterType="outputs" resultType="work">
 		SELECT * from
 		(SELECT  rownum AS NO,e.* from
-		(SELECT a.title,b.fname,c.name AS m_name,reqdate
+		(SELECT a.title,b.fname,c.name AS m_name,to_char(reqdate,'YYYY-MM-DD') AS reqdate
 		FROM wbs a,workfile b,MEMBER c,works d
 		WHERE a.WORKCODE = b.WORKCODE 
 		and a.workcode = d.workcode
 		AND a.MANAGER = c.id
 		AND a.PARENT = #{pcode}) e)
 		WHERE NO BETWEEN #{start} AND #{end}
-		ORDER BY NO desc
+		ORDER BY reqdate desc
 	</select>
 	<select id="outputCnt" parameterType="int" resultType="int">
 		SELECT count(*) FROM WORKFILE a,wbs b,project c

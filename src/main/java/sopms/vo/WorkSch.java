@@ -3,6 +3,7 @@ package sopms.vo;
 public class WorkSch {
 	private String manager;
 	private String status;
+	private String pname; 
 	private String title;
 	private int count;
 	private int pageSize; 
@@ -24,6 +25,12 @@ public class WorkSch {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getPname() {
+		return pname;
+	}
+	public void setPname(String pname) {
+		this.pname = pname;
 	}
 	public String getTitle() {
 		return title;

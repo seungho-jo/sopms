@@ -310,7 +310,6 @@ function addForm(event) {
 	</div>
 </body>
 <script type="text/javascript">
-$(".metismenu").children().eq(6).attr('class', 'mm-active');
 $("#paging").children("li").click(function() {
 	$("#paging").children("li").attr('class', 'page-item');
 	$(this).attr('class', 'page-item active');
@@ -326,13 +325,13 @@ let titleArr = [];
 let d_dayArr = [];
 let cal_nameArr = [];
 let cal_processArr = [];
-calListObj.forEach(function(item, index, arr)){
+calListObj.forEach(function(item, index, arr){
 	noArr.push(item.no);
 	titleArr.push(item.title);
 	d_dayArr.push(item.d_day);
 	cal_nameArr.push(item.cal_name);
 	cal_processArr.push(item.cal_process);
-}
+})
 console.log(${callListAll});
 console.log(${callListSch});
 console.log(${calListObj});
