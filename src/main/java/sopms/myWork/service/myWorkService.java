@@ -30,6 +30,8 @@ public class myWorkService {
 			worksch.setTitle("");
 		if (worksch.getStatus() == null)
 			worksch.setStatus("");
+		if (worksch.getPname() == null)
+			worksch.setPname("");
 		worksch.setCount(dao.myWorkCount(worksch));
 		if (worksch.getPageSize() == 0) {
 			worksch.setPageSize(5);
@@ -78,7 +80,7 @@ public class myWorkService {
 	@Value("${tmpUpload}")
 	private String tmpUpload;
 
-	private void uploadFile(int no, MultipartFile report) {
+	private void uploadFile(String no, MultipartFile report) {
 		String fileName = report.getOriginalFilename();
 		if (fileName != null && !fileName.equals("")) {
 			File tmpFile = new File(tmpUpload + fileName);
@@ -136,8 +138,13 @@ public class myWorkService {
 	}
 	
 	public void compUpt(Work work) {
-		dao.statusUpt(work);
-		dao.compUpt(work);
+		String[] counting = (work.getWorkcode()).split(",");
+		for(int i=0;i<counting.length;i++) {
+			System.out.println(counting[i]);
+			work.setWorkcode(counting[i]);
+			dao.statusUpt(work);
+			dao.compUpt(work);
+		}
 	}
 	public void apprUpt(Work work) {
 		dao.statusUpt(work);

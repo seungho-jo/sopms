@@ -46,18 +46,17 @@
 							<option value="승인요청">승인요청</option>
 							<option value="종료됨">종료됨</option>
 						</select> 
-						<select id="proOrsub" name="title" class="form-select">
+						<select id="proOrsub" class="form-select">
 							<option value="">검색어 선택</option>
-							<option>프로젝트명</option>
-							<option>작업명</option>
+							<option value="pname">프로젝트명</option>
+							<option value="title">작업명</option>
 						</select>
 						<div class="input-group" id="gp1">
-							<input type="text" class="form-control input-sm">
+							<input type="text" id="search" class="form-control input-sm">
 							<div class="input-group-append">
 								<button class="btn btn-primary">검색하기</button>
 							</div>
 						</div>
-						<button class="btn btn-primary" id="apprReq">승인요청</button>
 					</form>
 				</div>
 			</div>
@@ -86,7 +85,7 @@
 									<tr onclick="javascript:go(${wlist.workcode})">
 										<th><input type="checkbox" class="text-dark"></th>
 										<td class="text-dark text-center">${wlist.title}</td>
-										<td class="text-dark text-center">SL솔루션 homepage</td>
+										<td class="text-dark text-center">${wlist.pname}</td>
 										<td class="text-dark text-center">${wlist.pm_name}</td>
 										<td class="text-dark text-center boxes"><span>${wlist.status}</span></td>
 										<td class="text-dark text-center">${start_date2}</td> 
@@ -172,5 +171,12 @@
 	if(status!=null&&status!=""){
 		$("#status option[value="+status+"]").attr('selected','selected');
 	}
+	$("#proOrsub").change(function(){
+		if($(this).val()=='title'){
+			$("#search").attr("name",'title')
+		}else if($(this).val()=='pname'){
+			$("#search").attr("name",'pname')
+		}
+	})
 </script>
 </html>

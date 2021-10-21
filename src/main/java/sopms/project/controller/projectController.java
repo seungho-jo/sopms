@@ -26,7 +26,7 @@ public class projectController {
 		User user = (User) session.getAttribute("user");
 		if (!user.getRank().equals("부장")) {
 			d.addAttribute("msg", "접근권한이 없습니다.");
-			return "WEB-INF\\view\\main.jsp";
+			return "forward:/dashboard.do";
 		} else {
 			return "WEB-INF\\view\\project_Insert.jsp";
 		}

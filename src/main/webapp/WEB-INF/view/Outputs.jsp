@@ -104,15 +104,15 @@
 			success:function(data){
 				var show = "";
 				$.each(data.list, function(index,item){//순번에 따라 item에저장
-					show+="<tr><td>"+item.no+"</td>";
+					show+="<tr><td>"+((data.outPut.count-(data.outPut.pageSize*(data.outPut.curPage-1)))-index)+"</td>";
 					show+="<td>"+item.title+"</td>";
-					show+="<td>"+item.fname+"</td>";
+					show+="<td onclick='downOutPut("+"\""+item.fname+"\""+")'>"+item.fname+"</td>";
 					show+="<td>"+item.m_name+"</td>";
 					show+="<td>"+item.reqdate+"</td></tr>";
 				})
 				$("#tab_output tbody").html(show);
 				var paging = "";
-				paging += "<li class='page-item' id='pre'><a class='page-link' href='javascript:goBlock("+(data.outPut.startBlock-1)+")'>Pre</a></li>"
+				paging += "<li class='page-item' id='pre'><a class='page-link' href='javascript:goBlock("+(data.outPut.startBlock-1)+")'>Pre</a></li>";
 				for(var i=data.outPut.startBlock;i<=data.outPut.endBlock;i++){	
 					var check = (data.outPut.curPage==i) ? 'active' : '';
 					paging += "<li class='page-item "+ check +"'><a class='page-link' href='javascript:goBlock("+i+")'>"+i+"</a></li>"
@@ -127,6 +127,9 @@
 	function goBlock(no){
 		$("[name=curPage]").val(no);
 		outputList();
+	}
+	function downOutPut(text){
+		location.href="${path}/download.do?fname="+text;
 	}
 </script>
 </html>

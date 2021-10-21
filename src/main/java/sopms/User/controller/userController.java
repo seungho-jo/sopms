@@ -28,7 +28,7 @@ public class userController {
 			return "WEB-INF\\view\\userList.jsp";
 		}else {
 			d.addAttribute("msg","접근 권한이 없습니다.");
-			return "WEB-INF\\view\\main.jsp";
+			return "forward:/dashboard.do";
 		}
 	}  
 	     

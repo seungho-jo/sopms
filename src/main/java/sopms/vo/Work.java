@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class Work {
 	private int no;
-	private int workcode;
+	private String workcode;
 	private String title;
 	private String content;
 	private String start_date;
@@ -25,16 +25,17 @@ public class Work {
 	private String fname;
 	private String pm_name;
 	private String m_name;
+	private String pname;
 	public int getNo() {
 		return no;
 	}
 	public void setNo(int no) {
 		this.no = no;
 	}
-	public int getWorkcode() {
+	public String getWorkcode() {
 		return workcode;
 	}
-	public void setWorkcode(int workcode) {
+	public void setWorkcode(String workcode) {
 		this.workcode = workcode;
 	}
 	public String getTitle() {
@@ -156,6 +157,12 @@ public class Work {
 	}
 	public void setM_name(String m_name) {
 		this.m_name = m_name;
+	}
+	public String getPname() {
+		return pname;
+	}
+	public void setPname(String pname) {
+		this.pname = pname;
 	}
 
 }

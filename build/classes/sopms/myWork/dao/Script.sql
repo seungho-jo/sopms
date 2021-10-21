@@ -257,3 +257,68 @@ SELECT * from
 		AND a.PARENT = 2) e)
 		WHERE NO BETWEEN 1 AND 10
 		ORDER BY NO DESC;
+		
+SELECT * from
+		(SELECT  rownum AS cnt,e.* from
+		(SELECT a.title,b.fname,c.name AS m_name,reqdate
+		FROM wbs a,workfile b,MEMBER c,works d
+		WHERE a.WORKCODE = b.WORKCODE 
+		and a.workcode = d.workcode
+		AND a.MANAGER = c.id
+		AND a.PARENT = 2) e
+		WHERE rownum BETWEEN 1 AND 5
+		ORDER BY rownum desc);
+SELECT * from	
+		(SELECT * from
+		(SELECT rownum AS cnt,a.title,b.fname,c.name AS m_name,reqdate
+		FROM wbs a,workfile b,MEMBER c,works d
+		WHERE a.WORKCODE = b.WORKCODE 
+		and a.workcode = d.workcode
+		AND a.MANAGER = c.id
+		AND a.PARENT = 2
+		ORDER BY reqdate DESC) e);
+SELECT * FROM 
+	(SELECT * from
+(SELECT rownum NO, a.title,b.fname,c.name AS m_name,reqdate
+		FROM wbs a,workfile b,MEMBER c,works d
+		WHERE a.WORKCODE = b.WORKCODE 
+		and a.workcode = d.workcode
+		AND a.MANAGER = c.id
+		AND a.PARENT = 2
+		ORDER BY reqdate desc)
+		WHERE NO <=5)
+		WHERE NO >=1;
+		
+SELECT * from
+		(SELECT  rownum AS NO,e.* from
+		(SELECT a.title,b.fname,c.name AS m_name,to_char(reqdate,'YYYY-MM-DD') AS reqdate
+		FROM wbs a,workfile b,MEMBER c,works d
+		WHERE a.WORKCODE = b.WORKCODE 
+		and a.workcode = d.workcode
+		AND a.MANAGER = c.id
+		AND a.PARENT = 2) e)
+		WHERE NO BETWEEN 1 AND 5
+		ORDER BY reqdate DESC;
+		
+SELECT * from
+		(SELECT rownum AS NO,a.*,b.reqdate,c.name as m_name
+		 FROM wbs a, works b,member c
+		WHERE a.workcode = b.WORKCODE
+		AND a.MANAGER = c.id
+		AND a.pm = 'happy02'
+		AND a.STATUS = '승인요청'
+		ORDER BY b.APPRDATE desc)
+		WHERE NO BETWEEN 1 AND 5;
+SELECT (end_date-start_date) AS duration,DURATION FROM wbs;
+SELECT * FROM user_triggers;
+
+SELECT * from
+		(SELECT rownum AS no, b.* from
+		(SELECT a.*,m.name as pm_name, p.pname FROM wbs a,MEMBER m,project p
+		WHERE manager = 'happy01'
+		and a.PARENT = p.pcode
+		AND pm = m.id
+    	and a.status like  '%'||'승인'||'%' 
+    	and title like '%'||''||'%' 
+		ORDER BY START_DATE DESC) b)
+		WHERE no BETWEEN 1 AND 5;

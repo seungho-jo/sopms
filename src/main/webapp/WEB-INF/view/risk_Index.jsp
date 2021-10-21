@@ -55,7 +55,7 @@
 						<option value="id">등록자</option>
 					</select>
 				<div class="input-group" id="gp1">
-					<input type="text" class="form-control input-sm" id="searchName">
+					<input type="text" class="form-control input-sm" id="searchName" style="height:100%;">
 						<div class="input-group-append">
 							<button class="btn btn-primary" type="button" id="search">검색하기</button>
 						</div>

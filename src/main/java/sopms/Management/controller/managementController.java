@@ -28,7 +28,7 @@ public class managementController {
 		
 		if (!user.getRank().equals("부장")) {
 			d.addAttribute("msg", "접근권한이 없습니다.");
-			return "WEB-INF\\view\\main.jsp";
+			return "forward:/dashboard.do";
 		} else {
 			project_Lp.setPm(user.getId());
 			
