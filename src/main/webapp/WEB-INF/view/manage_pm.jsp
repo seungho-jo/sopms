@@ -153,6 +153,13 @@ function addForm(event) {
 				<div
 					class="d-sm-flex align-items-center justify-content-between mb-4">
 					<h1 class="h3 mb-0 font-weight-bold text-gray-800">일정 관리</h1>
+					<!-- 
+					<form method="post">
+						<select id="pjsch" name="pjsch" class="form-select">
+							<option value="">전체 일정</option>
+						</select>
+					</form>
+					 -->
 				</div>
 
 				<!-- Content Row -->

@@ -17,8 +17,15 @@ public class Calendar {
 	private int process;
 	private String status;
 	private String rank;
+	private int parent;
 	
 	
+	public int getParent() {
+		return parent;
+	}
+	public void setParent(int parent) {
+		this.parent = parent;
+	}
 	public String getRank() {
 		return rank;
 	}

@@ -11,12 +11,20 @@
 		<result property="status" column="status"/>
 		<result property="cnt" column="cnt"/>
 	</resultMap>
+	<select id="calSch" resultType="sopms.vo.CalListSch" parameterType="sopms.vo.CalListSch">
+		SELECT title FROM calendar
+		WHERE pm = #{manager}
+		AND parent IS NULL
+	</select>
 	<select id="calList" resultMap="calResult" parameterType="cal">
 		SELECT a.*, b.name
 		FROM calendar a, MEMBER b
 		<if test="pm != null and pm != ''">
-		WHERE a.manager = b.id
-		AND a.pm = #{pm}
+		WHERE a.pm = b.id
+		AND (a.pm = #{pm} or a.manager = #{pm})
+		<if test="workcode != null and workcode != 0">
+		AND (parent = #{workcode} or workcode = #{workcode})
+		</if>
 		</if>
 		<if test="pm == null or pm == ''">
 		WHERE a.MANAGER = b.id		
@@ -30,11 +38,11 @@
 		(SELECT pm
 		FROM CALENDAR 
 		WHERE workcode =
-		(SELECT DISTINCT parent FROM calendar WHERE manager = 'happy01')),
-		#{manager}, (SELECT DISTINCT parent FROM calendar WHERE manager = 'happy01'), #{process}, #{status})
+		(SELECT DISTINCT parent FROM calendar WHERE manager = #{manager})),
+		#{manager}, (SELECT DISTINCT parent FROM calendar WHERE manager = #{manager}), #{process}, #{status})
 		</if>
 		<if test="pm != null and pm != ''">
-		#{pm}, null, #{parent}, #{process}, #{status})
+		#{pm}, #{pm}, #{parent}, #{process}, #{status})
 		</if>
 	</insert>
 	<update id="updateCalendar" parameterType="cal">
@@ -48,6 +56,9 @@
 					backgroundcolor = #{backgroundColor},
 					textcolor = #{textColor},
 					process = #{process},
+		<if test="pm != null and pm != ''">
+					parent = #{parent},
+		</if>
 					status = #{status}
 		WHERE id = #{id}
 	</update>
