@@ -76,9 +76,9 @@
 		 WHERE workcode = #{workcode}
  	</delete>
  	
- 	<select id="resource" resultType="user" parameterType="String">
+ 	<select id="resourcelist" resultType="user" parameterType="String">
 	<!-- 이름, 부서, 직급, 투입날짜 -->
-	SELECT mem.id,mem.name,mem.dept,mem.RANK,TO_CHAR(MEM.INSERTPJDAY,'YYYY-MM-DD') AS INSERTPJDAY
+	SELECT mem.id,mem.name
 	FROM lesource le,MEMBER mem
 	WHERE le.id = mem.id AND pcode= #{pcode}
 	</select>
