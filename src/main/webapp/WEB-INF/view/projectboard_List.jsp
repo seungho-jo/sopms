@@ -118,7 +118,7 @@ table {
 							class="page-link" href="javascript:goPage(${cnt})">${cnt}</a></li>
 					</c:forEach>
 					<li class="page-item" id="next"><a class="page-link"
-						href="javascript:goBlock(${boardSch.endBlock-1})"> Next </a></li>
+						href="javascript:goBlock(${boardSch.curPage+1})"> Next </a></li>
 				</ul>
 			</div>
 		</div>
@@ -168,6 +168,10 @@ table {
 		});
 	});
 	function goPage(bcode){
+		$("[name=curPage]").val(bcode);
+		$("#frm01").submit();
+	}
+	function goBlock(bcode){
 		$("[name=curPage]").val(bcode);
 		$("#frm01").submit();
 	}
