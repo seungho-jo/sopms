@@ -98,35 +98,26 @@
 							style="font-size: 20px">
 							<tr>
 								<th>이름</th>
-								<td>김재성</td>
-							</tr>
-							<tr>
-								<th>생일</th>
-								<td>1995.06.02</td>
-							</tr>
-							<tr>
-								<th>주소</th>
-								<td>강남구</td>
+								<td>${user.name}</td>
 							</tr>
 							<tr>
 								<th>부서</th>
-								<td>개발팀</td>
+								<td>${user.dept}</td>
 							</tr>
 							<tr>
 								<th>직급</th>
-								<td>사원</td>
+								<td>${user.rank}</td>
 							</tr>
 
 						</table>
-						<button class="btn btn-primary">정보 수정</button>
 					</div>
 
 					<div id="pro2">
 						<table id="tab2" style="font-size: 21px; text-align: center;">
 							<tr>
-								<th>진행중인 작업</th>
-								<th>새로운 작업</th>
-								<th>취소한 작업</th>
+								<th>총 작업</th>
+								<th>진행중 작업</th>
+								<th>종료한 작업</th>
 							</tr>
 							<tr style="text-align: center; line-height: 90px;">
 								<td class="text-center"><div class="circle">
@@ -146,17 +137,11 @@
 							<tr>
 								<th>프로젝트</th>
 								<th>새로운 채팅</th>
-								<th>결제대기</th>
 							</tr>
 							<tr style="text-align: center; line-height: 90px;">
 								<td class="text-center"><div class="circle">
 										<a href="">1</a>
 									</div></td>
-								<td class="text-center">
-									<div class="circle">
-										<a href="">2</a>
-									</div>
-								</td>
 								<td class="text-center">
 									<div class="circle">
 										<a href="">2</a>

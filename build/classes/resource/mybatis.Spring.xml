@@ -21,6 +21,7 @@
 		<typeAlias alias="workpmsch" type="sopms.vo.WorkPmSch"/>
 		<typeAlias alias="riskJochi" type="sopms.vo.riskJochi"/>
 	    <typeAlias alias="message" type="sopms.vo.Message"/>
+	    <typeAlias alias="mypage" type="sopms.vo.MyPage"/>
 	    
 	</typeAliases>
 	<mappers>

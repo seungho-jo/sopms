@@ -106,6 +106,7 @@
 		FROM wbs a,workfile b,MEMBER c,works d
 		WHERE a.WORKCODE = b.WORKCODE 
 		and a.workcode = d.workcode
+		and a.status = '종료됨'
 		AND a.MANAGER = c.id
 		AND a.PARENT = #{pcode}) e)
 		WHERE NO BETWEEN #{start} AND #{end}
@@ -114,6 +115,7 @@
 	<select id="outputCnt" parameterType="int" resultType="int">
 		SELECT count(*) FROM WORKFILE a,wbs b,project c
 		WHERE a.WORKCODE = b.WORKCODE 
+		and b.status = '종료됨'
 		AND b.PARENT = c.PCODE
 		AND c.pcode = #{pcode}
 	</select>

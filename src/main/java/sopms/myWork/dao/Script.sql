@@ -322,3 +322,46 @@ SELECT * from
     	and title like '%'||''||'%' 
 		ORDER BY START_DATE DESC) b)
 		WHERE no BETWEEN 1 AND 5;
+		
+SELECT * from
+		(SELECT  rownum AS NO,e.* from
+		(SELECT a.title,b.fname,c.name AS m_name,to_char(reqdate,'YYYY-MM-DD') AS reqdate
+		FROM wbs a,workfile b,MEMBER c,works d
+		WHERE a.WORKCODE = b.WORKCODE 
+		and a.workcode = d.workcode
+		and a.status = '종료됨'
+		AND a.MANAGER = c.id
+		AND a.PARENT = 2) e)
+		WHERE NO BETWEEN 1 AND 5
+		ORDER BY reqdate DESC;
+		
+	SELECT count(*) FROM WORKFILE a,wbs b,project c
+		WHERE a.WORKCODE = b.WORKCODE 
+		and b.status = '종료됨'
+		AND b.PARENT = c.PCODE
+		AND c.pcode = 2;
+SELECT * from
+(SELECT count(*) FROM WBS
+WHERE MANAGER = 'happy01'
+AND status = '진행중') a,
+(SELECT count(*) FROM WBS
+WHERE MANAGER = 'happy01') b,
+(SELECT count(*) FROM WBS
+WHERE MANAGER = 'happy01'
+AND status = '종료됨')c;
+SELECT count(*) FROM LESOURCE l 
+WHERE l.ID = 'happy01';
+SELECT a.* FROM project a,LESOURCE l 
+WHERE a.PCODE = l.PCODE 
+AND l.id = 'happy01';
+
+
+SELECT * from
+		(SELECT rownum AS no, b.* from
+		(SELECT a.*,m.name as pm_name, p.pname FROM wbs a,MEMBER m,project p
+		WHERE manager = 'happy01'
+		and a.parent = p.pcode
+		AND pm = m.id
+		ORDER BY START_DATE) b
+		ORDER BY rownum desc)
+		WHERE no <= 5;
