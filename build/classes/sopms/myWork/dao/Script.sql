@@ -365,3 +365,18 @@ SELECT * from
 		ORDER BY START_DATE) b
 		ORDER BY rownum desc)
 		WHERE no <= 5;
+	SELECT a.*,m.name AS pm_name,(a.enddate-a.startdate) AS duration FROM project a,LESOURCE l,member m
+		WHERE a.PCODE = l.PCODE 
+		AND l.id = 'happy01'
+		and a.id = m.id;
+SELECT * from
+		(SELECT count(*) procwork FROM WBS
+		WHERE MANAGER = 'happy02'
+		AND status = '진행중') a,
+		(SELECT count(*) totwork FROM WBS
+		WHERE MANAGER = 'happy02') b,
+		(SELECT count(*) endwork FROM WBS
+		WHERE MANAGER = 'happy02'
+		AND status = '종료됨')c,
+		(SELECT count(*) attpj FROM LESOURCE l
+		WHERE l.ID = 'happy02') d;

@@ -17,19 +17,20 @@
 		WHERE MANAGER = #{id}) b,
 		(SELECT count(*) endwork FROM WBS
 		WHERE MANAGER = #{id}
-		AND status = '종료됨')c
-		()SELECT count(*) attpj FROM LESOURCE l
+		AND status = '종료됨') c,
+		(SELECT count(*) attpj FROM LESOURCE l
 		WHERE l.ID = #{id}) d
 	</select>
 	<select id="mypagePj" resultType="mypage" parameterType="String">
-		SELECT a.* FROM project a,LESOURCE l 
+		SELECT a.pname,to_char(a.startdate,'YYYY-MM-DD') as startdate,to_char(a.enddate,'YYYY-MM-DD') as enddate,m.name AS pm_name,(a.enddate-a.startdate) AS duration FROM project a,LESOURCE l,member m
 		WHERE a.PCODE = l.PCODE 
 		AND l.id = #{id}
+		and a.id = m.id
 	</select>
 	<select id="mypageWork" resultType="mypage" parameterType="String">
 		SELECT * from
 		(SELECT rownum AS no, b.* from
-		(SELECT a.*,m.name as pm_name, p.pname FROM wbs a,MEMBER m,project p
+		(SELECT a.title,to_char(a.start_date,'YYYY-MM-DD') as startdate,to_char(a.end_date,'YYYY-MM-DD') as enddate,m.name as pm_name, p.pname,(a.end_date - a.start_date) AS duration FROM wbs a,MEMBER m,project p
 		WHERE manager = #{id}
 		and a.parent = p.pcode
 		AND pm = m.id

@@ -43,9 +43,12 @@ public class loginController {
 	}
 	
 	@RequestMapping("myPage.do")
-	public String myPage(HttpServletRequest request) {
+	public String myPage(HttpServletRequest request,Model d) {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
+		d.addAttribute("count",service.mypageCount(user.getId()));
+		d.addAttribute("pjlist",service.mypagePj(user.getId()));
+		d.addAttribute("wklist",service.mypageWork(user.getId()));
 		return "WEB-INF\\view\\myPage.jsp";
 	}
 }
