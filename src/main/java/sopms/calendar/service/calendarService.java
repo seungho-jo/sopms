@@ -75,13 +75,10 @@ public class calendarService {
 	    	    
 	    return gson.toJson(statusArr);
 	}
-	public String calListAll(CalListSch cal) {
-		Gson gson = new Gson();
-	      
-	    ArrayList<CalList> arr = null;
+	public ArrayList<CalList> calListAll(CalListSch cal) {
 		cal.setCount(dao.calCount(cal));
 		if(cal.getPageSize() == 0) {
-			cal.setPageSize(5);
+			cal.setPageSize(4);
 		}
 		cal.setPageCount((int) Math.ceil(cal.getCount() / (double) cal.getPageSize()));
 		if(cal.getCurPage() == 0) {
@@ -105,8 +102,13 @@ public class calendarService {
 		if(cal.getStartBlock()<0) {
 			cal.setStartBlock(1);
 		}
-		arr = dao.calListAll(cal);
-		System.out.println(arr);
-		return gson.toJson(arr);
+		ArrayList<CalList> arr = dao.calListAll(cal);
+		for(CalList ar:arr) {
+			if(ar.getCal_process().equals("승인요청")) {
+				ar.setCal_process("미진행");
+			}
+			System.out.println(ar.getCal_process());
+		}
+		return dao.calListAll(cal);
 	}
 }

@@ -69,8 +69,9 @@
 				$("#delBtn").show();
 				$(".form-cal").show();
 				$("#table-wbs").hide();
+				$("#parent").children('#1').prop("selected", true);
 				
-				if(arg.event.extendedProps.workcode != 0) {
+				if(arg.event.extendedProps.process == 0 && arg.event.borderColor == "#6633FF") {
 					$("#uptBtn").hide();
 					$("#delBtn").hide();
 					$(".form-cal").hide();
@@ -172,10 +173,12 @@
 		});
 	}
 	function addForm(event) {
-		if(event.extendedProps.workcode == 0){
+		if(event.extendedProps.borderColor != "#6633FF" && event.extendedProps.pm == event.extendedProps.manager){
 			$(".form-cal")[0].reset();
 			$("[name=id]").val(event.id);
 			$("[name=workcode]").val(event.extendedProps.workcode);
+			console.log(event.extendedProps.process);
+			$("#parent").val(event.extendedProps.parent).prop("selected", true);
 			$("[name=parent]").val(event.extendedProps.parent);
 			$("[name=title]").val(event.title);
 			$("#borderColor").val(event.borderColor).prop("selected", true);
@@ -200,6 +203,14 @@
 			$("[name=status]").val(event.extendedProps.status);
 			}  else {
 			// wbs 모달창
+			if(event.extendedProps.parent == 2){ $("#project-wbs").text("교육용 모바일웹 앱 프로토타입");}
+			else if(event.extendedProps.parent == 3){ $("#project-wbs").text("병원 사내 어플 신규 제작");}
+			else if(event.extendedProps.parent == 4){ $("#project-wbs").text("비즈니스 플랫폼 앱 제작");}
+			else if(event.extendedProps.parent == 5){ $("#project-wbs").text("비대면의료상담 중개 앱서비스");}
+			else if(event.extendedProps.parent == 6){ $("#project-wbs").text("SL솔루션 홈페이지");}
+			else if(event.extendedProps.parent == 7){ $("#project-wbs").text("박물관 홈페이지 제작");}
+			$("#manager-wbs").text(event.extendedProps.name);
+			console.log(event.extendedProps.parent);
 			$("#title-wbs").text(event.title);
 			$("#content-wbs").text(event.extendedProps.content);
 			$("#start-wbs").text(event.start.toLocaleString());
@@ -239,6 +250,14 @@
 						<div
 							class="d-sm-flex align-items-center justify-content-between mb-4">
 							<h1 class="h3 mb-0 font-weight-bold text-gray-800">전체 일정</h1>
+							<!-- 
+							position : absolute 처리
+							<form method="post">
+								<select id="pjsch" name="pjsch" class="form-select">
+									<option value="">전체 일정</option>
+								</select>
+							</form>
+							 -->
 							<button type="button" onclick="location.href='${path}/manage_mem.do'"
 								class="btn btn-primary">관리 페이지</button>
 						</div>
@@ -264,6 +283,21 @@
 										<!-- 일반 등록창 -->
 										<form class="form-cal" method="post">
 											<input type="hidden" name="id" value="0" />
+											<div class="input-group mb-3" id="parent_select">
+												<div class="input-group-prepend">
+													<span class="input-group-text">프로젝트명</span>
+												</div>
+												<select id="parent" class="form-control"
+													onchange="parentChange(this.value);">
+													<option id="1">일정을 등록할 프로젝트를 선택해주세요</option>
+													<option value=2 id="2">교육용 모바일웹 앱 프로토타입</option>
+													<option value=3 id="3">병원 사내 어플 신규 제작</option>
+													<option value=4 id="4">비즈니스 플랫폼 앱 제작</option>
+													<option value=5 id="5">비대면의료상담 중개 앱서비스</option>
+													<option value=6 id="6">SL솔루션 홈페이지</option>
+													<option value=7 id="7">박물관 홈페이지 제작</option>
+												</select> <input type="hidden" name="parent" />
+											</div>
 											<div class="input-group mb-3">
 												<div class="input-group-prepend">
 													<span class="input-group-text">일정</span>
@@ -292,7 +326,7 @@
 												<textarea name="content" rows="5" cols="10"
 													class="form-control"></textarea>
 											</div>
-											<div class="input-group mb-3">
+											<div class="input-group mb-3" id="borderColor_select">
 												<div class="input-group-prepend">
 													<span class="input-group-text">일정색상</span>
 												</div>
@@ -338,6 +372,7 @@
 										<!-- wbs 모달창 -->
 										<div id="table-wbs">
 												<table height="100%">
+													<tr><th>등록자명</th><td id="manager-wbs"></td></tr>
 													<tr><th>일정</th><td id="title-wbs"></td></tr>
 													<tr><th>시작일</th><td id="start-wbs"></td></tr>
 													<tr><th>종료일</th><td id="end-wbs"></td></tr>
@@ -402,11 +437,14 @@
 	}
 	var startChange = function(value) {
 		$("[name=start]").val(value.toISOString());
-		console.log($(value);
+		console.log($(value));
 	}
 	var endChange = function(value) {
 		$("[name=end]").val(value.toISOString());
 		console.log($("[name=end]").val());
+	}
+	var parentChange = function(value) {
+		$("[name=parent]").val(value);
 	}
 </script>
 
