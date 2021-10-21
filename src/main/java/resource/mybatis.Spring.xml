@@ -18,7 +18,8 @@
 		<typeAlias alias="project_Lp" type="sopms.vo.Project_List_paging"/>
 		<typeAlias alias="workpmsch" type="sopms.vo.WorkPmSch"/>
 		<typeAlias alias="riskJochi" type="sopms.vo.riskJochi"/>
-		
+	    <typeAlias alias="message" type="sopms.vo.Message"/>
+	    
 	</typeAliases>
 	<mappers>
 		<mapper resource="resource/myWorkMapper.xml"/>
@@ -31,6 +32,7 @@
 		<mapper resource="resource/dashBoardMapper.xml"/>
 		<mapper resource="resource/pjStatusSumMapper.xml"/>
 		<mapper resource="resource/projectListMapper.xml"/>
+		<mapper resource="resource/ChattingMapper.xml"/>
 	</mappers>
 	
 </configuration>

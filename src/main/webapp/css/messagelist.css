@@ -40,11 +40,11 @@
 
 .contentarea .messagearea {
   position: relative;
+  display: flex;
   padding: 0 20px;
 }
 .contentarea .messagearea .messageitem {
   padding: 20px 0;
-  display: flex;
   position: relative;
 }
 .contentarea .messagearea .messageitem .photoarea {
