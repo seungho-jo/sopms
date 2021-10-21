@@ -127,46 +127,7 @@ int no = Integer.parseInt(noS);
 </head>
 <body>
 	<div id="gantt_here" style='width: 100%; height: 450px;'></div>
-		<!-- Modal  -->
-		<div class="modal fade" id="exampleModalCenter" style="display: none;" aria-hidden="true">
-	         <div class="modal-dialog modal-dialog-centered" role="document">
-	             <div class="modal-content">
-	                 <div class="modal-header">
-	                     <h5 class="modal-title">수정</h5>
-	                     <button type="button" class="close" data-dismiss="modal"><span>×</span>
-	                     </button>
-	                 </div>
-	                 <div class="modal-body">
-	                     <p></p>
-	                 </div>
-	                 <div class="modal-footer">
-	                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	                     <button type="button" class="btn btn-primary">Save changes</button>
-	                 </div>
-	             </div>
-	         </div>
-	     </div>
-	     
-	     <div class="modal fade" id="exampleModalCenter1" style="display: none;" aria-hidden="true">
-	         <div class="modal-dialog modal-dialog-centered" role="document">
-	             <div class="modal-content">
-	                 <div class="modal-header">
-	                     <h5 class="modal-title">추가</h5>
-	                     <button type="button" class="close" data-dismiss="modal"><span>×</span>
-	                     </button>
-	                 </div>
-	                 <div class="modal-body">
-	                     <p></p>
-	                 </div>
-	                 <div class="modal-footer">
-	                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	                     <button type="button" class="btn btn-primary">Save changes</button>
-	                 </div>
-	             </div>
-	         </div>
-	     </div>
-	     
-	     
+		
 	     <script>
 	     function reset(){//gant차트 다시 로딩하는 함수
 	    	 $.ajax({
@@ -248,16 +209,10 @@ int no = Integer.parseInt(noS);
 		 	    {name:"end_date", label:"종료 날짜", align: "center", min_width: 100, width: 200, resize: true },
 		 	    {name:"owner", label:"담당자", align: "center", width: 60, resize: true,
 		 	    	template: function (item) {
-		 	    		//alert(item.owner);
-		 	    		 //$.each(opts,function(index, res){
-		 	    			//console.log(res.key);
 		 	    			for(var i =0; i<opts.length; i++){
 		 	    				if (item.owner == opts[i].key){return opts[i].label;}
 		 	    			}
-		 		   	        
-		 	 					
 		 		   	    	return "Undefined";
-		 		   		//});
 					} 
 		 	    },
 		 	
@@ -273,7 +228,12 @@ int no = Integer.parseInt(noS);
 		 	   
 		 	];
 		
-		
+		 gantt.config.buttons_left = ["gantt_save_btn", "gantt_cancel_btn"];
+		 gantt.config.buttons_right = [];
+		 
+		 gantt.locale.labels.icon_save = "저장";
+		 gantt.locale.labels.icon_cancel = "취소";
+
 		gantt.config.lightbox.sections=[
 		    {name:"description", height:45, map_to:"text", type:"textarea", focus:true},
 		    {name:"content", height:70, map_to:"content", type:"textarea"},
@@ -281,21 +241,7 @@ int no = Integer.parseInt(noS);
 		    {name:"time", height:72, map_to:"auto", type:"duration"}
 		];
 	
-	    
-	
-		   /*template: function (item) {
-	   	    $.each(opts,function(index, res){
-	   	        if (item.owner == res.key)
- 				return res.label;
-	   		});
-	   	 if (item.owner == "happy05")
-			return "최형우";
-	   	 if (item.priority == "happy14")
-				return "최형우";
-	} */
-		
-	    
-	    // gantt.init("gantt_here");
+	   
 	     var formatFunc = gantt.date.date_to_str("%Y-%m-%d"); // 날짜 변환
 	    
 	
@@ -346,7 +292,8 @@ int no = Integer.parseInt(noS);
 	 					
 	 					return true;
 	 				})
-	 				gantt.attachEvent("onAfterLightbox", function() { // lightbox가 열리고 난 뒤 작업
+	 				// lightbox가 열리고 난 뒤 작업
+	 				gantt.attachEvent("onAfterLightbox", function() { 
 	 					if (stat == 2) { // 저장버튼 클릭 시
 	 								$.ajax({
 	 									type : "post",
@@ -404,12 +351,9 @@ int no = Integer.parseInt(noS);
 	 								gantt.deleteTask(id);
 	 								reset();
 	 								alert("성공");
-	 								
-	 								
 	 							},
 	 							error : function(err) {
 	 								console.log("에러" + err);
-	 								
 	 								alert("실패");
 	 							}
 	 						});
@@ -433,8 +377,6 @@ int no = Integer.parseInt(noS);
 	 								success : function(data) {
 	 									gantt.deleteTask(id);
 	 									reset();
-	 									
-	 									
 	 								},
 	 								error : function(err) {
 	 									alert("실패!");
