@@ -96,17 +96,6 @@
 					    	</div>
 					  </div>
 					  
-					<!-- 등록자 -->
-						<div class="col-4 mb-3">
-							<div class="form-floating">
-					     		<h4 id="title">등록자 </h4>
-					    	</div>
-					    </div>
-					    <div class="col-6 mb-3">
-					    	<div class="form-floating">
-					      		<input type="text" class="form-control" placeholder="등록자 아이디" aria-label="등록자 아이디" name="id">
-					    	</div>
-					  	</div>
 					
 				</div>
 				<div class="row g-2">
