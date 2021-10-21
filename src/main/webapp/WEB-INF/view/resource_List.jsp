@@ -80,7 +80,6 @@
 						<th>이름</th>
 						<th>부서</th>
 						<th>직급</th>
-						<th>투입날짜</th>
 						<th>삭제하기</th>
 					</tr>
 				</thead>
@@ -226,7 +225,6 @@ $(document).ready(function(){
 				show+="<tr class='hoverTr3'><td>"+item.name+"</td>";
 				show+="<td>"+item.dept+"</td>";
 				show+="<td>"+item.rank+"</td>";
-				show+="<td>"+item.insertpjDay+"</td>";
 				show+="<td><span onclick='javascript:deleteUser("+"\""+item.id+"\""+")"+"'><i class='fa fa-close color-danger'></i></span></td></tr>";
 			})
 			
@@ -325,7 +323,6 @@ function getMemberData(){ //리소스 처음 리스트
 				show+="<tr class='hoverTr3'><td>"+item.name+"</td>";
 				show+="<td>"+item.dept+"</td>";
 				show+="<td>"+item.rank+"</td>";
-				show+="<td>"+item.insertpjDay+"</td>";
 				show+="<td><span onclick='javascript:deleteUser("+"\""+item.id+"\""+")"+"'><i class='fa fa-close color-danger'></i></span></td></tr>";
 			})
 				$("#tableList1 tbody").html(show);
@@ -349,7 +346,6 @@ function deleteUser(id){
 					show+="<tr class='hoverTr3'><td>"+item.name+"</td>";
 					show+="<td>"+item.dept+"</td>";
 					show+="<td>"+item.rank+"</td>";
-					show+="<td>"+item.insertpjDay+"</td>";
 					show+="<td><span onclick='javascript:deleteUser("+"\""+item.id+"\""+")"+"'><i class='fa fa-close color-danger'></i></span></td></tr>";
 				})
 					$("#tableList1 tbody").html(show);
