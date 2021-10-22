@@ -29,7 +29,7 @@ public class boardController {
 			return "WEB-INF\\view\\projectboard_Insert.jsp";
 		} else {
 			d.addAttribute("msg", "접근권한이 없습니다.");
-			return "forward:/dashboard.do";	
+			return "forward:/board.do?method=list";	
 		}	
 	}
 	
@@ -66,7 +66,7 @@ public class boardController {
 			return "WEB-INF\\view\\projectboard_Update.jsp";
 		} else {
 			d.addAttribute("msg", "접근권한이 없습니다.");
-			return "forward:/dashboard.do";
+			return "WEB-INF\\view\\main.jsp";
 
 		}
 			

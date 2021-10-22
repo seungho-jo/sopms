@@ -17,6 +17,9 @@
 		values(project_seq.currval,#{pname},#{explanation},to_date(#{startdate},'YYYY-MM-DD'),
 		to_date(#{enddate},'YYYY-MM-DD'),(to_date(#{enddate},'YYYY-MM-DD')-to_date(#{startdate},'YYYY-MM-DD')),#{id},'진행중')
 	</insert>
+	<insert id="insertresource" parameterType="project">
+		INSERT INTO LESOURCE VALUES (project_seq.currval,#{id})
+	</insert>
 	<delete id="deleteProject" parameterType="int">
 		DELETE FROM project
 		WHERE pcode = #{pcode}
