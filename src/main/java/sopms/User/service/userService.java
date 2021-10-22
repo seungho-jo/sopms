@@ -104,7 +104,7 @@ public class userService {
 				}
 				sch.setEndBlock(endBlock);
 				sch.setStartBlock((blocknum-1)*sch.getBlockSize()+1);
-
+				if(sch.getStartBlock()<0) {sch.setStartBlock(1);}
 		return  dao.userListPaging(sch);
 	}
 }
