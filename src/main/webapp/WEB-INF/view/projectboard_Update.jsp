@@ -219,7 +219,7 @@ h3 {
 		$(this).next(".custom-file-label").text($(this).val());
 	});
 	$("#canBtn_modal").click(function(){
-		history.back();
+		$(location).attr("href", "${path}/board.do?method=list");
 	});
 </script>
 </html>
