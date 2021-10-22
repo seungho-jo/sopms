@@ -107,7 +107,7 @@ h3 {
 					<div class="input-form col-md-12 mx-auto">
 						<h3 class="mb-5">프로젝트 수정</h3>
 
-						<form action="${path}/project.do?method=update" method="post" id="updateform">
+						<form action="${path}/project.do?method=update" method="post" id="updateform" name="insert01">
 							<input type="hidden" class="form-control" name="pcode" id="pcode"
 								placeholder="" value="${project.pcode}" required>
 							<input type="hidden" class="form-control" name="id" id="id"
@@ -295,41 +295,53 @@ h3 {
 
 <script src="./js/dashboard/dashboard-1.js"></script>
 <script type="text/javascript">
-	$(".metismenu").children().eq(3).attr('class', 'mm-active');
-	$(document).ready(function() {
-		$(".check").click(function() {
-			var str = "";
-			$(".check").each(function() {
-				if ($(this).is(":checked"))
-					str += $(this).val() + ",";
-			});
-			$("#multiPrint").text(str);
-			$("#output").text(str);
-			$("#output2").attr("value", str);
-		});
-
-		$("#allCheck").click(function() {
+$(".metismenu").children().eq(3).attr('class', 'mm-active');
+$(document).ready(function() {
+	$(".check").click(function() {
+		var str = "";
+		$(".check").each(function() {
 			if ($(this).is(":checked"))
-				$(".check").attr("checked", "checked")
-			else
-				$(".check").removeAttr("checked")
-			var str = "";
-			$(".check").each(function() {
-				if ($(this).is(":checked"))
-					str += $(this).val() + ",";
-			});
-			$("#multiPrint").text(str);
-			$("#output").text(str);
-			$("#output2").attr("value", str);
-
+				str += $(this).val() + ",";
 		});
+		$("#multiPrint").text(str);
+		$("#output").text(str);
+		$("#output2").attr("value", str);
+	});
+
+	$("#allCheck").click(function() {
+		if ($(this).is(":checked"))
+			$(".check").attr("checked", "checked")
+		else
+			$(".check").removeAttr("checked")
+		var str = "";
+		$(".check").each(function() {
+			if ($(this).is(":checked"))
+				str += $(this).val() + ",";
+		});
+		$("#multiPrint").text(str);
+		$("#output").text(str);
+		$("#output2").attr("value", str);
+
+	});
 
 	});
 	$("#uptBtn_modal").click(function() {
+		if (insert01.pname.value == "" || insert01.startdate.value == "" || insert01.enddate.value == ""|| insert01.teamnum.value == "") {
+			alert("필수입력란이 비었습니다. 확인해주세요.");
+			return false;
+		}
+		var startDate = $("input[name=startdate]").val().split("-");
+		var endDate  = $("input[name=enddate]").val().split("-");
+		var sDate = new Date(startDate[0], startDate[1], startDate[2]).valueOf();
+		var eDate = new Date(endDate[0], endDate[1], endDate[2]).valueOf();
+		if ( sDate >= eDate ) {
+			alert("시작일과 종료일을 확인해주세요.");
+			return false;			
+		}
 		$("#updateform").submit();
 		alert("프로젝트를 수정했습니다.");
 	});
-	$("#canBtn_modal").click(function(){
+	$("#del").click(function(){
 		history.back();
 	});
 </script>
