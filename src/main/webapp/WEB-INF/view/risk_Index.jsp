@@ -52,7 +52,7 @@
 					<select id="status" name="status" class="form-select">
 						<option value="">찾기 선택</option>
 						<option value="risk_name">리스크명</option>
-						<option value="id">등록자</option>
+						<option value="name">등록자</option>
 					</select>
 				<div class="input-group" id="gp1">
 					<input type="text" class="form-control input-sm" id="searchName" style="height:100%;">
@@ -75,19 +75,23 @@
 		<table id="bootstrap-data-table" class="table table-hover table-responsive-sm" width="100%" align="center">
 			<thead>
 				<tr class="text-center">
+					<th class="text-dark">프로젝트명</th>
 					<th class="text-dark">리스크명</th>
 					<th class="text-dark">등록자</th>
 					<th class="text-dark">리스크상태</th>
 					<th class="text-dark">등록일</th>
+					<th class="text-dark">수정일</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="rlist" items="${list}">
 				<tr class="text-center" onclick="javascript:go(${rlist.risk_no})">
+					<td class="text-dark">${rlist.pname}</td>
 					<td class="text-dark">${rlist.risk_name}</td>
-					<td class="text-dark">${rlist.id}</td>
+					<td class="text-dark">${rlist.m_name}</td>
 					<td class="text-dark boxes"><span>${rlist.risk_status}</span></td>
 					<td class="text-dark">${rlist.risk_reg}</td>
+					<td class="text-dark">${rlist.risk_upt}</td>
 				</tr>		
 				</c:forEach>
 			</tbody>
@@ -150,13 +154,13 @@
 	});
 	var arr = [];
 	for(var i=1;i<$("tr").length;i++){
-		var status = $("tr").eq(i).children("td:eq(2)").text();
+		var status = $("tr").eq(i).children("td:eq(3)").text();
 		if(status=="조치완료"){
-			$("tr").eq(i).children("td:eq(2)").children("span").attr("class","badge badge-success");
+			$("tr").eq(i).children("td:eq(3)").children("span").attr("class","badge badge-success");
 		}else if(status=="진행중"){
-			$("tr").eq(i).children("td:eq(2)").children("span").attr("class","badge badge-info");
+			$("tr").eq(i).children("td:eq(3)").children("span").attr("class","badge badge-info");
 		}else if(status=="홀드"){
-			$("tr").eq(i).children("td:eq(2)").children("span").attr("class","badge badge-danger");
+			$("tr").eq(i).children("td:eq(3)").children("span").attr("class","badge badge-danger");
 		}
 	}
 	function go(no){

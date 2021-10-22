@@ -4,26 +4,39 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="sopms.risk.dao.riskDao">
 	<select id="riskListPaging" resultType="risk" parameterType="riskSch">
-		select * from
-		( select rownum as no, b.* from 
-		( select risk_name, id, risk_status, risk_reg, risk_no
-			from risk
-			where risk_name like '%'||#{risk_name}||'%'
-			and id like '%'||#{id}||'%'
-			order by risk_reg DESC
-		) b )
-		where no between #{start} and #{end}
+		SELECT * FROM 
+			(SELECT rownum AS NO, a.* FROM 
+			(SELECT p.pname, r.risk_name, r.risk_no, r.risk_status, to_char(r.risk_reg,'yyyy-mm-dd') AS risk_reg, nvl(to_char(r2.RISK_JOCHIUPT,'yyyy-mm-dd'), '-'), m.name as m_name
+			FROM LESOURCE l , PROJECT p, RISK r, RISKJOCHI r2, MEMBER m 
+			WHERE p.PCODE = l.PCODE 
+			AND p.pcode = r.PCODE 
+			AND r.risk_no = r2.risk_no(+)
+			AND r.id = m.id
+			AND l.id = #{id}
+			ORDER BY risk_reg DESC ) a
+			WHERE risk_name like '%'||#{risk_name}||'%'
+			AND m_name LIKE '%'||#{name}|| '%'
+			)
+			WHERE NO BETWEEN #{start} AND #{end}
 	</select>
 	
 	<select id="totCnt" resultType="int" parameterType="riskSch">
-		select count(*)
-		from risk
-		where risk_name like '%' ||#{risk_name} ||'%'
+		SELECT count(*) FROM 
+			(SELECT p.pname, r.risk_name, r.risk_no, r.risk_status, to_char(r.risk_reg,'yyyy-mm-dd') AS risk_reg, nvl(to_char(r2.RISK_JOCHIUPT,'yyyy-mm-dd'), '-'), m.name 
+			FROM LESOURCE l , PROJECT p, RISK r, RISKJOCHI r2, MEMBER m 
+			WHERE p.PCODE = l.PCODE 
+			AND p.pcode = r.PCODE 
+			AND r.risk_no = r2.risk_no(+)
+			AND r.id = m.id
+			AND l.id = #{id}
+			ORDER BY risk_reg DESC ) a
+			WHERE risk_name like '%'||#{risk_name}||'%'
+			AND name LIKE '%'||#{name}|| '%'
 	</select>
 	
 	<insert id="insertRisk" parameterType="risk">
-		INSERT INTO Risk (risk_no, risk_name, risk_content, risk_reg, id, pcode, risk_status) 
-				VALUES (seq_risk_no.nextval, #{risk_name}, #{risk_content}, sysdate, #{id}, #{pcode}, #{risk_status}) 
+		INSERT INTO Risk (risk_no, risk_name, risk_content, risk_reg, risk_upt, id, pcode, risk_status) 
+				VALUES (seq_risk_no.nextval, #{risk_name}, #{risk_content}, sysdate, sysdate ,#{id}, #{pcode}, #{risk_status}) 
 	</insert>
 	
 	<select id="getUserJochi" parameterType="int" resultType="user">
