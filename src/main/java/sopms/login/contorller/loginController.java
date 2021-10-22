@@ -17,9 +17,16 @@ public class loginController {
 	private loginService service;
 	// http://localhost:7080/sopms/index.do
 	@RequestMapping("index.do")
-	public String index() {
-		
-		return "WEB-INF\\view\\index.jsp";
+	public String index(HttpServletRequest request,Model d) {
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		if(user!=null) {
+			session.removeAttribute("msg");
+			d.addAttribute("msg", "이미 로그인 하였습니다");
+			return "forward:/dashboard.do";
+		}else {
+			return "WEB-INF\\view\\index.jsp";
+		}
 	}
 	
 	@RequestMapping("login.do")
