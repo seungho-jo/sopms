@@ -57,8 +57,26 @@ FROM (
 	FROM board b, MEMBER m
 	WHERE b.id = m.id
 	ORDER BY regdte DESC
-) a
+) a;
+
 WHERE rnum <= 5;
+SELECT * FROM (
+	SELECT rownum rnum, bcode, btitle, id, name, readcnt, dept, RANK, 
+		CASE	WHEN TRUNC(SYSDATE,'DD')=TRUNC(regdte,'DD') THEN TO_CHAR(regdte,'HH24:MI')
+				ELSE TO_CHAR(regdte,'fmMM-DD')
+		END AS regdte
+	FROM(
+		SELECT b.*, m.name, m.dept, m.rank
+		FROM board b, MEMBER m
+		WHERE b.id = m.id
+		ORDER BY regdte DESC
+	)
+)
+WHERE rnum <=5 ;
+SELECT *
+FROM board b, MEMBER m
+WHERE b.id = m.id
+ORDER BY regdte DESC;
 
 SELECT count(*) cnt FROM project p,
 			(	SELECT pcode FROM project_dept
@@ -227,3 +245,12 @@ AND pd.dept = '개발1팀'
 AND NOT p.status = '종료됨'
 AND p.pcode = pb.pcode(+)
 AND pb.id = 'happy01';
+
+SELECT status, count(*) cnt 
+		FROM CALENDAR
+		WHERE manager = 'happy01'
+		GROUP BY status;
+SELECT status, count(*) cnt 
+		FROM CALENDAR
+		WHERE manager = 'happy01'
+		GROUP BY status;

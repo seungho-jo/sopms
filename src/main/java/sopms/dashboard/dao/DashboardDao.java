@@ -29,8 +29,8 @@ public interface DashboardDao {
 	public ArrayList<String> riskNamePM(String id);
 	public ArrayList<String> outputNamePM(String id);
 	//chart - risk status
-	public ArrayList<RiskStatusCnt> riskStatusCntAll(String dept);
-	public ArrayList<RiskMonthly> riskMonthlyAll(String dept);
+	public ArrayList<RiskStatusCnt> riskStatusCntPM(String dept);
+	public ArrayList<RiskMonthly> riskMonthlyPM(String dept);
 	
 //common
 	public ArrayList<ProjectSum> projectList(User user);
@@ -38,4 +38,5 @@ public interface DashboardDao {
 	public void insertBookmark(ProjectBookmark bm);
 	public void deleteBookmark(ProjectBookmark bm);
 	public ArrayList<Notice> boardNotice();
+	public User empInfo(String id);
 }

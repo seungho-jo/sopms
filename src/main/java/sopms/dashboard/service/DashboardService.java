@@ -44,23 +44,15 @@ public class DashboardService {
 	// 리스크 상태 chart
 	public String riskStatusCntJson(User user) {
 		Gson gson = new Gson();
-		JsonObject jsonObj = new JsonObject();
 		ArrayList<RiskStatusCnt> statusArr = null;
 		
 		if(user.getRank().equals("부장")) {
-			statusArr=dao.riskStatusCntAll(user.getDept());
+			statusArr=dao.riskStatusCntPM(user.getDept());
 		}else {
 			statusArr=dao.riskStatusCnt(user.getId());
 		}
 		
-		for(RiskStatusCnt rs:statusArr) {
-			String key = null;
-			if(rs.getStatus().equals("진행중")) key = "prog";
-			else if(rs.getStatus().equals("홀드")) key = "hold";
-			else if(rs.getStatus().equals("조치완료")) key = "fin";
-			jsonObj.addProperty(key, rs.getCnt());
-		}
-		return gson.toJson(jsonObj);
+		return gson.toJson(statusArr);
 	}
 	
 	// 월별 리스크 발생 추이 Chart
@@ -69,7 +61,7 @@ public class DashboardService {
 		ArrayList<RiskMonthly> monthArr = null;
 		
 		if(user.getRank().equals("부장")) {
-			monthArr = dao.riskMonthlyAll(user.getDept());
+			monthArr = dao.riskMonthlyPM(user.getDept());
 		}else {
 			monthArr = dao.riskMonthly(user.getId());
 		}
@@ -101,5 +93,11 @@ public class DashboardService {
 	// 공지사항
 	public ArrayList<Notice> boardNotice(){
 		return dao.boardNotice();
+	}
+	
+	// 사원정보
+	public String empInfoJson(String id) {
+		Gson gson = new Gson();
+		return gson.toJson(dao.empInfo(id));
 	}
 }

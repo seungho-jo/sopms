@@ -70,7 +70,7 @@
 	</select>
 	
 	<select id="projectList" resultType="sopms.vo.ProjectSum" parameterType="sopms.vo.User">
-		SELECT p.pcode, p.pname, m.name AS pmName, ( TRUNC(p.enddate,'DD') - TRUNC(sysdate,'DD') ) AS status,
+		SELECT p.pcode, p.pname, p.id AS pmId, m.name AS pmName, ( TRUNC(p.enddate,'DD') - TRUNC(sysdate,'DD') ) AS status,
 			TO_CHAR(p.startdate,'YYYY-MM-DD') startdate, TO_CHAR(p.enddate,'YYYY-MM-DD') enddate, NVL(pb.bmcode,' ') AS explanation
 		FROM project p, project_dept pd, member m,
 			(	SELECT pcode, bmcode FROM project_bookmark
@@ -93,7 +93,7 @@
 		AND id = #{id}
 	</delete>
 	<select id="bookmarkList" parameterType="string" resultType="sopms.vo.ProjectSum">
-		SELECT p.pcode, p.pname, m.name AS pmName, ( TRUNC(p.enddate,'DD') - TRUNC(sysdate,'DD') ) AS status,
+		SELECT p.pcode, p.pname, p.id AS pmId, m.name AS pmName, ( TRUNC(p.enddate,'DD') - TRUNC(sysdate,'DD') ) AS status,
 			TO_CHAR(p.startdate,'YYYY-MM-DD') startdate, TO_CHAR(p.enddate,'YYYY-MM-DD') enddate 
 		FROM project p, project_bookmark pb, member m
 		WHERE p.pcode = pb.pcode
@@ -107,7 +107,7 @@
 		WHERE id = #{id}
 		GROUP BY risk_status
 	</select>
-	<select id="riskStatusCntAll" parameterType="string" resultMap="riskStatusInfo">
+	<select id="riskStatusCntPM" parameterType="string" resultMap="riskStatusInfo">
 		SELECT risk_status, count(*) cnt FROM RISK r , PROJECT p , PROJECT_DEPT pd 
 		WHERE r.pcode = pd.PCODE 
 		AND r.PCODE = p.PCODE 
@@ -132,7 +132,7 @@
 		GROUP BY TO_CHAR(b.dt, 'YYYY-MM')
 		ORDER BY TO_CHAR(b.dt, 'YYYY-MM')
 	</select>
-	<select id="riskMonthlyAll" parameterType="string" resultType="sopms.vo.RiskMonthly">
+	<select id="riskMonthlyPM" parameterType="string" resultType="sopms.vo.RiskMonthly">
 		SELECT TO_CHAR(b.dt, 'YYYY-MM') month
 		     , NVL(SUM(a.cnt), 0) count
 		FROM(	SELECT TRUNC(risk_reg,'DD') risk_reg, count(*) cnt FROM risk r, project_dept pd
@@ -151,16 +151,23 @@
 		ORDER BY TO_CHAR(b.dt, 'YYYY-MM')
 	</select>
 	<select id="boardNotice" resultType="sopms.vo.Notice">
-		SELECT bcode, btitle, id, name, readcnt,
-			CASE	WHEN TRUNC(SYSDATE,'DD')=TRUNC(regdte,'DD') THEN TO_CHAR(regdte,'HH24:MI')
-					ELSE TO_CHAR(regdte,'fmMM-DD')
-			END AS regdte
-		FROM (
-			SELECT rownum rnum, b.bcode, b.btitle, b.id, m.name, b.readcnt, b.regdte 
-			FROM board b, MEMBER m
-			WHERE b.id = m.id
-			ORDER BY regdte DESC
-		) a
+		SELECT * FROM (
+			SELECT rownum rnum, bcode, btitle, id, name, readcnt, dept, RANK, 
+				CASE	WHEN TRUNC(SYSDATE,'DD')=TRUNC(regdte,'DD') THEN TO_CHAR(regdte,'HH24:MI')
+						ELSE TO_CHAR(regdte,'fmMM-DD')
+				END AS regdte
+			FROM(
+				SELECT b.*, m.name, m.dept, m.rank
+				FROM board b, MEMBER m
+				WHERE b.id = m.id
+				ORDER BY regdte DESC
+			)
+		)
 		WHERE rnum <![CDATA[<=]]> 5
+	</select>
+	
+	<select id="empInfo" parameterType="string" resultType="sopms.vo.User">
+		SELECT id, name, rank, dept FROM member
+		WHERE id = #{id}
 	</select>
 </mapper>
