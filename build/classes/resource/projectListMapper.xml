@@ -5,15 +5,19 @@
 <mapper namespace="sopms.Management.dao.managementDao">
 	
 	<select id="projectList" parameterType="project_Lp" resultType="project_List">
-		select * from(
-		select rownum as NO, a.*, NVL(b.risk_cnt,0) AS risk_cnt FROM project a,
+	
+		SELECT * FROM(
+		select rownum as NO, c.* from(
+		select a.*, NVL(b.risk_cnt,0) AS risk_cnt FROM project a,
 		(SELECT a.pcode, count(*) AS risk_cnt FROM project a, risk b
 		WHERE a.PCODE = b.PCODE 
 		AND a.id = #{pm}
 		GROUP BY a.pcode) b
 		WHERE a.PCODE = b.PCODE(+)
-		AND a.id = #{pm})
-		where no between #{start} and #{end}	
+		AND a.id = #{pm}
+		ORDER BY startdate desc) c) 
+		where NO between #{start} and #{end}
+		
 	</select>
 	
 	<select id="projectCount" parameterType="String" resultType="int">
@@ -27,7 +31,6 @@
 		where a.manager = b.id OR (a.pm = b.id AND a.MANAGER IS NULL)
 		)
 		where workcode = #{no} or parent = #{no}
-		
 		
 	</select>
 	<update id="updateWbs" parameterType="work">
