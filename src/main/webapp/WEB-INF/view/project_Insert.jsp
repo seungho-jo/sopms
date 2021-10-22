@@ -298,7 +298,7 @@ h3 {
 
 	});
 	$("#regBtn").click(function() {
-		if (insert01.pname.value == "" || insert01.startdate.value == "" || insert01.enddate.value == ""|| insert01.teamnum.value == "") {
+		if (insert01.pname.value == "" || insert01.dept.value == "" ||insert01.startdate.value == "" || insert01.enddate.value == ""|| insert01.teamnum.value == "") {
 			alert("필수입력란이 비었습니다. 확인해주세요.");
 			return false;
 		}
