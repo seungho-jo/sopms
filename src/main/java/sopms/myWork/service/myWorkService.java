@@ -147,8 +147,13 @@ public class myWorkService {
 		}
 	}
 	public void apprUpt(Work work) {
-		dao.statusUpt(work);
-		dao.apprUpt(work);
+		String[] counting = (work.getWorkcode()).split(",");
+		for(int i=0;i<counting.length;i++) {
+			System.out.println(counting[i]);
+			work.setWorkcode(counting[i]);
+			dao.statusUpt(work);
+			dao.apprUpt(work);
+		}
 	}
 	
 	public ArrayList<Work> outputList(OutPut outputs){
