@@ -68,9 +68,7 @@ public class myWorkService {
 	public void approval(Work work) {
 		if (work.getReqmsg() == null)
 			work.setReqmsg("");
-		if(!work.getReport().isEmpty()) {
-			uploadFile(work.getWorkcode(),work.getReport());
-		}
+		uploadFile(work.getWorkcode(),work.getReport());
 		dao.statusUpt(work);
 		dao.request(work);
 	}
