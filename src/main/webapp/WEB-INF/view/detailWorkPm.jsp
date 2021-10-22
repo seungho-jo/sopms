@@ -137,7 +137,7 @@
 					<tr>
 						<th>첨부파일</th>
 						<td><div class="custom-file" id="fname">
-								${detail.fname}
+								${detail.fname == null?'':detail.fname}
 							</div></td>
 					</tr>
 				</table>
@@ -236,7 +236,7 @@
 	$("#back").click(function(){
 		history.back();
 	})
-	$("#fname").click(function(){
+	$("#fname").text().click(function(){
 		location.href="${path}/download.do?fname="+$(this).text();
 	})
 </script>
