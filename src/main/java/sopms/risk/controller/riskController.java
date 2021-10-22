@@ -20,16 +20,14 @@ import sopms.vo.riskSch;
 public class riskController {
 	@Autowired(required=false)
 	private riskService service;
-	// http://localhost:7080/sopms/risk.do
-	@RequestMapping("risk.do")
-	public String riskList(String risk_name, Model d) {
-		d.addAttribute("list", service.getRiskList(risk_name));
-		return "WEB-INF\\view\\risk_Index.jsp";
-	}
+
 	
 	//http://localhost:7080/sopms/riskPageList.do
 		@RequestMapping("riskPageList.do") //페이징 처리
-		public String riskList2(riskSch sch,Model d) { 
+		public String riskList2(HttpServletRequest request, riskSch sch,Model d) { 
+			HttpSession session = request.getSession();
+			User user = (User)session.getAttribute("user");
+			sch.setId(user.getId());
 			d.addAttribute("list",service.getRiskListPaging(sch));
 		
 			return "WEB-INF\\view\\risk_Index.jsp";
@@ -60,7 +58,7 @@ public class riskController {
 			User user = (User)session.getAttribute("user");
 			rk.setId(user.getId());
 			service.insertRisk(rk);
-			return "redirect:/riskPageList.do";
+			return "forward:/riskPageList.do";
 		}
 		
 	// 상세페이지 이동

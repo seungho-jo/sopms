@@ -95,47 +95,6 @@ ALTER TABLE RISK
 	RENAME CONSTRAINTS risk_to_risk_Risk_Response TO risk_to_member;
 	
 
-/* 리스크 조치 */
-CREATE TABLE Risk_Response (
-	risk_no VARCHAR2(15), /* 리스크번호 */
-	response_content VARCHAR2(1000), /* 리스크조치내용 */
-	response_upt DATE, /* 리스크조치일 */
-	id VARCHAR2(60)  /* 아이디(사원번호) */
-);
-
-SELECT * FROM risk_response;
-
-/*제약조건 foreign_key member id -> risk_Resonse id, risk risk_no => risk_Response risk_no*/
-
-ALTER TABLE RISK_RESPONSE
-	ADD 
-		CONSTRAINTS risk_Response_to_risk
-		FOREIGN KEY (risk_no) REFERENCES risk(risk_no);
-
-ALTER TABLE RISK_RESPONSE
-	ADD 	
-		CONSTRAINTS risk_Response_to_member
-		FOREIGN KEY (id) REFERENCES MEMBER(id);
-		
-
-/* 리스크 댓글 */
-CREATE TABLE Risk_Comment (
-	risk_no VARCHAR2(15), /* 리스크번호 */
-	comment_content VARCHAR2(1000), /* 댓글내용 */
-	id varchar2(60)/* 아이디(사원번호) */
-);
-
-ALTER TABLE Risk_Comment
-	ADD 
-		CONSTRAINTS Risk_Comment_to_risk
-		FOREIGN KEY (risk_no) REFERENCES risk(risk_no);
-
-ALTER TABLE Risk_Comment
-	ADD 
-		CONSTRAINTS Risk_Comment_to_member
-		FOREIGN KEY (id) REFERENCES MEMBER(id);
-
-SELECT * FROM Risk_Comment;
 
 
 /*  시퀀스 형식
@@ -225,7 +184,8 @@ update risk
 				risk_content = 'test',
 				risk_status ='조치완료'
 			where risk_no = 14;
-			
+		
+/* 리스크 조치 테이블 */
 CREATE TABLE riskJochi(
 	risk_no VARCHAR2(15),
 	id  VARCHAR2(60),
@@ -302,3 +262,46 @@ SELECT m.id, m.name
 FROM LESOURCE l, MEMBER m
 WHERE m.id = l.id
 AND l.pcode = 2;
+
+DELETE FROM risk WHERE pcode = 26 AND risk_no = 33;
+
+SELECT * FROM risk;
+
+SAVEPOINT p1;
+DELETE FROM risk WHERE NOT pcode = 2;
+
+DELETE FROM RISKJOCHI;
+
+select * from
+		( select rownum as no, b.*, d.name AS dname, p.pname from 
+		( select a.risk_name, a.risk_status, a.risk_reg, a.risk_no
+			from risk a
+			where a.risk_name like '%'||'' ||'%'
+			order by risk_reg DESC
+		) b, risk r, MEMBER d, project p
+		 WHERE r.id = d.id
+		 AND p.pcode = r.pcode
+		 and d.name LIKE '%'||''|| '%'
+		)
+		where no between 1 and 10;
+
+	
+SELECT m.name FROM risk r, MEMBER m
+WHERE m.id = r.id;
+
+DELETE FROM risk WHERE risk_no = 18;
+
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 19;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 20;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 22;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 21;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 37;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 38;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 39;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 40;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 41;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 42;
+
+
+
+

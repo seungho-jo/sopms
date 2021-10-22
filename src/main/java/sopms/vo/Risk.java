@@ -14,7 +14,7 @@ public class Risk {
 	private String jochiPerson; 
 	
 	private String pcodeS; // 문자열 형태로 넘어오는 pcode
-	private String pname; // 
+	private String pname; // 프로젝트 이름
 	
 	private String m_name; // 멤버 이름
 	

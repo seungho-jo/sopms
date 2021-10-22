@@ -20,15 +20,9 @@ public class riskService {
 	@Autowired(required=false)
 	private riskDao dao;
 	
-	public ArrayList<Risk> getRiskList(String risk_name){
-		if(risk_name == null) risk_name = "";
-		
-		return dao.riskList(risk_name);
-	}
-	
 	public ArrayList<Risk> getRiskListPaging(riskSch sch){
 		if(sch.getRisk_name() == null) sch.setRisk_name("");
-		if(sch.getId()==null) sch.setId("");
+		if(sch.getName()==null) sch.setName("");
 		sch.setCount(dao.totCnt(sch));
 		if(sch.getPageSize()==0) {
 			sch.setPageSize(10);
@@ -63,7 +57,9 @@ public class riskService {
 		}
 		sch.setEndBlock(endBlock);
 		sch.setStartBlock((blocknum-1)*sch.getBlockSize()+1);
-		
+		if(sch.getStartBlock()<0) {
+			sch.setStartBlock(1);
+		}
 		return dao.riskListPaging(sch);
 	}
 	// 리스크 등록
