@@ -41,18 +41,20 @@ public class DashboardController {
 
 	// 북마크 추가 Ajax
 	@RequestMapping("dashboard/insertBookmark.do")
-	public void insertBookmark(HttpServletRequest request, @RequestParam("pcode") int pcode) {
+	public String insertBookmark(HttpServletRequest request, @RequestParam("pcode") int pcode) {
 		HttpSession session = request.getSession();
 		String id = ((User)session.getAttribute("user")).getId();
 		service.insertBookmark(new ProjectBookmark(pcode,id));
+		return "{}";		
 	}
 	
 	// 북마크 제거 Ajax
 	@RequestMapping("dashboard/deleteBookmark.do")
-	public void deleteBookmark(HttpServletRequest request, @RequestParam("pcode") int pcode) {
+	public String deleteBookmark(HttpServletRequest request, @RequestParam("pcode") int pcode) {
 		HttpSession session = request.getSession();
 		String id = ((User)session.getAttribute("user")).getId();
 		service.deleteBookmark(new ProjectBookmark(pcode,id));
+		return "{}";
 	}
 	
 	// 북마크 리스트 조회 Ajax
@@ -62,5 +64,11 @@ public class DashboardController {
 		HttpSession session = request.getSession();
 		String id = ((User)session.getAttribute("user")).getId();
 		return service.bookmarkListJson(id);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="dashboard/empInfo.do", produces = "application/text;charset=utf8")
+	public String empInfo(@RequestParam("id") String id) {
+		return service.empInfoJson(id);
 	}
 }
