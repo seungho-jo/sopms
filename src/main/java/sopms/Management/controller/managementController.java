@@ -75,6 +75,7 @@ public class managementController {
 		
 		@RequestMapping("update.do")
 		public String wbs04(Work update,@RequestParam("r_pcode") int r_pcode,@RequestParam("r_pm") String r_pm) {
+			
 			service.updateWbs(update);
 			return "forward:/status.do?pcode="+r_pcode+"&pm="+r_pm; 
 		}
@@ -83,6 +84,6 @@ public class managementController {
 		@RequestMapping("insert.do")
 		public String wbs05(Work insert,@RequestParam("r_pcode") int r_pcode,@RequestParam("r_pm") String r_pm) {
 			service.insertWbs(insert);
-			return "redirect:/status.do?pcode="+r_pcode+"&pm="+r_pm; 
+			return "forward:/status.do?pcode="+r_pcode+"&pm="+r_pm; 
 		}
 }
