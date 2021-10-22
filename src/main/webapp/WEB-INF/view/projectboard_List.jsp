@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Focus - Bootstrap Admin Dashboard</title>
+<title>SOPMS</title>
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="./images/favicon.png">
@@ -158,6 +158,10 @@ table {
 <script src="./js/dashboard/dashboard-1.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
+		var msg = "${msg}";
+		if(msg!=null && msg!="") {
+			alert(msg);
+		}
 		$("#regBtn").click(function() {
 			$(location).attr("href", "${path}/board.do?method=insertform");
 		});

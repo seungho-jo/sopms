@@ -109,7 +109,7 @@ h3 {
 					<input type="hidden" name="curPage" value="1">
 				</form>
 				<!-- 등록 후, 현재 페이지 번호를 변경 처리 ==> session값에 영향. -->
-				<form id="insert01"  enctype="multipart/form-data"
+				<form id="insert01" name="insert01" enctype="multipart/form-data"
 					action="${path}/board.do?method=insert" method="post">
 					<input type="hidden" name="readcnt" value="0" />
 					<div class="input-form-backgroud row">
@@ -208,6 +208,10 @@ h3 {
 <script type="text/javascript">
 	$(".metismenu").children().eq(11).attr('class', 'mm-active');
 	$("#regbtn").click(function() {
+		if (insert01.btitle.value == "") {
+			alert("필수입력란이 비었습니다. 확인해주세요.");
+			return false;
+		}
 		$("#insert01").submit();
 		alert("게시물을 등록했습니다.");
 	});
