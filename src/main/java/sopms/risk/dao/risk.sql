@@ -303,5 +303,47 @@ UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 41;
 UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 42;
 
 
+select * from
+		( select rownum as no, b.*, d.name as m_name, p.pname from 
+		( select risk_name, risk_status, risk_reg, risk_upt, risk_no
+			from risk 
+			where risk_name like '%'||''||'%'
+			order by risk_reg DESC
+		) b, risk r, MEMBER d, project p
+		 WHERE r.id = d.id
+		 and r.pcode = p.pcode
+		 and d.name LIKE '%'||''|| '%' 
+		 )
+		where no between 1 and 11;
+
+SELECT p.pname, r.risk_name, r.risk_no, r.risk_status, m.name,  r.risk_reg, nvl(r2.RISK_JOCHIUPT,'-')  FROM project p, LESOURCE l, risk r, RISKJOCHI r2, MEMBER m
+WHERE p.pcode = l.PCODE AND r.risk_no = r2.risk_no 
+AND p.pcode = r.pcode AND r.id = m.id AND l.id = 'happy02';
+
+SELECT * FROM 
+(SELECT rownum AS NO, a.* FROM 
+(SELECT p.pname, r.risk_name, r.risk_no, r.risk_status, to_char(r.risk_reg,'yyyy-mm-dd') AS risk_reg, nvl(to_char(r2.RISK_JOCHIUPT,'yyyy-mm-dd'), '-') AS risk_upt, m.name AS m_name
+FROM LESOURCE l , PROJECT p, RISK r, RISKJOCHI r2, MEMBER m 
+WHERE p.PCODE = l.PCODE 
+AND p.pcode = r.PCODE 
+AND r.risk_no = r2.risk_no(+)
+AND r.id = m.id
+AND l.id = 'happy02'
+ORDER BY risk_reg DESC ) a
+WHERE risk_name like '%'||''||'%'
+AND m_name LIKE '%'||''|| '%'
+)
+WHERE NO BETWEEN 1 AND 20;
 
 
+SELECT count(*) FROM 
+			(SELECT p.pname, r.risk_name, r.risk_no, r.risk_status, to_char(r.risk_reg,'yyyy-mm-dd') AS risk_reg, nvl(to_char(r2.RISK_JOCHIUPT,'yyyy-mm-dd'), '-'), m.name
+			FROM LESOURCE l , PROJECT p, RISK r, RISKJOCHI r2, MEMBER m 
+			WHERE p.PCODE = l.PCODE 
+			AND p.pcode = r.PCODE 
+			AND r.risk_no = r2.risk_no(+)
+			AND r.id = m.id
+			AND l.id = 'happy02'
+			ORDER BY risk_reg DESC ) a
+			WHERE risk_name like '%'||''||'%'
+			AND name LIKE '%'||''|| '%';
