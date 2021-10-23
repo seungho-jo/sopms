@@ -153,7 +153,7 @@
 							</div>
 							<div class="col-1 mb-3">
 								<div class="form-floating">
-									<h4 id="title_jochi">수정일</h4>
+									<h4 id="title_jochi">조치일</h4>
 								</div>
 							</div>
 							<div class="col-11 mb-2">
@@ -167,7 +167,7 @@
 								</div>
 							</div>
 							<div class="col-11 mb-2">
-								<h5>${riskJochi.id}</h5>
+								<h5>${riskJochi.m_name}</h5>
 							</div>
 						</div>
 					</div>
