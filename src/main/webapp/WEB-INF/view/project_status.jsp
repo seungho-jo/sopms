@@ -40,11 +40,11 @@ int no = Integer.parseInt(noS);
 
 </head>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
-	theme-layout="wide-layout"  method="post">
-	<div id="main-wrapper">
+	theme-layout="wide-layout" class="h-50" method="post">
+	<div id="main-wrapper" >
 		<jsp:include page="header.jsp" />
 		<jsp:include page="navi.jsp" />
-		<div class="content-body">
+		<div class="content-body" >
 			<div class="card">
 				<div class="card-header">
 					<h4 class="card-title">프로젝트 상세</h4>
@@ -106,10 +106,13 @@ int no = Integer.parseInt(noS);
 					</div>
 				</div>
 			</div>
-			<jsp:include page="footer.jsp" />
+			
 		</div>
 		
+   			<jsp:include page="footer.jsp" />
+  			
 	</div>
+	
 </body>
 <!-- Required vendors -->
 <script src="./vendor/global/global.min.js"></script>
