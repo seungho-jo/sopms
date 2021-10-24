@@ -3,14 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
-<fmt:requestEncoding value="utf-8" />
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Focus - Bootstrap Admin Dashboard</title>
+<title>SOPMS 채팅</title>
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="./images/favicon.png">
@@ -45,7 +43,7 @@
 		<jsp:include page="navi.jsp" />
 		<div class="content-body">
 
-			<div class="card">
+			<div class="container-fluid">
 
 				<div id="showcontent">
 
@@ -53,29 +51,121 @@
 						<div class="profileArea">
 							<ul class="list-group">
 								<li class="list-group-item" aria-disabled="true">채팅방 목록</li>
-								<li class="list-group-item" aria-disabled="true">
-									<div class="profileItem myProfile">
-										<div class="itemBox">
-											<div class="profilePic">
-												<div class="photo"></div>
+								<c:forEach var="CR" items="${chatroomList}">
+									<a href="${path}/getMessage.do?chatroomId=${CR.chatroomId}">
+										<li class="list-group-item" onclick="getMsg(this)">
+											<div class="itemBox" style="cursor: pointer;">
+												<div class="profilePic">
+													<div class="photo">
+														<img src="${path}/images/default_profile.png"
+															alt="profilepic" />
+													</div>
+												</div>
+												<div class="profileContent">
+													<ul>
+														<li class="name">${CR.chatroomName}</li>
+													</ul>
+												</div>
 											</div>
-											<div class="profileContent">
-												<ul>
-													<li class="name">이진섭 대리</li>
-													<li class="position">인사관리모듈 개발</li>
-												</ul>
-											</div>
-											<div class="groupchat"></div>
-										</div>
-									</div>
-								</li>
+									</li>
+									</a>
+								</c:forEach>
 							</ul>
 						</div>
 					</div>
 
 					<!-- 채팅방 Start -->
 					<div class="contentarea">
-						<jsp:include page="messagelist.jsp" />
+						<div class="topbar">
+							<div class="chatname"></div>
+						</div>
+						<div id="chatbelongs">
+							<div id="chats">
+								<c:forEach var="message" items="${messageList}">
+									<c:if test="${message.fromId eq currentId}">
+										<div class="messagearea mymessage">
+											<div class="messageitem">
+												<div class="photoarea">
+													<div class="photo"></div>
+												</div>
+												<div class="content">
+													<div class="name">${message.fromId}</div>
+													<div class="message">
+														<div class="chatbubble">
+															<div class="bubblecontent">${message.messageBody}</div>
+														</div>
+														<div class="chatinfo">
+															<div class="shown"></div>
+															<div class="time"></div>
+															<div class="fromId"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</c:if>
+									<c:if test="${message.fromId ne currentId}">
+										<div class="messagearea yourmessage">
+											<div class="messageitem">
+												<div class="photoarea">
+													<div class="photo"></div>
+												</div>
+												<div class="content">
+													<div class="name">${message.fromId}</div>
+													<div class="message">
+														<div class="chatbubble">
+															<div class="bubblecontent">${message.messageBody}</div>
+														</div>
+														<div class="chatinfo">
+															<div class="shown"></div>
+															<div class="time"></div>
+															<div class="fromId"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</c:if>
+								</c:forEach>
+
+							</div>
+						</div>
+						<div class="inputarea">
+							<div class="inputmessage">
+								<div class="form-group">
+									<div class="textarea">
+										<textarea class="form-control" id="write" rows="4"></textarea>
+									</div>
+								</div>
+							</div>
+							<div class="optionstab">
+
+								<button type="button" id="send" class="btn btn-light">전송</button>
+							</div>
+						</div>
+
+					</div>
+					<div id="template">
+						<div class="messagearea">
+							<div class="messageitem">
+								<div class="photoarea">
+									<div class="photo"></div>
+								</div>
+								<div class="content">
+									<div class="name"></div>
+									<div class="message">
+										<div class="chatbubble">
+											<div class="bubblecontent"></div>
+										</div>
+										<div class="chatinfo">
+											<div class="shown"></div>
+											<div class="time"></div>
+											<div class="fromId"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 					<!-- 채팅방 END -->
 
@@ -110,94 +200,102 @@
 
 <!-- Owl Carousel -->
 <script src="./vendor/owl-carousel/js/owl.carousel.min.js"></script>
-
+<script src="./js/dashboard/dashboard-1.js"></script>
 <!-- Counter Up -->
 <script src="./vendor/jqvmap/js/jquery.vmap.min.js"></script>
 <script src="./vendor/jqvmap/js/jquery.vmap.usa.js"></script>
 <script src="./vendor/jquery.counterup/jquery.counterup.min.js"></script>
-
-
-<script src="./js/dashboard/dashboard-1.js"></script>
 
 <script type="text/javascript">
 	$('.chatname').val("<c:out value='${toId}'/>")
 
 	let id = "<c:out value='${currentId}'/>"
 
-	$(document).ready(function() {
-		let wsocket = new WebSocket("ws://"+location.host+"/sopms/chat-ws.do?chatroomId=${chatroomId}");
-		wsocket.onopen = function(evt) {
-			let userInfo = {
-				type : 'System',
-				userId : id,
-			}
-			console.log(userInfo)
-			wsocket.send(JSON.stringify(userInfo))
-		}
+	$(document).ready(
+			function() {
+				let wsocket = new WebSocket("ws://" + location.host
+						+ "/sopms/chat-ws.do?chatroomId=${chatroomId}");
+				wsocket.onopen = function(evt) {
+					//메시지 하나 보낼까 싶기도 해 아님 접속중 메시지 띄우든지
+				}
 
-		wsocket.onmessage = function(evt) {
-			let time = evt.timeStamp;
+				wsocket.onmessage = function(evt) {
+					let time = evt.timeStamp;
 
-			receiveMsg(evt.data);
-		}
+					receiveMsg(evt.data);
+				}
+				//메시지 send evt
+				$("#send").click(function() {
+					sendMsg();
+				})
 
-		$("#send").click(function() {
-			let option = {
-				chatroomId : "<c:out value='${chatroomId}'/>",
-				fromId : "<c:out value='${currentId}'/>",
-				toId : $('.chatname').val(),
-				msg : $("#write").val()
-			}
-			console.log(option)
-			wsocket.send(JSON.stringify(option));
-			$("#write").val('')
+				$("#write").keyup(function(e) {
+					if (e.keyCode == 13) {
+						sendMsg();
+					}
+				});
+				//메시지 보내기
+				function sendMsg() {
+					let option = {
+						chatroomId : "<c:out value='${chatroomId}'/>",
+						fromId : "<c:out value='${currentId}'/>",
+						messageBody : $("#write").val()
+					}
+					jsonOption = JSON.stringify(option)
+					wsocket.send(jsonOption);
+					console.log(jsonOption)
+					//AJAX POST
+					//						$.post('saveMessage.do', jsonOption, function(){
+					//						console.log(jsonOption);
+					//						}
 
-		}
+					$.ajax({
+						type : "POST",
+						url : "${path}/saveMessage.do",
+						data : JSON.stringify(option),
+						contentType : 'application/json',
+						dataType : "json",
+					});
 
-		)
-	});
+					$("#write").val('')
+
+				}
+			});
 
 	function receiveMsg(msg) {
 		let messageItem = JSON.parse(msg)
 		console.log(messageItem)
-		if (messageItem.type !== null && messageItem.type == 'system') {
-			console.log('system message')
-		} else {
-			if (messageItem.fromId == id) {
-				let newMsg = $('#template').clone();
-				newMsg.find('.messagearea').addClass('mymessage')
-				newMsg.removeAttr('id');
-				newMsg.find('.name').html("<c:out value='${showName}'/>");
-				newMsg.find('.bubblecontent').html(messageItem.msg);
-				//JSON.stringify(msg.msg).slice(1, -1)
-				$('#chats').append(newMsg);
-				let mx = parseInt($("#chats").height());
-				$("#chatbelongs").scrollTop(mx);
-
-			}
-
-			else {
-				let newMsg = $('#template').clone();
-				newMsg.find('.messagearea').addClass('yourmessage')
-				newMsg.removeAttr('id');
-				newMsg.find('.bubblecontent').html(messageItem.msg);
-				$('#chats').append(newMsg);
-				let mx = parseInt($("#chats").height());
-				$("#chatbelongs").scrollTop(mx);
-			}
+		if (messageItem.fromId == id) {
+			let newMsg = $('#template').clone();
+			newMsg.find('.messagearea').addClass('mymessage')
+			newMsg.removeAttr('id');
+			newMsg.find('.name').html("<c:out value='${showName}'/>");
+			newMsg.find('.bubblecontent').html(messageItem.messageBody);
+			$('#chats').append(newMsg);
+			let mx = parseInt($("#chats").height());
+			$("#chatbelongs").scrollTop(mx);
 		}
 
+		else {
+			let newMsg = $('#template').clone();
+			newMsg.find('.messagearea').addClass('yourmessage')
+			newMsg.removeAttr('id');
+			newMsg.find('.bubblecontent').html(messageItem.messageBody);
+			$('#chats').append(newMsg);
+			let mx = parseInt($("#chats").height());
+			$("#chatbelongs").scrollTop(mx);
+		}
 	}
 
-	function sendMsg(msg) {
+	/*	function getMsg() {
+	 let chatroomId = $('.itemBox').find('.crNo').val();
+	 $.get("${path}/getMessage.do", {
+	 chatroomId : <c:out value="${CR.chatroomId}"/>
+	 }, function(data) {
 
-		let myMsg = $('#template').clone();
-		myMsg.removeAttr('id');
-		myMsg.find('.bubblecontent').html($sendmsg);
-		$('#chats').append(myMsg);
+	 console.log(chatroomId)
 
-		console.log("메시지 보내는중~")
-
-	}
+	 })
+	 } */
 </script>
 </html>

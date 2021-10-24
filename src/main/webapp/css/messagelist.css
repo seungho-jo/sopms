@@ -48,7 +48,6 @@
   position: relative;
 }
 .contentarea .messagearea .messageitem .photoarea {
-  display: none;
   width: 70px;
   height: 70px;
 }
@@ -57,12 +56,11 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: black;
+  background-image: url("./images/defaut_profile.png");
   background-position: center;
   background-size: 70px;
 }
 .contentarea .messagearea .messageitem .content .name {
-  display: none;
   padding: 5px 0;
 }
 .contentarea .messagearea .messageitem .content .message {
