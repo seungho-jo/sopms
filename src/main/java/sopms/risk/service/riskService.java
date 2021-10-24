@@ -79,7 +79,6 @@ public class riskService {
 	
 	// pm이 조치자 선택
 	public void jochiAuthority(Risk rk) {
-		rk.setPcode(Integer.parseInt(rk.getPcodeS()));
 		dao.jochiAuthority(rk);
 	}
 

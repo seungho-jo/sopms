@@ -94,6 +94,9 @@ public class riskController {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		rk.setId(user.getId());
+		System.out.println("jochiPerson : "+rk.getJochiPerson());
+		System.out.println("jochipcode : "+rk.getPcode());
+		System.out.println("risk_no : "+rk.getRisk_no());
 		service.jochiAuthority(rk);
 		return "redirect:/riskPageList.do";
 	}

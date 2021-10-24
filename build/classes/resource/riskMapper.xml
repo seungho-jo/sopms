@@ -45,6 +45,7 @@
 		AND l.pcode = #{pcode}
 	</select>
 	
+	<!-- risk_Update.jsp에서 pm일경우 select박스 조치자 조회 -->
 	<select id="getUserJochi" parameterType="int" resultType="user">
 		SELECT m.id, m.name 
 		FROM LESOURCE l, MEMBER m
@@ -66,7 +67,7 @@
 	</select>
 	
 	<select id="detailRiskPaging" parameterType="int" resultType="risk">
-		select a.risk_name, a.risk_content, a.risk_status,to_char(a.risk_reg,'yyyy-mm-dd') as risk_reg, b.pname, m.name as m_name from risk a, project b, member m
+		select a.risk_name, a.risk_content, a.risk_status,to_char(a.risk_reg,'yyyy-mm-dd') as risk_reg, a.pcode,a.risk_no, a.jochiPerson ,b.pname, m.name as m_name from risk a, project b, member m
 		where a.pcode = b.pcode
 		and a.id = m.id
 		and a.risk_no = #{risk_no}
