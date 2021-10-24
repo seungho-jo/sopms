@@ -94,7 +94,22 @@
 						        <option>홀드</option>
 						      </select>
 					    	</div>
-					  </div>
+					  	</div>
+					  <!-- pm이 작성자 일 경우 -->
+					  	<c:if test="${user.rank=='부장'}">
+					  		<div class="col-4 mb-3">
+								<div class="form-floating">
+						     		<h4 id="title">조치자 선택</h4>
+						    	</div>
+					    	</div>
+					    	<div class="col-6 mb-3">
+					    		<div class="form-floating">
+						      		<select id="jochiPerson" name="jochiPerson" class="form-select" id="floatingSelectGrid" aria-label="Floating label select example">
+								        <option selected>조치자</option>
+							     	 </select>
+					    		</div>
+					  		</div>
+					  	</c:if>
 				</div>
 				<div class="row g-2">
 					<div class="col-md mb-3">
@@ -141,32 +156,74 @@
 
 <script src="./js/dashboard/dashboard-1.js"></script>
 <script type="text/javascript">
+	
+	$("#pcode").change(function(){
+		$.ajax({
+			type:"post",
+			url:"${path}/getJochiPcode.do?pcode="+$(this).val(),
+			dataType:'json',
+			success:function(data){
+				var show = "";
+				$.each(data.getPcode, function(index, item){
+					show+="<option value='"+item.id+"'>"+item.m_name+"</option>";
+				})
+				$("#jochiPerson").append(show);
+			},
+			error:function(err){
+			}
+		});
+	});	
+
 	$(".metismenu").children().eq(8).attr('class', 'mm-active');
 	
 	$("#button_left").click(function(){
-		if($("[name=pcodeS]").val()=="프로젝트"){
-			alert("프로젝트명을 선택하세요.");
-			$("[name=pcodeS]").focus();
-			return false;
-		}else if($("[name=risk_name]").val()==""){
-			alert("리스크명을 입력하세요.");
-			$("[name=risk_name]").focus();
-			return false;
-		}else if($("[name=risk_content]").val()==""){
-			alert("리스크내용을 입력하세요.");
-			$("[name=risk_content]").focus();
-			return false;
-		}else if($("[name=risk_status]").val()=="리스크 상태"){
-			alert("리스크 상태를 선택하세요.");
-			$("[name=risk_status]").focus();
-			return false;
-		}else if($("[name=id]").val()==""){
-			alert("등록자를 선택하세요.");
-			$("[name=id]").focus();
-			return false;
+		if(${user.rank == '부장'}){
+			if($("[name=pcodeS]").val()=="프로젝트"){
+				alert("프로젝트명을 선택하세요.");
+				$("[name=pcodeS]").focus();
+				return false;
+			}else if($("[name=risk_name]").val()==""){
+				alert("리스크명을 입력하세요.");
+				$("[name=risk_name]").focus();
+				return false;
+			}else if($("[name=risk_content]").val()==""){
+				alert("리스크내용을 입력하세요.");
+				$("[name=risk_content]").focus();
+				return false;
+			}else if($("[name=risk_status]").val()=="리스크 상태"){
+				alert("리스크 상태를 선택하세요.");
+				$("[name=risk_status]").focus();
+				return false;
+			}else if($("[name=jochiPerson]").val()=="조치자"){
+				console.log($("[name=jochiPerson]").val());
+				alert("조치자를 선택하세요.");
+				$("[name=jochiPerson]").focus();
+				return false;
+			}else{
+				$("form").attr("action", "${path}/insertRisk.do");
+				$("form").submit();
+			}
 		}else{
-			$("form").attr("action", "${path}/insertRisk.do");
-			$("form").submit();
+			if($("[name=pcodeS]").val()=="프로젝트"){
+				alert("프로젝트명을 선택하세요.");
+				$("[name=pcodeS]").focus();
+				return false;
+			}else if($("[name=risk_name]").val()==""){
+				alert("리스크명을 입력하세요.");
+				$("[name=risk_name]").focus();
+				return false;
+			}else if($("[name=risk_content]").val()==""){
+				alert("리스크내용을 입력하세요.");
+				$("[name=risk_content]").focus();
+				return false;
+			}else if($("[name=risk_status]").val()=="리스크 상태"){
+				alert("리스크 상태를 선택하세요.");
+				$("[name=risk_status]").focus();
+				return false;
+			}else{
+				$("form").attr("action", "${path}/insertRisk.do");
+				$("form").submit();
+			}
 		}
 	});
 	

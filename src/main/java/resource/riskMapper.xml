@@ -35,9 +35,15 @@
 	</select>
 	
 	<insert id="insertRisk" parameterType="risk">
-		INSERT INTO Risk (risk_no, risk_name, risk_content, risk_reg, risk_upt, id, pcode, risk_status) 
-				VALUES (seq_risk_no.nextval, #{risk_name}, #{risk_content}, to_char(sysdate,'yyyy-mm-dd'), to_char(sysdate,'yyyy-mm-dd') ,#{id}, #{pcode}, #{risk_status}) 
+		INSERT INTO Risk (risk_no, risk_name, risk_content, risk_reg, risk_upt, id, pcode, risk_status, jochiPerson) 
+				VALUES (seq_risk_no.nextval, #{risk_name}, #{risk_content}, sysdate, sysdate ,#{id}, #{pcode}, #{risk_status}, #{jochiPerson}) 
 	</insert>
+	
+	<select id="getjochiPcode" parameterType="int" resultType="risk">
+		SELECT pcode, m.id, name as m_name FROM LESOURCE l ,MEMBER m
+		WHERE l.id = m.id 
+		AND l.pcode = #{pcode}
+	</select>
 	
 	<select id="getUserJochi" parameterType="int" resultType="user">
 		SELECT m.id, m.name 
@@ -54,12 +60,13 @@
 	</update>
 	
 	<select id="projectList" parameterType="String" resultType="project">
-		select * from project
-		where id = #{id}
+		select p.pname, p.pcode from project p, LESOURCE l
+		where l.id = #{id}
+		and l.pcode = p.pcode
 	</select>
 	
 	<select id="detailRiskPaging" parameterType="int" resultType="risk">
-		select a.risk_name, a.risk_content,a.risk_status, to_char(a.risk_reg,'yyyy-mm-dd') as risk_reg, b.pname, m.name as m_name from risk a, project b, member m
+		select a.risk_name, a.risk_content, a.risk_status,to_char(a.risk_reg,'yyyy-mm-dd') as risk_reg, b.pname, m.name as m_name from risk a, project b, member m
 		where a.pcode = b.pcode
 		and a.id = m.id
 		and a.risk_no = #{risk_no}
@@ -102,7 +109,7 @@
 	</update>
 	<!-- 조치내역에 출력될 내용 -->
 	<select id = "riskJochiSelect" resultType="riskJochi" parameterType="int">
-		select a.risk_no, a.risk_jochiCont, to_char(a.risk_jochiUpt, 'yyyy-mm-dd') risk_jochiUpt, m.name as m_name 
+		select a.risk_no, a.risk_jochiCont, to_char(a.risk_jochiUpt, 'yyyy-mm-dd') AS risk_jochiUpt, m.name as m_name 
 		from riskJochi a, risk b, member m 
 		where a.risk_no = b.risk_no
 		and m.id = a.id

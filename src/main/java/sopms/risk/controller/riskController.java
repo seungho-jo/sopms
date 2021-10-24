@@ -41,12 +41,11 @@ public class riskController {
 	
 	//http://localhost:7080/sopms/insertPageGo.do	
 	@RequestMapping("insertPageGo.do")
-	public String insertPageGo( HttpServletRequest request, Model d) {
+	public String insertPageGo(HttpServletRequest request, Model d) {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		System.out.println("login : "+user.getId());
 		d.addAttribute("pj", service.projectList(user.getId()));
-		
 		return "WEB-INF\\view\\risk_Insert.jsp";
 	}
 	
@@ -57,8 +56,12 @@ public class riskController {
 			HttpSession session = request.getSession();
 			User user = (User)session.getAttribute("user");
 			rk.setId(user.getId());
+			System.out.println("rk.jochiPerson :"+rk.getJochiPerson());
+			if(rk.getJochiPerson()==null || rk.getJochiPerson()=="") {
+				rk.setJochiPerson(user.getId());
+			}
 			service.insertRisk(rk);
-			return "forward:/riskPageList.do";
+			return "redirect:/riskPageList.do";
 		}
 		
 	// 상세페이지 이동
@@ -108,6 +111,12 @@ public class riskController {
 	public String outputList01(Model d,OutPut output) {
 		d.addAttribute("rlist", service.outputList01(output));
 		System.out.println("curPage : "+output.getCount());
+		return "pageJsonReport";
+	}
+	
+	@RequestMapping("getJochiPcode.do")
+	public String getJochiPcode(Model d, int pcode) {
+		d.addAttribute("getPcode", service.getjochiPcode(pcode));
 		return "pageJsonReport";
 	}
 	
