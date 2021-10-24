@@ -45,15 +45,7 @@ h4 {
 
 					<form style="display: flex;" method="post">
 						<input type="hidden" name="curPage" value="1" />
-
-						<div class="row">
-							<div class="fl">
-								<button type="button" class="btn btn-primary" id="regBtn">등록하기</button>
-							</div>
-
-
-						</div>
-
+						<button type="button" class="btn btn-primary" id="regBtn">등록하기</button>
 					</form>
 					<div class="table-responsive">
 						<table class="table table-responsive-sm table-hover" width="100%"
@@ -112,36 +104,36 @@ h4 {
 		<jsp:include page="footer.jsp" />
 	</div>
 </body>
+
+
+
 <!-- Required vendors -->
-<script src="./vendor/global/global.min.js"></script>
-<script src="./js/quixnav-init.js"></script>
-<script src="./js/custom.min.js"></script>
+<script src="${path}/vendor/global/global.min.js"></script>
+<script src="${path}/js/quixnav-init.js"></script>
+<script src="${path}/js/custom.min.js"></script>
 
 
 <!-- Vectormap -->
-<script src="./vendor/raphael/raphael.min.js"></script>
-<script src="./vendor/morris/morris.min.js"></script>
+<script src="${path}/vendor/raphael/raphael.min.js"></script>
+<script src="${path}/vendor/morris/morris.min.js"></script>
 
 
-<script src="./vendor/circle-progress/circle-progress.min.js"></script>
-<script src="./vendor/chart.js/Chart.bundle.min.js"></script>
+<script src="${path}/vendor/circle-progress/circle-progress.min.js"></script>
+<script src="${path}/vendor/chart.js/Chart.bundle.min.js"></script>
 
-<script src="./vendor/gaugeJS/dist/gauge.min.js"></script>
+<script src="${path}/vendor/gaugeJS/dist/gauge.min.js"></script>
 
 <!--  flot-chart js -->
-<script src="./vendor/flot/jquery.flot.js"></script>
-<script src="./vendor/flot/jquery.flot.resize.js"></script>
+<script src="${path}/vendor/flot/jquery.flot.js"></script>
+<script src="${path}/vendor/flot/jquery.flot.resize.js"></script>
 
 <!-- Owl Carousel -->
-<script src="./vendor/owl-carousel/js/owl.carousel.min.js"></script>
+<script src="${path}/vendor/owl-carousel/js/owl.carousel.min.js"></script>
 
 <!-- Counter Up -->
-<script src="./vendor/jqvmap/js/jquery.vmap.min.js"></script>
-<script src="./vendor/jqvmap/js/jquery.vmap.usa.js"></script>
-<script src="./vendor/jquery.counterup/jquery.counterup.min.js"></script>
-
-
-<script src="./js/dashboard/dashboard-1.js"></script>
+<script src="${path}/vendor/jqvmap/js/jquery.vmap.min.js"></script>
+<script src="${path}/vendor/jqvmap/js/jquery.vmap.usa.js"></script>
+<script src="${path}/vendor/jquery.counterup/jquery.counterup.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 	$("[name=pageSize]").val("${project_List_paging.pageSize}");
