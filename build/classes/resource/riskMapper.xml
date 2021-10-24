@@ -36,7 +36,7 @@
 	
 	<insert id="insertRisk" parameterType="risk">
 		INSERT INTO Risk (risk_no, risk_name, risk_content, risk_reg, risk_upt, id, pcode, risk_status) 
-				VALUES (seq_risk_no.nextval, #{risk_name}, #{risk_content}, sysdate, sysdate ,#{id}, #{pcode}, #{risk_status}) 
+				VALUES (seq_risk_no.nextval, #{risk_name}, #{risk_content}, to_char(sysdate,'yyyy-mm-dd'), to_char(sysdate,'yyyy-mm-dd') ,#{id}, #{pcode}, #{risk_status}) 
 	</insert>
 	
 	<select id="getUserJochi" parameterType="int" resultType="user">
@@ -59,7 +59,7 @@
 	</select>
 	
 	<select id="detailRiskPaging" parameterType="int" resultType="risk">
-		select a.*,b.pname, m.name as m_name from risk a, project b, member m
+		select a.risk_name, a.risk_content,a.risk_status, to_char(a.risk_reg,'yyyy-mm-dd') as risk_reg, b.pname, m.name as m_name from risk a, project b, member m
 		where a.pcode = b.pcode
 		and a.id = m.id
 		and a.risk_no = #{risk_no}
@@ -92,7 +92,7 @@
 			a.risk_jochiUpt = sysdate
 		when not matched then
 		insert (a.risk_no, a.id, a.risk_jochiCont, a.risk_jochiUpt)
-		values (#{risk_no}, #{id}, #{risk_content}, sysdate) 
+		values (#{risk_no}, #{id}, #{risk_content}, sysdate)
 	</insert>
 	<!-- 리스크 상태 업데이트 -->
 	<update id="uptRiskStatus" parameterType="risk">
@@ -102,7 +102,7 @@
 	</update>
 	<!-- 조치내역에 출력될 내용 -->
 	<select id = "riskJochiSelect" resultType="riskJochi" parameterType="int">
-		select a.risk_no, a.risk_jochiCont, a.risk_jochiUpt, m.name as m_name 
+		select a.risk_no, a.risk_jochiCont, to_char(a.risk_jochiUpt, 'yyyy-mm-dd') risk_jochiUpt, m.name as m_name 
 		from riskJochi a, risk b, member m 
 		where a.risk_no = b.risk_no
 		and m.id = a.id
@@ -120,7 +120,7 @@
 	<select id="outputList01" resultType="risk" parameterType="outputs">
 		select * from 
 		(select rownum as no, d.* from
-		(select r.risk_name, r.risk_status, m.id, risk_reg 
+		(select r.risk_name, r.risk_status, m.id, to_char(risk_reg,'yyyy-mm-dd') as risk_reg 
 		from risk r, member m
 		where r.id = m.id
 		and r.pcode = #{pcode}) d)
