@@ -4,43 +4,97 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="sopms.chatting.dao.ChattingDao">
 
-	<insert id="insertMessage" parameterType="sopms.vo.Message" useGeneratedKeys="true" keyProperty="sendtime">
-	insert into message
-	(sender_id, messagebody)
-	values 
-	(#{sender_id}, #{messageBody})	
+	<insert id="insertMessage" parameterType="sopms.vo.Message"
+		useGeneratedKeys="true" keyProperty="sendtime">
+		insert into message
+		(sender_id,
+		messagebody,chatroom_id)
+		values
+		(#{fromId}, #{messageBody},
+		#{chatroomId})
 	</insert>
-	
-	<select id="teamlist" parameterType="String" resultType="User">
-	select * from member a, lesource b
-	where a.id=b.id and b.pcode in(select pcode
-	from lesource
-	where id=#{id})
+
+	<select id="userList" resultType="User">
+		select * from member
 	</select>
-	
-	<select id="checkRoom" parameterType="hashMap" resultType="integer">
-	select CHATROOM_ID from CHATROOM_PART
-	where MEMBERNAME = #{toId}
-	intersect
-	select CHATROOM_ID from CHATROOM_PART
-	where MEMBERNAME = #{currentId}
+
+	<select id="checkRoom" parameterType="hashMap"
+		resultType="integer">
+		select CHATROOM_ID from CHATROOM_PART
+		where MEMBERNAME =
+		#{toId}
+		intersect
+		select CHATROOM_ID from CHATROOM_PART
+		where MEMBERNAME
+		= #{currentId}
 	</select>
-	
-	<insert id="newRoom" parameterType= "sopms.vo.Chatroom">
-		<selectKey order="BEFORE" resultType="int" keyProperty="chatroomId">
+
+	<insert id="newRoom" parameterType="sopms.vo.Chatroom">
+		<selectKey order="BEFORE" resultType="int"
+			keyProperty="chatroomId">
 			select chatroom_seq.nextval from dual
 		</selectKey>
-	insert into chatroom
-	(chatroom_id, chattype)
-	values
-	(#{chatroomId}, #{chatType})
+		insert into chatroom
+		(chatroom_name, chatroom_id, chattype)
+		values
+		(#{chatroomName}, #{chatroomId}, #{chatType})
 	</insert>
-	
-	<insert id="newRoomPart" parameterType= "sopms.vo.ChatroomPart">
-	insert into chatroom_part
-	(chatroom_id, membername)
-	values
-	(#{chatroomId}, #{memberName})
+
+	<insert id="newRoomPart" parameterType="sopms.vo.ChatroomPart">
+		insert into chatroom_part
+		(chatroom_id, membername)
+		values
+		(#{chatroomId}, #{memberName})
 	</insert>
-	
+
+	<select id="myRooms" parameterType="String" resultType="hashMap">
+		select *
+		from CHATROOM_PART
+		where CHATROOM_ID in (select CHATROOM_ID
+		from
+		CHATROOM_PART
+		where MEMBERNAME = #{currentId})
+		minus
+		select * from
+		CHATROOM_PART
+		where MEMBERNAME = #{currentId}
+	</select>
+
+	<select id="searchPj" parameterType="String"
+		resultType="project">
+		select * from project
+		where pcode in (select pcode from
+		lesource
+		where id= #{currentId})
+	</select>
+
+	<select id="searchTeam" parameterType="String" resultType="User">
+		select * from member
+		where id in (select id from lesource
+		where pcode =
+		#{pcode})
+	</select>
+
+	<select id="searchUser" parameterType="String" resultType="User">
+		select * from member
+		where id = #{id}
+	</select>
+
+	<select id="chatroomInfo" parameterType="String"
+		resultType="sopms.vo.Chatroom">
+		select CHATROOM_ID chatroomId, CHATTYPE, CHATROOM_NAME
+		chatroomName
+		from CHATROOM
+		where CHATROOM_ID in (select CHATROOM_ID from CHATROOM_PART
+		where MEMBERNAME= #{currentId})
+	</select>
+
+	<select id="getMessages" parameterType="int"
+		resultType="sopms.vo.Message">
+		select SENDER_ID fromId, MESSAGEBODY messageBody, CHATROOM_ID chatroomId
+		from message
+		where chatroom_id=#{chatroomId}
+		order by SENDTIME
+	</select>
+
 </mapper>

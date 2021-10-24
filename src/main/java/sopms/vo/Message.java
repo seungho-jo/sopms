@@ -4,16 +4,11 @@ import java.util.Date;
 
 public class Message {
 	
-	private String sender_id;
+	private String fromId;
 	private String messageBody;
-	private String to_id;
+	private int chatroomId;
 	
-	public String getSender_id() {
-		return sender_id;
-	}
-	public void setSender_id(String sender_id) {
-		this.sender_id = sender_id;
-	}
+
 	public String getMessageBody() {
 		return messageBody;
 	}
@@ -21,11 +16,22 @@ public class Message {
 		this.messageBody = messageBody;
 	}
 	
-	public String getTo_id() {
-		return to_id;
+	public String getFromId() {
+		return fromId;
 	}
-	public void setTo_id(String to_id) {
-		this.to_id = to_id;
+	public void setFromId(String fromId) {
+		this.fromId = fromId;
+	}
+	public int getChatroomId() {
+		return chatroomId;
+	}
+	public void setChatroomId(int chatroomId) {
+		this.chatroomId = chatroomId;
+	}
+	
+	@Override
+	public String toString() {
+		return "Message [fromId=" + fromId + ", messageBody=" + messageBody + ", chatroomId=" + chatroomId + "]";
 	}
 
 

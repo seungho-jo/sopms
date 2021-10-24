@@ -36,12 +36,6 @@
 	
 </script>
 
-<style>
-.id {
-	display: none;
-}
-</style>
-
 </head>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
 	theme-layout="wide-layout">
@@ -53,7 +47,6 @@
 			<div class="container-fluid">
 
 				<div class="row page-titles mx-0">
-					<!-- PAGE TITLE START -->
 					<div class="col-sm-6 p-md-0">
 						<div class="welcome-text">
 							<h4>대화상대 목록</h4>
@@ -61,48 +54,114 @@
 						</div>
 					</div>
 				</div>
-				<!-- PAGE TITLE END -->
 
-				<div class="row">
-
-					<c:forEach var="teammate" items="${teamlist}">
-						<c:if test="${teammate.id ne currentId}">
-							<div class="col-xl-4 col-xxl-3 col-lg-3 col-sm-3 ">
-								<div class="card">
-									<div class="card-header">
-										<div class="profileImage">
-											<img src="${path}/images/default_profile.png"
-												alt="default_profile" />
-										</div>
-									</div>
-									<div class="card-body">
-										<form action="getChatroom.do" method="post">
-											<input type="hidden" name="toId" value="${teammate.id}" />
-											<p class="card-text id">${teammate.id}</p>
-											<p class="card-text name-rank">${teammate.name}
-												${teammate.rank}</p>
-											<p class="card-text">
-												<button type="submit" class="btn btn-primary">대화 시작</button>
-											</p>
-										</form>
-									</div>
-								</div>
-							</div>
-						</c:if>
-					</c:forEach>
-
-
-
+				<!-- 시간남으면 해라				<div
+						class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+						<button type="button" class="btn btn-rounded btn-primary">
+							<span class="btn-icon-left text-primary"><i
+								class="fa fa-plus color-info"></i> </span>그룹채팅방 개설
+						</button>
+					</div>
 
 				</div>
 
+				<div class="row"
+					style="display: flex; justify-content: center; text-align: center; padding: 10px 0px 30px 0px">
+					<a href="${path}/getChatroom.do"><button type="button"
+							class="btn btn-square btn-outline-primary" style="width: 50vw" )>채팅방
+							목록 바로가기</button></a>
+				</div>
+				
+				 -->
+
+				<!-- PAGE TITLE END -->
+
+				<div class="row">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item active" aria-current="page">Home</li>
+							<li
+								class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+								<div class="form-group">
+									<form method="GET" action="searchTeam.do">
+										<div class="col-auto">
+											<label for="sel1">프로젝트명</label> <select class="form-control"
+												id="sel1" name="pcode">
+												<option value="" selected disabled hidden>프로젝트 검색</option>
+												<c:forEach var="project" items="${myProjects}">
+													<option value="${project.pcode}">${project.pname}</option>
+												</c:forEach>
+											</select>
+										</div>
+										<button type="submit" class="btn btn-primary teamSch">검색하기</button>
+									</form>
+								</div>
+							</li>
+						</ol>
+					</nav>
+				</div>
+				<div id="memberList">
+					<div class="row">
+
+						<c:forEach var="user" items="${userList}">
+							<c:if test="${user.id ne currentId}">
+								<div class="col-xl-4 col-xxl-3 col-lg-3 col-sm-3 member">
+									<div class="card">
+										<div class="card-header">
+											<div class="profileImage">
+												<img src="${path}/images/default_profile.png"
+													alt="default_profile" />
+											</div>
+										</div>
+										<div class="card-body">
+											<form action="getChatroom.do" method="post">
+												<input type="hidden" name="toId" value="${user.id}" />
+												<p class="card-text id">${user.id}</p>
+												<p class="card-text name-rank">${user.name}${user.rank}</p>
+												<p class="card-text">
+													<button type="submit" class="btn btn-primary privateChat">대화
+														시작</button>
+												</p>
+											</form>
+										</div>
+									</div>
+								</div>
+							</c:if>
+						</c:forEach>
+
+						<c:forEach var="teammate" items="${teammates}">
+							<c:if test="${teammate.id ne currentId}">
+								<div class="col-xl-4 col-xxl-3 col-lg-3 col-sm-3 member">
+									<div class="card">
+										<div class="card-header">
+											<div class="profileImage">
+												<img src="${path}/images/default_profile.png"
+													alt="default_profile" />
+											</div>
+										</div>
+										<div class="card-body">
+											<form action="getChatroom.do" method="post">
+												<input type="hidden" name="toId" value="${teammate.id}" />
+												<p class="card-text id">${teammate.id}</p>
+												<p class="card-text name-rank">${teammate.name}
+													${teammate.rank}</p>
+												<p class="card-text">
+													<button type="submit" class="btn btn-primary privateChat">대화
+														시작</button>
+												</p>
+											</form>
+										</div>
+									</div>
+								</div>
+							</c:if>
+						</c:forEach>
+
+					</div>
+				</div>
 			</div>
+
+			<jsp:include page="footer.jsp" />
 		</div>
-
-
-
-		<jsp:include page="footer.jsp" />
-	</div>
 </body>
 <!-- Required vendors -->
 <script src="./vendor/global/global.min.js"></script>
@@ -139,7 +198,7 @@
 <!--js 제어-->
 	let id = $('.id').val()
 
-	let btn = $('.btn')
+	let btn = $('.privateChat')
 
 	btn.click(function() {
 		$.post("${path}/getChatroom.do", {
@@ -148,5 +207,28 @@
 			alert: "success"
 		}))
 	})
+
+	let teamSch = $('.teamSch')
+	//	let codeParam = $('#sel1').val().split('-')[1]
+	/*	teamSch.click($.get("${path}/searchTeam.do", {
+	 pcode : $('#sel1').val().split('-')[1]
+	 }, function(data) {
+	 $('#memberList').empty()
+	 for (i = 0; i < data.length; i++) {
+	 let user = data[i]
+	 if (user.id == "${currentId}") {
+	 continue;
+	 }
+	 let member = $('#template').clone();
+	 member.find('.id').html(user.name)
+	 member.removeAttr('id');
+	 member.find('.card-text .name-rank')
+	 member.find('.toId').val(user.id)
+	 console.log(user)
+	 $('#memberList').append(member);
+	 }
+	 })
+
+	 );*/
 </script>
 </html>

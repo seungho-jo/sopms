@@ -37,15 +37,12 @@ public void afterConnectionEstablished(WebSocketSession session) throws Exceptio
 	super.afterConnectionEstablished(session);
 	String url = session.getUri().toString();
 	String roomNumber = url.split("=")[1];
-//	List<WebSocketSession> sessionList=new ArrayList<WebSocketSession>();
-//	sessionList.add(session);
 	int idx = chatrooms.size();
 	for(int i=0; i < idx; i++) {
 		String temp = (String) chatrooms.get(i).get("chatroomId");
 		if (temp != null && temp.equals(roomNumber)) {
 			flag = true;
 			idx = i;
-			System.out.println(idx);
 			break;
 		}
 	}
@@ -60,7 +57,6 @@ public void afterConnectionEstablished(WebSocketSession session) throws Exceptio
 		chatrooms.add(newRoom);
 	}
 	
-	System.out.println(chatrooms);
 }
 
 @Override
@@ -71,10 +67,8 @@ protected void handleTextMessage(WebSocketSession session, TextMessage message) 
 	String msg = message.getPayload();
 	JSONObject obj = jsonToObjectParser(msg);
 	
-	if(obj.get("type") == null) {
-	String content = (String)obj.get("msg");
+	String content = (String)obj.get("messageBody");
 	String fromId = (String)obj.get("fromId");
-	String toId = (String)obj.get("toId");
 	String chatroomId = (String)obj.get("chatroomId");
 	HashMap<String, Object> temp = new HashMap<String, Object>();
 	int idx = chatrooms.size();
@@ -96,12 +90,11 @@ protected void handleTextMessage(WebSocketSession session, TextMessage message) 
 		WebSocketSession wss = (WebSocketSession) temp.get(k);
 		if(wss != null) {
 			try {
-				receivedMessage.setMessageBody(content);
-				receivedMessage.setSender_id(fromId);
-				receivedMessage.setTo_id(toId);
-				//DB에 채팅방 컬럼 추가
+//				receivedMessage.setMessageBody(content);
+//				receivedMessage.setFromId(fromId);
+//				receivedMessage.setChatroomId(Integer.parseInt(chatroomId));
 				wss.sendMessage(message);
-				chattingDao.insertMessage(receivedMessage);
+//				chattingDao.insertMessage(receivedMessage);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -112,8 +105,6 @@ protected void handleTextMessage(WebSocketSession session, TextMessage message) 
 
 	}
 	
-}
-
 @Override
 public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 	// TODO Auto-generated method stub
@@ -130,7 +121,6 @@ public void afterConnectionClosed(WebSocketSession session, CloseStatus status) 
 }
 @Override
 public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-	// TODO Auto-generated method stub
 	super.handleTransportError(session, exception);
 	System.out.println(session.getId()+"님 에러가 발생했습니다!!:"+exception.getMessage());
 }

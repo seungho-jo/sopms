@@ -2,8 +2,8 @@ package sopms.vo;
 
 public class ChatroomPart {
 	
-	int chatroomId;
-	String memberName;
+	private int chatroomId;
+	private String memberName;
 	
 	public int getChatroomId() {
 		return chatroomId;

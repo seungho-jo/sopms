@@ -25,13 +25,14 @@ public class ChattingService {
 
 	}
 
-	public void createRoom(String toId, String currentId) {
+	public void createRoom(String toId, String currentId, String currentName, String toName) {
 		ArrayList<String> selectedUsers = new ArrayList<String>();
 		selectedUsers.add(currentId);
 		selectedUsers.add(toId);
 		Chatroom chatroom = new Chatroom();
 		chatroom.setChatroomId(0);
 		chatroom.setChatType("P");
+		chatroom.setChatroomName(currentName+","+toName);
 		chattingDao.newRoom(chatroom);
 		System.out.println("#######" + chatroom.getChatroomId());
 		for (String user : selectedUsers) {
