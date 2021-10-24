@@ -15,6 +15,8 @@ public interface managementDao {
 	public ArrayList<Project_List> projectList(Project_List_paging project_Lp);
 	public ArrayList<Work> wbslist(int no);
 	public void deleteWbs(int id);
+	public void deleteWorks(int id);
+	public void deleteWorkFile(int id);
 	public void updateWbs(Work update);
 	public void insertWbs(Work insert);
 	public ArrayList<User> resourcelist(int pcode);

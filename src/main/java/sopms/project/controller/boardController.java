@@ -84,7 +84,7 @@ public class boardController {
 	@RequestMapping(params = "method=delete")
 	public String deleteBoard(@RequestParam("bcode") int bcode) {
 		service.deleteBoard(bcode);
-		return "redirect:/management.do";
+		return "redirect:/board.do?method=list";
 	}
 	
 

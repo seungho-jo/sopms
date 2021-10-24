@@ -11,8 +11,10 @@ public interface projectDao {
 	public void insertWbs(Project ins);
 	public void insertresource(Project ins);
 	public void updateProject(Project upt);
-	public void deleteProject_dept(Project upt);
+	public void deleteProject_dept(int pcode);
 	public void deleteProject(int pcode);
+	public void deleteWbs1(int pcode);
+	public void deleteWbs2(int pcode);
 	public void updateProject_dept(Project upt);
 	public Project getProject(int pcode);
 }

@@ -97,11 +97,11 @@
 					</div>
 				</div>
 				<ul class="pagination justify-content-center" id="paging">
-					<li class="page-item" id="pre"><a class="page-link" href="javascript:goBlock(${workSch.startBlock-1})">Pre</a></li>
+					<li class="page-item" id="pre"><a class="page-link" href="javascript:goBlock(${workSch.curPage-1})">Pre</a></li>
 					<c:forEach var="cnt" begin="${workSch.startBlock}" end="${workSch.endBlock}">
 					<li class="page-item ${workSch.curPage==cnt?'active':''}"><a class="page-link" href="javascript:goBlock(${cnt})">${cnt}</a></li>
 					</c:forEach>
-					<li class="page-item" id="next"><a class="page-link" href="javascript:goBlock(${workSch.endBlock-1})">
+					<li class="page-item" id="next"><a class="page-link" href="javascript:goBlock(${workSch.curPage+1})">
 							Next
 					</a></li>
 				</ul>

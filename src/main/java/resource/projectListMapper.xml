@@ -73,6 +73,16 @@
 		 WHERE workcode = #{workcode}
  	</delete> 	
  	
+ 	<delete id="deleteWorks" parameterType="int">
+ 		delete from works
+ 		where workcode = #{workcode}
+ 	</delete>
+ 	
+ 	<delete id="deleteWorkFile" parameterType="int">
+ 		delete from works
+ 		where workcode = #{workcode}
+ 	</delete>
+ 	
  	<delete id="deleteCal" parameterType="int">
 		DELETE FROM calendar
 		 WHERE workcode = #{workcode}

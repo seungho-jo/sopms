@@ -96,15 +96,6 @@
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="sopms.chatting.dao" />
 	</bean>
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="sopms.calendar.dao" />
-	</bean>
-	<bean id="pageJsonReport"
-		class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
-		<property name="contentType" value="text/html;charset=utf-8" />
-	</bean>
-	<bean id="downloadViewer" class="sopms.myWork.util.DownloadViewer" />
-=======
 	<bean
 		class="org.mybatis.spring.mapper.MapperScannerConfigurer">	
 		<property name="basePackage" value="sopms.calendar.dao"/> 
@@ -114,7 +105,6 @@
 	</bean>	
 	<bean id="downloadViewer" class="sopms.myWork.util.DownloadViewer"/>
 	<bean id="boarddownloadViewer" class="sopms.project.util.DownloadViewer"/>
->>>>>>> 08afbb1b3c1542ab0c238bcf7d8bce7cf7ebe51e
 	<!-- id값의 view를 등록하고 우선순위를 최우선으로 설정하는 부분 -->
 	<bean id="btnViewResolver"
 		class="org.springframework.web.servlet.view.BeanNameViewResolver">
