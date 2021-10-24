@@ -41,4 +41,7 @@ public interface riskDao {
 	public ArrayList<User> getUserJochi(int pcode);
 	// PM이 조치자 권한 넘김
 	public void jochiAuthority(Risk rk);
+	// pm일 경우 리스크 등록 select box 표기
+	public ArrayList<Risk> getjochiPcode(int pcode);
+
 }

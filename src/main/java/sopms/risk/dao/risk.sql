@@ -322,7 +322,7 @@ AND p.pcode = r.pcode AND r.id = m.id AND l.id = 'happy02';
 
 SELECT * FROM 
 (SELECT rownum AS NO, a.* FROM 
-(SELECT p.pname, r.risk_name, r.risk_no, r.risk_status, to_char(r.risk_reg,'yyyy-mm-dd') AS risk_reg, nvl(to_char(r2.RISK_JOCHIUPT,'yyyy-mm-dd'), '-') AS risk_upt, m.name AS m_name
+(SELECT p.pname, r.risk_name, r.risk_no, r.risk_status, nvl(to_char(r.risk_reg,'yyyy-mm-dd'),'-') AS risk_reg, nvl(to_char(r2.RISK_JOCHIUPT,'yyyy-mm-dd'), '-') AS risk_upt, m.name AS m_name
 FROM LESOURCE l , PROJECT p, RISK r, RISKJOCHI r2, MEMBER m 
 WHERE p.PCODE = l.PCODE 
 AND p.pcode = r.PCODE 
@@ -337,7 +337,7 @@ WHERE NO BETWEEN 1 AND 20;
 
 
 SELECT count(*) FROM 
-			(SELECT p.pname, r.risk_name, r.risk_no, r.risk_status, to_char(r.risk_reg,'yyyy-mm-dd') AS risk_reg, nvl(to_char(r2.RISK_JOCHIUPT,'yyyy-mm-dd'), '-'), m.name
+			(SELECT p.pname, r.risk_name, r.risk_no, r.risk_status, to_char(r.risk_reg,'yyyy-mm-dd') AS risk_reg, nvl(to_char(r2.RISK_JOCHIUPT,'yyyy-mm-dd'), '-') AS risk_upt, m.name 
 			FROM LESOURCE l , PROJECT p, RISK r, RISKJOCHI r2, MEMBER m 
 			WHERE p.PCODE = l.PCODE 
 			AND p.pcode = r.PCODE 
@@ -349,3 +349,16 @@ SELECT count(*) FROM
 			AND name LIKE '%'||''|| '%';
 
 SELECT to_char(sysdate,'yyyy-mm-dd') FROM dual;
+
+select p.pname from project p, LESOURCE l
+		where p.id = 'happy02'
+		AND l.pcode = p.pcode;
+		
+	
+SELECT pcode, m.id, name FROM LESOURCE l ,MEMBER m
+WHERE l.id = m.id 
+AND l.pcode = 2;
+
+select p.pname, p.pcode from project p, LESOURCE l
+		where l.id = 'happy02'
+		and l.pcode = p.pcode;

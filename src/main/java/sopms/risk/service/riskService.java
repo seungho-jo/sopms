@@ -76,6 +76,7 @@ public class riskService {
 	public ArrayList<User> getUserJochi(int pcode){
 		return dao.getUserJochi(pcode);
 	}
+	
 	// pm이 조치자 선택
 	public void jochiAuthority(Risk rk) {
 		rk.setPcode(Integer.parseInt(rk.getPcodeS()));
@@ -145,5 +146,9 @@ public class riskService {
 			outputs.setStartBlock(1);
 		}
 		return dao.outputList01(outputs);
+	}
+	
+	public ArrayList<Risk> getjochiPcode(int pcode){
+		return dao.getjochiPcode(pcode);
 	}
 }
