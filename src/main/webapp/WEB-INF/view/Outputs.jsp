@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SOPMS</title>
-<!-- Favicon icon -->
+<!-- Favicon icon
 <link rel="icon" type="image/png" sizes="16x16"
 	href="./images/favicon.png">
 <link rel="stylesheet"
@@ -19,7 +19,8 @@
 <link rel="stylesheet"
 	href="./vendor/owl-carousel/css/owl.theme.default.min.css">
 <link href="./vendor/jqvmap/css/jqvmap.min.css" rel="stylesheet">
-<link href="./css/style.css" rel="stylesheet">
+<link href="./css/style.css" rel="stylesheet"> -->
+
 <style type="text/css">
 	a{
 		text-decoration : none;
@@ -29,7 +30,6 @@
 	}
 </style>
 <title>Insert title here</title>
-<script src="https://unpkg.com/vue/dist/vue.js" type="text/javascript"></script>
 </head>
 <body>
 	<form id="outputForm">
@@ -60,36 +60,41 @@
 		</ul>
 	</div>
 </body>
-<!-- Required vendors -->
+<!-- Required vendors
 <script src="./vendor/global/global.min.js"></script>
 <script src="./js/quixnav-init.js"></script>
-<script src="./js/custom.min.js"></script>
+<script src="./js/custom.min.js"></script> -->
+
+
+
+<!-- Required vendors -->
+<script src="${path}/vendor/global/global.min.js"></script>
+<script src="${path}/js/quixnav-init.js"></script>
+<script src="${path}/js/custom.min.js"></script>
 
 
 <!-- Vectormap -->
-<script src="./vendor/raphael/raphael.min.js"></script>
-<script src="./vendor/morris/morris.min.js"></script>
+<script src="${path}/vendor/raphael/raphael.min.js"></script>
+<script src="${path}/vendor/morris/morris.min.js"></script>
 
 
-<script src="./vendor/circle-progress/circle-progress.min.js"></script>
-<script src="./vendor/chart.js/Chart.bundle.min.js"></script>
+<script src="${path}/vendor/circle-progress/circle-progress.min.js"></script>
+<script src="${path}/vendor/chart.js/Chart.bundle.min.js"></script>
 
-<script src="./vendor/gaugeJS/dist/gauge.min.js"></script>
+<script src="${path}/vendor/gaugeJS/dist/gauge.min.js"></script>
 
 <!--  flot-chart js -->
-<script src="./vendor/flot/jquery.flot.js"></script>
-<script src="./vendor/flot/jquery.flot.resize.js"></script>
+<script src="${path}/vendor/flot/jquery.flot.js"></script>
+<script src="${path}/vendor/flot/jquery.flot.resize.js"></script>
 
 <!-- Owl Carousel -->
-<script src="./vendor/owl-carousel/js/owl.carousel.min.js"></script>
+<script src="${path}/vendor/owl-carousel/js/owl.carousel.min.js"></script>
 
 <!-- Counter Up -->
-<script src="./vendor/jqvmap/js/jquery.vmap.min.js"></script>
-<script src="./vendor/jqvmap/js/jquery.vmap.usa.js"></script>
-<script src="./vendor/jquery.counterup/jquery.counterup.min.js"></script>
+<script src="${path}/vendor/jqvmap/js/jquery.vmap.min.js"></script>
+<script src="${path}/vendor/jqvmap/js/jquery.vmap.usa.js"></script>
+<script src="${path}/vendor/jquery.counterup/jquery.counterup.min.js"></script>
 
-
-<script src="./js/dashboard/dashboard-1.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function(){

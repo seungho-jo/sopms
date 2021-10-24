@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8" import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <fmt:requestEncoding value="utf-8" />
 <!DOCTYPE html>
@@ -12,6 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SOPMS</title>
+
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="./images/favicon.png">
@@ -21,8 +21,17 @@
 	href="./vendor/owl-carousel/css/owl.theme.default.min.css">
 <link href="./vendor/jqvmap/css/jqvmap.min.css" rel="stylesheet">
 <link href="./css/style.css" rel="stylesheet">
-<title>Insert title here</title>
+<link href="./css/dashboard.css" rel="stylesheet">
+
+
+<title>SOPMS</title>
+
 <script src="https://unpkg.com/vue/dist/vue.js" type="text/javascript"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+	crossorigin="anonymous">
 <%
 String noS = request.getParameter("pcode");
 String pm = request.getParameter("pm");
@@ -31,7 +40,7 @@ int no = Integer.parseInt(noS);
 
 </head>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
-	theme-layout="wide-layout">
+	theme-layout="wide-layout"  method="post">
 	<div id="main-wrapper">
 		<jsp:include page="header.jsp" />
 		<jsp:include page="navi.jsp" />
@@ -97,8 +106,9 @@ int no = Integer.parseInt(noS);
 					</div>
 				</div>
 			</div>
+			<jsp:include page="footer.jsp" />
 		</div>
-		<jsp:include page="footer.jsp" />
+		
 	</div>
 </body>
 <!-- Required vendors -->
@@ -117,7 +127,7 @@ int no = Integer.parseInt(noS);
 
 <script src="./vendor/gaugeJS/dist/gauge.min.js"></script>
 
-<!--  flot-chart js -->
+<!--  flot-chart js-->
 <script src="./vendor/flot/jquery.flot.js"></script>
 <script src="./vendor/flot/jquery.flot.resize.js"></script>
 
@@ -131,6 +141,7 @@ int no = Integer.parseInt(noS);
 
 
 <script src="./js/dashboard/dashboard-1.js"></script>
+
 <script type="text/javascript">
 	$(".metismenu").children().eq(4).attr('class', 'mm-active');
 </script>
