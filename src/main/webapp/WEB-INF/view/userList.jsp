@@ -184,7 +184,7 @@ td {
 </form>
 	<ul class="pagination justify-content-center" id="paging">
 	<li class="page-item" id="pre"><a class="page-link"
-		href="javascript:goPage(${userSch.startBlock-1})">Pre</a></li>
+		href="javascript:goPage(${userSch.curPage-1})">Pre</a></li>
 <c:forEach var="cnt" begin="${userSch.startBlock}"
 end="${userSch.endBlock}">
 <li class="page-item ${userSch.curPage==cnt?'active':''}">
@@ -192,7 +192,7 @@ end="${userSch.endBlock}">
 </li>
 </c:forEach>
 <li class="page-item" id="next"><a class="page-link"
-	href="javascript:goPage(${userSch.endBlock+1})"> Next </a></li>
+	href="javascript:goPage(${userSch.curPage+1})"> Next </a></li>
 
 	</ul>
 
