@@ -94,13 +94,13 @@ h3 {
 					<div class="input-form col-md-12 mx-auto">
 						<h3 class="mb-5">프로젝트 등록</h3>
 
-						<form id="insert01" action="${path}/project.do?method=insert"
+						<form id="insert01" name="insert01" action="${path}/project.do?method=insert"
 							method="post">
 							<div class="row">
 								<div class="col-md-6 mb-3">
 									<label for="name" class="text-dark">프로젝트명</label> <input
 										type="text" class="form-control" name="pname" id="title"
-										placeholder="" value="" required>
+										required>
 									<div class="invalid-feedback">이름을 입력해주세요.</div>
 								</div>
 								<div class="col-md-6 mb-3">
@@ -182,12 +182,12 @@ h3 {
 									</div>
 									<div class="modal-body">
 										<form>
-											<input type="checkbox" class="check" value="디자인1">
-											디자인1팀 <input type="checkbox" class="check" value="디자인2">
-											디자인2팀 <input type="checkbox" class="check" value="개발1">
-											개발1팀 <input type="checkbox" class="check" value="개발2">
-											개발2팀 <input type="checkbox" class="check" value="기획1">
-											기획1팀 <input type="checkbox" class="check" value="기획2">
+											<input type="checkbox" class="check" value="디자인1팀">
+											디자인1팀 <input type="checkbox" class="check" value="디자인2팀">
+											디자인2팀 <input type="checkbox" class="check" value="개발1팀">
+											개발1팀 <input type="checkbox" class="check" value="개발2팀">
+											개발2팀 <input type="checkbox" class="check" value="기획1팀">
+											기획1팀 <input type="checkbox" class="check" value="기획2팀">
 											기획2팀 <input type="checkbox" id="allCheck"> 모두 체크<br />
 											프로젝트 부서리스트 : <span id="multiPrint"></span><br />
 										</form>
@@ -298,8 +298,21 @@ h3 {
 
 	});
 	$("#regBtn").click(function() {
+		if (insert01.pname.value == "" || insert01.dept.value == "" ||insert01.startdate.value == "" || insert01.enddate.value == ""|| insert01.teamnum.value == "") {
+			alert("필수입력란이 비었습니다. 확인해주세요.");
+			return false;
+		}
+		var startDate = $("input[name=startdate]").val().split("-");
+		var endDate  = $("input[name=enddate]").val().split("-");
+		var sDate    = new Date(startDate[0], startDate[1], startDate[2]).valueOf();
+		var eDate    = new Date(endDate[0], endDate[1], endDate[2]).valueOf();
+		if ( sDate > eDate ) {
+			alert("시작일과 종료일을 확인해주세요.");
+			return false;			
+		}
 		$("#insert01").submit();
 		alert("프로젝트를 등록했습니다.");
 	});
+
 </script>
 </html>

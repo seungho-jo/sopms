@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sopms.myWork.service.myWorkService;
+import sopms.vo.OutPut;
 import sopms.vo.User;
 import sopms.vo.Work;
 import sopms.vo.WorkPmSch;
@@ -27,11 +28,11 @@ public class myWorkController {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		if(!user.getRank().equals("부장")) {
-			worksch.setManager(user.getName());
+			worksch.setManager(user.getId());
 			d.addAttribute("list", service.myWorkList(worksch));
 			return "WEB-INF\\view\\myWork.jsp";
 		}else {
-			workpmsch.setName(user.getName());
+			workpmsch.setName(user.getId());
 			d.addAttribute("list", service.myWorkListPm(workpmsch));
 			return "WEB-INF\\view\\myWorkPm.jsp";
 		}
@@ -50,7 +51,7 @@ public class myWorkController {
 	}
 	@RequestMapping("detailWorkPm.do")
 	public String detailWorkPm(Model d,int workcode) {
-		d.addAttribute("detail", service.detailWork(workcode));
+		d.addAttribute("detail", service.detailWorkPm(workcode));
 		return "WEB-INF\\view\\detailWorkPm.jsp";
 	}
 	@RequestMapping("companion.do")
@@ -65,10 +66,12 @@ public class myWorkController {
 		service.apprUpt(work);
 		return "redirect:/myWork.do";
 	}
-	// http://localhost:7080/sopms/gantlist.do
-	@RequestMapping("gantlist.do")
-	public String gantlist(Model d) {
-		d.addAttribute("list", service.list());
+	
+	// http://localhost:7080/sopms/outputList.do
+	@RequestMapping("outputList.do")
+	public String outputList(Model d,OutPut output) {
+		d.addAttribute("list", service.outputList(output));
 		return "pageJsonReport";
 	}
+	
 }

@@ -5,11 +5,13 @@
 	<typeAliases>
 		<typeAlias alias="work" type="sopms.vo.Work"/>
 		<typeAlias alias="worksch" type="sopms.vo.WorkSch"/>
+		<typeAlias alias="outputs" type="sopms.vo.OutPut"/>
 		<typeAlias alias="user" type="sopms.vo.User"/>
 		<typeAlias alias="risk" type="sopms.vo.Risk"/>
 		<typeAlias alias="project" type="sopms.vo.Project"/>
 		<typeAlias alias="board" type="sopms.vo.Board"/>
 		<typeAlias alias="boardsch" type="sopms.vo.BoardSch"/>
+		<typeAlias alias="boardfile" type="sopms.vo.BoardFile"/>
 		<typeAlias alias="userSch" type="sopms.vo.userSch"/>
 		<typeAlias alias="cal" type="sopms.vo.Calendar"/>
 		<typeAlias alias="riskSch" type="sopms.vo.riskSch"/>
@@ -19,6 +21,7 @@
 		<typeAlias alias="workpmsch" type="sopms.vo.WorkPmSch"/>
 		<typeAlias alias="riskJochi" type="sopms.vo.riskJochi"/>
 	    <typeAlias alias="message" type="sopms.vo.Message"/>
+	    <typeAlias alias="mypage" type="sopms.vo.MyPage"/>
 	    
 	</typeAliases>
 	<mappers>

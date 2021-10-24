@@ -109,7 +109,7 @@ h3 {
 					<input type="hidden" name="curPage" value="1">
 				</form>
 				<!-- 등록 후, 현재 페이지 번호를 변경 처리 ==> session값에 영향. -->
-				<form id="insert01"
+				<form id="insert01" name="insert01" enctype="multipart/form-data"
 					action="${path}/board.do?method=insert" method="post">
 					<input type="hidden" name="readcnt" value="0" />
 					<div class="input-form-backgroud row">
@@ -125,7 +125,7 @@ h3 {
 								<div class="card-body">
 									<textarea rows="10" cols="" name="bcontent" id="contentdiv"></textarea>
 								</div>
-								<!-- 첨부파일
+
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
 									<span class="input-group-text">첨부 파일</span>
@@ -137,7 +137,6 @@ h3 {
 								</div>
 								
 							</div>
-							-->
 								<button id="insertbtn" data-toggle="modal"
 									data-target="#exampleModalCenter"
 									class="btn btn-primary btn-lg btn-block center-block"
@@ -209,9 +208,15 @@ h3 {
 <script type="text/javascript">
 	$(".metismenu").children().eq(11).attr('class', 'mm-active');
 	$("#regbtn").click(function() {
+		if (insert01.btitle.value == "") {
+			alert("필수입력란이 비었습니다. 확인해주세요.");
+			return false;
+		}
 		$("#insert01").submit();
-		console.log(123);
 		alert("게시물을 등록했습니다.");
+	});
+	$(".custom-file-input").on("change",function(){
+		$(this).next(".custom-file-label").text($(this).val());
 	});
 </script>
 </html>

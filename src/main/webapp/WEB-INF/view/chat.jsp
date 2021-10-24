@@ -8,7 +8,11 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<<<<<<< HEAD
 <title>SOPMS 채팅</title>
+=======
+<title>SOPMS</title>
+>>>>>>> 08afbb1b3c1542ab0c238bcf7d8bce7cf7ebe51e
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="./images/favicon.png">

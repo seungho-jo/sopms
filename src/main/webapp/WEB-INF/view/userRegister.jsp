@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Focus - Bootstrap Admin Dashboard</title>
+<title>SOPMS</title>
 <!-- bootstrap cdn -->
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
@@ -372,9 +372,6 @@
 	   })
 	   $("#userRegBtn").click(function(){
 		$("form").attr("action","${path}/memberInsert.do");
-		alert($("#temporary-id").val());
-		alert($("#temporary-pass").val());
-		alert($("#selectdept option:selected").val()); //부서 선택한건 잘 넘어옴  
 			$("form").submit();
 		});
 	  

@@ -1,44 +1,46 @@
 package sopms.vo;
-//dashboard 공지사항
+
 public class Notice {
-	private String no;
-	private String subject;
-	private String writer;
-	private String date;
-	public Notice() {
-		super();
-		// TODO Auto-generated constructor stub
+	private int bcode;
+	private String btitle;
+	private String name;
+	private String id;
+	private int readcnt;
+	private String regdte;
+	public int getBcode() {
+		return bcode;
 	}
-	public Notice(String no, String subject, String writer, String date) {
-		super();
-		this.no = no;
-		this.subject = subject;
-		this.writer = writer;
-		this.date = date;
+	public void setBcode(int bcode) {
+		this.bcode = bcode;
 	}
-	public String getNo() {
-		return no;
+	public String getBtitle() {
+		return btitle;
 	}
-	public void setNo(String no) {
-		this.no = no;
+	public void setBtitle(String btitle) {
+		this.btitle = btitle;
 	}
-	public String getSubject() {
-		return subject;
+	public String getName() {
+		return name;
 	}
-	public void setSubject(String subject) {
-		this.subject = subject;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getWriter() {
-		return writer;
+	public String getId() {
+		return id;
 	}
-	public void setWriter(String writer) {
-		this.writer = writer;
+	public void setId(String id) {
+		this.id = id;
 	}
-	public String getDate() {
-		return date;
+	public int getReadcnt() {
+		return readcnt;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setReadcnt(int readcnt) {
+		this.readcnt = readcnt;
 	}
-	
+	public String getRegdte() {
+		return regdte;
+	}
+	public void setRegdte(String regdte) {
+		this.regdte = regdte;
+	}
 }

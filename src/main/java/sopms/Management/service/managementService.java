@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import sopms.Management.dao.managementDao;
 import sopms.vo.Project_List;
 import sopms.vo.Project_List_paging;
+import sopms.vo.User;
 import sopms.vo.Work;
 
 @Service
@@ -47,17 +48,24 @@ public class managementService {
 	public ArrayList<Work> wbslist(int no){
 		return dao.wbslist(no);
 	}
+	public ArrayList<User> resourcelist(int pcode){
+		return dao.resourcelist(pcode);
+	}
+	
 	public void deleteWbs(int id) {
 		dao.deleteWbs(id);
+		dao.deleteCal(id);
 	}	
 	
 	public void updateWbs(Work update) {
 		
 		dao.updateWbs(update);
+		dao.updateCal(update);
 	}	
 	public void insertWbs(Work insert) {
 		
 		dao.insertWbs(insert);
+		dao.insertCal(insert);
 	}	
 	
 }

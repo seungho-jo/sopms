@@ -1,14 +1,14 @@
 package sopms.vo;
 
 public class WorkFile {
-	private int workcode;
+	private String workcode;
 	private String fname;
 	private String regdte;
 	private String uptdte;
-	public int getWorkcode() {
+	public String getWorkcode() {
 		return workcode;
 	}
-	public void setWorkcode(int workcode) {
+	public void setWorkcode(String workcode) {
 		this.workcode = workcode;
 	}
 	public String getFname() {

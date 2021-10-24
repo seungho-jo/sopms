@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Focus - Bootstrap Admin Dashboard</title>
+<title>SOPMS</title>
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="./images/favicon.png">
@@ -65,6 +65,7 @@ table {
 						<input type="hidden" name="curPage" value="1">
 						<div class="input-group" id="search1">
 							<select id="status" name="status" class="form-select">
+								<option value="">분류</option>
 								<option value="btitle">제목</option>
 								<option value="name">작성자</option>
 							</select> <input type="text" class="form-control input-sm" id="search">
@@ -117,7 +118,7 @@ table {
 							class="page-link" href="javascript:goPage(${cnt})">${cnt}</a></li>
 					</c:forEach>
 					<li class="page-item" id="next"><a class="page-link"
-						href="javascript:goBlock(${boardSch.endBlock-1})"> Next </a></li>
+						href="javascript:goBlock(${boardSch.curPage+1})"> Next </a></li>
 				</ul>
 			</div>
 		</div>
@@ -157,6 +158,10 @@ table {
 <script src="./js/dashboard/dashboard-1.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
+		var msg = "${msg}";
+		if(msg!=null && msg!="") {
+			alert(msg);
+		}
 		$("#regBtn").click(function() {
 			$(location).attr("href", "${path}/board.do?method=insertform");
 		});
@@ -167,6 +172,10 @@ table {
 		});
 	});
 	function goPage(bcode){
+		$("[name=curPage]").val(bcode);
+		$("#frm01").submit();
+	}
+	function goBlock(bcode){
 		$("[name=curPage]").val(bcode);
 		$("#frm01").submit();
 	}
@@ -181,7 +190,10 @@ table {
 	$("#searchbtn").click(function(){	
 		$("#frm01").submit();
 	});	
-
+	$("#status").change(function(){
+		console.log($(this).val());
+		$("#search").attr("name",$(this).val());
+	});
 
 	$(".metismenu").children().eq(12).attr('class', 'mm-active');
 </script>

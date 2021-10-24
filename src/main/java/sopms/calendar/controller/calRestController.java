@@ -1,5 +1,7 @@
 package sopms.calendar.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -17,21 +19,31 @@ public class calRestController {
 	@Autowired
 	private calendarService service;
 	// http://localhost:8088/sopms/calendar_mem.do
-	// http://localhost:7080/sopms/calList.do
-	/*
+	// http://localhost:8088/sopms/calList.do
+
 	@RequestMapping("calList.do")
-	public List<Calendar> calList(HttpServletRequest request, Model d, Calendar calendar){
+	public List<Calendar> calList(HttpServletRequest request, Calendar calendar){
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
-		calendar.setManager("조승호");
+		
+		if(!user.getRank().equals("부장")) {
+			calendar.setManager(user.getId());			
+		} else {
+			calendar.setPm(user.getId());
+		}
 		return service.calList(calendar);
 	}
-	*/
+
 	@RequestMapping("calendarInsert.do")
 	public String calendarInsert(HttpServletRequest request, Calendar insert) {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
-		insert.setManager(user.getName());
+		insert.setRank(user.getRank());
+		if(!user.getRank().equals("부장")) {
+			insert.setManager(user.getId());
+		}else {
+			insert.setPm(user.getId());
+		}
 		service.insertCalendar(insert);
 		return "등록완료";
 	}

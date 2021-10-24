@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Focus - Bootstrap Admin Dashboard</title>
+<title>SOPMS</title>
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="./images/favicon.png">
@@ -88,7 +88,7 @@
 							</div>
 						</div>
 						<div class="col-md-3 mb-3" id="regMan">
-							<h5>${riskDetail.id}</h5>
+							<h5>${riskDetail.m_name}</h5>
 						</div>
 						<div class="col-md-3 mb-3">
 							<div class="form-floating">
@@ -101,16 +101,37 @@
 							</div>
 						</div>
 					</div>
-					<div class="row g-2">
-						<div class="col-md mb-3">
-							<button type="button" class="btn btn-primary" id="button_left"
-								onclick="javascript:goUpdate(${riskDetail.risk_no})">수정</button>
+					<!-- 아이디와 조치자아이디 같은지 확인 -->
+					<c:set var="name" value="${riskDetail.jochiPerson}"/>
+					<c:choose>
+						<c:when test="${user.rank=='부장'}">
+						<div class="row g-2">
+							<div class="col-md mb-3">
+								<button type="button" class="btn btn-primary" id="btnAuthority"
+								data-toggle="modal" data-target="#exampleModalCenter01">권한</button>
+							</div>
 						</div>
-						<div class="col-md mb-3">
-							<button type="button" class="btn btn-primary" id="button_right"
-								onclick="javascript:goDelete(${riskDetail.risk_no})">삭제</button>
+						</c:when>
+				
+						<c:when test="${user.id == name}" >
+							<div class="row g-2">
+							<div class="col-md mb-3">
+								<button type="button" class="btn btn-primary" id="jochiBtn"
+								data-toggle="modal" data-target="#exampleModalCenter02">수정</button>
+							</div>
+				
+							<div class="col-md mb-3">
+								<button type="button" class="btn btn-primary" id="button_right"
+									onclick="javascript:goDelete(${riskDetail.risk_no})">삭제</button>
+							</div>
 						</div>
-					</div>
+						</c:when>
+						
+						<c:otherwise>
+						
+						</c:otherwise>
+					</c:choose>
+
 				</div>
 			</div>
 
@@ -132,7 +153,7 @@
 							</div>
 							<div class="col-1 mb-3">
 								<div class="form-floating">
-									<h4 id="title_jochi">수정일</h4>
+									<h4 id="title_jochi">조치일</h4>
 								</div>
 							</div>
 							<div class="col-11 mb-2">
@@ -146,49 +167,63 @@
 								</div>
 							</div>
 							<div class="col-11 mb-2">
-								<h5>${riskJochi.id}</h5>
+								<h5>${riskJochi.m_name}</h5>
 							</div>
 						</div>
 					</div>
 	
-				<div id="action_btn">
-					<button class="btn btn-primary me-md-2" id="jochiBtn" type="button"
-						data-toggle="modal" data-target="#exampleModalCenter">조치등록</button>
-				</div>
 			</div>
-			<div class="card">
-				<div class="card-header">
-					<h4 class="card-title">댓글</h4>
-				</div>
-				<div class="card-body">
-					<div class="form-floating">
-						<label for="floatingTextarea2">${riskDetail.id}</label>
-						<textarea class="form-control" placeholder="Leave a comment here"
-							id="floatingTextarea2" style="height: 100px">
-					  	</textarea>
-							<button class="btn btn-primary me-md-2" type="button">댓글
-								등록</button>
-						</div>
-				</div>
-			</div>
-			<!-- modal 수정 -->
-			<div class="modal fade" id="UpdateModalCenter" tabindex="-1"
-				role="dialog" aria-labelledby="exampleModalCenterTitle"
-				aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered" role="document">
-						<div class="modal-content">
-							<div class="modal-header">	
-						<h5 class="modal-title" id="exampleModalLongTitle">수정 상세페이지</h5>
-			</div>
-			</div>
-			</div>
-			</div>
-			<!--  modal 조치내역-->
-			<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+			
+			<!--  modal 권한-->
+			<div class="modal fade" id="exampleModalCenter01" tabindex="-1"
 				role="dialog" aria-labelledby="exampleModalCenterTitle"
 				aria-hidden="true">
 					
-				<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle">권한 부여</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<form id="frm01" style="display: flex" method="post">
+						<input type="hidden" name="pcodeS" value="${riskDetail.pcode}">
+						<input type="hidden" name="risk_no" value="${riskDetail.risk_no}">
+						<div class="modal-body">
+							<div class="row g-2">
+								<div class="col-4 mb-3">
+									<h4 id="title">조치자</h4>
+								</div>
+								<div class="col-4 mb-3">
+									<select class="form-select" aria-label="Default select example"
+										id="modal_status" name="jochiPerson">
+										<option selected>리스크상태</option>
+										<c:forEach var="meml" items="${memList}">
+											<option value="${meml.id}">${meml.name}</option>
+										</c:forEach>
+									</select>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<div class="d-flex justify-content-center">
+									<button type="button" class="btn btn-primary" id="btn_authority">조치완료</button>
+								</div>
+							</div>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			
+			
+			<!-- 조치내역 수정 -->
+			<div class="modal fade" id="exampleModalCenter02" tabindex="-1"
+				role="dialog" aria-labelledby="exampleModalCenterTitle"
+				aria-hidden="true">
+					
+				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title" id="exampleModalLongTitle">조치 상세페이지</h5>
@@ -197,7 +232,7 @@
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
-						<form style="display: flex" method="post">
+						<form id="frm02" style="display: flex" method="post">
 						<div class="modal-body">
 							<div class="row g-2">
 								<div class="col-4 mb-3">
@@ -273,19 +308,18 @@
 <script type="text/javascript">
 	$(".metismenu").children().eq(8).attr('class', 'mm-active');
 	
-	$("#button_right").click(function(){
-	});
-	function goUpdate(no){
-		$(location).attr("href","${path}/"+no);
-	}
-	
 	function goDelete(no){
 		$(location).attr("href","${path}/deleteRisk.do?risk_no="+no);
 	}
-	
+	// 조치버튼 클릭
 	$("#btn_complete").click(function(){
-		$("form").attr("action", "${path}/updateModalContent.do");
-		$("form").submit();
+		$("#frm02").attr("action", "${path}/updateModalContent.do");
+		$("#frm02").submit();
+	});
+	
+	$("#btn_authority").click(function(){
+		$("#frm01").attr("action","${path}/updateAuthority.do");
+		$("#frm01").submit();
 	});
 </script>
 </html>

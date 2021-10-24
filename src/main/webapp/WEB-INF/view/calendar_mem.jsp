@@ -32,140 +32,199 @@
 	crossorigin="anonymous">
 </head>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-	var toDay = new Date().toISOString().split("T")[0];
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-      },
-      initialDate: toDay,
-      navLinks: true,
-      selectable: true,
-      selectMirror: true,
-      select: function(arg) {
-    	console.log("매개변수로 받는 내용");
-    	console.log(arg);
-    	console.log("시작:"+arg.start.toISOString());
-    	console.log("종료:"+arg.end.toLocaleString());
-    	console.log("종일여부:"+arg.allDay);
-    	$("h2").click();
-    	$("#exampleModalLongTitle").text("일정등록");
-    	$("#regBtn").show();
-    	$("#uptBtn").hide();
-    	$("#delBtn").hide();
-    	$(".form")[0].reset();
-    	$("#start").val(arg.start.toLocaleString());
-    	$("[name=start]").val(arg.start.toISOString());
-    	$("#end").val(arg.end.toLocaleString());
-    	$("[name=end]").val(arg.end.toISOString());
-    	$("#allDay").val(""+arg.allDay);
-    	console.log("종일:"+(arg.allDay?1:0));
-    	$("[name=allDay]").val((arg.allDay?1:0));
-        calendar.unselect()
-      },
-      eventClick: function(arg) {
-    	console.log("특정일정 클릭시!!");
-    	console.log(arg.event);
-    	
-    	$("h2").click();
-    	$("#exampleModalLongTitle").text("상세일정");
-    	$("#regBtn").hide();
-    	$("#uptBtn").show();
-    	$("#delBtn").show();
-    	addForm(arg.event);
-      },
-	  eventDrop:function(info){
-	 	console.log("#이벤트 드랍#")	
-	 	console.log(info.event);
-		addForm(info.event);
-		ajaxFun("calendarUpdate.do")
-	  },
-	  eventResize:function(info){ 
-		 console.log("#이벤트 사이즈변경#")	
-		 console.log(info.event);	
-		 addForm(info.event);
-		 ajaxFun("calendarUpdate.do")
-	  },      
-      editable: true,
-      dayMaxEvents: true,
-      events: function(info,successCallback, failureCallback){
-    	  $.ajax({
-    		  type:"post",
-    		  url:"${path}/calList.do",
-    		  dataType:"json",
-    		  success:function(data){
-    			  console.log(data)
-    			  successCallback(data);
-    		  },
-    		  error:function(err){
-    			  console.log(err);
-    		  }
-    		  
-    	  });
-    	  
-      }
-    });
+	document.addEventListener('DOMContentLoaded', function() {
+		var calendarEl = document.getElementById('calendar');
+		var toDay = new Date().toISOString().split("T")[0];
+		var calendar = new FullCalendar.Calendar(calendarEl, {
+			headerToolbar : {
+				left : 'dayGridMonth,timeGridWeek,timeGridDay',
+				center : 'title',
+				right : 'prev,next today'
+			},
+			initialDate : toDay,
+			navLinks : true,
+			selectable : true,
+			selectMirror : true,
+			eventLimit : false,
+			select : function(arg) {
+				$("h2").click();
+				$("#exampleModalLongTitle").text("일정등록");
+				$("#regBtn").show();
+				$("#uptBtn").hide();
+				$("#delBtn").hide();
+				$(".form-cal").show();
+				$("#table-wbs").hide();
+				$(".form-cal")[0].reset();
+				$("#start").val(arg.start.toLocaleString());
+				$("[name=start]").val(arg.start.toISOString());
+				$("#end").val(arg.end.toLocaleString());
+				$("[name=end]").val(arg.end.toISOString());
+				calendar.unselect()
+			},
+			eventClick : function(arg) {
+				$("h2").click();
+				$("#exampleModalLongTitle").text("상세일정");
+				$("#regBtn").hide();
+				$("#uptBtn").show();
+				$("#delBtn").show();
+				$(".form-cal").show();
+				$("#table-wbs").hide();
+				
+				if(arg.event.extendedProps.workcode != 0) {
+					$("#uptBtn").hide();
+					$("#delBtn").hide();
+					$(".form-cal").hide();
+					$("#table-wbs").show();
+					console.log(arg.event.extendedProps.workcode);
+				}
+				addForm(arg.event);
+			},
+			eventDrop : function(info) {
+				console.log("#이벤트 드랍#")
+				console.log(info.event);
+				addForm(info.event);
+				ajaxFun("calendarUpdate.do")
+			},
+			eventResize : function(info) {
+				console.log("#이벤트 사이즈변경#")
+				console.log(info.event);
+				addForm(info.event);
+				ajaxFun("calendarUpdate.do")
+			},
+			editable : true,
+			dayMaxEvents : false,
+			events : function(info, successCallback, failureCallback) {
+				$.ajax({
+					type : "post",
+					url : "${path}/calList.do",
+					dataType : "json",
+					success : function(data) {
+						console.log(data)
+						successCallback(data);
+					},
+					error : function(err) {
+						console.log(err);
+					}
 
-    calendar.render();
-    
-    $("#regBtn").click(function(){
-    	if($("[name=title]").val()==""){
-    		alert("일정을 등록하세요!");
-    		return;
-    	}
-    	ajaxFun("calendarInsert.do")
-    });
-    $("#uptBtn").click(function(){
-    	if(confirm("수정하시겠습니까?")){
-    		ajaxFun("calendarUpdate.do")
-    	}
-    });
-    $("#delBtn").click(function(){
-		if(confirm("삭제하시겠습니까?")){
-			ajaxFun("calendarDelete.do")
-    	}   	
-    });
-    
-    
-  });
-  function ajaxFun(url){
-  	$.ajax({
-		type:"post",
-		url:"${path}/"+url,
-		data:$("form").serialize(),
-		success:function(data){
-			alert(data);
-			location.reload();
-		},
-		error:function(err){
-			console.log(err);
-			console.log($("form").serialize());
+				});
+
+			}
+		});
+
+		calendar.render();
+
+		$("#regBtn").click(function() {
+			if ($("[name=title]").val() == "") {
+				alert("일정을 등록하세요!");
+				return;
+			} else if($("[name=borderColor]").val() == ""){
+				alert("일정색상을 선택하세요!");
+				return;
+			} else if($("[name=allDay]").val() == ""){
+				alert("종일여부를 선택하세요!");
+				return;
+			} else if($("[name=process]").val() == ""){
+				alert("진행률을 선택하세요!");
+				return;
+			}
+			ajaxFun("calendarInsert.do")
+		});
+		$("#uptBtn").click(function() {
+			if (confirm("수정하시겠습니까?")) {
+				if ($("[name=title]").val() == "") {
+					alert("일정을 등록하세요!");
+					return;
+				} else if($("[name=borderColor]").val() == ""){
+					alert("일정색상을 선택하세요!");
+					return;
+				} else if($("[name=allDay]").val() == ""){
+					alert("종일여부를 선택하세요!");
+					return;
+				} else if($("[name=process]").val() == ""){
+					alert("진행률을 선택하세요!");
+					return;
+				}
+				ajaxFun("calendarUpdate.do")
+			}
+		});
+		$("#delBtn").click(function() {
+			if (confirm("삭제하시겠습니까?")) {
+				ajaxFun("calendarDelete.do")
+			}
+		});
+
+	});
+	function ajaxFun(url) {
+		$.ajax({
+			type : "post",
+			url : "${path}/" + url,
+			data : $("form").serialize(),
+			success : function(data) {
+				alert(data);
+				console.log($("form").serialize());
+				location.reload();
+			},
+			error : function(err) {
+				console.log(err);
+				console.log($("form").serialize());
+			}
+
+		});
+	}
+	function addForm(event) {
+		if(event.extendedProps.workcode == 0){
+			$(".form-cal")[0].reset();
+			$("[name=id]").val(event.id);
+			$("[name=workcode]").val(event.extendedProps.workcode);
+			$("[name=parent]").val(event.extendedProps.parent);
+			$("[name=title]").val(event.title);
+			$("#borderColor").val(event.borderColor).prop("selected", true);
+			$("[name=borderColor]").val(event.borderColor);
+			$("[name=backgroundColor]").val(event.backgroundColor);
+			$("[name=textColor]").val(event.textColor);
+			$("[name=content]").val(event.extendedProps.content);
+			$("#start").val(event.start.toLocaleString());
+			$("[name=start]").val(event.start.toISOString());
+			console.log($("[name=start]").val());
+			$("#end").val(event.end.toLocaleString());
+			$("[name=end]").val(event.end.toISOString());
+			if(event.allDay){
+				$("#all").prop("selected", true);
+			}else{
+				$("#time").prop("selected", true);
+			}
+			$("[name=allDay]").val(event.allDay?1:0);
+			console.log($("[name=allDay]").val())
+			$("#process").val(event.extendedProps.process).prop("selected", true);
+			$("[name=process]").val(event.extendedProps.process);
+			$("[name=status]").val(event.extendedProps.status);
+			}  else {
+			// wbs 모달창
+			$("#title-wbs").text(event.title);
+			$("#content-wbs").text(event.extendedProps.content);
+			$("#start-wbs").text(event.start.toLocaleString());
+			$("#end-wbs").text(event.end.toLocaleString());
+			$("#process-wbs").text(event.extendedProps.status);
 		}
-		
-	});  	  
-  }
-  function addForm(event){
-  	$(".form")[0].reset();
-	$("[name=id]").val(event.id);
-	$("[name=workcode]").val(parseInt(event.workcode));
-	$("[name=title]").val(event.title);
-	$("#backgroundColor").val(event.backgroundColor).prop("selected", true);
-	$("[name=backgroundColor]").val(event.backgroundColor);
-	$("[name=pmColor]").val(event.pmColor);
-	$("[name=content]").val(event.extendedProps.content);
-	$("#start").val(event.start.toLocaleString());
-	$("[name=start]").val(event.start.toISOString());
-	$("#end").val(event.end.toLocaleString());
-	$("[name=end]").val(event.end.toISOString());
-	$("#allDay").val(event.allDay).prop("selected", true);
-	$("[name=allDay]").val((event.allDay?1:0)); 	  	  
-	$("#process").val(event.process).prop("selected", true);
-	$("[name=process]").val(event.process);
-  }
+	}
 </script>
+<style>
+	#table-wbs table tr th {
+	    font-size: 17px;
+	    color: black;
+	    padding: 10px;
+	    width: 20%;
+	}
+	#table-wbs table tr td {
+	    font-size: 17px;
+	    color: black;
+	    padding-left: 40px;
+	    width: 80%;
+	}
+	#table-wbs table tr {
+    height: 4vw;
+	}	
+</style>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
 	theme-layout="wide-layout">
 	<div id="main-wrapper">
@@ -180,7 +239,7 @@
 						<div
 							class="d-sm-flex align-items-center justify-content-between mb-4">
 							<h1 class="h3 mb-0 font-weight-bold text-gray-800">전체 일정</h1>
-							<button type="button" onclick="location.href='manage_mem.jsp'"
+							<button type="button" onclick="location.href='${path}/manage_mem.do'"
 								class="btn btn-primary">관리 페이지</button>
 						</div>
 						<!-- 일자 클릭시 메뉴오픈 -->
@@ -202,30 +261,29 @@
 										</button>
 									</div>
 									<div class="modal-body">
-
-										<form class="form" method="post">
+										<!-- 일반 등록창 -->
+										<form class="form-cal" method="post">
 											<input type="hidden" name="id" value="0" />
 											<div class="input-group mb-3">
 												<div class="input-group-prepend">
 													<span class="input-group-text">일정</span>
 												</div>
 												<input type="text" name="title" class="form-control"
-													placeholder="일정입력">
-												<input type="hidden" name="workcode" value="2"/>
+													placeholder="일정입력"> 
 											</div>
 											<div class="input-group mb-3">
 												<div class="input-group-prepend">
 													<span class="input-group-text">시작일</span>
 												</div>
 												<input type="text" id="start" class="form-control"
-													placeholder="입력"> <input type="hidden" name="start">
+													placeholder="입력" onchange="startChange(this.value)"> <input type="hidden" name="start"/>
 											</div>
 											<div class="input-group mb-3">
 												<div class="input-group-prepend">
 													<span class="input-group-text">종료일</span>
 												</div>
 												<input type="text" id="end" class="form-control"
-													placeholder="입력"> <input type="hidden" name="end">
+													placeholder="입력" onchange="endChange(this.value)"> <input type="hidden" name="end"/>
 											</div>
 											<div class="input-group mb-3">
 												<div class="input-group-prepend">
@@ -238,20 +296,20 @@
 												<div class="input-group-prepend">
 													<span class="input-group-text">일정색상</span>
 												</div>
-												<select id="backgroundColor" class="form-control"
-													onchange="backgroundColorChange(this.value);">
-													<option value="">색을 선택하세요</option>
-													<option value="#0099cc">보라색</option>
-													<option value="red">빨간색</option>
-													<option value="yellow">노랑색</option>
-													<option value="green">초록색</option>
-													<option value="brown">갈색</option>
-													<option value="black">검정색</option>
-													<option value="pink">분홍색</option>
-													<option value="navy">파란색</option>
-													<option value="aqua">하늘색</option>
-												</select> <input type="hidden" name="backgroundColor"/>
-												<input type="hidden" name="pmColor" value="purple"/>
+												<select id="borderColor" class="form-control"
+													onchange="colorChange(this.value);">
+													<option>색상을 선택해주세요</option>
+													<option value="#F44336" style="color:#F44336;">빨간색</option>
+													<option value="#F57C00" style="color:#F57C00;">주황색</option>
+													<option value="#FFD700" style="color:#FFD700;">노란색</option>
+													<option value="#2E7D32" style="color:#2E7D32;">초록색</option>
+													<option value="#0099cc" style="color:#0099cc;">하늘색</option>
+													<option value="#000000" style="color:#000000;">검은색</option>
+												</select>
+												<input type="hidden" name="borderColor">
+												<input type="hidden" name="backgroundColor">
+												<input type="hidden" name="textColor">
+												<input type="hidden" name="status">
 											</div>
 											<div class="input-group mb-3">
 												<div class="input-group-prepend">
@@ -259,8 +317,9 @@
 												</div>
 												<select id="allDay" class="form-control"
 													onchange="allDayChange(this.value);">
-													<option value="true">종일</option>
-													<option value="false">시간</option>
+													<option>종일여부를 선택해주세요</option>
+													<option value="true" id="all">종일</option>
+													<option value="false" id="time">시간</option>
 												</select> <input type="hidden" name="allDay" />
 											</div>
 											<div class="input-group mb-3">
@@ -269,45 +328,85 @@
 												</div>
 												<select id="process" class="form-control"
 													onchange="processChange(this.value);">
-													<option value=0>0%</option>
-													<c:forEach var="i" begin="1" end="100">
-													<option value="${i}">${i}%</option>
+													<option>진행률을 선택해주세요</option>
+													<c:forEach var="i" begin="0" end="100">
+														<option value="${i}">${i}%</option>
 													</c:forEach>
-												</select> <input type="hidden" name="process" value="0"/>
+												</select> <input type="hidden" name="process" />
 											</div>
 										</form>
+										<!-- wbs 모달창 -->
+										<div id="table-wbs">
+												<table height="100%">
+													<tr><th>일정</th><td id="title-wbs"></td></tr>
+													<tr><th>시작일</th><td id="start-wbs"></td></tr>
+													<tr><th>종료일</th><td id="end-wbs"></td></tr>
+													<tr><th>내용</th><td id="content-wbs"></td></tr>
+													<tr><th>진행률</th><td id="process-wbs"></td></tr>
+												</table>
+										</div>
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary"
 											data-dismiss="modal">Close</button>
-										<button type="button" id='regBtn' class="btn btn-primary">등록</button>
-										<button type="button" id='uptBtn' class="btn btn-info">수정</button>
-										<button type="button" id='delBtn' class="btn btn-warning">삭제</button>
+											<button type="button" id='regBtn' class="btn btn-primary">등록</button>
+											<button type="button" id='uptBtn' class="btn btn-info">수정</button>
+											<button type="button" id='delBtn' class="btn btn-warning">삭제</button>
 									</div>
 								</div>
 							</div>
-							</div>
 						</div>
-						<!-- /.container -->
 					</div>
+					<!-- /.container -->
 				</div>
 			</div>
-			<jsp:include page="footer.jsp" />
 		</div>
+		<jsp:include page="footer.jsp" />
+	</div>
 </body>
 <script>
-	var backgroundColorChange = function(value){
-		console.log(value);
-		$("[name=backgroundColor]").val(value);
+	var allDayChange = function(value) {
+		if(value == "true"){
+			$("[name=allDay]").val(1);
+		}else{
+			$("[name=allDay]").val(0);
+		}
+		if($("[name=allDay]").val() == 1){
+			$("[name=borderColor]").val($("#borderColor option:selected").val());
+			$("[name=backgroundColor]").val($("#borderColor option:selected").val());
+			$("[name=textColor]").val("#FFFFFF");
+		}else {
+			$("[name=borderColor]").val($("#borderColor option:selected").val());
+			$("[name=backgroundColor]").val("#FFFFFF");
+			$("[name=textColor]").val($("#borderColor option:selected").val());
+		}
+		console.log($("[name=allDay]").val());
 	}
-	var allDayChange = function(value){
-		console.log(value);
-		console.log($("[name=allDay]").val(value?"1":"2"));
-		$("[name=allDay]").val((value)?"1":"2");
+	var colorChange = function(value) {
+		$("[name=borderColor]").val(value);
+		$("[name=backgroundColor]").val("#FFFFFF");
+		$("[name=textColor]").val(value);
+		console.log($("[name=textColor]").val());
 	}
-	var processChange = function(value){
+	var processChange = function(value) {
 		console.log(value);
 		$("[name=process]").val(value);
+		if(value==0){
+			$("[name=status]").val("승인요청")
+		}else if(value>0&&value<100){
+			$("[name=status]").val("진행중")
+		}else{
+			$("[name=status]").val("종료됨")
+		}
+		console.log($("[name=status]").val());
+	}
+	var startChange = function(value) {
+		$("[name=start]").val(value.toISOString());
+		console.log($(value);
+	}
+	var endChange = function(value) {
+		$("[name=end]").val(value.toISOString());
+		console.log($("[name=end]").val());
 	}
 </script>
 

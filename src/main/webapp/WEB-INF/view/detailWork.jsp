@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Focus - Bootstrap Admin Dashboard</title>
+<title>SOPMS</title>
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="./images/favicon.png">
@@ -93,7 +93,7 @@
 		<jsp:include page="header.jsp" />
 		<jsp:include page="navi.jsp" />
 		<div class="content-body">
-			<h1 id="project">SL솔루션 homepage</h1>
+			<h1 id="project">${detail.pname}</h1>
 			<div id="content">
 				<h3>${detail.title}</h3>
 				<table>
@@ -113,7 +113,7 @@
 					</tr>
 					<tr>
 						<th>승인 담당자</th>
-						<td>${detail.pm}</td>
+						<td>${detail.pm_name}</td>
 						<th>상태</th>
 						<td>${detail.status}</td>
 					</tr>

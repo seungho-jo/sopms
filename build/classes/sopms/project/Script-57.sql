@@ -42,6 +42,10 @@ AND p.PCODE = 8;
 
 SELECT LISTAGG(dept,',') WITHIN GROUP(ORDER BY dept) AS dept FROM PROJECT_DEPT GROUP BY pcode;
 
+DROP TABLE board;
+DROP TABLE boardfile;
+DROP SEQUENCE board_seq;
+
 CREATE SEQUENCE board_seq
 START WITH 1
 MINVALUE 1
@@ -56,18 +60,50 @@ CREATE TABLE board(
 	readcnt NUMBER,
 	regdte date
 );
+CREATE TABLE boardfile(
+	bcode NUMBER, 
+	bfname varchar2(300),
+	credte date
+)
+
+SELECT * FROM LESOURCE;
+INSERT INTO LESOURCE VALUES (20,1);
 INSERT INTO board VALUES (board_seq.nextval,#{btitle},#{id},#{bcontent},#{readcnt},#{regdte});
 INSERT INTO board VALUES (board_seq.nextval,'테스트','홍길동','안녕',30,sysdate);
-INSERT INTO board VALUES (board_seq.nextval,'안녕하세요','김길동','안녕',30,sysdate);
-SELECT * FROM board;
+INSERT INTO board VALUES (1,'2021년도 사내승진 공고','정도원','2021년도 사내 승진 사항을 공고합니다.',0,sysdate);
+SELECT * FROM boardfile;
 SELECT *
 		FROM (
 		SELECT rownum cnt, b.*
 		FROM BOARD b
 		WHERE btitle LIKE '%'||''||'%'
-		AND name LIKE '%'||''||'%'
-		ORDER BY bcode DESC)
-		WHERE cnt BETWEEN 1 AND 5;
+		AND id LIKE '%'||''||'%')
+		WHERE cnt BETWEEN 1 AND 5
+		ORDER BY bcode DESC;
+				
+SELECT * FROM 
+(SELECT rownum cnt,a.* FROM
+(SELECT b.*,m.name
+from board b,MEMBER m
+WHERE b.id = m.id
+AND btitle LIKE '%'||''||'%'
+AND m.name LIKE '%'||''||'%'ORDER BY bcode desc) a)
+WHERE cnt BETWEEN 1 AND 12
+ORDER BY bcode ASC;
+
+		SELECT * FROM (
+		SELECT rownum cnt, b.*,m.name
+		FROM BOARD b, member m
+		WHERE
+		b.id = m.id
+		and btitle LIKE '%'||''||'%'
+		AND m.name LIKE '%'||''||'%'
+		ORDER BY bcode DESC
+		)
+		WHERE cnt BETWEEN 1 AND 5
+		ORDER BY bcode DESC;
+		
+	
 	
 		SELECT count(*)
 		FROM BOARD b
@@ -77,3 +113,4 @@ SELECT *
 	SELECT bcode, btitle, name, bcontent, readcnt, TO_CHAR(REGDTE ,'YYYY-MM-DD HH:MM') as REGDTE
 	FROM board
 	WHERE bcode =1;
+	SELECT * FROM board ORDER BY BCODE DESC;

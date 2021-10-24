@@ -11,8 +11,12 @@ public class Risk {
 	private String id;	// 사용자 테이블 id
 	private int pcode;
 	
-	private String pcodeS;
-	private String pname; // 
+	private String jochiPerson; 
+	
+	private String pcodeS; // 문자열 형태로 넘어오는 pcode
+	private String pname; // 프로젝트 이름
+	
+	private String m_name; // 멤버 이름
 	
 	public String getRisk_no() {
 		return risk_no;
@@ -80,6 +84,17 @@ public class Risk {
 	public void setPname(String pname) {
 		this.pname = pname;
 	}
-	
+	public String getM_name() {
+		return m_name;
+	}
+	public void setM_name(String m_name) {
+		this.m_name = m_name;
+	}
+	public String getJochiPerson() {
+		return jochiPerson;
+	}
+	public void setJochiPerson(String jochiPerson) {
+		this.jochiPerson = jochiPerson;
+	}
 	
 }

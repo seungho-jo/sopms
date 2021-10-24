@@ -1,5 +1,6 @@
 package sopms.project.controller;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import sopms.project.service.boardService;
 import sopms.vo.Board;
 import sopms.vo.BoardSch;
-import sopms.vo.Project;
 import sopms.vo.User;
 
 @Controller
@@ -29,7 +29,7 @@ public class boardController {
 			return "WEB-INF\\view\\projectboard_Insert.jsp";
 		} else {
 			d.addAttribute("msg", "접근권한이 없습니다.");
-			return "WEB-INF\\view\\main.jsp";	
+			return "forward:/board.do?method=list";	
 		}	
 	}
 	
@@ -37,9 +37,9 @@ public class boardController {
 	public String boardInsert(HttpServletRequest request, Board board) {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		board.setName(user.getName());
+		board.setId(user.getId());
 		service.insertBoard(board);
-		return "WEB-INF\\view\\projectboard_List.jsp";
+		return "redirect:/board.do?method=list";
 	}
 	
 	// http://localhost:7080/sopms/board.do?method=list
@@ -76,7 +76,8 @@ public class boardController {
 	@RequestMapping(params = "method=update")
 	public String boardUpdate(Board upt) {
 		service.update(upt);
-		return "WEB-INF\\view\\projectboard_Detail.jsp";
+		service.updatefile(upt);
+		return "redirect:/board.do?method=list";
 	}
 
 	// http://localhost:7080/sopms/board.do?method=delete
@@ -85,4 +86,6 @@ public class boardController {
 		service.deleteBoard(bcode);
 		return "redirect:/management.do";
 	}
+	
+
 }

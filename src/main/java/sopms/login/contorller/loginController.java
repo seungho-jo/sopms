@@ -17,9 +17,15 @@ public class loginController {
 	private loginService service;
 	// http://localhost:7080/sopms/index.do
 	@RequestMapping("index.do")
-	public String index() {
-		
-		return "WEB-INF\\view\\index.jsp";
+	public String index(HttpServletRequest request,Model d) {
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		if(user!=null) {
+			d.addAttribute("msg", "이미 로그인 하셨습니다");
+			return "forward:/dashboard.do";
+		}else {
+			return "WEB-INF\\view\\index.jsp";
+		}
 	}
 	
 	@RequestMapping("login.do")
@@ -40,5 +46,15 @@ public class loginController {
 		HttpSession session = request.getSession();
 		session.invalidate();
 		return "redirect:/index.do";
+	}
+	
+	@RequestMapping("myPage.do")
+	public String myPage(HttpServletRequest request,Model d) {
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		d.addAttribute("count",service.mypageCount(user.getId()));
+		d.addAttribute("pjlist",service.mypagePj(user.getId()));
+		d.addAttribute("wklist",service.mypageWork(user.getId()));
+		return "WEB-INF\\view\\myPage.jsp";
 	}
 }

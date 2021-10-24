@@ -21,14 +21,84 @@
 <link href="./vendor/jqvmap/css/jqvmap.min.css" rel="stylesheet">
 <link href="./css/manage_mem.css" rel="stylesheet">
 <!-- fullcalendar -->
-<link href="./vendor/fullcalendar/lib/main.css"
-	rel="stylesheet">
-<script src="./vendor/fullcalendar/lib/main.js"
-	type="text/javascript"></script>
+<link href="./vendor/fullcalendar/lib/main.css" rel="stylesheet">
+<script src="./vendor/fullcalendar/lib/main.js" type="text/javascript"></script>
+<script
+  src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
 <title>Insert title here</title>
 <script src="https://unpkg.com/vue/dist/vue.js" type="text/javascript"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	var calendarEl = document.getElementById('calendar');
+	var toDay = new Date().toISOString().split("T")[0];
+	var calendar = new FullCalendar.Calendar(calendarEl, {
+		headerToolbar : {
+			left : 'dayGridMonth,timeGridWeek,timeGridDay',
+			center : 'title',
+			right : 'prev,next today'
+		},
+		initialView: 'timeGridWeek',
+		initialDate : toDay,
+		navLinks : true,
+		selectable : true,
+		selectMirror : true,
+		eventLimit : false,
+		eventClick : function(arg) {
+			$("h2").click();
+			$("#exampleModalLongTitle").text("상세일정");
+			
+			if(arg.event.extendedProps.workcode != 0) {
+				$("#table-cal").hide();
+				$("#table-wbs").show();
+			}else{
+				$("#table-cal").show();
+				$("#table-wbs").hide();
+			}
+			addForm(arg.event);
+		},
+		editable : true,
+		dayMaxEvents : false,
+		events : function(info, successCallback, failureCallback) {
+			$.ajax({
+				type : "post",
+				url : "${path}/calList.do",
+				dataType : "json",
+				success : function(data) {
+					console.log(data)
+					successCallback(data);
+				},
+				error : function(err) {
+					console.log(err);
+				}
+
+			});
+
+		}
+	});
+
+	calendar.render();
+});
+function addForm(event) {
+	if(event.extendedProps.workcode == 0){
+		$("#title-cal").text(event.title);
+		$("#content-cal").text(event.extendedProps.content);
+		$("#start-cal").text(event.start.toLocaleString());
+		$("#end-cal").text(event.end.toLocaleString());
+		$("#process-cal").text(event.extendedProps.process+"%");
+	}  else {
+		// wbs 모달창
+		$("#title-wbs").text(event.title);
+		$("#content-wbs").text(event.extendedProps.content);
+		$("#start-wbs").text(event.start.toLocaleString());
+		$("#end-wbs").text(event.end.toLocaleString());
+		$("#process-wbs").text(event.extendedProps.status);
+	}
+}
+</script>
 <style>
 #proj_tab {
 	text-align: center;
@@ -38,6 +108,36 @@
 	color: darkgray;
 	font-weight: bold;
 }
+	#table-wbs table tr th {
+	    font-size: 17px;
+	    color: black;
+	    padding: 10px;
+	    width: 20%;
+	}
+	#table-wbs table tr td {
+	    font-size: 17px;
+	    color: black;
+	    padding-left: 40px;
+	    width: 80%;
+	}
+	#table-wbs table tr {
+    height: 4vw;
+	}	
+	#table-cal table tr th {
+	    font-size: 17px;
+	    color: black;
+	    padding: 10px;
+	    width: 20%;
+	}
+	#table-cal table tr td {
+	    font-size: 17px;
+	    color: black;
+	    padding-left: 40px;
+	    width: 80%;
+	}
+	#table-cal table tr {
+    height: 4vw;
+	}	
 </style>
 </head>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
@@ -86,78 +186,42 @@
 											<td>담당자</td>
 											<td>일정명</td>
 											<td>남은기한</td>
-											<td>진행률</td>
+											<td>진행상태</td>
 										</tr>
 									</thead>
 									<tbody class="text-secondary">
+										<c:forEach var="list" items="${calListAll}">
 										<tr>
-											<td>방성원</td>
-											<td>화면구현</td>
-											<td>10일</td>
+											<td>${list.cal_name}</td>
+											<td>${list.title}</td>
+											<td>${list.d_day}</td>
 											<td>
-												<div class="progress" style="height: 15px;">
-													<div class="progress-bar" role="progressbar"
-														aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
-														style="width: 90%;">
-														<span>90%</span>
-													</div>
-												</div>
+											<!-- 진행률별 프로테이지바 수정 -->
+											<c:choose>
+												<c:when test="${list.cal_process eq '진행중' || list.cal_process eq '승인요청'}">
+															<span>${list.cal_process}</span>
+												</c:when>
+												<c:otherwise>
+															<span>${list.cal_process}%</span>
+												</c:otherwise>
+											</c:choose>
 											</td>
 										</tr>
-										<tr>
-											<td>김길동</td>
-											<td>화면설계</td>
-											<td>14일</td>
-											<td>
-												<div class="progress" style="height: 15px;">
-													<div class="progress-bar" role="progressbar"
-														aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
-														style="width: 76%;">
-														<span>76%</span>
-													</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>홍길동</td>
-											<td>DB설계</td>
-											<td>16일</td>
-											<td>
-												<div class="progress" style="height: 15px;">
-													<div class="progress-bar" role="progressbar"
-														aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
-														style="width: 36%;">
-														<span>36%</span>
-													</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>신길동</td>
-											<td>DB설계</td>
-											<td>16일</td>
-											<td>
-												<div class="progress" style="height: 15px;">
-													<div class="progress-bar" role="progressbar"
-														aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
-														style="width: 54%;">
-														<span>54%</span>
-													</div>
-												</div>
-											</td>
-										</tr>
+										</c:forEach>
 									</tbody>
 								</table>
-								                            <ul class="pagination justify-content-center" id="paging">
-								<li class="page-item" id="pre"><a class="page-link">Pre</a></li>
-								<li class="page-item active" id="sel"><a class="page-link">1</a></li>
-								<li class="page-item"><a class="page-link">2</a></li>
-								<li class="page-item"><a class="page-link">3</a></li>
-								<li class="page-item"><a class="page-link">4</a></li>
-								<li class="page-item" id="next"><a class="page-link">
-										Next
-								</a></li>
-							</ul>
+								<form method="post">
+									<input type="hidden" name="curPage" value="1"/>
+								</form>
+								 <ul class="pagination justify-content-center" id="paging">
+									<li class="page-item" id="pre"><a class="page-link" href="javascript:goBlock(${calListSch.startBlock-1})">Pre</a></li>
+									<c:forEach var="cnt" begin="${calListSch.startBlock}" end="${calListSch.endBlock}">
+									<li class="page-item ${calListSch.curPage==cnt?'active':''}"><a class="page-link" href="javascript:goBlock(${cnt})">${cnt}</a></li>
+									</c:forEach>
+									<li class="page-item" id="next"><a class="page-link" href="javascript:goBlock(${calListSch.endBlock-1})">
+											Next
+									</a></li>
+								</ul>
 							</div>
 						</div>
 					</div>
@@ -169,9 +233,51 @@
 							<div class="container">
 								<!-- 주별 일정 -->
 								<div id="wrapper">
-									<div id="loading"></div>
 									<div id="calendar"></div>
 								</div>
+								<!-- 일정 추가 MODAL -->
+						<h2 data-toggle="modal" data-target="#exampleModalCenter"></h2>
+						<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+							role="dialog" aria-labelledby="exampleModalCenterTitle"
+							aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLongTitle">타이틀</h5>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<!-- 일반 모달창 -->
+										<div id="table-cal">
+												<table height="100%">
+													<tr><th>일정</th><td id="title-cal"></td></tr>
+													<tr><th>시작일</th><td id="start-cal"></td></tr>
+													<tr><th>종료일</th><td id="end-cal"></td></tr>
+													<tr><th>내용</th><td id="content-cal"></td></tr>
+													<tr><th>진행률</th><td id="process-cal"></td></tr>
+												</table>
+										</div>
+										<!-- wbs 모달창 -->
+										<div id="table-wbs">
+												<table height="100%">
+													<tr><th>일정</th><td id="title-wbs"></td></tr>
+													<tr><th>시작일</th><td id="start-wbs"></td></tr>
+													<tr><th>종료일</th><td id="end-wbs"></td></tr>
+													<tr><th>내용</th><td id="content-wbs"></td></tr>
+													<tr><th>진행률</th><td id="process-wbs"></td></tr>
+												</table>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
 							</div>
 							<!-- /.container -->
 						</div>
@@ -183,38 +289,73 @@
 	</div>
 </body>
 <script type="text/javascript">
-	//Pie Chart Example
-	var ctx = document.getElementById("myPieChart");
-	var myPieChart = new Chart(ctx, {
-		type : 'doughnut',
-		data : {
-			labels : [ "완료", "진행중", "시작전", "일정지연" ],
-			datasets : [ {
-				data : [ 7, 6, 4, 3 ],
-				backgroundColor : [ '#4e73df', '#1cc88a', '#36b9cc' ],
-				hoverBackgroundColor : [ '#2e59d9', '#17a673', '#2c9faf' ],
-				hoverBorderColor : "rgba(234, 236, 244, 1)",
-			} ],
-		},
-		options : {
-			maintainAspectRatio : false,
-			tooltips : {
-				backgroundColor : "rgb(255,255,255)",
-				bodyFontColor : "#858796",
-				borderColor : '#dddfeb',
-				borderWidth : 1,
-				xPadding : 15,
-				yPadding : 15,
-				displayColors : false,
-				caretPadding : 10,
-			},
-			legend : {
-				display : true,
-				position : 'bottom'
-			},
-			cutoutPercentage : 80,
-		},
-	});
+$(".metismenu").children().eq(6).attr('class', 'mm-active');
+$("#paging").children("li").click(function() {
+	$("#paging").children("li").attr('class', 'page-item');
+	$(this).attr('class', 'page-item active');
+});
+function goBlock(no){
+	$("[name=curPage]").val(no);
+	$("form").submit();
+}
+/*
+let calListObj = JSON.parse('${calListAll}');
+console.log(calListObj);
+let noArr = [];
+let titleArr = [];
+let d_dayArr = [];
+let cal_nameArr = [];
+let cal_processArr = [];
+calListObj.forEach(function(item, index, arr){
+	noArr.push(item.no);
+	titleArr.push(item.title);
+	d_dayArr.push(item.d_day);
+	cal_nameArr.push(item.cal_name);
+	cal_processArr.push(item.cal_process);
+})
+*/
+
+//Pie Chart Example
+console.log(${calStatus});
+let calStatusObj = JSON.parse('${calStatus}');
+let statusArr = [];
+let cntArr = [];
+calStatusObj.forEach(function(item, index, arr){
+   statusArr.push(item.status);
+   cntArr.push(item.cnt);
+})
+var ctx = document.getElementById("myPieChart");
+var myPieChart = new Chart(ctx, {
+   type : 'doughnut',
+   data : {
+      labels : statusArr,
+      datasets : [{
+         data : cntArr,
+         backgroundColor : [ '#4e73df', '#1cc88a', '#36b9cc' ],
+         hoverBackgroundColor : [ '#2e59d9', '#17a673', '#2c9faf' ],
+         hoverBorderColor : "rgba(234, 236, 244, 1)",
+      }],
+   },
+   options : {
+      maintainAspectRatio : false,
+      tooltips : {
+         backgroundColor : "rgb(255,255,255)",
+         bodyFontColor : "#858796",
+         borderColor : '#dddfeb',
+         borderWidth : 1,
+         xPadding : 15,
+         yPadding : 15,
+         displayColors : false,
+         caretPadding : 10,
+      },
+      legend : {
+         display : true,
+         position : 'bottom'
+      },
+      cutoutPercentage : 80,
+   },
+});
+
 	function number_format(number, decimals, dec_point, thousands_sep) {
 		// *     example: number_format(1234.56, 2, ',', ' ');
 		// *     return: '1 234,56'
@@ -237,31 +378,6 @@
 		}
 		return s.join(dec);
 	}
-	
-	<!-- 페이징 -->
-	$("#paging").children("li").click(function() {
-		var id = $(this).attr('id');
-		if(id=='next'){
-			if($('.active').next().attr('id')==id){
-				alert("마지막 페이지 입니다");
-				return;
-			}else{
-				$('.active').next().attr('class', 'page-item active');
-				$('.active').first().attr('class', 'page-item');
-			}
-		}else if(id=='pre'){
-			if($('.active').prev().attr('id')==id){
-				alert("첫 페이지 입니다");
-				return;
-			}else{
-				$('.active').prev().attr('class', 'page-item active');
-				$('.active').last().attr('class', 'page-item');
-			}
-		}else{
-			$("#paging").children("li").attr('class', 'page-item');
-			$(this).attr('class', 'page-item active');
-		}
-	});
 </script>
 
 <!-- Required vendors -->

@@ -95,47 +95,6 @@ ALTER TABLE RISK
 	RENAME CONSTRAINTS risk_to_risk_Risk_Response TO risk_to_member;
 	
 
-/* 리스크 조치 */
-CREATE TABLE Risk_Response (
-	risk_no VARCHAR2(15), /* 리스크번호 */
-	response_content VARCHAR2(1000), /* 리스크조치내용 */
-	response_upt DATE, /* 리스크조치일 */
-	id VARCHAR2(60)  /* 아이디(사원번호) */
-);
-
-SELECT * FROM risk_response;
-
-/*제약조건 foreign_key member id -> risk_Resonse id, risk risk_no => risk_Response risk_no*/
-
-ALTER TABLE RISK_RESPONSE
-	ADD 
-		CONSTRAINTS risk_Response_to_risk
-		FOREIGN KEY (risk_no) REFERENCES risk(risk_no);
-
-ALTER TABLE RISK_RESPONSE
-	ADD 	
-		CONSTRAINTS risk_Response_to_member
-		FOREIGN KEY (id) REFERENCES MEMBER(id);
-		
-
-/* 리스크 댓글 */
-CREATE TABLE Risk_Comment (
-	risk_no VARCHAR2(15), /* 리스크번호 */
-	comment_content VARCHAR2(1000), /* 댓글내용 */
-	id varchar2(60)/* 아이디(사원번호) */
-);
-
-ALTER TABLE Risk_Comment
-	ADD 
-		CONSTRAINTS Risk_Comment_to_risk
-		FOREIGN KEY (risk_no) REFERENCES risk(risk_no);
-
-ALTER TABLE Risk_Comment
-	ADD 
-		CONSTRAINTS Risk_Comment_to_member
-		FOREIGN KEY (id) REFERENCES MEMBER(id);
-
-SELECT * FROM Risk_Comment;
 
 
 /*  시퀀스 형식
@@ -225,7 +184,8 @@ update risk
 				risk_content = 'test',
 				risk_status ='조치완료'
 			where risk_no = 14;
-			
+		
+/* 리스크 조치 테이블 */
 CREATE TABLE riskJochi(
 	risk_no VARCHAR2(15),
 	id  VARCHAR2(60),
@@ -263,3 +223,129 @@ UPDATE SET
 WHEN NOT MATCHED THEN 
 INSERT (a.risk_no, a.id, a.RISK_JOCHICONT, a.RISK_JOCHIUPT) 
 VALUES (14,'happy02','testing',sysdate);
+
+ALTER TABLE riskJochi ADD pname varchar2(70);
+
+select rownum as no, r.risk_name, r.risk_content, r.id, r.risk_reg
+		from risk r, member m 
+		where r.id = m.id
+		and pcode = 2;
+
+SELECT * FROM risk;
+ALTER TABLE risk ADD RANK varchar2(50);
+
+UPDATE risk SET jochiperson = 'happy07' WHERE id= 'happy' AND risk_no = 4;
+UPDATE risk SET jochiperson = 'happy01' WHERE id = 'happy01' AND risk_no = 1;
+UPDATE risk SET jochiperson = 'happy07' WHERE id = 'happy07' AND risk_no = 3;
+UPDATE risk SET jochiperson = 'happy07' WHERE id = 'happy07' AND risk_no = 4;
+UPDATE risk SET jochiperson = 'happy06' WHERE id = 'happy06' AND risk_no = 8;
+UPDATE risk SET jochiperson = 'happy09' WHERE id = 'happy09' AND risk_no = 9;
+UPDATE risk SET jochiperson = 'happy10' WHERE id = 'happy10' AND risk_no = 10;
+UPDATE risk SET jochiperson = 'happy11' WHERE id = 'happy11' AND risk_no = 11;
+
+UPDATE risk SET RANK = '부장' WHERE id = 'happy02';
+UPDATE risk SET RANK = '차장' WHERE id = 'happy01';
+UPDATE risk SET RANK = '주임' WHERE id = 'happy07';
+UPDATE risk SET RANK = '주임' WHERE id = 'happy06';
+UPDATE risk SET RANK = '사원' WHERE id = 'happy09';
+UPDATE risk SET RANK = '과장' WHERE id = 'happy10';
+UPDATE risk SET RANK = '부장' WHERE id = 'happy11';
+
+
+update risk 
+		set jochiPerson = 'happy07'
+		where risk_no = 8
+		and pcode = 9;
+		
+	
+SELECT m.id, m.name 
+FROM LESOURCE l, MEMBER m
+WHERE m.id = l.id
+AND l.pcode = 2;
+
+DELETE FROM risk WHERE pcode = 26 AND risk_no = 33;
+
+SELECT * FROM risk;
+
+SAVEPOINT p1;
+DELETE FROM risk WHERE NOT pcode = 2;
+
+DELETE FROM RISKJOCHI;
+
+select * from
+		( select rownum as no, b.*, d.name AS dname, p.pname from 
+		( select a.risk_name, a.risk_status, a.risk_reg, a.risk_no
+			from risk a
+			where a.risk_name like '%'||'' ||'%'
+			order by risk_reg DESC
+		) b, risk r, MEMBER d, project p
+		 WHERE r.id = d.id
+		 AND p.pcode = r.pcode
+		 and d.name LIKE '%'||''|| '%'
+		)
+		where no between 1 and 10;
+
+	
+SELECT m.name FROM risk r, MEMBER m
+WHERE m.id = r.id;
+
+DELETE FROM risk WHERE risk_no = 18;
+
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 19;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 20;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 22;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 21;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 37;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 38;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 39;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 40;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 41;
+UPDATE risk SET risk_upt = risk_reg WHERE risk_no = 42;
+
+
+select * from
+		( select rownum as no, b.*, d.name as m_name, p.pname from 
+		( select risk_name, risk_status, risk_reg, risk_upt, risk_no
+			from risk 
+			where risk_name like '%'||''||'%'
+			order by risk_reg DESC
+		) b, risk r, MEMBER d, project p
+		 WHERE r.id = d.id
+		 and r.pcode = p.pcode
+		 and d.name LIKE '%'||''|| '%' 
+		 )
+		where no between 1 and 11;
+
+SELECT p.pname, r.risk_name, r.risk_no, r.risk_status, m.name,  r.risk_reg, nvl(r2.RISK_JOCHIUPT,'-')  FROM project p, LESOURCE l, risk r, RISKJOCHI r2, MEMBER m
+WHERE p.pcode = l.PCODE AND r.risk_no = r2.risk_no 
+AND p.pcode = r.pcode AND r.id = m.id AND l.id = 'happy02';
+
+SELECT * FROM 
+(SELECT rownum AS NO, a.* FROM 
+(SELECT p.pname, r.risk_name, r.risk_no, r.risk_status, to_char(r.risk_reg,'yyyy-mm-dd') AS risk_reg, nvl(to_char(r2.RISK_JOCHIUPT,'yyyy-mm-dd'), '-') AS risk_upt, m.name AS m_name
+FROM LESOURCE l , PROJECT p, RISK r, RISKJOCHI r2, MEMBER m 
+WHERE p.PCODE = l.PCODE 
+AND p.pcode = r.PCODE 
+AND r.risk_no = r2.risk_no(+)
+AND r.id = m.id
+AND l.id = 'happy02'
+ORDER BY risk_reg DESC ) a
+WHERE risk_name like '%'||''||'%'
+AND m_name LIKE '%'||''|| '%'
+)
+WHERE NO BETWEEN 1 AND 20;
+
+
+SELECT count(*) FROM 
+			(SELECT p.pname, r.risk_name, r.risk_no, r.risk_status, to_char(r.risk_reg,'yyyy-mm-dd') AS risk_reg, nvl(to_char(r2.RISK_JOCHIUPT,'yyyy-mm-dd'), '-'), m.name
+			FROM LESOURCE l , PROJECT p, RISK r, RISKJOCHI r2, MEMBER m 
+			WHERE p.PCODE = l.PCODE 
+			AND p.pcode = r.PCODE 
+			AND r.risk_no = r2.risk_no(+)
+			AND r.id = m.id
+			AND l.id = 'happy02'
+			ORDER BY risk_reg DESC ) a
+			WHERE risk_name like '%'||''||'%'
+			AND name LIKE '%'||''|| '%';
+
+SELECT to_char(sysdate,'yyyy-mm-dd') FROM dual;

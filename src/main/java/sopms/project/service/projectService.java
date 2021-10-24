@@ -15,6 +15,8 @@ public class projectService {
 	public void insertProject(Project ins) {
 		dao.insertProject(ins);
 		insertProject_dept(ins);
+		dao.insertWbs(ins);
+		dao.insertresource(ins);
 	}
 	public void insertProject_dept(Project ins) {
 		String[] depts = ins.getDept().split(",");

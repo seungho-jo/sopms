@@ -8,10 +8,48 @@ public class Calendar {
 	private String start;
 	private String end;
 	private boolean allDay;
+	private String borderColor;
 	private String backgroundColor;
-	private String pmColor;
+	private String textColor;
+	private String pm;
 	private String manager;
+	private String name;
 	private int process;
+	private String status;
+	private String rank;
+	private int parent;
+	
+	
+	public int getParent() {
+		return parent;
+	}
+	public void setParent(int parent) {
+		this.parent = parent;
+	}
+	public String getRank() {
+		return rank;
+	}
+	public void setRank(String rank) {
+		this.rank = rank;
+	}
+	public String getPm() {
+		return pm;
+	}
+	public void setPm(String pm) {
+		this.pm = pm;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public int getId() {
 		return id;
 	}
@@ -60,12 +98,6 @@ public class Calendar {
 	public void setBackgroundColor(String backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
-	public String getPmColor() {
-		return pmColor;
-	}
-	public void setPmcolor(String pmColor) {
-		this.pmColor = pmColor;
-	}
 	public String getManager() {
 		return manager;
 	}
@@ -77,6 +109,18 @@ public class Calendar {
 	}
 	public void setProcess(int process) {
 		this.process = process;
+	}
+	public String getBorderColor() {
+		return borderColor;
+	}
+	public void setBorderColor(String borderColor) {
+		this.borderColor = borderColor;
+	}
+	public String getTextColor() {
+		return textColor;
+	}
+	public void setTextColor(String textColor) {
+		this.textColor = textColor;
 	}
 	
 }

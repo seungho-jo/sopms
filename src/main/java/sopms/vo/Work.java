@@ -3,7 +3,8 @@ package sopms.vo;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Work {
-	private int workcode;
+	private int no;
+	private String workcode;
 	private String title;
 	private String content;
 	private String start_date;
@@ -17,15 +18,24 @@ public class Work {
 	private String reqmsg;
 	private String apprmsg;
 	private String compmsg;
+	private String reqdate;
+	private String uptdate;
 	private String apprdate;
 	private MultipartFile report;
+	private String fname;
 	private String pm_name;
 	private String m_name;
-	
-	public int getWorkcode() {
+	private String pname;
+	public int getNo() {
+		return no;
+	}
+	public void setNo(int no) {
+		this.no = no;
+	}
+	public String getWorkcode() {
 		return workcode;
 	}
-	public void setWorkcode(int workcode) {
+	public void setWorkcode(String workcode) {
 		this.workcode = workcode;
 	}
 	public String getTitle() {
@@ -106,6 +116,18 @@ public class Work {
 	public void setCompmsg(String compmsg) {
 		this.compmsg = compmsg;
 	}
+	public String getReqdate() {
+		return reqdate;
+	}
+	public void setReqdate(String reqdate) {
+		this.reqdate = reqdate;
+	}
+	public String getUptdate() {
+		return uptdate;
+	}
+	public void setUptdate(String uptdate) {
+		this.uptdate = uptdate;
+	}
 	public String getApprdate() {
 		return apprdate;
 	}
@@ -117,6 +139,12 @@ public class Work {
 	}
 	public void setReport(MultipartFile report) {
 		this.report = report;
+	}
+	public String getFname() {
+		return fname;
+	}
+	public void setFname(String fname) {
+		this.fname = fname;
 	}
 	public String getPm_name() {
 		return pm_name;
@@ -130,7 +158,11 @@ public class Work {
 	public void setM_name(String m_name) {
 		this.m_name = m_name;
 	}
-	
-	
-	
+	public String getPname() {
+		return pname;
+	}
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
+
 }

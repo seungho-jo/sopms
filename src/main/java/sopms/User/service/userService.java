@@ -15,6 +15,27 @@ public class userService {
 	@Autowired
 	private userDao dao;
 
+	public void resource2(User user){
+		String[] mlist = user.getId().split(",");
+		for(int i=0; i<mlist.length;i++) {
+			user.setId(mlist[i]);	
+			dao.resource2(user);
+		}
+	}
+	 public ArrayList<User> resourceModal(String pcode){
+		 ArrayList<String> list = dao.resourceModal1(pcode);
+		ArrayList<User> memlist = new ArrayList<User>();
+		User user1 = new User();
+		user1.setPcode(Integer.parseInt(pcode));
+		
+		for(int i=0; i<list.size(); i++) {
+			user1.setDept(list.get(i));
+			for(User user:dao.resourceModal2(user1)){
+				memlist.add(user);
+			}
+		}
+		return memlist;
+	} 
 	public void resourcememberDelete(String id) {
 		
 		dao.resourcememberDelete(id);
@@ -83,7 +104,8 @@ public class userService {
 				}
 				sch.setEndBlock(endBlock);
 				sch.setStartBlock((blocknum-1)*sch.getBlockSize()+1);
-
+				
+				if(sch.getStartBlock()<0) {sch.setStartBlock(1);} //검색에서 없는 데이터 찾을때 500 안나오는 코드 
 		return  dao.userListPaging(sch);
 	}
 }

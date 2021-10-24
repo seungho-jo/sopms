@@ -3,8 +3,9 @@ package sopms.vo;
 public class riskSch {
 	// 요청값과 로직을 통해서 검색을 위한 vo
 	// 1. 검색 : 제목/작성자
-	private String risk_name;
+	private String risk_name;	// 리스크명
 	private String id;
+	private String name;	// 등록자명
 	
 	// 2. 페이징 처리를 위한 속성.
 	private int count; // 총데이터 건수
@@ -86,6 +87,13 @@ public class riskSch {
 	public void setEnd(int end) {
 		this.end = end;
 	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	
 	
 }

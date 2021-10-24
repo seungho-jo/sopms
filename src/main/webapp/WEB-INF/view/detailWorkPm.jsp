@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Focus - Bootstrap Admin Dashboard</title>
+<title>SOPMS</title>
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="./images/favicon.png">
@@ -116,14 +116,14 @@
 					<fmt:parseDate var="end_date1" value="${detail.end_date}" pattern="yyyy-MM-dd"/>
 					<fmt:formatDate  var="end_date2" value="${end_date1}" type="DATE" pattern="yyyy-MM-dd"/>
 					<tr>
-						<th>시작일</th>
+						<th>작업 시작일</th>
 						<td>${start_date2}</td>
-						<th>완료일</th>
+						<th>작업 완료일</th>
 						<td>${end_date2}</td>
 					</tr>
 					<tr>
 						<th>승인 요청자</th>
-						<td>${detail.manager}</td>
+						<td>${detail.m_name}</td>
 						<th>상태</th>
 						<td>${detail.status}</td>
 					</tr>
@@ -137,7 +137,7 @@
 					<tr>
 						<th>첨부파일</th>
 						<td><div class="custom-file" id="fname">
-								${detail.fname}
+								${detail.fname == null?'':detail.fname}
 							</div></td>
 					</tr>
 				</table>
@@ -236,7 +236,7 @@
 	$("#back").click(function(){
 		history.back();
 	})
-	$("#fname").click(function(){
+	$("#fname").text().click(function(){
 		location.href="${path}/download.do?fname="+$(this).text();
 	})
 </script>

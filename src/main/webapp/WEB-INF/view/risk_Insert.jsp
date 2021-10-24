@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Focus - Bootstrap Admin Dashboard</title>
+<title>SOPMS</title>
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="./images/favicon.png">
@@ -36,6 +36,8 @@
 		<jsp:include page="navi.jsp" />
 		<div class="content-body">
 			<form style="display: flex" method="post">
+			<input type="hidden" name="jochiPerson" value="">
+			<input type="hidden" name="rank" value="">
 			<div class="card" style="min-height:1000px;">
 			<h2 id="card-title">리스크 등록</h2>
 				<div class="card-body">
@@ -93,19 +95,6 @@
 						      </select>
 					    	</div>
 					  </div>
-					  
-					<!-- 등록자 -->
-						<div class="col-4 mb-3">
-							<div class="form-floating">
-					     		<h4 id="title">등록자 </h4>
-					    	</div>
-					    </div>
-					    <div class="col-6 mb-3">
-					    	<div class="form-floating">
-					      		<input type="text" class="form-control" placeholder="등록자 아이디" aria-label="등록자 아이디" name="id">
-					    	</div>
-					  	</div>
-					
 				</div>
 				<div class="row g-2">
 					<div class="col-md mb-3">
@@ -155,13 +144,36 @@
 	$(".metismenu").children().eq(8).attr('class', 'mm-active');
 	
 	$("#button_left").click(function(){
-		$("form").attr("action", "${path}/insertRisk.do");
-		$("form").submit();
-		
+		if($("[name=pcodeS]").val()=="프로젝트"){
+			alert("프로젝트명을 선택하세요.");
+			$("[name=pcodeS]").focus();
+			return false;
+		}else if($("[name=risk_name]").val()==""){
+			alert("리스크명을 입력하세요.");
+			$("[name=risk_name]").focus();
+			return false;
+		}else if($("[name=risk_content]").val()==""){
+			alert("리스크내용을 입력하세요.");
+			$("[name=risk_content]").focus();
+			return false;
+		}else if($("[name=risk_status]").val()=="리스크 상태"){
+			alert("리스크 상태를 선택하세요.");
+			$("[name=risk_status]").focus();
+			return false;
+		}else if($("[name=id]").val()==""){
+			alert("등록자를 선택하세요.");
+			$("[name=id]").focus();
+			return false;
+		}else{
+			$("form").attr("action", "${path}/insertRisk.do");
+			$("form").submit();
+		}
 	});
 	
 	$("#button_right").click(function(){
-		$("location").attr("href","${path}/riskPageList.do");
+		if(confirm("취소하시겠습니까?")){
+		$(location).attr("href","${path}/riskPageList.do");
+		}
 	});
 	
 	$("#status").change(function(){
