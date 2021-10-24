@@ -347,3 +347,5 @@ SELECT count(*) FROM
 			ORDER BY risk_reg DESC ) a
 			WHERE risk_name like '%'||''||'%'
 			AND name LIKE '%'||''|| '%';
+
+SELECT to_char(sysdate,'yyyy-mm-dd') FROM dual;
