@@ -20,7 +20,7 @@
 	where name like '%'|| #{name} ||'%'
 	</select>
 	<insert id="insertUser" parameterType="user">
-	insert into member values (#{id}, #{pass}, #{name}, #{rank}, #{dept}, sysdate, null)		
+	insert into member values (#{id}, #{pass}, #{name}, #{rank}, #{dept}, sysdate)		
 	</insert> 
 	<delete id="deleteMember" parameterType="String">
 		delete from member where id = #{id}

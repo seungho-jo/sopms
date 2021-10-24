@@ -44,7 +44,7 @@ table {
 #card1 {
 	position: relative;
 	margin: auto;
-	width: 1300px;
+	width: 100%;
 	height: 850px;
 	background-color: white;
 	border-radius: 10px;
@@ -68,21 +68,20 @@ td {
 	margin-top: 80px;
 }
 
-#searchForm {
-	position: absolute;
-	right: 17%;
-	top: 13%;
-	display: inline-block;
-}
-
-#btncommit {
-	position: absolute;
-	right: 6%;
-	top: 13%;
-}
-
 #modalbody {
 	text-align: center;
+}
+.card-body{
+	position:relative;
+}
+#searchForm{ /*검색 폼*/
+	width:58%;
+	height:70%;
+	margin-left:39%;
+	display: inline-block;
+}
+#btncommit { /*버튼*/
+	margin-left:9%;
 }
 </style>
 </head>
@@ -105,20 +104,20 @@ td {
 <div class="basic-form">
 	<form id="searchForm" >
 		<div class="form-row align-items-center">
-			<div class="col-auto">
-				<div class="input-group mb-2">
+			<div class="col-auto" id="searchForm">
+				<div class="input-group mb-2" >
 					<div class="input-group-prepend">
 						<div class="input-group-text">검색</div>
 					</div>
 					<input type="text" class="form-control" name="name"
 						value="${param.name}" placeholder="이름으로 검색하세요">
+				<button type="button" id="btncommit" class="btn btn-secondary"
+				onclick="location.href='${path}/Insertpage.do'">등록하기</button>
+				</div>
+				
 			</div>
 		</div>
-	</div>
 </form>
-<button type="button" id="btncommit" class="btn btn-secondary"
-	onclick="location.href='${path}/Insertpage.do'">등록하기</button>
-
 
 <div class="div-memberTable" style="margin-top: 5%;">
 <form id="form1" method="post">
