@@ -93,9 +93,10 @@
 												</c:forEach>
 											</select>
 										</div>
-										<button type="submit" class="btn btn-primary teamSch">검색하기</button>
+
 									</form>
 								</div>
+								<button type="submit" class="btn btn-primary teamSch" style="height: 40%; margin-top: 4%;">검색하기</button>
 							</li>
 						</ol>
 					</nav>
@@ -116,7 +117,6 @@
 										<div class="card-body">
 											<form action="getChatroom.do" method="post">
 												<input type="hidden" name="toId" value="${user.id}" />
-												<p class="card-text id">${user.id}</p>
 												<p class="card-text name-rank">${user.name}${user.rank}</p>
 												<p class="card-text">
 													<button type="submit" class="btn btn-primary privateChat">대화

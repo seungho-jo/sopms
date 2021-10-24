@@ -28,7 +28,7 @@ public class projectService {
 		
 	}
 	public void update(Project upt) {
-		dao.deleteProject_dept(upt);
+		dao.deleteProject_dept(Integer.parseInt(upt.getPcode()));
 		dao.updateProject(upt);			
 	}	
 	
@@ -41,6 +41,9 @@ public class projectService {
 		}		
 	}	
 	public void deleteProject(int pcode) {
+		dao.deleteWbs1(pcode);
+		dao.deleteWbs2(pcode);
+		dao.deleteProject_dept(pcode);
 		dao.deleteProject(pcode);
 	}		
 	public Project getProject(int pcode) {

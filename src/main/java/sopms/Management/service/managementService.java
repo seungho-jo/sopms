@@ -54,6 +54,8 @@ public class managementService {
 	
 	public void deleteWbs(int id) {
 		dao.deleteWbs(id);
+		dao.deleteWorks(id);
+		dao.deleteWorkFile(id);
 		dao.deleteCal(id);
 	}	
 	

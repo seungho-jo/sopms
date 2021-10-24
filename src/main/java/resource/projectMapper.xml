@@ -24,6 +24,14 @@
 		DELETE FROM project
 		WHERE pcode = #{pcode}
 	</delete>
+	<delete id="deleteWbs1" parameterType="int">
+		delete from wbs
+		where workcode = #{pcode}
+	</delete>
+	<delete id="deleteWbs2" parameterType="int">
+		delete from wbs
+		where parent = #{pcode}
+	</delete>
 	<select id="getProject" resultType="project" parameterType="int">
 		SELECT p.pcode, pname, id, teamnum, TO_CHAR(startdate,'YYYY-MM-DD') as
 		startdate, TO_CHAR(enddate,'YYYY-MM-DD') as enddate,
@@ -45,7 +53,7 @@
 		explanation = #{explanation}
 		WHERE pcode = #{pcode}
 	</update>
-	<delete id="deleteProject_dept" parameterType="project">
+	<delete id="deleteProject_dept" parameterType="int">
 		delete from project_dept
 		where pcode = #{pcode}
 	</delete>
