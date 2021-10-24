@@ -189,7 +189,7 @@
 							</button>
 						</div>
 						<form id="frm01" style="display: flex" method="post">
-						<input type="hidden" name="pcodeS" value="${riskDetail.pcode}">
+						<input type="hidden" name="pcode" value="${riskDetail.pcode}">
 						<input type="hidden" name="risk_no" value="${riskDetail.risk_no}">
 						<div class="modal-body">
 							<div class="row g-2">
@@ -199,7 +199,7 @@
 								<div class="col-4 mb-3">
 									<select class="form-select" aria-label="Default select example"
 										id="modal_status" name="jochiPerson">
-										<option selected>리스크상태</option>
+										<option selected>조치자 선택</option>
 										<c:forEach var="meml" items="${memList}">
 											<option value="${meml.id}">${meml.name}</option>
 										</c:forEach>
@@ -309,7 +309,9 @@
 	$(".metismenu").children().eq(8).attr('class', 'mm-active');
 	
 	function goDelete(no){
-		$(location).attr("href","${path}/deleteRisk.do?risk_no="+no);
+		if(confirm("삭제하시겠습니까?")){
+			$(location).attr("href","${path}/deleteRisk.do?risk_no="+no);
+		}
 	}
 	// 조치버튼 클릭
 	$("#btn_complete").click(function(){

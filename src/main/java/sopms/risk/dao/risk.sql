@@ -362,3 +362,21 @@ AND l.pcode = 2;
 select p.pname, p.pcode from project p, LESOURCE l
 		where l.id = 'happy02'
 		and l.pcode = p.pcode;
+		
+SELECT m.id, m.name 
+		FROM LESOURCE l, MEMBER m
+		WHERE m.id = l.id
+			AND l.pcode = 42;
+			
+DELETE FROM risk WHERE JOCHIPERSON = ',2';
+DELETE FROM risk WHERE JOCHIPERSON = ',happy05';
+
+SELECT m.id, m.name 
+		FROM LESOURCE l, MEMBER m
+		WHERE m.id = l.id
+			AND l.pcode = 42;
+
+update risk 
+		set jochiPerson = 'happy07'
+		where risk_no = 57
+		and pcode = 2;
