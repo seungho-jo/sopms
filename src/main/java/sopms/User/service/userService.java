@@ -104,7 +104,8 @@ public class userService {
 				}
 				sch.setEndBlock(endBlock);
 				sch.setStartBlock((blocknum-1)*sch.getBlockSize()+1);
-				if(sch.getStartBlock()<0) {sch.setStartBlock(1);}
+				
+				if(sch.getStartBlock()<0) {sch.setStartBlock(1);} //검색에서 없는 데이터 찾을때 500 안나오는 코드 
 		return  dao.userListPaging(sch);
 	}
 }
