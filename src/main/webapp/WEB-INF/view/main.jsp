@@ -90,7 +90,7 @@
 									<div class="card-body">
 										<div class="h4 mt-4 mb-0 font-weight-bold text-gray-800 text-center">
 											<div class="h4 mb-0 mt-4 font-weight-bold text-gray-800 text-center">
-												<span id="project_cnt_PM" data-toggle="tooltip" data-html="true" data-placement="right" title=""></span>
+												<span id="project_cnt_PM" data-toggle="tooltip" data-html="true" data-placement="right"></span>
 											</div>
 										</div>
 									</div>
@@ -109,7 +109,7 @@
 										</div>
 										<hr>
 										<div class="h5 mb-0 font-weight-bold text-gray-800 text-center">승인요청 
-											<span id="task_req_cnt_PM" data-toggle="tooltip" data-html="true" data-placement="right" title=""></span>
+											<span id="task_req_cnt_PM" data-toggle="tooltip" data-html="true" data-placement="right"></span>
 										</div>
 									</div>
 								</div>
@@ -123,7 +123,7 @@
 									</div>
 									<div class="card-body">
 										<div class="h4 mb-0 mt-4 font-weight-bold text-gray-800 text-center">
-											<span id="risk_cnt_PM" data-toggle="tooltip" data-html="true" data-placement="right" title=""></span>
+											<span id="risk_cnt_PM" data-toggle="tooltip" data-html="true" data-placement="right"></span>
 										</div>
 									</div>
 								</div>
@@ -137,7 +137,7 @@
 									</div>
 									<div class="card-body">
 										<div class="h4 mb-0 mt-4 font-weight-bold text-gray-800 text-center">
-											<span id="output_cnt_PM" data-toggle="tooltip" data-html="true" data-placement="right" title=""></span>
+											<span id="output_cnt_PM" data-toggle="tooltip" data-html="true" data-placement="right"></span>
 										</div>
 									</div>
 								</div>
@@ -154,7 +154,7 @@
 									</div>
 									<div class="card-body">
 										<div class="h4 mt-4 mb-0 font-weight-bold text-gray-800 text-center">
-											<span id="project_cnt" data-toggle="tooltip" data-html="true" data-placement="right" title=""></span>
+											<span id="project_cnt" data-toggle="tooltip" data-html="true" data-placement="right"></span>
 										</div>
 									</div>
 								</div>
@@ -168,7 +168,7 @@
 									</div>
 									<div class="card-body">
 										<div class="h4 mb-0 mt-4 font-weight-bold text-gray-800 text-center">
-											<span id="task_cnt" data-toggle="tooltip" data-html="true" data-placement="right" title=""></span>
+											<span id="task_cnt" data-toggle="tooltip" data-html="true" data-placement="right"></span>
 										</div>
 									</div>
 								</div>
@@ -182,7 +182,7 @@
 									</div>
 									<div class="card-body">
 										<div class="h4 mb-0 mt-4 font-weight-bold text-gray-800 text-center">
-											<span id="risk_cnt" data-toggle="tooltip" data-html="true" data-placement="right" title=""></span>
+											<span id="risk_cnt" data-toggle="tooltip" data-html="true" data-placement="right"></span>
 										</div>
 									</div>
 								</div>
@@ -196,7 +196,7 @@
 									</div>
 									<div class="card-body">
 										<div class="h4 mb-0 mt-4 font-weight-bold text-gray-800 text-center">
-											<span id="output_cnt" data-toggle="tooltip" data-html="true" data-placement="right" title=""></span>
+											<span id="output_cnt" data-toggle="tooltip" data-html="true" data-placement="right"></span>
 										</div>
 									</div>
 								</div>
@@ -284,7 +284,10 @@
 								<tr onClick="location.href='${path}/board.do?method=detail&bcode=${board.bcode}'"
 									style="cursor:pointer">
 									<td>${board.btitle}</td>
-									<td>${board.name}</td>
+									<td><span class="emp_name">
+											<input class="emp_id" type="hidden" value="${board.id}"/>
+											${board.name}		
+										</span></td>
 									<td>${board.regdte}</td>
 									<td>${board.readcnt}</td>
 								</tr>
@@ -320,10 +323,13 @@
 						</thead>
 						<tbody class="text-dark">
 							<c:forEach var="proj" items="${projectList}" varStatus="status">
-								<input type="hidden" value="${proj.pcode}"/>
+								<input class="proj_pcode" type="hidden" value="${proj.pcode}"/>
 								<tr>
 									<td class="text-left">${proj.pname}</td>
-									<td>${proj.pmName}</td>
+									<td><span class="emp_name">
+											<input class="emp_id" type="hidden" value="${proj.pmId}"/>
+											${proj.pmName}
+										</span></td>
 									<td>${proj.startDate}</td>
 									<td>${proj.endDate}</td>
 									<td>${proj.status}</td>
@@ -359,13 +365,26 @@
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
+	loginCheck();
 	// 프로젝트/작업/리스크/산출물 수 출력
 	loadCountAll();
 	//bookmark 목록 출력
 	loadBookmark();
 	//modal 창 닫는 이벤트 바인딩.
 	$('#bookmark_modal').on('hide.bs.modal',loadBookmark);
+	//툴팁
+	$('[data-toggle="tooltip"]').tooltip();
 })
+function tooltipfunc(){
+	$('[data-toggle="tooltip"]').tooltip();
+}
+
+function loginCheck(){
+	if(${sessionScope.user eq null}){
+		alert("로그인이 필요합니다.");
+		location.href="${path}/index.do";
+	}
+}
 
 
 let isPM = ${sessionScope.user.rank eq '부장'};
@@ -375,38 +394,48 @@ if(msg!=null && msg!="") {
 	alert(msg);
 }
 //Pie Chart Example
-let riskStatusObj = JSON.parse('${riskStatus}')
-var ctx = document.getElementById("myPieChart");
-var myPieChart = new Chart(ctx, {
-  type: 'doughnut',
-  data: {
-    labels: ['진행중', '홀드', '종료됨'],
-    datasets: [{
-      data: [riskStatusObj.prog, riskStatusObj.hold, riskStatusObj.fin],
-      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-      hoverBorderColor: "rgba(234, 236, 244, 1)",
-    }],
-  },
-  options: {
-    maintainAspectRatio: false,
-    tooltips: {
-      backgroundColor: "rgb(255,255,255)",
-      bodyFontColor: "#858796",
-      borderColor: '#dddfeb',
-      borderWidth: 1,
-      xPadding: 15,
-      yPadding: 15,
-      displayColors: false,
-      caretPadding: 10,
-    },
-    legend: {
-      display: true,
-      position: 'bottom'
-    },
-    cutoutPercentage: 80,
-  },
-});
+(function loadpPieChart(){
+	let riskStatusArr = JSON.parse('${riskStatus}');
+	let statusArr = [];
+	let cntArr = [];
+	riskStatusArr.forEach(function(item, index, arr){
+		statusArr.push(item.status);
+		cntArr.push(item.cnt);
+	});
+	var ctx = document.getElementById("myPieChart");
+	var myPieChart = new Chart(ctx, {
+	  type: 'doughnut',
+	  data: {
+	    labels: statusArr,
+	    datasets: [{
+	      data: cntArr,
+	      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#E2A9F3'],
+	      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#DA81F5'],
+	      hoverBorderColor: "rgba(234, 236, 244, 1)",
+	    }],
+	  },
+	  options: {
+	    maintainAspectRatio: false,
+	    tooltips: {
+	      backgroundColor: "rgb(255,255,255)",
+	      bodyFontColor: "#858796",
+	      borderColor: '#dddfeb',
+	      borderWidth: 1,
+	      xPadding: 15,
+	      yPadding: 15,
+	      displayColors: false,
+	      caretPadding: 10,
+	    },
+	    legend: {
+	      display: true,
+	      position: 'bottom'
+	    },
+	    cutoutPercentage: 80,
+	  },
+	});
+})();
+
+
 
 function number_format(number, decimals, dec_point, thousands_sep) {
 	  // *     example: number_format(1234.56, 2, ',', ' ');
@@ -434,94 +463,97 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 // Bar Chart Example
-var ctx = document.getElementById("myBarChart");
-let riskMonthlyArr = JSON.parse('${riskMonthly}');
-let countArr = [];
-let monthArr = [];
-riskMonthlyArr.forEach(function(obj, index, arr){
-	countArr.push(obj.count);
-	monthArr.push(obj.month);
-});
-var myBarChart = new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: monthArr,
-    datasets: [{
-      label: "Risk",
-      backgroundColor: "#4e73df",
-      hoverBackgroundColor: "#2e59d9",
-      borderColor: "#4e73df",
-      data: countArr,
-    }],
-  },
-  options: {
-    maintainAspectRatio: false,
-    layout: {
-      padding: {
-        left: 10,
-        right: 25,
-        top: 25,
-        bottom: 0
-      }
-    },
-    scales: {
-      xAxes: [{
-        time: {
-          unit: 'month'
-        },
-        gridLines: {
-          display: false,
-          drawBorder: false
-        },
-        ticks: {
-          maxTicksLimit: 6
-        },
-        maxBarThickness: 25,
-      }],
-      yAxes: [{
-        ticks: {
-          min: 0,
-          max: Math.ceil(Math.max.apply(null,countArr)/10)*10,
-          maxTicksLimit: 10,
-          padding: 5,
-          // Include a dollar sign in the ticks
-          callback: function(value, index, values) {
-            return number_format(value);
-          }
-        },
-        gridLines: {
-          color: "rgb(234, 236, 244)",
-          zeroLineColor: "rgb(234, 236, 244)",
-          drawBorder: false,
-          borderDash: [2],
-          zeroLineBorderDash: [2]
-        }
-      }],
-    },
-    legend: {
-      display: false
-    },
-    tooltips: {
-      titleMarginBottom: 10,
-      titleFontColor: '#6e707e',
-      titleFontSize: 14,
-      backgroundColor: "rgb(255,255,255)",
-      bodyFontColor: "#858796",
-      borderColor: '#dddfeb',
-      borderWidth: 1,
-      xPadding: 15,
-      yPadding: 15,
-      displayColors: false,
-      caretPadding: 10,
-      callbacks: {
-        label: function(tooltipItem, chart) {
-          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ':' + number_format(tooltipItem.yLabel);
-        }
-      }
-    },
-  }
-});
+(function loadBarChart(){
+	var ctx = document.getElementById("myBarChart");
+	let riskMonthlyArr = JSON.parse('${riskMonthly}');
+	let countArr = [];
+	let monthArr = [];
+	riskMonthlyArr.forEach(function(obj, index, arr){
+		countArr.push(obj.count);
+		monthArr.push(obj.month);
+	});
+	var myBarChart = new Chart(ctx, {
+	  type: 'bar',
+	  data: {
+	    labels: monthArr,
+	    datasets: [{
+	      label: "Risk",
+	      backgroundColor: "#4e73df",
+	      hoverBackgroundColor: "#2e59d9",
+	      borderColor: "#4e73df",
+	      data: countArr,
+	    }],
+	  },
+	  options: {
+	    maintainAspectRatio: false,
+	    layout: {
+	      padding: {
+	        left: 10,
+	        right: 25,
+	        top: 25,
+	        bottom: 0
+	      }
+	    },
+	    scales: {
+	      xAxes: [{
+	        time: {
+	          unit: 'month'
+	        },
+	        gridLines: {
+	          display: false,
+	          drawBorder: false
+	        },
+	        ticks: {
+	          maxTicksLimit: 6
+	        },
+	        maxBarThickness: 25,
+	      }],
+	      yAxes: [{
+	        ticks: {
+	          min: 0,
+	          max: Math.ceil(Math.max.apply(null,countArr)/10)*10,
+	          maxTicksLimit: 10,
+	          padding: 5,
+	          // Include a dollar sign in the ticks
+	          callback: function(value, index, values) {
+	            return number_format(value);
+	          }
+	        },
+	        gridLines: {
+	          color: "rgb(234, 236, 244)",
+	          zeroLineColor: "rgb(234, 236, 244)",
+	          drawBorder: false,
+	          borderDash: [2],
+	          zeroLineBorderDash: [2]
+	        }
+	      }],
+	    },
+	    legend: {
+	      display: false
+	    },
+	    tooltips: {
+	      titleMarginBottom: 10,
+	      titleFontColor: '#6e707e',
+	      titleFontSize: 14,
+	      backgroundColor: "rgb(255,255,255)",
+	      bodyFontColor: "#858796",
+	      borderColor: '#dddfeb',
+	      borderWidth: 1,
+	      xPadding: 15,
+	      yPadding: 15,
+	      displayColors: false,
+	      caretPadding: 10,
+	      callbacks: {
+	        label: function(tooltipItem, chart) {
+	          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+	          return datasetLabel + ':' + number_format(tooltipItem.yLabel);
+	        }
+	      }
+	    },
+	  }
+	});
+})();
+
 
 $('#bookmark_btn').on('click',function(){
 	$('#bookmark_modal').modal('show');
@@ -543,7 +575,7 @@ function bookmarkOn(obj){
 	$(obj).children('i').eq(0).hide();
 	$(obj).children('i').eq(1).show();
 	let index = $('#modal_project_tab .bookmark_icon').index($(obj));
-	let pcode = $('#modal_project_tab input[type=hidden]').eq(index).val();
+	let pcode = $('#modal_project_tab .proj_pcode').eq(index).val();
 	insertBookmark(pcode);
 }
 // 북마크 제거 함수. bookmark_icon class 입력
@@ -552,49 +584,71 @@ function bookmarkOff(obj){
 	$(obj).children('i').eq(0).show();
 	$(obj).children('i').eq(1).hide();
 	let index = $('#modal_project_tab .bookmark_icon').index($(obj));
-	let pcode = $('#modal_project_tab input[type=hidden]').eq(index).val();
+	let pcode = $('#modal_project_tab .proj_pcode').eq(index).val();
 	deleteBookmark(pcode);
 }
-// url pattern, 전송 데이터, success 시 실행할 함수를 입력받아 ajax 통신하는 함수.
-function ajax(pattern,param,callback){
+
+// bookmark list 를 Database에서 가져온 후 화면에 출력.
+function loadBookmark(){
 	$.ajax({
-		url:pattern,
+		url:'dashboard/bookmarkList.do',
 		type:'post',
-		data:param,
+		dataType:'json',
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		success:function(data){
-			callback(data);
+			bookmarkListCallback(data);
 		},
 		error:function(e){
 			console.log(e);
 		}
 	});
 }
-// bookmark list 를 Database에서 가져온 후 화면에 출력.
-function loadBookmark(){
-	ajax('dashboard/bookmarkList.do', null, bookmarkListCallback);
-}
 // bookmark Database Table 에 프로젝트의 pcode 추가.
 function insertBookmark(pcode){
-	ajax('dashboard/insertBookmark.do', 'pcode='+pcode, null);
+	$.ajax({
+		url:'dashboard/insertBookmark.do',
+		type:'post',
+		data:'pcode='+pcode,
+		//dataType:'json',
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		success:function(data){
+		},
+		error:function(e){
+			console.log(e);
+		}
+	});
 }
 // bookmark Database Table 에 프로젝트의 pcode 제거.
 function deleteBookmark(pcode){
-	ajax('dashboard/deleteBookmark.do', 'pcode='+pcode, null);
+	$.ajax({
+		url:'dashboard/deleteBookmark.do',
+		type:'post',
+		data:'pcode='+pcode,
+		//dataType:'json',
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		success:function(data){
+		},
+		error:function(e){
+			console.log(e);
+		}
+	});
 }
 // bookmark list를 화면에 업데이트. ajax로 가져왔을 때 실행.
-function bookmarkListCallback(projectArrJson){
-	let projectArr = JSON.parse(projectArrJson);
+function bookmarkListCallback(projectArr){
 	let tableHTML = '';
 	projectArr.forEach(function(proj,index,arr){
 		tableHTML +='<input type="hidden" value="'+proj.pcode+'"/>'
 					+'<tr><td>'	+ proj.pname+'</td>'
-					+'<td>'+proj.pmName+'</td>'
+					+'<td><span class="emp_name">'+proj.pmName
+					+'<input class="emp_id" type="hidden" value="'+proj.pmId+'"/></span></td>'
 					+'<td>'+proj.startDate+'</td>'
 					+'<td>'+proj.endDate+'</td>'
 					+'<td>'+proj.status+'</td></tr>';
 	});
 	$('#bookmark_tab tbody').html(tableHTML);
+	$('#bookmark_tab tbody .emp_name').each(function(index,item){
+		bindUserTooltip(item);
+	});
 }
 
 function loadCountAll(){
@@ -623,9 +677,50 @@ function updateCntSpan(list, $spanObj){
 	$spanObj.html(list.length);	
 }
 
-$(function () {
-	$('[data-toggle="tooltip"]').tooltip()
-})
+function loadEmpInfo(id){
+	$.ajax({
+		url:'dashboard/empInfo.do',
+		type:'post',
+		data:'id='+id,
+		dataType:'json',
+		async:false,
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		success:function(data){
+			return data;
+		},
+		error:function(e){
+			console.log(e);
+		}
+	})
+}
+
+$('.emp_name').each(function(index, item){
+	bindUserTooltip(item);
+});
+function bindUserTooltip($nameSpan){
+	$($nameSpan).each(function(){
+		let $nameSpan = $(this);
+		let id = $(this).children('.emp_id').val();
+		$.ajax({
+			url:'dashboard/empInfo.do',
+			type:'post',
+			data:'id='+id,
+			dataType:'json',
+			async:false,
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			success:function(userObj){
+				tooltip = '['+userObj.dept+' '+userObj.rank+']'+userObj.name+'('+userObj.id+')';
+				bindTooltip($nameSpan,tooltip);
+			},
+			error:function(e){
+				console.log(e);
+			}
+		})
+	});
+}
+function bindTooltip($obj,tooltip){
+	$obj.prop({'data-toggle':'tooltip','data-html':'true','data-placement':'right','title':tooltip});
+}
 
 </script>
 

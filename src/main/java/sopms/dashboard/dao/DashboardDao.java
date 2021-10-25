@@ -14,7 +14,7 @@ import sopms.vo.User;
 @Repository
 public interface DashboardDao {
 //일반 dashboard
-	public ArrayList<String> projectName(String dept);
+	public ArrayList<String> projectName(String id);
 	public ArrayList<String> taskName(String id);
 	public ArrayList<String> riskName(String id);
 	public ArrayList<String> outputName(String id);
@@ -29,8 +29,8 @@ public interface DashboardDao {
 	public ArrayList<String> riskNamePM(String id);
 	public ArrayList<String> outputNamePM(String id);
 	//chart - risk status
-	public ArrayList<RiskStatusCnt> riskStatusCntPM(String dept);
-	public ArrayList<RiskMonthly> riskMonthlyPM(String dept);
+	public ArrayList<RiskStatusCnt> riskStatusCntPM(String id);
+	public ArrayList<RiskMonthly> riskMonthlyPM(String id);
 	
 //common
 	public ArrayList<ProjectSum> projectList(User user);

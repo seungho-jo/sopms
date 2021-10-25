@@ -20,9 +20,9 @@
 	</resultMap>
 	
 	<select id="projectName" resultType="string" parameterType="string">
-		SELECT p.pname FROM project p, project_dept pd
-		WHERE p.pcode = pd.pcode
-		AND pd.dept = #{dept}
+		SELECT p.pname FROM project p, lesource l
+		WHERE p.pcode = l.pcode
+		AND l.id = #{id}
 		AND NOT p.status = '종료됨'
 	</select>
 	<select id="projectNamePM" resultType="string" parameterType="string">
@@ -51,10 +51,10 @@
 		AND NOT risk_status = '조치완료'
 	</select>
 	<select id="riskNamePM" resultType="string" parameterType="string">
-		SELECT risk_name FROM risk r, PROJECT_DEPT pd
-		WHERE r.pcode = pd.pcode
-		AND pd.dept = #{dept}
-		AND NOT risk_status = '조치완료'
+		SELECT risk_name FROM RISK r, LESOURCE l 
+		WHERE r.pcode = l.PCODE 
+		AND l.ID = #{id}
+		AND NOT r.RISK_STATUS = '조치완료'
 	</select>
 	<select id="outputName" resultType="string" parameterType="string">
 		SELECT fname FROM wbs w, workfile wf
@@ -72,12 +72,12 @@
 	<select id="projectList" resultType="sopms.vo.ProjectSum" parameterType="sopms.vo.User">
 		SELECT p.pcode, p.pname, p.id AS pmId, m.name AS pmName, ( TRUNC(p.enddate,'DD') - TRUNC(sysdate,'DD') ) AS status,
 			TO_CHAR(p.startdate,'YYYY-MM-DD') startdate, TO_CHAR(p.enddate,'YYYY-MM-DD') enddate, NVL(pb.bmcode,' ') AS explanation
-		FROM project p, project_dept pd, member m,
-			(	SELECT pcode, bmcode FROM project_bookmark
-				WHERE id = #{id} ) pb
-		WHERE p.pcode = pd.pcode
-		AND p.id = m.id
-		AND pd.dept = #{dept}
+		FROM PROJECT p , LESOURCE l , member m ,
+			(	SELECT pcode, bmcode FROM project_bookmark 
+				WHERE id= #{id} ) pb
+		WHERE p.id = m.id
+		AND p.pcode = l.pcode 
+		AND l.id = #{id}
 		AND NOT p.status = '종료됨'
 		AND p.pcode = pb.pcode(+)
 		ORDER BY p.pname
@@ -108,10 +108,10 @@
 		GROUP BY risk_status
 	</select>
 	<select id="riskStatusCntPM" parameterType="string" resultMap="riskStatusInfo">
-		SELECT risk_status, count(*) cnt FROM RISK r , PROJECT p , PROJECT_DEPT pd 
-		WHERE r.pcode = pd.PCODE 
-		AND r.PCODE = p.PCODE 
-		AND pd.DEPT = #{dept}
+		SELECT risk_status, count(*) cnt FROM RISK r , PROJECT p , LESOURCE l 
+		WHERE r.pcode = l.pcode 
+		AND r.pcode = p.pcode 
+		AND l.id = #{id}
 		AND NOT p.STATUS = '종료됨'
 		GROUP BY r.risk_status
 	</select>
@@ -125,8 +125,8 @@
 			) a,
 			(	SELECT ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6) + LEVEL - 1 AS dt
 				FROM dual 
-				CONNECT BY LEVEL &lt;= (ADD_MONTHS(TRUNC(SYSDATE,'MM'),0) 
-									- ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6) + 1)
+				CONNECT BY LEVEL <![CDATA[<=]]> (ADD_MONTHS(TRUNC(SYSDATE,'MM'),1) 
+									- ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6))
 			) b
 		WHERE b.dt = a.risk_reg(+)
 		GROUP BY TO_CHAR(b.dt, 'YYYY-MM')
@@ -135,16 +135,16 @@
 	<select id="riskMonthlyPM" parameterType="string" resultType="sopms.vo.RiskMonthly">
 		SELECT TO_CHAR(b.dt, 'YYYY-MM') month
 		     , NVL(SUM(a.cnt), 0) count
-		FROM(	SELECT TRUNC(risk_reg,'DD') risk_reg, count(*) cnt FROM risk r, project_dept pd
+		FROM(	SELECT TRUNC(risk_reg,'DD') risk_reg, count(*) cnt FROM risk r, lesource l
 				WHERE risk_reg BETWEEN ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6) AND ADD_MONTHS(TRUNC(SYSDATE,'MM'),1)
-				AND r.pcode = pd.pcode
-				AND pd.dept = #{dept}
+				AND r.pcode = l.pcode
+				AND l.id = #{id}
 				GROUP BY TRUNC(risk_reg,'DD')
 			) a,
 			(	SELECT ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6) + LEVEL - 1 AS dt
 				FROM dual 
-				CONNECT BY LEVEL <![CDATA[<=]]> (ADD_MONTHS(TRUNC(SYSDATE,'MM'),0) 
-									- ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6) + 1)
+				CONNECT BY LEVEL <![CDATA[<=]]> (ADD_MONTHS(TRUNC(SYSDATE,'MM'),1) 
+									- ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6))
 			) b
 		WHERE b.dt = a.risk_reg(+)
 		GROUP BY TO_CHAR(b.dt, 'YYYY-MM')
