@@ -46,22 +46,24 @@
 .contentarea .messagearea .messageitem {
   padding: 20px 0;
   position: relative;
+  display: flex;
 }
 .contentarea .messagearea .messageitem .photoarea {
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
+  margin: 0px 5px;
 }
 .contentarea .messagearea .messageitem .photoarea .photo {
   margin: auto;
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-image: url("${path}/images/default_profile.png");
+  background-image: url("./images/profile.jpg");
   background-position: center;
   background-size: 70px;
 }
 .contentarea .messagearea .messageitem .content .name {
-  padding: 5px 0;
+  padding-bottom: 5px;
 }
 .contentarea .messagearea .messageitem .content .message {
   display: flex;
@@ -90,6 +92,16 @@
   flex-direction: row-reverse;
   position: relative;
   right: 0;
+}
+
+.contentarea .messagearea.mymessage .messageitem{
+	
+  flex-direction: row-reverse;
+
+	}
+
+.contentarea .messagearea.mymessage .name {
+	text-align: end;
 }
 .contentarea .messagearea.mymessage .chatbubble {
   order: 1;
