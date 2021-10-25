@@ -178,6 +178,7 @@ function addForm(event) {
 						<div class="card shadow mb-4">
 							<div class="card-header pt-3">
 								<h6 class="m-0 font-weight-bold text-primary">일정 목록</h6>
+								<span>*기한이 지난 일정은 -로 카운트됩니다.</span>
 							</div>
 							<div class="card-body" id="proj_tab">
 								<table class="table table-hover table-responsive-sm">

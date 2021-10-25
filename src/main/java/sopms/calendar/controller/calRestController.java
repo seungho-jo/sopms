@@ -33,8 +33,7 @@ public class calRestController {
 		}
 		return service.calList(calendar);
 	}
-
-	@RequestMapping("calendarInsert.do")
+	@RequestMapping(value="calendarInsert.do", produces = "application/text; charset=UTF-8")
 	public String calendarInsert(HttpServletRequest request, Calendar insert) {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
@@ -47,12 +46,12 @@ public class calRestController {
 		service.insertCalendar(insert);
 		return "등록완료";
 	}
-	@RequestMapping("calendarUpdate.do")
+	@RequestMapping(value="calendarUpdate.do", produces = "application/text; charset=UTF-8")
 	public String calendarUpdate(Calendar upt) {
 		service.uptCalendar(upt);
 		return "수정완료";
 	}
-	@RequestMapping("calendarDelete.do")
+	@RequestMapping(value="calendarDelete.do", produces = "application/text; charset=UTF-8")
 	public String calendarDelete(@RequestParam("id") int id) {
 		service.delCalendar(id);
 		return "삭제완료";

@@ -116,8 +116,98 @@
 		});
 
 		calendar.render();
-
+		$("#pjsch").on('change',function(){
+			console.log("캘린더쪽:"+$("#pjsch").val());
+			$("[name=workcodeSch]").val($("#pjsch").val());
+			// ajaxSch($("#pjsch").val());
+			var calendarEl = document.getElementById('calendar');
+			var toDay = new Date().toISOString().split("T")[0];
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				headerToolbar : {
+					left : 'dayGridMonth,timeGridWeek,timeGridDay',
+					center : 'title',
+					right : 'prev,next today'
+				},
+				initialDate : toDay,
+				navLinks : true,
+				selectable : true,
+				selectMirror : true,
+				eventLimit : false,
+				select : function(arg) {
+					$("h2").click();
+					$("#exampleModalLongTitle").text("일정등록");
+					$("#regBtn").show();
+					$("#uptBtn").hide();
+					$("#delBtn").hide();
+					$(".form-cal").show();
+					$("#table-wbs").hide();
+					$(".time_form").hide();
+					$(".form-cal")[0].reset();
+					$("#start").val(moment(arg.start).format().split("T")[0]);
+					$("[name=start]").val(moment(arg.start).format().split("T")[0]);
+					$("#end").val(moment(arg.end).format().split("T")[0]);
+					$("[name=end]").val(moment(arg.end).format().split("T")[0]);
+					$("#parent").val($("#pjsch").val()).prop("selected", true);
+					$("[name=parent]").val($("#pjsch").val());
+					calendar.unselect()
+				},
+				eventClick : function(arg) {
+					$("h2").click();
+					$("#exampleModalLongTitle").text("상세일정");
+					$("#regBtn").hide();
+					$("#uptBtn").show();
+					$("#delBtn").show();
+					$(".form-cal").show();
+					$("#table-wbs").hide();
+	
+					if (arg.event.extendedProps.workcode != 0) {
+						$("#uptBtn").hide();
+						$("#delBtn").hide();
+						$(".form-cal").hide();
+						$("#table-wbs").show();
+						console.log(arg.event.extendedProps.workcode);
+					}
+					addForm(arg.event);
+				},
+				eventDrop : function(info) {
+					console.log("#이벤트 드랍#")
+					console.log(info.event);
+					addForm(info.event);
+					ajaxFun("calendarUpdate.do")
+				},
+				eventResize : function(info) {
+					console.log("#이벤트 사이즈변경#")
+					console.log(info.event);
+					addForm(info.event);
+					ajaxFun("calendarUpdate.do")
+				},
+				editable : true,
+				dayMaxEvents : false,
+				events : function(info, successCallback, failureCallback) {
+					$.ajax({
+						type : "post",
+						url : "${path}/calList.do",
+						dataType : "json",
+						data : $("#sch").serialize(),
+						success : function(data) {
+							console.log(data)
+							successCallback(data);
+						},
+						error : function(err) {
+							console.log(err);
+						}
+	
+					});
+				}
+				
+			});
+			calendar.render();	
+		});
 		$("#regBtn").click(function() {
+			if ($("[name=parent]").val() == "") {
+				alert("프로젝트를 등록하세요!");
+				return;
+			}
 			if ($("[name=title]").val() == "") {
 				alert("일정을 등록하세요!");
 				return;
@@ -134,11 +224,11 @@
 				alert("진행률을 선택하세요!");
 				return;
 			}
-			if ($("[name=start]").val() == "") {
+			if ($("[name=start]").val() == "" || $("[name=start]").val() == "0") {
 				alert("시작일을 선택하세요!");
 				return;
 			}
-			if ($("[name=end]").val() == "") {
+			if ($("[name=end]").val() == "" || $("[name=end]").val() == "0") {
 				alert("종료일을 선택하세요!");
 				return;
 			}
@@ -163,6 +253,10 @@
 		});
 		$("#uptBtn").click(function() {
 			if (confirm("수정하시겠습니까?")) {
+				if ($("[name=parent]").val() == "") {
+					alert("프로젝트를 등록하세요!");
+					return;
+				}
 				if ($("[name=title]").val() == "") {
 					alert("일정을 등록하세요!");
 					return;
@@ -219,6 +313,7 @@
 			type : "post",
 			url : "${path}/" + url,
 			data : $("form").serialize(),
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			success : function(data) {
 				alert(data);
 				console.log($("form").serialize());
@@ -404,7 +499,7 @@
     height: 4vw;
 	}	
 	#calendar{
-		min-height: 1800px;
+		min-height: 1600px;
 	}	
 </style>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
@@ -423,11 +518,10 @@
 							<h1 class="h3 mb-0 font-weight-bold text-gray-800">전체 일정</h1>
 							<form method="post" id="sch">
 								<input type="hidden" name="workcodeSch" value="0"/>
-								<select id="pjsch" class="form-select"
-									onchange="pjChange(this.value)">
-									<option value="">전체 일정</option>
+								<select id="pjsch" class="form-select text-center">
+									<option value="0">전체 일정&nbsp;&nbsp;&nbsp;[시작일~종료일]</option>
 								<c:forEach var="list" items="${sch}">
-									<option value="${list.workcode}">${list.title}</option>
+									<option value="${list.workcode}">${list.title}&nbsp;&nbsp;&nbsp;[${list.start}~${list.end}]</option>
 								</c:forEach>
 								</select>
 							</form>
@@ -462,14 +556,11 @@
 												</div>
 												<select id="parent" class="form-control"
 													onchange="parentChange(this.value);">
-													<option id="1">일정을 등록할 프로젝트를 선택해주세요</option>
-													<option value=2 id="2">교육용 모바일웹 앱 프로토타입</option>
-													<option value=3 id="3">병원 사내 어플 신규 제작</option>
-													<option value=4 id="4">비즈니스 플랫폼 앱 제작</option>
-													<option value=5 id="5">비대면의료상담 중개 앱서비스</option>
-													<option value=6 id="6">SL솔루션 홈페이지</option>
-													<option value=7 id="7">박물관 홈페이지 제작</option>
-												</select> <input type="hidden" name="parent" />
+													<option value="">프로젝트를 선택해주세요</option>
+													<c:forEach var="list" items="${sch}">
+														<option value="${list.workcode}">${list.title}</option>
+													</c:forEach>
+												</select> <input type="hidden" name="parent"/>
 											</div>
 											<div class="input-group mb-3">
 												<div class="input-group-prepend">
@@ -629,11 +720,6 @@
 	</div>
 </body>
 <script>
-	var pjChange = function(value){
-		$("[name=workcodeSch]").val(value);
-		console.log($("[name=workcodeSch]").val());
-		call();
-	}
 	var allDayChange = function(value) {
 		if (value == "true") {
 			$("[name=allDay]").val(1);
@@ -751,9 +837,9 @@
 			if (value == ""){
 				$("[name=start_hh]").val("0");
 			}else if (value < 7 || value == 12) {
-				$("[name=start_hh]").val("0" + (parseInt(value) - 9));
+				$("[name=start_hh]").val("0" + (parseInt(value) + 3));
 			} else {
-				$("[name=start_hh]").val("" + (parseInt(value) + 3));
+				$("[name=start_hh]").val("" + (parseInt(value) - 9));
 			}
 		}
 		;
@@ -821,9 +907,9 @@
 			if (value == ""){
 				$("[name=end_hh]").val("0");
 			}else if (value < 7 || value == 12) {
-				$("[name=end_hh]").val("0" + (parseInt(value) - 9));
+				$("[name=end_hh]").val("0" + (parseInt(value) + 3));
 			} else {
-				$("[name=end_hh]").val("" + (parseInt(value) + 3));
+				$("[name=end_hh]").val("" + (parseInt(value) - 9));
 			}
 		}
 		;

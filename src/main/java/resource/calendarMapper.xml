@@ -18,22 +18,23 @@
 		WHERE a.pm = b.id
 		AND (a.pm = #{pm} or a.manager = #{pm})
 		<if test="workcodeSch != null and workcodeSch != 0">
-		AND (parent = #{workcodeSch} or workcode = #{workcodeSch})
+		AND (parent = #{workcodeSch})
 		</if>
 		</if>
 		<if test="pm == null or pm == ''">
 		WHERE a.MANAGER = b.id		
 		AND a.MANAGER = #{manager}
 		<if test="workcodeSch != null and workcodeSch != 0">
-		AND (parent = #{workcodeSch} or workcode = #{workcodeSch})
+		AND (parent = #{workcodeSch})
 		</if>
 		</if>
 	</select>
 	<select id="calSch" resultMap="calResult" parameterType="string">
-		SELECT workcode, title 
+		SELECT workcode, title, SUBSTR(start1, 1, 10) start1,
+			 SUBSTR(end1, 1, 10) end1
 		FROM calendar 
 		WHERE workcode IN 
-		(SELECT DISTINCT parent FROM calendar 
+		(SELECT DISTINCT parent FROM calendar
 		WHERE manager = #{id} OR pm = #{id})
 	</select>
 	<insert id="insertCalendar" parameterType="cal">
@@ -43,7 +44,14 @@
 		(SELECT pm
 		FROM CALENDAR 
 		WHERE workcode = 2),
-		#{manager}, 2, #{process}, #{status})
+		#{manager}, 
+		<if test="parent == null or parent == 0">
+		null, 
+		</if>
+		<if test="parent != null and parent != 0">
+		#{parent}, 
+		</if>
+		#{process}, #{status})
 		</if>
 		<if test="pm != null and pm != ''">
 		#{pm}, #{pm}, #{parent}, #{process}, #{status})
