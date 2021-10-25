@@ -236,7 +236,7 @@
 	$("#back").click(function(){
 		history.back();
 	})
-	$("#fname").text().click(function(){
+	$("#fname").click(function(){
 		location.href="${path}/download.do?fname="+$(this).text();
 	})
 </script>
