@@ -23,6 +23,8 @@
 <!-- fullcalendar -->
 <link href="./vendor/fullcalendar/lib/main.css" rel="stylesheet">
 <script src="./vendor/fullcalendar/lib/main.js" type="text/javascript"></script>
+<script src="./vendor/fullcalendar/lib/moment-with-locales.js"
+	type="text/javascript"></script>
 <script
   src="https://code.jquery.com/jquery-3.6.0.js"
   integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
@@ -86,15 +88,15 @@ function addForm(event) {
 	if(event.extendedProps.workcode == 0){
 		$("#title-cal").text(event.title);
 		$("#content-cal").text(event.extendedProps.content);
-		$("#start-cal").text(event.start.toLocaleString());
-		$("#end-cal").text(event.end.toLocaleString());
+		$("#start-wbs").text(moment(event.start).format('LLL'));
+		$("#end-wbs").text(moment(event.end).format('LLL'));
 		$("#process-cal").text(event.extendedProps.process+"%");
 	}  else {
 		// wbs 모달창
 		$("#title-wbs").text(event.title);
 		$("#content-wbs").text(event.extendedProps.content);
-		$("#start-wbs").text(event.start.toLocaleString());
-		$("#end-wbs").text(event.end.toLocaleString());
+		$("#start-wbs").text(moment(event.start).format('LLL'));
+		$("#end-wbs").text(moment(event.end).format('LLL'));
 		$("#process-wbs").text(event.extendedProps.status);
 	}
 }
@@ -187,11 +189,11 @@ function addForm(event) {
 											<td>담당자</td>
 											<td>일정명</td>
 											<td>남은기한</td>
-											<td>진행률</td>
+											<td>진행상태</td>
 										</tr>
 									</thead>
 									<tbody class="text-secondary">
-										<c:forEach var="list" items="${calListObj}">
+										<c:forEach var="list" items="${calListAll}">
 										<tr>
 											<td>${list.cal_name}</td>
 											<td>${list.title}</td>
@@ -199,32 +201,11 @@ function addForm(event) {
 											<td>
 											<!-- 진행률별 프로테이지바 수정 -->
 											<c:choose>
-												<c:when test="${list.cal_process eq '진행중'}">
-													<div class="progress" style="height: 15px;">
-														<div class="progress-bar" role="progressbar"
-															aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
-															style="width: 50;">
-															<span>${list.process}%</span>
-														</div>
-													</div>
-												</c:when>
-												<c:when test="${list.cal_process eq '승인요청'}">
-													<div class="progress" style="height: 15px;">
-														<div class="progress-bar" role="progressbar"
-															aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
-															style="width: 0;">
-															<span>${list.cal_process}%</span>
-														</div>
-													</div>
+												<c:when test="${list.cal_process eq '진행중' || list.cal_process eq '승인요청'}">
+															<span>${list.cal_process}</span>
 												</c:when>
 												<c:otherwise>
-													<div class="progress" style="height: 15px;">
-														<div class="progress-bar" role="progressbar"
-															aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
-															style="width: ${list.cal_process};">
 															<span>${list.cal_process}%</span>
-														</div>
-													</div>
 												</c:otherwise>
 											</c:choose>
 											</td>
@@ -320,22 +301,6 @@ function goBlock(no){
 	$("form").submit();
 }
 
-let calListObj = JSON.parse('${calListAll}');
-let noArr = [];
-let titleArr = [];
-let d_dayArr = [];
-let cal_nameArr = [];
-let cal_processArr = [];
-calListObj.forEach(function(item, index, arr){
-	noArr.push(item.no);
-	titleArr.push(item.title);
-	d_dayArr.push(item.d_day);
-	cal_nameArr.push(item.cal_name);
-	cal_processArr.push(item.cal_process);
-})
-console.log(${callListAll});
-console.log(${callListSch});
-console.log(${calListObj});
 //Pie Chart Example
 console.log(${calStatus});
 let calStatusObj = JSON.parse('${calStatus}');

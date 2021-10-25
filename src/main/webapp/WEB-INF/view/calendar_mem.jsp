@@ -486,8 +486,8 @@
 			// wbs 모달창
 			$("#title-wbs").text(event.title);
 			$("#content-wbs").text(event.extendedProps.content);
-			$("#start-wbs").text(event.start.toLocaleString());
-			$("#end-wbs").text(event.end.toLocaleString());
+			$("#start-wbs").text(moment(event.start).format('LLL'));
+			$("#end-wbs").text(moment(event.end).format('LLL'));
 			$("#process-wbs").text(event.extendedProps.status);
 		}
 	}
