@@ -40,21 +40,21 @@ public class DashboardController {
 	}
 
 	// 북마크 추가 Ajax
+	@ResponseBody
 	@RequestMapping("dashboard/insertBookmark.do")
-	public String insertBookmark(HttpServletRequest request, @RequestParam("pcode") int pcode) {
+	public void insertBookmark(HttpServletRequest request, @RequestParam("pcode") int pcode) {
 		HttpSession session = request.getSession();
 		String id = ((User)session.getAttribute("user")).getId();
 		service.insertBookmark(new ProjectBookmark(pcode,id));
-		return "{}";		
 	}
 	
 	// 북마크 제거 Ajax
+	@ResponseBody
 	@RequestMapping("dashboard/deleteBookmark.do")
-	public String deleteBookmark(HttpServletRequest request, @RequestParam("pcode") int pcode) {
+	public void deleteBookmark(HttpServletRequest request, @RequestParam("pcode") int pcode) {
 		HttpSession session = request.getSession();
 		String id = ((User)session.getAttribute("user")).getId();
 		service.deleteBookmark(new ProjectBookmark(pcode,id));
-		return "{}";
 	}
 	
 	// 북마크 리스트 조회 Ajax

@@ -33,7 +33,7 @@ public class DashboardService {
 			jsonObj.add("riskPM", gson.toJsonTree(dao.riskNamePM(user.getId())));
 			jsonObj.add("outputPM", gson.toJsonTree(dao.outputNamePM(user.getId())));
 		}else {	// 기타 사원 Dashboard 에 전달할 Data
-			jsonObj.add("project", gson.toJsonTree(dao.projectName(user.getDept())));
+			jsonObj.add("project", gson.toJsonTree(dao.projectName(user.getId())));
 			jsonObj.add("task", gson.toJsonTree(dao.taskName(user.getId())));
 			jsonObj.add("risk", gson.toJsonTree(dao.riskName(user.getId())));
 			jsonObj.add("output", gson.toJsonTree(dao.outputName(user.getId())));
@@ -47,7 +47,7 @@ public class DashboardService {
 		ArrayList<RiskStatusCnt> statusArr = null;
 		
 		if(user.getRank().equals("부장")) {
-			statusArr=dao.riskStatusCntPM(user.getDept());
+			statusArr=dao.riskStatusCntPM(user.getId());
 		}else {
 			statusArr=dao.riskStatusCnt(user.getId());
 		}
@@ -61,7 +61,7 @@ public class DashboardService {
 		ArrayList<RiskMonthly> monthArr = null;
 		
 		if(user.getRank().equals("부장")) {
-			monthArr = dao.riskMonthlyPM(user.getDept());
+			monthArr = dao.riskMonthlyPM(user.getId());
 		}else {
 			monthArr = dao.riskMonthly(user.getId());
 		}

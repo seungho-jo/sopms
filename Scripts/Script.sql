@@ -251,6 +251,149 @@ SELECT status, count(*) cnt
 		WHERE manager = 'happy01'
 		GROUP BY status;
 SELECT status, count(*) cnt 
-		FROM CALENDAR
-		WHERE manager = 'happy01'
-		GROUP BY status;
+FROM CALENDAR
+WHERE manager = 'happy01'
+GROUP BY status;
+
+CREATE TABLE test_parent1 (
+	code NUMBER,
+	name varchar2(100),
+	CONSTRAINT test_parent_pk1 PRIMARY KEY(code)
+);
+CREATE TABLE test_parent2 (
+	code NUMBER,
+	name varchar2(100),
+	CONSTRAINT test_parent_pk2 PRIMARY KEY(code)
+);
+CREATE TABLE test_children(
+	code NUMBER,
+	parent NUMBER,
+	name varchar2(100),
+	CONSTRAINT test_children_pk PRIMARY KEY (code)
+);
+ALTER TABLE TEST_CHILDREN ADD CONSTRAINT test_children_fk1 FOREIGN KEY (parent) REFERENCES test_parent1(code)
+ON DELETE CASCADE;
+ALTER TABLE TEST_CHILDREN ADD CONSTRAINT test_children_fk2 FOREIGN KEY (parent) REFERENCES test_parent2(code);
+SELECT * FROM TEST_PARENT1;
+SELECT * FROM TEST_PARENT2;
+SELECT * FROM TEST_children;
+
+DROP TABLE TEST_PARENT1;
+DROP TABLE TEST_PARENT2;
+DROP TABLE TEST_CHILDREN;
+DELETE FROM TEST_PARENT1 WHERE code = 1;
+
+INSERT INTO TEST_PARENT1 VALUES  ( 1, '1부모1');
+INSERT INTO TEST_PARENT1 VALUES  ( 2, '1부모2');
+
+INSERT INTO TEST_PARENT2 VALUES ( 2, '2부모1');
+INSERT INTO TEST_CHILDREN VALUES ( 3, 1, '1자식1');
+INSERT INTO TEST_CHILDREN VALUES ( 4, 1, '1자식2');
+INSERT INTO TEST_CHILDREN VALUES ( 5, 2, '1자식3');
+SELECT * FROM (
+	SELECT rownum rnum, a.* FROM (
+		SELECT * FROM risk
+		WHERE (
+			RISK_NAME LIKE '%'||'에러'||'%'
+			OR RISK_CONTENT LIKE '%'||'에러'||'%'
+		)
+		AND id='happy02'
+		ORDER BY RISK_REG DESC
+	) a
+)
+WHERE rnum BETWEEN 1 AND 20;
+
+SELECT p.pname FROM project p, lesource l
+WHERE p.pcode = l.pcode
+AND l.id = 'happy01'
+AND NOT p.status = '종료됨';
+
+SELECT p.pcode, p.pname, p.id AS pmId, m.name AS pmName, ( TRUNC(p.enddate,'DD') - TRUNC(sysdate,'DD') ) AS status,
+	TO_CHAR(p.startdate,'YYYY-MM-DD') startdate, TO_CHAR(p.enddate,'YYYY-MM-DD') enddate, NVL(pb.bmcode,' ') AS explanation
+FROM project p, project_dept pd, member m,
+	(	SELECT pcode, bmcode FROM project_bookmark
+		WHERE id = #{id} ) pb
+WHERE p.pcode = pd.pcode
+AND p.id = m.id
+AND pd.dept = '개발1팀'
+AND NOT p.status = '종료됨'
+AND p.pcode = pb.pcode(+)
+ORDER BY p.pname;
+
+SELECT p.pcode, p.pname, p.id AS pmId, m.name AS pmName, ( TRUNC(p.enddate,'DD') - TRUNC(sysdate,'DD') ) AS status,
+	TO_CHAR(p.startdate,'YYYY-MM-DD') startdate, TO_CHAR(p.enddate,'YYYY-MM-DD') enddate, NVL(pb.bmcode,' ') AS explanation
+FROM PROJECT p , LESOURCE l , member m ,
+	(	SELECT pcode, bmcode FROM project_bookmark 
+		WHERE id='happy01') pb
+WHERE p.id = m.id
+AND p.pcode = l.pcode 
+AND l.id = 'happy01'
+AND NOT p.status = '종료됨'
+AND p.pcode = pb.pcode(+)
+ORDER BY p.pname;
+
+SELECT p.pcode, p.pname, p.id AS pmId, m.name AS pmName, ( TRUNC(p.enddate,'DD') - TRUNC(sysdate,'DD') ) AS status,
+	TO_CHAR(p.startdate,'YYYY-MM-DD') startdate, TO_CHAR(p.enddate,'YYYY-MM-DD') enddate, NVL(pb.bmcode,' ') AS explanation
+FROM PROJECT p , LESOURCE l , member m ,
+	(	SELECT pcode, bmcode FROM project_bookmark 
+		WHERE id='happy01') pb
+WHERE p.id = m.id
+AND p.pcode = l.pcode 
+AND l.id = 'happy01'
+AND NOT p.status = '종료됨'
+AND p.pcode = pb.pcode(+)
+ORDER BY p.pname;
+SELECT * FROM LESOURCE l ;
+
+SELECT TO_CHAR(b.dt, 'YYYY-MM') month
+     , NVL(SUM(a.cnt), 0) count
+FROM(	SELECT TRUNC(risk_reg,'DD') risk_reg, count(*) cnt FROM risk r, lesource l
+		WHERE risk_reg BETWEEN ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6) AND ADD_MONTHS(TRUNC(SYSDATE,'MM'),1)
+		AND r.pcode = l.pcode
+		AND l.id = 'happy02'
+		GROUP BY TRUNC(risk_reg,'DD')
+	) a,
+	(	SELECT ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6) + LEVEL - 1 AS dt
+		FROM dual 
+		CONNECT BY LEVEL <= (ADD_MONTHS(TRUNC(SYSDATE,'MM'),1) 
+							- ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6))
+	) b
+WHERE b.dt = a.risk_reg(+)
+GROUP BY TO_CHAR(b.dt, 'YYYY-MM')
+ORDER BY TO_CHAR(b.dt, 'YYYY-MM');
+
+SELECT TO_CHAR(b.dt, 'YYYY-MM') month
+     , NVL(SUM(a.cnt), 0) count
+FROM(	SELECT TRUNC(risk_reg,'DD') risk_reg, count(*) cnt FROM risk r
+		WHERE risk_reg BETWEEN ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6) AND ADD_MONTHS(TRUNC(SYSDATE,'MM'),1)
+		AND r.id = 'happy02'
+		GROUP BY TRUNC(risk_reg,'DD')
+	) a,
+	(	SELECT ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6) + LEVEL - 1 AS dt
+		FROM dual 
+		CONNECT BY LEVEL <= (ADD_MONTHS(TRUNC(SYSDATE,'MM'),1) 
+							- ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6))
+	) b
+WHERE b.dt = a.risk_reg(+)
+GROUP BY TO_CHAR(b.dt, 'YYYY-MM')
+ORDER BY TO_CHAR(b.dt, 'YYYY-MM');
+
+SELECT * FROM risk;
+
+
+SELECT TO_CHAR(b.dt, 'YYYY-MM') month
+     , NVL(SUM(a.cnt), 0) count
+FROM(	SELECT TRUNC(risk_reg,'DD') risk_reg, count(*) cnt FROM risk r, lesource l
+		WHERE risk_reg BETWEEN ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6) AND ADD_MONTHS(TRUNC(SYSDATE,'MM'),1)
+		AND r.pcode = l.pcode
+		AND l.id = 'happy02'
+		GROUP BY TRUNC(risk_reg,'DD')
+	) a,
+	(	SELECT ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6) + LEVEL - 1 AS dt
+		FROM dual 
+		CONNECT BY LEVEL <= (ADD_MONTHS(TRUNC(SYSDATE,'MM'),1) 
+							- ADD_MONTHS(TRUNC(SYSDATE,'MM'),-6))
+	) b
+WHERE b.dt = a.risk_reg(+)
+GROUP BY TO_CHAR(b.dt, 'YYYY-MM')
+ORDER BY TO_CHAR(b.dt, 'YYYY-MM')
