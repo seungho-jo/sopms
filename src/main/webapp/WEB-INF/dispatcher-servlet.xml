@@ -132,5 +132,28 @@
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 
-
+	<!-- 다국어 처리 모듈 등록 
+	1. 핵심 클래스
+	2. 다국어 파일 기본 위치 등록..
+		package명기준으로 message.msg로 등록..	
+		ex) src/main/java 하위에 패키지와 기준되는 파일로 등록을 한다.
+		
+		언어 ==>  code
+		greet ==> 언어1, 언어2, 언어3...
+			
+	-->
+	<bean id="messageSource" 
+	class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>message.msg</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 
+	브라우저나 요청값에 의한 언어설정.
+	 -->
+	<bean id="localeResolver" 
+	class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>	 
+	
 </beans>
