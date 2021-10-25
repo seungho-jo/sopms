@@ -23,6 +23,8 @@
 <!-- fullcalendar -->
 <link href="./vendor/fullcalendar/lib/main.css" rel="stylesheet">
 <script src="./vendor/fullcalendar/lib/main.js" type="text/javascript"></script>
+<script src="./vendor/fullcalendar/lib/moment-with-locales.js"
+	type="text/javascript"></script>
 <script
   src="https://code.jquery.com/jquery-3.6.0.js"
   integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
@@ -86,15 +88,15 @@ function addForm(event) {
 	if(event.extendedProps.workcode == 0){
 		$("#title-cal").text(event.title);
 		$("#content-cal").text(event.extendedProps.content);
-		$("#start-cal").text(event.start.toLocaleString());
-		$("#end-cal").text(event.end.toLocaleString());
+		$("#start-wbs").text(moment(event.start).format('LLL'));
+		$("#end-wbs").text(moment(event.end).format('LLL'));
 		$("#process-cal").text(event.extendedProps.process+"%");
 	}  else {
 		// wbs 모달창
 		$("#title-wbs").text(event.title);
 		$("#content-wbs").text(event.extendedProps.content);
-		$("#start-wbs").text(event.start.toLocaleString());
-		$("#end-wbs").text(event.end.toLocaleString());
+		$("#start-wbs").text(moment(event.start).format('LLL'));
+		$("#end-wbs").text(moment(event.end).format('LLL'));
 		$("#process-wbs").text(event.extendedProps.status);
 	}
 }
@@ -299,22 +301,6 @@ function goBlock(no){
 	$("[name=curPage]").val(no);
 	$("form").submit();
 }
-/*
-let calListObj = JSON.parse('${calListAll}');
-console.log(calListObj);
-let noArr = [];
-let titleArr = [];
-let d_dayArr = [];
-let cal_nameArr = [];
-let cal_processArr = [];
-calListObj.forEach(function(item, index, arr){
-	noArr.push(item.no);
-	titleArr.push(item.title);
-	d_dayArr.push(item.d_day);
-	cal_nameArr.push(item.cal_name);
-	cal_processArr.push(item.cal_process);
-})
-*/
 
 //Pie Chart Example
 console.log(${calStatus});
