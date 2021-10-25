@@ -8,11 +8,8 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<<<<<<< HEAD
 <title>SOPMS 채팅</title>
-=======
 <title>SOPMS</title>
->>>>>>> 08afbb1b3c1542ab0c238bcf7d8bce7cf7ebe51e
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="./images/favicon.png">
@@ -38,6 +35,11 @@
 	crossorigin="anonymous">
 	
 </script>
+<style>
+.contentarea .messagearea .messageitem .photoarea .photo {
+  background-image: url("${path}/images/profile.jpg");
+}
+</style>
 
 </head>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
@@ -54,18 +56,16 @@
 					<div id="chatbox">
 						<div class="profileArea">
 							<ul class="list-group">
-								<li class="list-group-item" aria-disabled="true">채팅방 목록</li>
+								<li class="list-group-item" aria-disabled="true"><b>채팅방 목록</b></li>
 								<c:forEach var="CR" items="${chatroomList}">
 									<a href="${path}/getMessage.do?chatroomId=${CR.chatroomId}">
 										<li class="list-group-item" onclick="getMsg(this)">
-											<div class="itemBox" style="cursor: pointer;">
+											<div class="itemBox" style="cursor: pointer; display: flex;">
 												<div class="profilePic">
-													<div class="photo">
-														<img src="${path}/images/default_profile.png"
-															alt="profilepic" />
+													<div class="photo" style="border-radius: 50%; overflow: hidden; width: 45px; height: 45px; background-image: url(${path}/images/profile.jpg); background-size: 45px;">
 													</div>
 												</div>
-												<div class="profileContent">
+												<div class="profileContent" style="margin-left: 10px;">
 													<ul>
 														<li class="name">${CR.chatroomName}</li>
 													</ul>
@@ -220,6 +220,8 @@
 				let wsocket = new WebSocket("ws://" + location.host
 						+ "/sopms/chat-ws.do?chatroomId=${chatroomId}");
 				wsocket.onopen = function(evt) {
+					let mx = parseInt($("#chats").height());
+					$("#chatbelongs").scrollTop(mx);
 					//메시지 하나 보낼까 싶기도 해 아님 접속중 메시지 띄우든지
 				}
 
@@ -230,11 +232,13 @@
 				}
 				//메시지 send evt
 				$("#send").click(function() {
+
 					sendMsg();
 				})
 
 				$("#write").keyup(function(e) {
 					if (e.keyCode == 13) {
+
 						sendMsg();
 					}
 				});
@@ -273,7 +277,7 @@
 			let newMsg = $('#template').clone();
 			newMsg.find('.messagearea').addClass('mymessage')
 			newMsg.removeAttr('id');
-			newMsg.find('.name').html("<c:out value='${showName}'/>");
+			newMsg.find('.name').html(messageItem.fromId);
 			newMsg.find('.bubblecontent').html(messageItem.messageBody);
 			$('#chats').append(newMsg);
 			let mx = parseInt($("#chats").height());
