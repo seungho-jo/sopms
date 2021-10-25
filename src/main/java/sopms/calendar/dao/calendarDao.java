@@ -12,6 +12,7 @@ public interface calendarDao {
 	public void insertCalendar(Calendar insert);
 	public void updateCalendar(Calendar upt);
 	public void deleteCalendar(int id);
+	public ArrayList<Calendar> calSch(String id);
 	
 	// manage_mem
 	public ArrayList<CalStatusCnt> calStatusCnt(String id);

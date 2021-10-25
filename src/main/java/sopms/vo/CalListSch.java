@@ -2,7 +2,6 @@ package sopms.vo;
 
 public class CalListSch {
 	private String manager;
-	private String title;
 	private int count;
 	private int pageSize; 
 	private int pageCount; 
@@ -13,13 +12,6 @@ public class CalListSch {
 	private int startBlock;
 	private int endBlock;
 	private int workcode;
-	
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
 	public String getManager() {
 		return manager;
 	}

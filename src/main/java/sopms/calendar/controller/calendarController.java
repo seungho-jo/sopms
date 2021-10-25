@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sopms.calendar.service.calendarService;
 import sopms.vo.CalListSch;
+import sopms.vo.Calendar;
 import sopms.vo.User;
 
 @Controller
@@ -18,14 +19,16 @@ public class calendarController {
 	private calendarService service;
 	// http://localhost:8088/sopms/calendar_mem.do
 	@RequestMapping("calendar_mem.do")
-	public String calendar(HttpServletRequest request, Model d) {
+	public String calendar(HttpServletRequest request, Model d, Calendar calendar) {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		
 		if (!user.getRank().equals("부장")) {
+			d.addAttribute("sch", service.calSch(user.getId()));
 			return "WEB-INF\\view\\calendar_mem.jsp";
 		} else {
 			d.addAttribute("pm", user.getId());
+			d.addAttribute("sch", service.calSch(user.getId()));
 			return "WEB-INF\\view\\calendar_pm.jsp";
 		}
 	}
