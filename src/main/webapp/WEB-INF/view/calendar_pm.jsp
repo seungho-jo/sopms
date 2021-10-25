@@ -72,9 +72,8 @@
 				$("#delBtn").show();
 				$(".form-cal").show();
 				$("#table-wbs").hide();
-				$("#parent").children('#1').prop("selected", true);
-				
-				if(arg.event.extendedProps.process == 0 && arg.event.borderColor == "#6633FF") {
+
+				if (arg.event.extendedProps.borderColor == "#6633FF"  || arg.event.extendedProps.manager != $("[name=loginUser]").val()) {
 					$("#uptBtn").hide();
 					$("#delBtn").hide();
 					$(".form-cal").hide();
@@ -160,7 +159,7 @@
 					$(".form-cal").show();
 					$("#table-wbs").hide();
 	
-					if (arg.event.extendedProps.workcode != 0) {
+					if (arg.event.extendedProps.borderColor == "#6633FF"  || arg.event.extendedProps.manager != $("[name=loginUser]").val()) {
 						$("#uptBtn").hide();
 						$("#delBtn").hide();
 						$(".form-cal").hide();
@@ -327,11 +326,14 @@
 		});
 	}
 	function addForm(event) {
-		if(event.extendedProps.borderColor != "#6633FF" && event.extendedProps.pm == event.extendedProps.manager){
-			$(".form-cal")[0].reset();
+		$(".form-cal")[0].reset();
+		console.log(event.extendedProps.manager == $("[name=loginUser]").val());
+		if(event.extendedProps.borderColor != "#6633FF" && event.extendedProps.manager == $("[name=loginUser]").val()){
 			$("[name=id]").val(event.id);
 			$("[name=workcode]").val(event.extendedProps.workcode);
-			console.log(event.extendedProps.process);
+			console.log(event.extendedProps.manager == $("[name=loginUser]").val());
+			console.log(event.extendedProps.manager);
+			console.log($("[name=loginUser]").val());
 			$("#parent").val(event.extendedProps.parent).prop("selected", true);
 			$("[name=parent]").val(event.extendedProps.parent);
 			$("[name=title]").val(event.title);
@@ -466,19 +468,17 @@
 			$("[name=status]").val(event.extendedProps.status);
 			}  else {
 			// wbs 모달창
-			if(event.extendedProps.parent == 2){ $("#project-wbs").text("교육용 모바일웹 앱 프로토타입");}
-			else if(event.extendedProps.parent == 3){ $("#project-wbs").text("병원 사내 어플 신규 제작");}
-			else if(event.extendedProps.parent == 4){ $("#project-wbs").text("비즈니스 플랫폼 앱 제작");}
-			else if(event.extendedProps.parent == 5){ $("#project-wbs").text("비대면의료상담 중개 앱서비스");}
-			else if(event.extendedProps.parent == 6){ $("#project-wbs").text("SL솔루션 홈페이지");}
-			else if(event.extendedProps.parent == 7){ $("#project-wbs").text("박물관 홈페이지 제작");}
 			$("#manager-wbs").text(event.extendedProps.name);
 			console.log(event.extendedProps.parent);
 			$("#title-wbs").text(event.title);
 			$("#content-wbs").text(event.extendedProps.content);
-			$("#start-wbs").text(event.start.toLocaleString());
-			$("#end-wbs").text(event.end.toLocaleString());
-			$("#process-wbs").text(event.extendedProps.status);
+			$("#start-wbs").text(moment(event.start).format('LLL'));
+			$("#end-wbs").text(moment(event.end).format('LLL'));
+			if(event.extendedProps.borderColor == "#6633FF"){
+				$("#process-wbs").text(event.extendedProps.status);
+			}else{
+				$("#process-wbs").text(event.extendedProps.process+"%");
+			}
 		}
 	}
 </script>
@@ -516,6 +516,7 @@
 						<div
 							class="d-sm-flex align-items-center justify-content-between mb-4">
 							<h1 class="h3 mb-0 font-weight-bold text-gray-800">전체 일정</h1>
+							<input type="hidden" value="${sessionScope.user.id}" name="loginUser"/>
 							<form method="post" id="sch">
 								<input type="hidden" name="workcodeSch" value="0"/>
 								<select id="pjsch" class="form-select text-center">
