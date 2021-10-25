@@ -165,6 +165,15 @@ SELECT
 SELECT (TO_DATE(SUBSTR(end1,1,10),'YYYY-MM-DD')-TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD'))) AS d_day FROM calendar;
 SELECT TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) AS 날짜 FROM calendar;
 
+
+SELECT title FROM calendar
+		WHERE pm = 'happy02'
+		AND parent IS NULL;
+SELECT * FROM calendar;
+SELECT * FROM wbs;
+SELECT workcode, title FROM calendar WHERE workcode IN (SELECT DISTINCT parent FROM calendar WHERE manager = 'happy02' OR pm = 'happy02');
+INSERT INTO calendar(start1) values('2021-10-29'||'T'||'09'||':'||'09'||':00.000Z');
+
 SELECT DISTINCT a.id, CASE WHEN a.manager IS NULL THEN '전체일정'
 					ELSE b.name END AS cal_name
 		FROM calendar a, MEMBER b
@@ -186,3 +195,9 @@ GROUP BY status;
 SELECT count(*) FROM calendar
 WHERE manager = 'happy02' OR pm = 'happy02'
 AND (parent = 2 OR workcode = 2);
+
+SELECT * FROM calendar;
+SELECT DISTINCT parent FROM calendar WHERE manager = 'happy01';
+SELECT pm
+		FROM CALENDAR 
+		WHERE workcode = 2;

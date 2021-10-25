@@ -3,10 +3,15 @@ package sopms.vo;
 public class Calendar {
 	private int id;
 	private int workcode;
+	private int workcodeSch;
 	private String title;
 	private String content;
 	private String start;
 	private String end;
+	private String start_hh;
+	private String start_mm;
+	private String end_hh;
+	private String end_mm;
 	private boolean allDay;
 	private String borderColor;
 	private String backgroundColor;
@@ -17,8 +22,45 @@ public class Calendar {
 	private int process;
 	private String status;
 	private String rank;
+	private int parent;
 	
 	
+	public int getWorkcodeSch() {
+		return workcodeSch;
+	}
+	public void setWorkcodeSch(int workcodeSch) {
+		this.workcodeSch = workcodeSch;
+	}
+	public String getStart_hh() {
+		return start_hh;
+	}
+	public void setStart_hh(String start_hh) {
+		this.start_hh = start_hh;
+	}
+	public String getStart_mm() {
+		return start_mm;
+	}
+	public void setStart_mm(String start_mm) {
+		this.start_mm = start_mm;
+	}
+	public String getEnd_hh() {
+		return end_hh;
+	}
+	public void setEnd_hh(String end_hh) {
+		this.end_hh = end_hh;
+	}
+	public String getEnd_mm() {
+		return end_mm;
+	}
+	public void setEnd_mm(String end_mm) {
+		this.end_mm = end_mm;
+	}
+	public int getParent() {
+		return parent;
+	}
+	public void setParent(int parent) {
+		this.parent = parent;
+	}
 	public String getRank() {
 		return rank;
 	}

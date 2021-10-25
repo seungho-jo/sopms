@@ -84,7 +84,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 function addForm(event) {
 	if(event.extendedProps.workcode == 0){
-		$("#manager-wbs").text(event.extendedProps.name);
 		$("#title-cal").text(event.title);
 		$("#content-cal").text(event.extendedProps.content);
 		$("#start-cal").text(event.start.toLocaleString());
@@ -92,7 +91,6 @@ function addForm(event) {
 		$("#process-cal").text(event.extendedProps.process+"%");
 	}  else {
 		// wbs 모달창
-		$("#manager-wbs").text(event.extendedProps.name);
 		$("#title-wbs").text(event.title);
 		$("#content-wbs").text(event.extendedProps.content);
 		$("#start-wbs").text(event.start.toLocaleString());
@@ -276,7 +274,6 @@ function addForm(event) {
 										<!-- 일반 모달창 -->
 										<div id="table-cal">
 												<table height="100%">
-													<tr><th>등록자명</th><td id="manager-wbs"></td></tr>
 													<tr><th>일정</th><td id="title-cal"></td></tr>
 													<tr><th>시작일</th><td id="start-cal"></td></tr>
 													<tr><th>종료일</th><td id="end-cal"></td></tr>
@@ -287,7 +284,6 @@ function addForm(event) {
 										<!-- wbs 모달창 -->
 										<div id="table-wbs">
 												<table height="100%">
-													<tr><th>등록자명</th><td id="manager-wbs"></td></tr>
 													<tr><th>일정</th><td id="title-wbs"></td></tr>
 													<tr><th>시작일</th><td id="start-wbs"></td></tr>
 													<tr><th>종료일</th><td id="end-wbs"></td></tr>

@@ -23,10 +23,10 @@
 <link href="./vendor/fullcalendar/lib/main.css" rel="stylesheet">
 <script src="./vendor/fullcalendar/lib/main.js" type="text/javascript"></script>
 
-<link href="./css/style.css" rel="stylesheet">
-<script src="https://unpkg.com/vue/dist/vue.js" type="text/javascript"></script>
 <script src="./vendor/fullcalendar/lib/moment-with-locales.js"
 	type="text/javascript"></script>
+<link href="./css/style.css" rel="stylesheet">
+<script src="https://unpkg.com/vue/dist/vue.js" type="text/javascript"></script>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -72,8 +72,9 @@
 				$("#delBtn").show();
 				$(".form-cal").show();
 				$("#table-wbs").hide();
-
-				if (arg.event.extendedProps.workcode != 0) {
+				$("#parent").children('#1').prop("selected", true);
+				
+				if(arg.event.extendedProps.process == 0 && arg.event.borderColor == "#6633FF") {
 					$("#uptBtn").hide();
 					$("#delBtn").hide();
 					$(".form-cal").hide();
@@ -97,10 +98,9 @@
 			editable : true,
 			dayMaxEvents : false,
 			events : function(info, successCallback, failureCallback) {
-				var workcodeSch = $("[name=workcodeSch]").val();
 				$.ajax({
 					type : "post",
-					url : "${path}/calList.do?workcodeSch="+workcodeSch,
+					url : "${path}/calList.do",
 					dataType : "json",
 					success : function(data) {
 						console.log(data)
@@ -117,98 +117,96 @@
 
 		calendar.render();
 
-		$("#regBtn").click(
-				function() {
-					if ($("[name=title]").val() == "") {
-						alert("일정을 등록하세요!");
+		$("#regBtn").click(function() {
+			if ($("[name=title]").val() == "") {
+				alert("일정을 등록하세요!");
+				return;
+			}
+			if ($("[name=allDay]").val() == "") {
+				alert("종일여부를 선택하세요!");
+				return;
+			}
+			if ($("[name=borderColor]").val() == "") {
+				alert("일정색상을 선택하세요!");
+				return;
+			}
+			if ($("[name=process]").val() == "") {
+				alert("진행률을 선택하세요!");
+				return;
+			}
+			if ($("[name=start]").val() == "") {
+				alert("시작일을 선택하세요!");
+				return;
+			}
+			if ($("[name=end]").val() == "") {
+				alert("종료일을 선택하세요!");
+				return;
+			}
+			if ($("[name=allDay]").val() == 0){
+				if ($("#start_ty").val() == ""
+						|| $("#end_ty").val() == "") {
+					alert("오전/오후를 선택하세요!");
+					return;
+				}
+				if ($("[name=start_hh]").val() == ""
+						|| $("[name=end_hh]").val() == "") {
+					alert("시간을 선택하세요!");
+					return;
+				}
+				if ($("[name=start_mm]").val() == ""
+						|| $("[name=end_mm]").val() == "") {
+					alert("분을 선택하세요!");
+					return;
+				}
+			}
+			ajaxFun("calendarInsert.do")
+		});
+		$("#uptBtn").click(function() {
+			if (confirm("수정하시겠습니까?")) {
+				if ($("[name=title]").val() == "") {
+					alert("일정을 등록하세요!");
+					return;
+				}
+				if ($("[name=allDay]").val() == "") {
+					alert("종일여부를 선택하세요!");
+					return;
+				}
+				if ($("[name=borderColor]").val() == "") {
+					alert("일정색상을 선택하세요!");
+					return;
+				}
+				if ($("[name=process]").val() == "") {
+					alert("진행률을 선택하세요!");
+					return;
+				}
+				if ($("[name=start]").val() == "") {
+					alert("시작일을 선택하세요!");
+					return;
+				}
+				if ($("[name=end]").val() == "") {
+					alert("종료일을 선택하세요!");
+					return;
+				}
+				if ($("[name=allDay]").val() == 0){
+					if ($("#start_ty").val() == ""
+							|| $("#end_ty").val() == "") {
+						alert("오전/오후를 선택하세요!");
 						return;
 					}
-					if ($("[name=allDay]").val() == "") {
-						alert("종일여부를 선택하세요!");
+					if ($("[name=start_hh]").val() == ""
+							|| $("[name=end_hh]").val() == "") {
+						alert("시간을 선택하세요!");
 						return;
 					}
-					if ($("[name=borderColor]").val() == "") {
-						alert("일정색상을 선택하세요!");
+					if ($("[name=start_mm]").val() == ""
+							|| $("[name=end_mm]").val() == "") {
+						alert("분을 선택하세요!");
 						return;
 					}
-					if ($("[name=process]").val() == "") {
-						alert("진행률을 선택하세요!");
-						return;
-					}
-					if ($("[name=start]").val() == "") {
-						alert("시작일을 선택하세요!");
-						return;
-					}
-					if ($("[name=end]").val() == "") {
-						alert("종료일을 선택하세요!");
-						return;
-					}
-					if ($("[name=allDay]").val() == 0){
-						if ($("#start_ty").val() == ""
-								|| $("#end_ty").val() == "") {
-							alert("오전/오후를 선택하세요!");
-							return;
-						}
-						if ($("[name=start_hh]").val() == ""
-								|| $("[name=end_hh]").val() == "") {
-							alert("시간을 선택하세요!");
-							return;
-						}
-						if ($("[name=start_mm]").val() == ""
-								|| $("[name=end_mm]").val() == "") {
-							alert("분을 선택하세요!");
-							return;
-						}
-					}
-					ajaxFun("calendarInsert.do")
-				});
-		$("#uptBtn").click(
-				function() {
-					if (confirm("수정하시겠습니까?")) {
-						if ($("[name=title]").val() == "") {
-							alert("일정을 등록하세요!");
-							return;
-						}
-						if ($("[name=allDay]").val() == "") {
-							alert("종일여부를 선택하세요!");
-							return;
-						}
-						if ($("[name=borderColor]").val() == "") {
-							alert("일정색상을 선택하세요!");
-							return;
-						}
-						if ($("[name=process]").val() == "") {
-							alert("진행률을 선택하세요!");
-							return;
-						}
-						if ($("[name=start]").val() == "") {
-							alert("시작일을 선택하세요!");
-							return;
-						}
-						if ($("[name=end]").val() == "") {
-							alert("종료일을 선택하세요!");
-							return;
-						}
-						if ($("[name=allDay]").val() == 0){
-							if ($("#start_ty").val() == ""
-									|| $("#end_ty").val() == "") {
-								alert("오전/오후를 선택하세요!");
-								return;
-							}
-							if ($("[name=start_hh]").val() == ""
-									|| $("[name=end_hh]").val() == "") {
-								alert("시간을 선택하세요!");
-								return;
-							}
-							if ($("[name=start_mm]").val() == ""
-									|| $("[name=end_mm]").val() == "") {
-								alert("분을 선택하세요!");
-								return;
-							}
-						}
-						ajaxFun("calendarUpdate.do")
-					}
-				});
+				}
+				ajaxFun("calendarUpdate.do")
+			}
+		});
 		$("#delBtn").click(function() {
 			if (confirm("삭제하시겠습니까?")) {
 				ajaxFun("calendarDelete.do")
@@ -234,10 +232,12 @@
 		});
 	}
 	function addForm(event) {
-		if (event.extendedProps.workcode == 0) {
+		if(event.extendedProps.borderColor != "#6633FF" && event.extendedProps.pm == event.extendedProps.manager){
 			$(".form-cal")[0].reset();
 			$("[name=id]").val(event.id);
 			$("[name=workcode]").val(event.extendedProps.workcode);
+			console.log(event.extendedProps.process);
+			$("#parent").val(event.extendedProps.parent).prop("selected", true);
 			$("[name=parent]").val(event.extendedProps.parent);
 			$("[name=title]").val(event.title);
 			$("#borderColor").val(event.borderColor).prop("selected", true);
@@ -364,14 +364,21 @@
 					;
 				}
 			}
-			$("[name=allDay]").val(event.allDay ? 1 : 0);
-			$("#process").val(event.extendedProps.process).prop("selected",
-					true);
-			console.log(event.extendedProps.process);
+			$("[name=allDay]").val(event.allDay?1:0);
+			console.log($("[name=allDay]").val())
+			$("#process").val(event.extendedProps.process).prop("selected", true);
 			$("[name=process]").val(event.extendedProps.process);
 			$("[name=status]").val(event.extendedProps.status);
-		} else {
+			}  else {
 			// wbs 모달창
+			if(event.extendedProps.parent == 2){ $("#project-wbs").text("교육용 모바일웹 앱 프로토타입");}
+			else if(event.extendedProps.parent == 3){ $("#project-wbs").text("병원 사내 어플 신규 제작");}
+			else if(event.extendedProps.parent == 4){ $("#project-wbs").text("비즈니스 플랫폼 앱 제작");}
+			else if(event.extendedProps.parent == 5){ $("#project-wbs").text("비대면의료상담 중개 앱서비스");}
+			else if(event.extendedProps.parent == 6){ $("#project-wbs").text("SL솔루션 홈페이지");}
+			else if(event.extendedProps.parent == 7){ $("#project-wbs").text("박물관 홈페이지 제작");}
+			$("#manager-wbs").text(event.extendedProps.name);
+			console.log(event.extendedProps.parent);
 			$("#title-wbs").text(event.title);
 			$("#content-wbs").text(event.extendedProps.content);
 			$("#start-wbs").text(event.start.toLocaleString());
@@ -381,26 +388,24 @@
 	}
 </script>
 <style>
-#table-wbs table tr th {
-	font-size: 17px;
-	color: black;
-	padding: 10px;
-	width: 20%;
-}
-
-#table-wbs table tr td {
-	font-size: 17px;
-	color: black;
-	padding-left: 40px;
-	width: 80%;
-}
-
-#table-wbs table tr {
-	height: 4vw;
-}
-#calendar{
-	min-height: 1800px;
-}
+	#table-wbs table tr th {
+	    font-size: 17px;
+	    color: black;
+	    padding: 10px;
+	    width: 20%;
+	}
+	#table-wbs table tr td {
+	    font-size: 17px;
+	    color: black;
+	    padding-left: 40px;
+	    width: 80%;
+	}
+	#table-wbs table tr {
+    height: 4vw;
+	}	
+	#calendar{
+		min-height: 1800px;
+	}	
 </style>
 <body hoe-navigation-type="horizontal" hoe-nav-placement="left"
 	theme-layout="wide-layout">
@@ -426,8 +431,7 @@
 								</c:forEach>
 								</select>
 							</form>
-							<button type="button"
-								onclick="location.href='${path}/manage_mem.do'"
+							<button type="button" onclick="location.href='${path}/manage_mem.do'"
 								class="btn btn-primary">관리 페이지</button>
 						</div>
 						<!-- 일자 클릭시 메뉴오픈 -->
@@ -452,12 +456,27 @@
 										<!-- 일반 등록창 -->
 										<form class="form-cal" method="post">
 											<input type="hidden" name="id" value="0" />
+											<div class="input-group mb-3" id="parent_select">
+												<div class="input-group-prepend">
+													<span class="input-group-text">프로젝트명</span>
+												</div>
+												<select id="parent" class="form-control"
+													onchange="parentChange(this.value);">
+													<option id="1">일정을 등록할 프로젝트를 선택해주세요</option>
+													<option value=2 id="2">교육용 모바일웹 앱 프로토타입</option>
+													<option value=3 id="3">병원 사내 어플 신규 제작</option>
+													<option value=4 id="4">비즈니스 플랫폼 앱 제작</option>
+													<option value=5 id="5">비대면의료상담 중개 앱서비스</option>
+													<option value=6 id="6">SL솔루션 홈페이지</option>
+													<option value=7 id="7">박물관 홈페이지 제작</option>
+												</select> <input type="hidden" name="parent" />
+											</div>
 											<div class="input-group mb-3">
 												<div class="input-group-prepend">
 													<span class="input-group-text">일정</span>
 												</div>
 												<input type="text" name="title" class="form-control"
-													placeholder="일정입력">
+													placeholder="일정입력"> 
 											</div>
 											<div class="input-group mb-3">
 												<div class="input-group-prepend">
@@ -547,69 +566,56 @@
 												<textarea name="content" rows="5" cols="10"
 													class="form-control"></textarea>
 											</div>
-											<div class="input-group mb-3">
+											<div class="input-group mb-3" id="borderColor_select">
 												<div class="input-group-prepend">
 													<span class="input-group-text">일정색상</span>
 												</div>
 												<select id="borderColor" class="form-control"
-													onchange="colorChange(this.value)">
-													<option value="">색상을 선택해주세요</option>
-													<option value="#F44336" style="color: #F44336;">빨간색</option>
-													<option value="#F57C00" style="color: #F57C00;">주황색</option>
-													<option value="#FFD700" style="color: #FFD700;">노란색</option>
-													<option value="#2E7D32" style="color: #2E7D32;">초록색</option>
-													<option value="#0099cc" style="color: #0099cc;">하늘색</option>
-													<option value="#000000" style="color: #000000;">검은색</option>
-												</select> <input type="hidden" name="borderColor" value=""> <input
-													type="hidden" name="backgroundColor" value=""> <input
-													type="hidden" name="textColor" value=""> <input
-													type="hidden" name="status" value="">
+													onchange="colorChange(this.value);">
+													<option>색상을 선택해주세요</option>
+													<option value="#F44336" style="color:#F44336;">빨간색</option>
+													<option value="#F57C00" style="color:#F57C00;">주황색</option>
+													<option value="#FFD700" style="color:#FFD700;">노란색</option>
+													<option value="#2E7D32" style="color:#2E7D32;">초록색</option>
+													<option value="#0099cc" style="color:#0099cc;">하늘색</option>
+													<option value="#000000" style="color:#000000;">검은색</option>
+												</select>
+												<input type="hidden" name="borderColor">
+												<input type="hidden" name="backgroundColor">
+												<input type="hidden" name="textColor">
+												<input type="hidden" name="status">
 											</div>
 											<div class="input-group mb-3">
 												<div class="input-group-prepend">
 													<span class="input-group-text">진행률</span>
 												</div>
 												<select id="process" class="form-control"
-													onchange="processChange(this.value)">
-													<option value="">진행률을 선택해주세요</option>
+													onchange="processChange(this.value);">
+													<option>진행률을 선택해주세요</option>
 													<c:forEach var="i" begin="0" end="100">
 														<option value="${i}">${i}%</option>
 													</c:forEach>
-												</select> <input type="hidden" name="process" value="" />
+												</select> <input type="hidden" name="process" />
 											</div>
 										</form>
 										<!-- wbs 모달창 -->
 										<div id="table-wbs">
-											<table height="100%">
-												<tr>
-													<th>일정</th>
-													<td id="title-wbs"></td>
-												</tr>
-												<tr>
-													<th>시작일</th>
-													<td id="start-wbs"></td>
-												</tr>
-												<tr>
-													<th>종료일</th>
-													<td id="end-wbs"></td>
-												</tr>
-												<tr>
-													<th>내용</th>
-													<td id="content-wbs"></td>
-												</tr>
-												<tr>
-													<th>진행률</th>
-													<td id="process-wbs"></td>
-												</tr>
-											</table>
+												<table height="100%">
+													<tr><th>등록자명</th><td id="manager-wbs"></td></tr>
+													<tr><th>일정</th><td id="title-wbs"></td></tr>
+													<tr><th>시작일</th><td id="start-wbs"></td></tr>
+													<tr><th>종료일</th><td id="end-wbs"></td></tr>
+													<tr><th>내용</th><td id="content-wbs"></td></tr>
+													<tr><th>진행률</th><td id="process-wbs"></td></tr>
+												</table>
 										</div>
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary"
 											data-dismiss="modal">Close</button>
-										<button type="button" id='regBtn' class="btn btn-primary">등록</button>
-										<button type="button" id='uptBtn' class="btn btn-info">수정</button>
-										<button type="button" id='delBtn' class="btn btn-warning">삭제</button>
+											<button type="button" id='regBtn' class="btn btn-primary">등록</button>
+											<button type="button" id='uptBtn' class="btn btn-info">수정</button>
+											<button type="button" id='delBtn' class="btn btn-warning">삭제</button>
 									</div>
 								</div>
 							</div>
@@ -836,6 +842,9 @@
 			$("[name=end_mm]").val("" + value);
 		}
 		console.log($("[name=end_mm]").val());
+	}
+	var parentChange = function(value) {
+		$("[name=parent]").val(value);
 	}
 </script>
 

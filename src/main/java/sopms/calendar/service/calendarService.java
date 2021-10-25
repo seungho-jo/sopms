@@ -22,7 +22,10 @@ public class calendarService {
 	public List<Calendar> calList(Calendar calendar){
 		return dao.calList(calendar);
 	}
-
+	
+	public ArrayList<Calendar> calSch(String id){
+		return dao.calSch(id);
+	}
 	/*
 	public String calList2(Calendar calendar){
 		ArrayList<Calendar> list = dao.calList(calendar);
@@ -43,9 +46,21 @@ public class calendarService {
 	}
 	*/
 	public void insertCalendar(Calendar insert) {
+		if(!insert.getStart_hh().equals("0")) {
+			insert.setStart(insert.getStart()+"T"+insert.getStart_hh()
+					+":"+insert.getStart_mm()+":00.000Z");
+			insert.setEnd(insert.getEnd()+"T"+insert.getEnd_hh()
+					+":"+insert.getEnd_mm()+":00.000Z");
+		}
 		dao.insertCalendar(insert);
 	}
 	public void uptCalendar(Calendar upt) {
+		if(!upt.getStart_hh().equals("0")) {
+			upt.setStart(upt.getStart()+"T"+upt.getStart_hh()
+					+":"+upt.getStart_mm()+":00.000Z");
+			upt.setEnd(upt.getEnd()+"T"+upt.getEnd_hh()
+					+":"+upt.getEnd_mm()+":00.000Z");
+		}
 		dao.updateCalendar(upt);
 	}
 	public void delCalendar(int id) {
@@ -75,13 +90,10 @@ public class calendarService {
 	    	    
 	    return gson.toJson(statusArr);
 	}
-	public String calListAll(CalListSch cal) {
-		Gson gson = new Gson();
-	      
-	    ArrayList<CalList> arr = null;
+	public ArrayList<CalList> calListAll(CalListSch cal) {
 		cal.setCount(dao.calCount(cal));
 		if(cal.getPageSize() == 0) {
-			cal.setPageSize(5);
+			cal.setPageSize(4);
 		}
 		cal.setPageCount((int) Math.ceil(cal.getCount() / (double) cal.getPageSize()));
 		if(cal.getCurPage() == 0) {
@@ -92,7 +104,7 @@ public class calendarService {
 		}
 		cal.setStart((cal.getCurPage()-1) * cal.getPageSize() + 1);
 		cal.setEnd(cal.getCurPage() * cal.getPageSize());
-		cal.setBlockSize(5);
+		cal.setBlockSize(4);
 		int blocknum = (int) (Math.ceil(cal.getCurPage() / (double)cal.getBlockSize()));
 		int endBlock = blocknum * cal.getBlockSize();
 		
@@ -105,8 +117,13 @@ public class calendarService {
 		if(cal.getStartBlock()<0) {
 			cal.setStartBlock(1);
 		}
-		arr = dao.calListAll(cal);
-		System.out.println(arr);
-		return gson.toJson(arr);
+		ArrayList<CalList> arr = dao.calListAll(cal);
+		for(CalList ar:arr) {
+			if(ar.getCal_process().equals("승인요청")) {
+				ar.setCal_process("미진행");
+			}
+			System.out.println(ar.getCal_process());
+		}
+		return dao.calListAll(cal);
 	}
 }
