@@ -42,6 +42,7 @@ public class userController {
 	@RequestMapping("memberInsert.do") //사용자등록버튼 눌렀을때 db처리 
 	public String regMemberForm(User user, Model d) {
 		System.out.println(user.getId()+":,"+user.getPass()+","+user.getName()+","+user.getDept());
+		System.out.println("##################선택한 부서 : "+ user.getDept());
 		service.insertUser(user); //성공했을때
 			
 		return "redirect:/pageList.do";
