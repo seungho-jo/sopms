@@ -54,18 +54,25 @@ public class userService {
 			switch (ins.getDept()) {
 			case "gh1":
 				ins.setDept("기획1팀");
+				break;
 			case "gh2":
-				ins.setDept("기획1팀");
+				ins.setDept("기획2팀");
+				break;
 			case "ds1":
 				ins.setDept("디자인1팀");
+				break;
 			case "ds2":
 				ins.setDept("디자인2팀");
+				break;
 			case "de1":
 				ins.setDept("개발1팀");
+				break;
 			case "de2":
 				ins.setDept("개발2팀");
+				break;
 			case "is":
 				ins.setDept("인사팀");
+				break;
 			}
 		 dao.insertUser(ins);
 	}
