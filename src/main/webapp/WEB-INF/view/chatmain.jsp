@@ -83,7 +83,7 @@
 							<li
 								class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
 								<div class="form-group">
-									<form method="GET" action="searchTeam.do">
+									<form method="GET" action="searchTeam.do" id="searchForm">
 										<div class="col-auto">
 											<label for="sel1">프로젝트명</label> <select class="form-control"
 												id="sel1" name="pcode">
@@ -96,7 +96,7 @@
 
 									</form>
 								</div>
-								<button type="submit" class="btn btn-primary teamSch" style="height: 40%; margin-top: 4%;">검색하기</button>
+								<button type="submit"  id="submit" class="btn btn-primary teamSch" style="height: 40%; margin-top: 4%;">검색하기</button>
 							</li>
 						</ol>
 					</nav>
@@ -209,6 +209,14 @@
 	})
 
 	let teamSch = $('.teamSch')
+	
+	let submit = $('#submit')
+	submit.click(
+			function(){
+				$('#searchForm').submit()
+			}
+			)
+			
 	//	let codeParam = $('#sel1').val().split('-')[1]
 	/*	teamSch.click($.get("${path}/searchTeam.do", {
 	 pcode : $('#sel1').val().split('-')[1]
