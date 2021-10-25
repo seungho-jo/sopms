@@ -22,7 +22,10 @@ public class calendarService {
 	public List<Calendar> calList(Calendar calendar){
 		return dao.calList(calendar);
 	}
-
+	
+	public ArrayList<Calendar> calSch(String id){
+		return dao.calSch(id);
+	}
 	/*
 	public String calList2(Calendar calendar){
 		ArrayList<Calendar> list = dao.calList(calendar);
@@ -43,9 +46,21 @@ public class calendarService {
 	}
 	*/
 	public void insertCalendar(Calendar insert) {
+		if(!insert.getStart_hh().equals("0")) {
+			insert.setStart(insert.getStart()+"T"+insert.getStart_hh()
+					+":"+insert.getStart_mm()+":00.000Z");
+			insert.setEnd(insert.getEnd()+"T"+insert.getEnd_hh()
+					+":"+insert.getEnd_mm()+":00.000Z");
+		}
 		dao.insertCalendar(insert);
 	}
 	public void uptCalendar(Calendar upt) {
+		if(!upt.getStart_hh().equals("0")) {
+			upt.setStart(upt.getStart()+"T"+upt.getStart_hh()
+					+":"+upt.getStart_mm()+":00.000Z");
+			upt.setEnd(upt.getEnd()+"T"+upt.getEnd_hh()
+					+":"+upt.getEnd_mm()+":00.000Z");
+		}
 		dao.updateCalendar(upt);
 	}
 	public void delCalendar(int id) {
@@ -89,7 +104,7 @@ public class calendarService {
 		}
 		cal.setStart((cal.getCurPage()-1) * cal.getPageSize() + 1);
 		cal.setEnd(cal.getCurPage() * cal.getPageSize());
-		cal.setBlockSize(5);
+		cal.setBlockSize(4);
 		int blocknum = (int) (Math.ceil(cal.getCurPage() / (double)cal.getBlockSize()));
 		int endBlock = blocknum * cal.getBlockSize();
 		

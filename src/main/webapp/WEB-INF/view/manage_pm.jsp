@@ -153,13 +153,6 @@ function addForm(event) {
 				<div
 					class="d-sm-flex align-items-center justify-content-between mb-4">
 					<h1 class="h3 mb-0 font-weight-bold text-gray-800">일정 관리</h1>
-					<!-- 
-					<form method="post">
-						<select id="pjsch" name="pjsch" class="form-select">
-							<option value="">전체 일정</option>
-						</select>
-					</form>
-					 -->
 				</div>
 
 				<!-- Content Row -->
@@ -193,11 +186,11 @@ function addForm(event) {
 											<td>담당자</td>
 											<td>일정명</td>
 											<td>남은기한</td>
-											<td>진행상태</td>
+											<td>진행률</td>
 										</tr>
 									</thead>
 									<tbody class="text-secondary">
-										<c:forEach var="list" items="${calListAll}">
+										<c:forEach var="list" items="${calListObj}">
 										<tr>
 											<td>${list.cal_name}</td>
 											<td>${list.title}</td>
@@ -205,11 +198,32 @@ function addForm(event) {
 											<td>
 											<!-- 진행률별 프로테이지바 수정 -->
 											<c:choose>
-												<c:when test="${list.cal_process eq '진행중' || list.cal_process eq '승인요청'}">
-															<span>${list.cal_process}</span>
+												<c:when test="${list.cal_process eq '진행중'}">
+													<div class="progress" style="height: 15px;">
+														<div class="progress-bar" role="progressbar"
+															aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
+															style="width: 50;">
+															<span>${list.process}%</span>
+														</div>
+													</div>
+												</c:when>
+												<c:when test="${list.cal_process eq '승인요청'}">
+													<div class="progress" style="height: 15px;">
+														<div class="progress-bar" role="progressbar"
+															aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
+															style="width: 0;">
+															<span>${list.cal_process}%</span>
+														</div>
+													</div>
 												</c:when>
 												<c:otherwise>
+													<div class="progress" style="height: 15px;">
+														<div class="progress-bar" role="progressbar"
+															aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
+															style="width: ${list.cal_process};">
 															<span>${list.cal_process}%</span>
+														</div>
+													</div>
 												</c:otherwise>
 											</c:choose>
 											</td>
@@ -296,7 +310,6 @@ function addForm(event) {
 	</div>
 </body>
 <script type="text/javascript">
-$(".metismenu").children().eq(6).attr('class', 'mm-active');
 $("#paging").children("li").click(function() {
 	$("#paging").children("li").attr('class', 'page-item');
 	$(this).attr('class', 'page-item active');
@@ -305,9 +318,8 @@ function goBlock(no){
 	$("[name=curPage]").val(no);
 	$("form").submit();
 }
-/*
+
 let calListObj = JSON.parse('${calListAll}');
-console.log(calListObj);
 let noArr = [];
 let titleArr = [];
 let d_dayArr = [];
@@ -320,8 +332,9 @@ calListObj.forEach(function(item, index, arr){
 	cal_nameArr.push(item.cal_name);
 	cal_processArr.push(item.cal_process);
 })
-*/
-
+console.log(${callListAll});
+console.log(${callListSch});
+console.log(${calListObj});
 //Pie Chart Example
 console.log(${calStatus});
 let calStatusObj = JSON.parse('${calStatus}');
