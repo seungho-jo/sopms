@@ -196,7 +196,7 @@ SELECT count(*) FROM calendar
 WHERE manager = 'happy02' OR pm = 'happy02'
 AND (parent = 2 OR workcode = 2);
 
-SELECT * FROM calendar;
+SELECT SUBSTR(start1, 1, 10) start1 FROM calendar WHERE workcode = 3;
 SELECT DISTINCT parent FROM calendar WHERE manager = 'happy01';
 SELECT pm
 		FROM CALENDAR 
