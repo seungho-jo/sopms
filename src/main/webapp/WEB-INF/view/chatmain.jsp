@@ -76,61 +76,82 @@
 
 				<!-- PAGE TITLE END -->
 
-				<div class="row">
-					<nav aria-label="breadcrumb">
-						<ol class="breadcrumb">
-							<li class="breadcrumb-item active" aria-current="page">Home</li>
-							<li
-								class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-								<div class="form-group">
-									<form method="GET" action="searchTeam.do" id="searchForm">
-										<div class="col-auto">
-											<label for="sel1">프로젝트명</label> <select class="form-control"
-												id="sel1" name="pcode">
-												<option value="" selected disabled hidden>프로젝트 검색</option>
-												<c:forEach var="project" items="${myProjects}">
-													<option value="${project.pcode}">${project.pname}</option>
-												</c:forEach>
-											</select>
-										</div>
+				<div class="row" style="padding-bottom: 20px;">
+					<div class="col-xl-4 col-xxl-3 col-lg-3 col-sm-3"></div>
+					<div class="col-xl-4 col-xxl-3 col-lg-3 col-sm-3"></div>
+					<div
+						class="col-sm-11 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+						<form class="form-inline" method="GET" action="searchTeam.do"
+							id="searchForm">
+							<select class="custom-select my-1 mr-sm-2" id="sel1" name="pcode">
+								<option value="" selected disabled hidden>프로젝트 검색</option>
+								<c:forEach var="project" items="${myProjects}">
+									<option value="${project.pcode}">${project.pname}</option>
+								</c:forEach>
+							</select>
+							<button type="submit" id="submit"
+								class="btn btn-primary mb-0 teamSch" style="height: 75%;">검색</button>
+						</form>
 
-									</form>
-								</div>
-								<button type="submit"  id="submit" class="btn btn-primary teamSch" style="height: 40%; margin-top: 4%;">검색하기</button>
-							</li>
-						</ol>
-					</nav>
+					</div>
 				</div>
-				<div id="memberList">
-					<div class="row">
 
+				<div id="memberList">
+					<div class="row"  style="display: flex; justify-content: center;">
 						<c:forEach var="user" items="${userList}">
 							<c:if test="${user.id ne currentId}">
-								<div class="col-xl-4 col-xxl-3 col-lg-3 col-sm-3 member">
-									<div class="card">
-										<div class="card-header">
-											<div class="profileImage">
-												<img src="${path}/images/default_profile.png"
-													alt="default_profile" />
+								<div class="col-xl-3 col-xxl-6 col-lg-6 col-sm-6 member" style="margin: 30px; background-color: white;">
+									<div class="usercard" style="height: 10%;">
+											<div class="profilearea" style="display: flex; justify-content: center; padding: 20px;">
+												<div class="profileImage"
+													style="border-radius: 50%; overflow: hidden; width: 75px; height: 75px; background-position: center; background-image: url(${path}/images/profile.jpg); background-size: 75px;"
+														alt="default_profile;">
+												</div>
 											</div>
-										</div>
-										<div class="card-body">
-											<form action="getChatroom.do" method="post">
-												<input type="hidden" name="toId" value="${user.id}" />
-												<p class="card-text name-rank">${user.name}${user.rank}</p>
-												<p class="card-text">
-													<button type="submit" class="btn btn-primary privateChat">대화
-														시작</button>
-												</p>
+											<div class="namearea" style="text-align: center;">
+												<h5 class="name-rank">${user.name}
+													${user.rank}</h5>
+												<form class="form-inline" action="getChatroom.do"
+													method="post" style="height: 30px;">
+													<input type="hidden" name="toId" value="${user.id}" />
+											</div>
+											<div class="d-sm-flex"
+												style="justify-content: center;">
+												<button type="submit" class="btn btn-primary privateChat" style="margin-bottom: 20px;">대화
+													시작</button>
+											</div>
 											</form>
-										</div>
 									</div>
 								</div>
 							</c:if>
 						</c:forEach>
 
 						<c:forEach var="teammate" items="${teammates}">
-							<c:if test="${teammate.id ne currentId}">
+						<c:if test="${teammate.id ne currentId}">
+								<div class="col-xl-3 col-xxl-6 col-lg-6 col-sm-6 member" style="margin: 30px; background-color: white;">
+									<div class="usercard" style="height: 10%;">
+											<div class="profilearea" style="display: flex; justify-content: center; padding: 20px;">
+												<div class="profileImage"
+													style="border-radius: 50%; overflow: hidden; width: 75px; height: 75px; background-position: center; background-image: url(${path}/images/profile.jpg); background-size: 75px;"
+														alt="default_profile;">
+												</div>
+											</div>
+											<div class="namearea" style="text-align: center;">
+												<h5 class="name-rank">${teammate.name} ${teammate.rank}</h5>
+												<form class="form-inline" action="getChatroom.do"
+													method="post" style="height: 30px;">
+													<input type="hidden" name="toId" value="${teammate.id}" />
+											</div>
+											<div class="d-sm-flex"
+												style="justify-content: center;">
+												<button type="submit" class="btn btn-primary privateChat" style="margin-bottom: 20px;">대화
+													시작</button>
+											</div>
+											</form>
+									</div>
+								</div>
+							</c:if>
+							<!--<c:if test="${teammate.id ne currentId}">
 								<div class="col-xl-4 col-xxl-3 col-lg-3 col-sm-3 member">
 									<div class="card">
 										<div class="card-header">
@@ -153,7 +174,7 @@
 										</div>
 									</div>
 								</div>
-							</c:if>
+							</c:if>-->
 						</c:forEach>
 
 					</div>
@@ -209,14 +230,14 @@
 	})
 
 	let teamSch = $('.teamSch')
-	
-	let submit = $('#submit')
-	submit.click(
-			function(){
-				$('#searchForm').submit()
-			}
-			)
-			
+
+	/*	let submit = $('#submit')
+	 submit.click(
+	 function(){
+	 $('#searchForm').submit()
+	 }
+	 )*/
+
 	//	let codeParam = $('#sel1').val().split('-')[1]
 	/*	teamSch.click($.get("${path}/searchTeam.do", {
 	 pcode : $('#sel1').val().split('-')[1]
