@@ -71,6 +71,7 @@ public class ChattingController {
 		model.addAttribute("chatroomId", chatroomId);
 		ArrayList<Chatroom> chatroomList = chattingDao.chatroomInfo(currentId);
 		model.addAttribute("chatroomList", chatroomList);
+		getMessage(chatroomId, user, model);
 		return "WEB-INF/view/chat.jsp";
 	}
 	
